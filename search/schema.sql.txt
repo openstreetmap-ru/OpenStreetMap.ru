@@ -1,0 +1,1 @@
+-- pgsql_simple_schema_0.6
