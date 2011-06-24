@@ -1,0 +1,119 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+#toppan {
+  height: 139px;
+  overflow: hidden;
+  border-bottom: 1px solid #CCCCCC;
+}
+
+#downpan {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 140px;
+}
+
+#leftpan {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 20%;
+}
+
+#content {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  top: 0;
+  right: 15px;
+  padding: 10px;
+}
+
+#toggler {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 15px;
+  background: url("../img/arrow.png") no-repeat 0 center;
+  cursor: pointer;
+}
+
+#mappan {
+  top: 0;
+  bottom: 0;
+  left: 20%;
+  right: 0;
+  position: absolute;
+}
+
+#map {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+}
+
+#logo {
+  background: url("../img/logo_hind.png") no-repeat;
+  height: 120px;
+  left: 20px;
+  position: absolute;
+  top: 20px;
+  width: 120px;
+}
+
+#header {
+  font-family: Arial, sans-serif;
+  font-size: 22px;
+  color: #222222;
+  left: 160px;
+  position: absolute;
+  top: 20px;
+}
+
+#searchpan {
+  left: 160px;
+  position: absolute;
+  top: 60px;
+}
+
+#searchpan input {
+  height: 22px;
+  min-width: 400px;
+}
+
+#searchpan button {
+  min-width: 80px;
+}
+
+#menupan {
+  left: 160px;
+  position: absolute;
+  top: 96px;
+  font-family: Verdana, sans-serif;
+  font-size: 14px;
+  color: #aaaaaa;
+}
+
+#menupan ul {
+  list-style: none;
+}
+
+#menupan li {
+  display: inline;
+}
+
+#menupan a {
+  color: #66bbff;
+}
+
+#menupan a:hover {
+  color: #ff2222;
+}
