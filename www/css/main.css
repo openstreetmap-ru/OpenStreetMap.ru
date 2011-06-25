@@ -1,3 +1,7 @@
+/*
+ * Layout definitions
+ */
+
 * {
   padding: 0;
   margin: 0;
@@ -50,6 +54,10 @@
   left: 20%;
   right: 0;
   position: absolute;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 
 #map {
@@ -59,6 +67,10 @@
   right: 0;
   position: absolute;
 }
+
+/*
+ * Style definitions
+ */
 
 #logo {
   background: url("../img/logo_hind.png") no-repeat;
@@ -116,4 +128,76 @@
 
 #menupan a:hover {
   color: #ff2222;
+}
+
+/*
+ * Map controls
+ */
+
+#cpan {
+  width: 87px;
+  height: 87px;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 2;
+}
+
+#cpan #cpanglo {
+  width: 31px;
+  height: 31px;
+  left: 28px;
+  top: 28px;
+  position: absolute;
+	-moz-transition: all 0.2s ease;
+}
+
+#cpan:hover #cpanglo {
+  width: 87px;
+  height: 87px;
+  left: 0;
+  top: 0;
+  position: absolute;
+}
+
+#cpanjoy {
+  width: 13px;
+  height: 13px;
+  left: 37px;
+  top: 37px;
+  position: absolute;
+}
+
+#cpan #cpanarr {
+  width: 48px;
+  height: 48px;
+  left: 19px;
+  top: 19px;
+  position: absolute;
+  opacity: 0;
+  -moz-transition: all 0.1s linear 0.1s;
+}
+
+#cpan:hover #cpanarr {
+  width: 48px;
+  height: 48px;
+  left: 19px;
+  top: 19px;
+  position: absolute;
+  opacity: 1;
+  -moz-transition: none;
+}
+
+.opanull {
+  opacity: 0 !important;
+  -moz-transition: all 0.1s linear 0.1s;
+}
+
+#cpan #cpanact {
+  width: 87px;
+  height: 87px;
+  left: 0;
+  top: 0;
+  position: absolute;
+  z-index: 3;
 }
