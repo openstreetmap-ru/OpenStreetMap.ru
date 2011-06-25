@@ -157,6 +157,31 @@
   color: #ff2222;
 }
 
+#loginpan {
+  color: #aaa;
+  font-family: Verdana, sans-serif;
+  font-size: 12px;
+  left: 110px;
+  position: absolute;
+  top: 80px;
+}
+
+#loginpan ul {
+  list-style: none;
+}
+
+#loginpan li {
+  display: inline;
+}
+
+#loginpan a {
+  color: #00aa00;
+}
+
+#loginpan a:hover {
+  color: #ff2222;
+}
+
 /*
  * Map controls
  */
