@@ -1,0 +1,426 @@
+<html>
+<head><title>Московское Mетро</title>
+
+   <link rel="stylesheet" href="./css/style.css" type="text/css" />
+   <link rel="stylesheet" href="./css/style2.css" type="text/css" />
+  <script src="http://openlayers.org/api/OpenLayers.js"></script>
+  <script src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
+  <script src="./js/urlfun.js"></script>
+  <script type="text/javascript">
+        var map;
+		
+		
+		
+        function init(){
+		            /*
+             * Green style
+             */
+            var style_green = {
+                strokeColor: "#00aaFF",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+			
+						
+
+		
+var options = {
+                projection: new OpenLayers.Projection("EPSG:900913"),
+                displayProjection: new OpenLayers.Projection("EPSG:4326"),
+                units: "m",
+                numZoomLevels: 18,
+                maxResolution: 156543.0339,
+                maxExtent: new OpenLayers.Bounds(-20037508, -20037508,
+                                                 20037508, 20037508.34),
+		controls: [new OpenLayers.Control.MouseDefaults(), new OpenLayers.Control.PanZoomBar(), new OpenLayers.Control.ScaleLine(), new OpenLayers.Control.MousePosition(), new OpenLayers.Control.KeyboardDefaults()
+ ] };
+		
+		
+		
+            map = new OpenLayers.Map('map', options);
+            var layerwms = new OpenLayers.Layer.WMS( "OpenLayers WMS", "http://vmap0.tiles.osgeo.org/wms/vmap0", {layers: "basic"} );
+            var layero = new OpenLayers.Layer.OSM( "Simple OSM Map");
+            var mapnik = new OpenLayers.Layer.OSM();
+            var bel = new OpenLayers.Layer.TMS("Беларуская", "http://tile.latlon.org/tiles/", {   numZoomLevels: 18, isBaseLayer: true,  type: "png", getURL: osmt_getTileURL, displayOutsideMaxExtent: true });
+            var yasat = new OpenLayers.Layer.TMS("yandex.ru retiling", "http://wms.latlon.org/?request=GetTile&layers=yasat&", {  numZoomLevels: 19,  isBaseLayer: true,  type: "png", getURL: osm_getTileURL, displayOutsideMaxExtent: true });
+            var irs = new OpenLayers.Layer.TMS("kosmosnimki.ru IRS retiling + yahoo", "http://wms.latlon.org/?request=GetTile&layers=yhsat,irs&force=noblend&", {  numZoomLevels: 16,  isBaseLayer: true,  type: "png", getURL: osm_getTileURL, displayOutsideMaxExtent: true });
+            var hyb = new OpenLayers.Layer.TMS("MapSurfer.NET OSM Hybrid", "http://tiles3.mapsurfer.net/tms_h.ashx?", {  numZoomLevels: 19,  isBaseLayer: false,  type: "png", getURL: osm_getTileURL, displayOutsideMaxExtent: true, visibility: false });
+            var pt = new OpenLayers.Layer.TMS("Public Transport", "http://tile.latlon.org/pt/", {  numZoomLevels: 18,  isBaseLayer: false,  type: "png", getURL: osmt_getTileURL, displayOutsideMaxExtent: true, visibility: false });
+            var tc = new OpenLayers.Layer.TMS("Traffic Calming", "http://91.208.39.18/cops/", {  numZoomLevels: 19,  isBaseLayer: false,  type: "png", getURL: osmt_getTileURL, displayOutsideMaxExtent: true, visibility: false });
+            var navdebug = new OpenLayers.Layer.OSM("Navigation Debug", "http://ec2-184-73-15-218.compute-1.amazonaws.com/6700/256/${z}/${x}/${y}.png", {numZoomLevels: 18,displayInLayerSwitcher:true,buffer:0});
+            var navitel = new OpenLayers.Layer.TMS("Navitel", "http://map.navitel.su/navitms.fcgi?t=", {  isBaseLayer: true,  type: "png", getURL: osmn_getTileURL, displayOutsideMaxExtent: true});
+            map.addLayers([mapnik, layero, layerwms, yasat, irs, hyb, pt, tc, navdebug, navitel]);
+
+           
+            
+            // allow testing of specific renderers via "?renderer=Canvas", etc
+            var renderer = OpenLayers.Util.getParameters(window.location.href).renderer;
+            renderer = (renderer) ? [renderer] : OpenLayers.Layer.Vector.prototype.renderers;
+			
+			            var vectorLayer = new OpenLayers.Layer.Vector("Pablic Transport | Stud555", {
+			styleMap: new OpenLayers.StyleMap({"default":{
+                    strokeColor: "#00aaFF",
+                    strokeOpacity: 1,
+                    strokeWidth: 3,
+                    fillColor: "#FF5500",
+                    fillOpacity: 0.5,
+                    pointRadius: 6,
+					labelXOffset: 15,
+					fontSize: "12",
+					fontFamily: "arial",
+					fontColor: "${favColor}",
+					label : "${name}",
+                    pointerEvents: "visiblePainted"}})},{ renderers: renderer });
+            
+
+
+
+var style_m0 = {
+                strokeColor: "#db0251",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m1 = {
+                strokeColor: "#00873a",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m2 = {
+                strokeColor: "#0171bb",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m3 = {
+                strokeColor: "#5a98ff",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m4 = {
+                strokeColor: "#02e9f9",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m5 = {
+                strokeColor: "#59351d",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m6 = {
+                strokeColor: "#e87f14",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m7 = {
+                strokeColor: "#b400f9",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m8 = {
+                strokeColor: "#ffe401",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m9 = {
+                strokeColor: "#848389",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m10 = {
+                strokeColor: "#02fcb4",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m11 = {
+                strokeColor: "#32be99",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m12 = {
+                strokeColor: "#e8e714",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m13 = {
+                strokeColor: "#e87f14",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m14 = {
+                strokeColor: "#02e9f9",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var points0=[
+new OpenLayers.Geometry.Point(37.7344496,55.8144302).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.7448168,55.8039707).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.716934,55.7963498).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6790653,55.7883755).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6663905,55.7799336).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6550427,55.7749367).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6484221,55.768931).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6382382,55.7649779).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6267759,55.7598269).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6159361,55.7576361).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6101539,55.7510912).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6031423,55.7450427).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5915912,55.7359039).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5799407,55.727145).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5642501,55.7230148).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.559274,55.7102777).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5340698,55.692163).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5064149,55.6767308).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.4832647,55.6636055).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject())];
+var lineFeature0 = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.LineString(points0),null,style_m0);
+vectorLayer.addFeatures(lineFeature0);
+var points1=[
+new OpenLayers.Geometry.Point(37.4762869,55.8549232).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.4864656,55.8400418).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.4980017,55.8189177).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5155035,55.8048254).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5324136,55.8002374).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5572347,55.7893205).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5957904,55.7701264).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6052125,55.7656773).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6186282,55.7576821).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6291964,55.7420174).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6376871,55.7303866).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.657483,55.7076556).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6639302,55.6784149).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6489265,55.6550915).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6565809,55.6357982).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6704154,55.6208899).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6942991,55.6135897).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.7197036,55.6110944).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.7447717,55.613857).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject())];
+var lineFeature1 = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.LineString(points1),null,style_m1);
+vectorLayer.addFeatures(lineFeature1);
+var points2=[
+new OpenLayers.Geometry.Point(37.7985144,55.8093419).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.7992368,55.7947324).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.7814946,55.7878152).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.7494238,55.7883909).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.7207673,55.7830875).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.7038734,55.7820537).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6792899,55.7724955).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6591277,55.7572695).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6225706,55.7567782).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6007529,55.7518731).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5838143,55.7474189).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5663082,55.7437776).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5175852,55.7363179).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.4708461,55.7294744).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.4459582,55.7307009).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.4170528,55.7408124).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.4081671,55.7568301).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.4028453,55.8037845).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.3853206,55.8251386).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.3822924,55.8354502).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.3615154,55.8459205).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject())];
+var lineFeature2 = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.LineString(points2),null,style_m2);
+vectorLayer.addFeatures(lineFeature2);
+var points3=[];
+var points4=[
+new OpenLayers.Geometry.Point(37.608832,55.7524514).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6007529,55.7518731).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5838143,55.7474189).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5663082,55.7437776).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5483807,55.7388362).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5343209,55.7400038).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5149335,55.7460295).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.4978944,55.7436656).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.4834319,55.7394331).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.4671943,55.7359279).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.4459582,55.7307009).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject())];
+var lineFeature4 = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.LineString(points4),null,style_m4);
+vectorLayer.addFeatures(lineFeature4);
+var points5=[
+new OpenLayers.Geometry.Point(37.5915912,55.7359039).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6091731,55.7296702).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6226127,55.7289247).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6376871,55.7303866).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.650922,55.7418941).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6591277,55.7572695).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6550427,55.7749367).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6328729,55.7797966).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6020659,55.779514).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5771816,55.7604945).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5663082,55.7437776).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5915912,55.7359039).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject())];
+var lineFeature5 = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.LineString(points5),null,style_m5);
+vectorLayer.addFeatures(lineFeature5);
+var points6=[
+new OpenLayers.Geometry.Point(37.6614914,55.8871544).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6642776,55.8697102).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6527209,55.8551074).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6381195,55.8453311).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6411949,55.8211047).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6386959,55.8086039).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6362052,55.7924837).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6328729,55.7797966).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6315357,55.7730439).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6376159,55.7652797).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6331598,55.755747).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6262202,55.7415093).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6091731,55.7296702).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6080878,55.71918).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5862624,55.7076917).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5736131,55.6878389).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5629779,55.6779484).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5547367,55.670291).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5401361,55.6567573).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5262,55.6425059).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5188843,55.6328513).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5081782,55.6188809).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5337173,55.6062069).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject())];
+var lineFeature6 = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.LineString(points6),null,style_m6);
+vectorLayer.addFeatures(lineFeature6);
+var points7=[
+new OpenLayers.Geometry.Point(37.4364816,55.8607322).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.4397991,55.8503173).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.4369313,55.8265208).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.4643698,55.8086165).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.4938165,55.7933774).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5190398,55.7774569).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5447789,55.7733047).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5617226,55.7644705).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5797838,55.7606062).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6056237,55.7653522).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6097183,55.7649696).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6229171,55.7613288).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6331598,55.755747).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.650922,55.7418941).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6662532,55.7319637).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6867846,55.7253024).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.7317466,55.7086927).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.7659161,55.7056787).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.7934824,55.7170955).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.8180279,55.715697).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject())];
+var lineFeature7 = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.LineString(points7),null,style_m7);
+vectorLayer.addFeatures(lineFeature7);
+var points8=[
+new OpenLayers.Geometry.Point(37.6262202,55.7415093).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6527875,55.7416661).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6816077,55.7468522).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.7186612,55.7518604).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.7493209,55.7576267).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.7864571,55.7512959).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.8167422,55.7517534).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject())];
+var lineFeature8 = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.LineString(points8),null,style_m8);
+vectorLayer.addFeatures(lineFeature8);
+var points9=[
+new OpenLayers.Geometry.Point(37.5874188,55.8982922).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6024383,55.8836915).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6049123,55.863424).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5898654,55.8472985).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.575472,55.8363966).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5756217,55.818209).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5810831,55.8076275).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5876155,55.7932906).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6025508,55.7802999).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6192489,55.7725905).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6097183,55.7649696).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6070674,55.7509271).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6181249,55.7380176).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6256061,55.7268796).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6231936,55.7087682).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6224643,55.6825209).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6103732,55.6722659).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6056692,55.6627149).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.598314,55.6520286).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6067634,55.64069).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6091666,55.622278).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6041499,55.6124609).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5966566,55.5825457).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject())];
+var lineFeature9 = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.LineString(points9),null,style_m9);
+vectorLayer.addFeatures(lineFeature9);
+var points10=[
+new OpenLayers.Geometry.Point(37.6165085,55.7937613).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6140516,55.7812802).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6209423,55.768115).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6566582,55.7572051).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6824072,55.7460877).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6675685,55.7329635).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6761987,55.7179702).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.6847747,55.7078826).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.7269651,55.6933177).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.7535523,55.6909393).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.7621045,55.67564).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.7506502,55.6596899).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.7433397,55.6502184).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject())];
+var lineFeature10 = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.LineString(points10),null,style_m10);
+vectorLayer.addFeatures(lineFeature10);
+var points11=[];
+var points12=[];
+var points13=[];
+var points14=[
+new OpenLayers.Geometry.Point(37.5663082,55.7437776).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5427699,55.7498618).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()),
+new OpenLayers.Geometry.Point(37.5340424,55.7473219).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject())];
+var lineFeature14 = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.LineString(points14),null,style_m14);
+vectorLayer.addFeatures(lineFeature14);
+
+
+
+	
+	
+map.addLayer(vectorLayer);
+map.addControl(new OpenLayers.Control.LayerSwitcher());
+            
+            map.setCenter(new OpenLayers.LonLat(37.62131,55.73948).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()), 10); 			
+
+        }
+    </script>
+  </head>
+  <body onload="init()">
+    <div id="map" class="smallmap"></div>	
+<br /><br /><br />	
+		</body>
+</html>
