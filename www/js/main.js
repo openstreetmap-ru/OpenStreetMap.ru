@@ -6,7 +6,7 @@ function setView(position) {
 }
 
 function init() {
-  var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: 'Map data &copy; 2011 OpenStreetMap contributors'});
+  var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: 'Map data &copy; OpenStreetMap contributors'});
   osm.map = new L.Map('map', {zoomControl: false, center: new L.LatLng(0.0, 0.0), zoom: 2, layers: [layer]});
   osm.cpan.joy = document.getElementById('cpanjoy');
   osm.cpan.arrows = document.getElementById('cpanarr');

@@ -8,7 +8,7 @@
 }
 
 #toppan {
-  height: 109px;
+  height: 99px;
   overflow: hidden;
   border-bottom: 1px solid #CCCCCC;
 }
@@ -18,7 +18,7 @@
   left: 0;
   position: absolute;
   right: 0;
-  top: 110px;
+  top: 100px;
 }
 
 #leftpan {
@@ -27,6 +27,7 @@
   position: absolute;
   top: 0;
   width: 300px;
+  z-index: 3;
 }
 
 .left-on #leftpan {
@@ -84,12 +85,64 @@
 }
 
 #map {
-  top: 0;
+  top: 28px;
   bottom: 0;
   left: 0;
   right: 0;
   position: absolute;
 }
+
+#toolbar {
+  background-color: #fafafa;
+  height: 28px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  z-index: 3;
+}
+
+.hshadow {
+  position: absolute;
+  top: 28px;
+  left: 0;
+  right: 0;
+  height: 5px;
+  z-index: 2;
+}
+.hshadow div {
+  background-color: #000;
+  opacity: 0.05;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.h1 { height: 1px; }
+.h2 { height: 2px; }
+.h3 { height: 3px; }
+.h4 { height: 4px; }
+.h5 { height: 5px; }
+.vshadow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 5px;
+  z-index: 2;
+}
+.vshadow div {
+  background-color: #000;
+  opacity: 0.05;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
+.w1 { width: 1px; }
+.w2 { width: 2px; }
+.w3 { width: 3px; }
+.w4 { width: 4px; }
+.w5 { width: 5px; }
 
 /*
  * Style definitions
@@ -108,19 +161,28 @@
   user-select: none;
 }
 
+#line {
+  border-top: 1px solid lightgray;
+  height: 0;
+  left: 110px;
+  position: absolute;
+  right: 0;
+  top: 62px;
+}
+
 #header {
   font-family: Arial, sans-serif;
   font-size: 20px;
   color: #222222;
   left: 110px;
   position: absolute;
-  top: 32px;
+  top: 22px;
 }
 
 #searchpan {
   left: 300px;
   position: absolute;
-  top: 34px;
+  top: 24px;
 }
 
 #searchpan input {
@@ -138,7 +200,7 @@
   font-size: 12px;
   left: 300px;
   position: absolute;
-  top: 80px;
+  top: 70px;
 }
 
 #menupan ul {
@@ -163,7 +225,7 @@
   font-size: 12px;
   left: 110px;
   position: absolute;
-  top: 80px;
+  top: 70px;
 }
 
 #loginpan ul {
@@ -195,8 +257,8 @@
   height: 87px;
   position: absolute;
   left: 10px;
-  top: 10px;
-  z-index: 2;
+  top: 38px;
+  z-index: 3;
 }
 
 #cpan #cpanglo {
@@ -264,4 +326,15 @@
   top: 0;
   position: absolute;
   z-index: 3;
+}
+
+/*
+ * Overriding leaflet style
+ */
+.leaflet-control-attribution {
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  -o-box-shadow: none !important;
+  box-shadow: none !important;
+  background-color: inherit !important
 }
