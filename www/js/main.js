@@ -1,4 +1,5 @@
 var osm = {cpan: {}, leftpan: {on: true}, mappan: {}};
+var search = {};
 
 function setView(position) {
   osm.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 10);
@@ -10,7 +11,9 @@ function init() {
   osm.cpan.joy = document.getElementById('cpanjoy');
   osm.cpan.arrows = document.getElementById('cpanarr');
   osm.leftpan.panel = document.getElementById('leftpan');
+  osm.leftpan.content = document.getElementById('content');
   osm.mappan.panel = document.getElementById('mappan');
+  osm.input = document.getElementById('search');
   navigator.geolocation.getCurrentPosition(setView);
 }
 
@@ -75,4 +78,34 @@ osm.leftpan.toggle = function() {
     document.body.className = '';
   }
   osm.map.invalidateSize();
+};
+
+search.processResults = function() {
+  try {
+    if (this.request.readyState == 4) {
+      if (this.request.status == 200) {
+        var results = eval('(' + this.request.responseText + ')');
+        var content = '<ol>';
+        for (var i in results) {
+          content += ('<li><a href="" onClick="osm.map.setView(new L.LatLng(' + results[i].lat + ',' + results[i].lon + '), 12); return false;">' + results[i].display_name + '</a></li>');
+          osm.map.addLayer(new L.Marker(new L.LatLng(results[i].lat, results[i].lon)));
+        }
+        content += '</ol>';
+        osm.leftpan.content.innerHTML = content;
+      }
+    }
+  }
+  catch( e ) {
+      osm.leftpan.content.innerHTML = 'Ошибка: ' + e.description;
+  }
+};
+
+search.search = function() {
+  if (osm.input.value.length < 3)
+    return false;
+  this.request = new XMLHttpRequest();
+  this.request.open('GET', 'http://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(osm.input.value) + '&format=json');
+  this.request.onreadystatechange = function(){search.processResults(this)};
+  this.request.send(null);
+  return false;
 };

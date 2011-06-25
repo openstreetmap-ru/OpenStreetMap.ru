@@ -40,6 +40,16 @@
   top: 0;
   right: 10px;
   padding: 10px;
+  font-family: Verdana, sans-serif;
+  font-size: 12px;
+}
+
+#content ol {
+  margin-left: 20px;
+}
+
+#content li {
+  margin-bottom: 5px;
 }
 
 #toggler {
