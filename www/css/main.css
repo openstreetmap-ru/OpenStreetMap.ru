@@ -182,6 +182,10 @@
   color: #ff2222;
 }
 
+.current {
+  color: #000;
+}
+
 /*
  * Map controls
  */

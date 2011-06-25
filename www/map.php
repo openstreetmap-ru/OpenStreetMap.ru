@@ -1,7 +1,10 @@
+<?
+include_once ('include/functions.php');
+?>
 <!doctype html>
 <html>
 <head>
-<title>OpenStreetMap Россия</title>
+<title>OpenStreetMap Россия — <?=$pages[$page]['name'] ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="css/main.css" type="text/css" media="screen, projection" />
 <link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.css" />
@@ -14,8 +17,8 @@
 <div id="toppan">
   <div id="logo"></div><div id="header"><header>OpenStreetMap</header></div>
   <div id="searchpan"><input id="search" type="search" placeholder="Поиск" /> <button onClick="search.search();">Найти&nbsp;&raquo;</button></div>
-  <div id="menupan"><ul><li><a href="map.html">Карта</a></li> | <li><a href="map.html">Правка</a></li> | <li><a href="map.html">Документация</a></li> | <li><a href="map.html">Авторское право и лицензия</a></li> | <li><a href="map.html">Фонд</a></li></ul></div>
-  <div id="loginpan"><ul><li><a href="map.html">Вход</a></li> | <li><a href="map.html">Регистрация</a></li></ul></div>
+  <? show_menu(); ?>
+  <div id="loginpan"><ul><li><?=($loginned ? '<a href="map.html">Hind</a>' : '<a href="map.html">Вход</a>') ?></li> | <li><?=($loginned ? '<a href="map.html">Выход</a>' : '<a href="map.html">Регистрация</a>') ?></li></ul></div>
 </div>
 <div id="downpan">
   <div id="leftpan">
