@@ -149,7 +149,10 @@
   left: 28px;
   top: 28px;
   position: absolute;
+	-webkit-transition: all 0.2s ease;
 	-moz-transition: all 0.2s ease;
+	-o-transition: all 0.2s ease;
+	transition: all 0.2s ease;
 }
 
 #cpan:hover #cpanglo {
@@ -175,7 +178,10 @@
   top: 19px;
   position: absolute;
   opacity: 0;
+  -webkit-transition: all 0.1s linear 0.1s;
   -moz-transition: all 0.1s linear 0.1s;
+  -o-transition: all 0.1s linear 0.1s;
+  transition: all 0.1s linear 0.1s;
 }
 
 #cpan:hover #cpanarr {
@@ -185,12 +191,14 @@
   top: 19px;
   position: absolute;
   opacity: 1;
+  -webkit-transition: none;
   -moz-transition: none;
+  -o-transition: none;
+  transition: none;
 }
 
 .opanull {
   opacity: 0 !important;
-  -moz-transition: all 0.1s linear 0.1s;
 }
 
 #cpan #cpanact {
