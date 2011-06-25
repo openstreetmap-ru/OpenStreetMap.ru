@@ -17,16 +17,16 @@ osm.cpan.startPan = function(e) {
   this.dragging = true;
   var dist = Math.sqrt(Math.pow(e.layerX - 43, 2) + Math.pow(e.layerY - 43, 2));
   if (dist < 25) {
-    this.panX = e.layerX - 49;
-    this.panY = e.layerY - 49;
+    this.panX = e.layerX - 43;
+    this.panY = e.layerY - 43;
   }
   else {
     var c = 20 / dist;
-    this.panX = ((e.layerX - 43) * c) - 6;
-    this.panY = ((e.layerY - 43) * c) - 6;
+    this.panX = ((e.layerX - 43) * c);
+    this.panY = ((e.layerY - 43) * c);
   }
-  this.joy.style.left = (this.panX + 43) + 'px';
-  this.joy.style.top = (this.panY + 43) + 'px';
+  this.joy.style.left = (this.panX + 37) + 'px';
+  this.joy.style.top = (this.panY + 37) + 'px';
   osm.map.fire('movestart');
   this.timer = setInterval(function(){osm.cpan.pan(this)}, 33);
   this.arrows.className = 'opanull';
@@ -36,16 +36,16 @@ osm.cpan.dragPan = function(e) {
   if (this.dragging) {
     var dist = Math.sqrt(Math.pow(e.layerX - 43, 2) + Math.pow(e.layerY - 43, 2));
     if (dist < 25) {
-      this.panX = e.layerX - 49;
-      this.panY = e.layerY - 49;
+      this.panX = e.layerX - 43;
+      this.panY = e.layerY - 43;
     }
     else {
       var c = 20 / dist;
-      this.panX = ((e.layerX - 43) * c) - 6;
-      this.panY = ((e.layerY - 43) * c) - 6;
+      this.panX = ((e.layerX - 43) * c);
+      this.panY = ((e.layerY - 43) * c);
     }
-    this.joy.style.left = (this.panX + 43) + 'px';
-    this.joy.style.top = (this.panY + 43) + 'px';
+    this.joy.style.left = (this.panX + 37) + 'px';
+    this.joy.style.top = (this.panY + 37) + 'px';
   }
 }
 
