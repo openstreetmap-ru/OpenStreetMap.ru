@@ -1,5 +1,4 @@
-var osm = {};
-osm.cpan = {};
+var osm = {cpan: {}, leftpan: {on: true}, mappan: {}};
 
 function setView(position) {
   osm.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 10);
@@ -10,6 +9,8 @@ function init() {
   osm.map = new L.Map('map', {zoomControl: false, center: new L.LatLng(0.0, 0.0), zoom: 2, layers: [layer]});
   osm.cpan.joy = document.getElementById('cpanjoy');
   osm.cpan.arrows = document.getElementById('cpanarr');
+  osm.leftpan.panel = document.getElementById('leftpan');
+  osm.mappan.panel = document.getElementById('mappan');
   navigator.geolocation.getCurrentPosition(setView);
 }
 
@@ -30,7 +31,7 @@ osm.cpan.startPan = function(e) {
   osm.map.fire('movestart');
   this.timer = setInterval(function(){osm.cpan.pan(this)}, 33);
   this.arrows.className = 'opanull';
-}
+};
 
 osm.cpan.dragPan = function(e) {
   if (this.dragging) {
@@ -47,12 +48,12 @@ osm.cpan.dragPan = function(e) {
     this.joy.style.left = (this.panX + 37) + 'px';
     this.joy.style.top = (this.panY + 37) + 'px';
   }
-}
+};
 
 osm.cpan.pan = function() {
   osm.map._rawPanBy(new L.Point(this.panX, this.panY));
   osm.map.fire('move');
-}
+};
 
 osm.cpan.endPan = function(e) {
   clearInterval(this.timer);
@@ -61,4 +62,17 @@ osm.cpan.endPan = function(e) {
   this.joy.style.left = '37px';
   this.joy.style.top = '37px';
   this.arrows.className = '';
-}
+};
+
+osm.leftpan.toggle = function() {
+  var center = osm.map.getCenter();
+  if (this.on) {
+    this.on = false;
+    document.body.className = 'left-on';
+  }
+  else {
+    this.on = true;
+    document.body.className = '';
+  }
+  osm.map.invalidateSize();
+};

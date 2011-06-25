@@ -12,14 +12,14 @@
 
 <body onload="init()">
 <div id="toppan">
-  <div id="logo"></div><div id="header"><header>OpenStreetMap Россия</header></div>
+  <div id="logo"></div><div id="header"><header>OpenStreetMap</header></div>
   <div id="searchpan"><input type="search" placeholder="Поиск" /> <button>Найти&nbsp;&raquo;</button></div>
   <div id="menupan"><ul><li><a href="map.html">Карта</a></li> | <li><a href="map.html">Справка</a></li> | <li><a href="map.html">Авторское право и лицензия</a></li> | <li><a href="map.html">Фонд</a></li></ul></div>
 </div>
 <div id="downpan">
   <div id="leftpan">
     <div id="content"></div>
-    <div id="toggler"></div>
+    <div id="toggler" onClick="osm.leftpan.toggle()"></div>
   </div>
   <div id="mappan">
     <div id="map"></div>
