@@ -1,0 +1,90 @@
+<html>
+<head>
+
+<link rel="stylesheet" href="./css/leaflet.css" />
+<script src="./js/leaflet.js"></script>
+
+
+</head>
+<body>
+
+<div id="map" style="height: 700px; margin-bottom: 18px"></div>
+		<script>
+			var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png',
+				cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
+				cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18, attribution: cloudmadeAttribution});
+			
+			var map = new L.Map('map');
+			map.setView(new L.LatLng(55.7, 37.6), 13).addLayer(cloudmade);
+			
+			var markerLocation = new L.LatLng(55.8400418,37.4864656),
+				marker = new L.Marker(markerLocation);
+			
+			map.addLayer(marker);
+			marker.bindPopup("Водный стадион").openPopup();
+			
+			var cL = new L.LatLng(55.8189177,37.4980017),
+			circleOptions = {color: '#f03', opacity: 0.7},
+			c1 = new L.Circle(cL, 30, circleOptions);		
+			c1.bindPopup("Войковская");
+
+			var cL = new L.LatLng(55.8048254,37.5155035),
+			circleOptions = {color: '#f03', opacity: 0.7},
+			c2 = new L.Circle(cL, 30, circleOptions);		
+			c2.bindPopup("Сокол");
+
+			var cL = new L.LatLng(55.8002374,37.5324136),
+			circleOptions = {color: '#f03', opacity: 0.7},
+			c3 = new L.Circle(cL, 30, circleOptions);		
+			c3.bindPopup("Динамо");
+
+			
+		         	
+var p1 = new L.LatLng(55.8549232,37.4762869),
+p2 = new L.LatLng(55.8400418,37.4864656),
+p3 = new L.LatLng(55.8189177,37.4980017),
+p4 = new L.LatLng(55.8048254,37.5155035),
+p5 = new L.LatLng(55.8002374,37.5324136),
+p6 = new L.LatLng(55.7893205,37.5572347),
+p7 = new L.LatLng(55.7701264,37.5957904),
+p8 = new L.LatLng(55.7656773,37.6052125),
+p9 = new L.LatLng(55.7576821,37.6186282),
+p10 = new L.LatLng(55.7420174,37.6291964),
+p11 = new L.LatLng(55.7303866,37.6376871),
+p12 = new L.LatLng(55.7076556,37.657483),
+p13 = new L.LatLng(55.6784149,37.6639302),
+p14 = new L.LatLng(55.6550915,37.6489265),
+p15 = new L.LatLng(55.6357982,37.6565809),
+p16 = new L.LatLng(55.6208899,37.6704154),
+p17 = new L.LatLng(55.6135897,37.6942991),
+p18 = new L.LatLng(55.6110944,37.7197036),
+p19 = new L.LatLng(55.613857,37.7447717),
+polygonPoints = [p1, p2, p3,p4,p5,p6,p7,p8,p9,p10,p11, p12, p13,p14,p15,p16,p17,p18,p19],
+lineOptions = {color: '#0f3', opacity: 0.7}, 
+polygon = new L.Polyline(polygonPoints, lineOptions);
+			
+			polygon.bindPopup("Замоскворецкая линия");
+			map.addLayer(polygon);
+			map.addLayer(c1);
+			map.addLayer(c2);
+			map.addLayer(c3);
+			
+			map.on('click', onMapClick);
+			
+			var popup = new L.Popup();
+					
+			function onMapClick(e) {
+				var latlngStr = '(' + e.latlng.lat.toFixed(3) + ', ' + e.latlng.lng.toFixed(3) + ')';
+						
+				popup.setLatLng(e.latlng);
+				popup.setContent("Координаты: " + latlngStr);
+				
+				map.openPopup(popup);
+			}
+		</script>
+
+
+
+
+</body>
+</html>
