@@ -1,90 +1,1241 @@
 <html>
-<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<head><title>База M  | Stud555</title>
 
+   <link rel="stylesheet" href="style.css" type="text/css" />
+   <link rel="stylesheet" href="style2.css" type="text/css" />
 <link rel="stylesheet" href="./css/leaflet.css" />
-<script src="./js/leaflet.js"></script>
-
-
-</head>
-<body>
-
-<div id="map" style="height: 700px; margin-bottom: 18px"></div>
-		<script>
-			var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png',
+<script src="./js/leaflet.js"></script>   
+  <script src="urlfun.js"></script>
+  <script type="text/javascript">
+        var map;
+		
+		
+		
+        function init(){
+		    var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png',
 				cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
 				cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18, attribution: cloudmadeAttribution});
 			
 			var map = new L.Map('map');
 			map.setView(new L.LatLng(55.751, 37.635), 10).addLayer(cloudmade);
-			
-			var markerLocation = new L.LatLng(55.8400418,37.4864656),
-				marker = new L.Marker(markerLocation);
-			
-			map.addLayer(marker);
-			marker.bindPopup("Водный стадион").openPopup();
-			
-			var cL = new L.LatLng(55.8189177,37.4980017),
-			circleOptions = {color: '#f03', opacity: 0.7},
-			c1 = new L.Circle(cL, 30, circleOptions);		
-			c1.bindPopup("Войковская");
 
-			var cL = new L.LatLng(55.8048254,37.5155035),
-			circleOptions = {color: '#f03', opacity: 0.7},
-			c2 = new L.Circle(cL, 30, circleOptions);		
-			c2.bindPopup("Сокол");
 
-			var cL = new L.LatLng(55.8002374,37.5324136),
-			circleOptions = {color: '#f03', opacity: 0.7},
-			c3 = new L.Circle(cL, 30, circleOptions);		
-			c3.bindPopup("Динамо");
 
-			
-		         	
-var p1 = new L.LatLng(55.8549232,37.4762869),
-p2 = new L.LatLng(55.8400418,37.4864656),
-p3 = new L.LatLng(55.8189177,37.4980017),
-p4 = new L.LatLng(55.8048254,37.5155035),
-p5 = new L.LatLng(55.8002374,37.5324136),
-p6 = new L.LatLng(55.7893205,37.5572347),
-p7 = new L.LatLng(55.7701264,37.5957904),
-p8 = new L.LatLng(55.7656773,37.6052125),
-p9 = new L.LatLng(55.7576821,37.6186282),
-p10 = new L.LatLng(55.7420174,37.6291964),
-p11 = new L.LatLng(55.7303866,37.6376871),
-p12 = new L.LatLng(55.7076556,37.657483),
-p13 = new L.LatLng(55.6784149,37.6639302),
-p14 = new L.LatLng(55.6550915,37.6489265),
-p15 = new L.LatLng(55.6357982,37.6565809),
-p16 = new L.LatLng(55.6208899,37.6704154),
-p17 = new L.LatLng(55.6135897,37.6942991),
-p18 = new L.LatLng(55.6110944,37.7197036),
-p19 = new L.LatLng(55.613857,37.7447717),
-polygonPoints = [p1, p2, p3,p4,p5,p6,p7,p8,p9,p10,p11, p12, p13,p14,p15,p16,p17,p18,p19],
-lineOptions = {color: '#0f3', opacity: 0.7}, 
-polygon = new L.Polyline(polygonPoints, lineOptions);
-			
-			polygon.bindPopup("Замоскворецкая линия");
-			map.addLayer(polygon);
-			map.addLayer(c1);
-			map.addLayer(c2);
-			map.addLayer(c3);
-			
-			map.on('click', onMapClick);
-			
-			var popup = new L.Popup();
-					
-			function onMapClick(e) {
-				var latlngStr = '(' + e.latlng.lat.toFixed(3) + ', ' + e.latlng.lng.toFixed(3) + ')';
-						
-				popup.setLatLng(e.latlng);
-				popup.setContent("Координаты: " + latlngStr);
+var style_m0 = {
+                strokeColor: "#db0251",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
 				
-				map.openPopup(popup);
-			}
-		</script>
+            };
+var style_m1 = {
+                strokeColor: "#00873a",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m2 = {
+                strokeColor: "#0171bb",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m3 = {
+                strokeColor: "#5a98ff",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m4 = {
+                strokeColor: "#02e9f9",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m5 = {
+                strokeColor: "#59351d",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m6 = {
+                strokeColor: "#e87f14",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m7 = {
+                strokeColor: "#b400f9",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m8 = {
+                strokeColor: "#ffe401",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m9 = {
+                strokeColor: "#848389",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m10 = {
+                strokeColor: "#02fcb4",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m11 = {
+                strokeColor: "#32be99",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m12 = {
+                strokeColor: "#e8e714",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m13 = {
+                strokeColor: "#e87f14",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+var style_m14 = {
+                strokeColor: "#02e9f9",
+                strokeWidth: 2,
+                strokeDashstyle: "solid",				
+                pointRadius: 6,
+                pointerEvents: "visiblePainted"
+				
+            };
+
+var p1 = new L.LatLng(55.8146017,37.7344362),
+p2 = new L.LatLng(55.8039662,37.7447684),
+p3 = new L.LatLng(55.7961475,37.7157645),
+p4 = new L.LatLng(55.7889129,37.6801346),
+p5 = new L.LatLng(55.7803946,37.6672754),
+p6 = new L.LatLng(55.7748805,37.6544171),
+p7 = new L.LatLng(55.768931,37.6484221),
+p8 = new L.LatLng(55.7656528,37.6389701),
+p9 = new L.LatLng(55.7598754,37.6279157),
+p10 = new L.LatLng(55.7576233,37.6163179),
+p11 = new L.LatLng(55.7510926,37.6101205),
+p12 = new L.LatLng(55.7450427,37.6031423),
+p13 = new L.LatLng(55.7359039,37.5915912),
+p14 = new L.LatLng(55.727145,37.5799407),
+p15 = new L.LatLng(55.7233832,37.5637548),
+p16 = new L.LatLng(55.7103574,37.5591032),
+p17 = new L.LatLng(55.692163,37.5340698),
+p18 = new L.LatLng(55.6767308,37.5064149),
+p19 = new L.LatLng(55.6636112,37.4832382),
+
+
+ polygonPoints = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19],
+lineOptions = {color: '#db0251', opacity: 0.7}, 
+polygon0 = new L.Polyline(polygonPoints, lineOptions);
+
+
+map.addLayer(polygon0);polygon0.bindPopup("Сокольническая");
+var cL = new L.LatLng(55.8146017,37.7344362),
+circleOptions = {color: '#f03', opacity: 0.7},
+c1 = new L.Circle(cL, 30, circleOptions);
+c1.bindPopup("Улица Подбельского");
+map.addLayer(c1);var cL = new L.LatLng(55.8039662,37.7447684),
+circleOptions = {color: '#f03', opacity: 0.7},
+c2 = new L.Circle(cL, 30, circleOptions);
+c2.bindPopup("Черкизовская");
+map.addLayer(c2);var cL = new L.LatLng(55.7961475,37.7157645),
+circleOptions = {color: '#f03', opacity: 0.7},
+c3 = new L.Circle(cL, 30, circleOptions);
+c3.bindPopup("Преображенская площадь");
+map.addLayer(c3);var cL = new L.LatLng(55.7889129,37.6801346),
+circleOptions = {color: '#f03', opacity: 0.7},
+c4 = new L.Circle(cL, 30, circleOptions);
+c4.bindPopup("Сокольники");
+map.addLayer(c4);var cL = new L.LatLng(55.7803946,37.6672754),
+circleOptions = {color: '#f03', opacity: 0.7},
+c5 = new L.Circle(cL, 30, circleOptions);
+c5.bindPopup("Красносельская");
+map.addLayer(c5);var cL = new L.LatLng(55.7748805,37.6544171),
+circleOptions = {color: '#f03', opacity: 0.7},
+c6 = new L.Circle(cL, 30, circleOptions);
+c6.bindPopup("Комсомольская");
+map.addLayer(c6);var cL = new L.LatLng(55.768931,37.6484221),
+circleOptions = {color: '#f03', opacity: 0.7},
+c7 = new L.Circle(cL, 30, circleOptions);
+c7.bindPopup("Красные ворота");
+map.addLayer(c7);var cL = new L.LatLng(55.7656528,37.6389701),
+circleOptions = {color: '#f03', opacity: 0.7},
+c8 = new L.Circle(cL, 30, circleOptions);
+c8.bindPopup("Чистые пруды");
+map.addLayer(c8);var cL = new L.LatLng(55.7598754,37.6279157),
+circleOptions = {color: '#f03', opacity: 0.7},
+c9 = new L.Circle(cL, 30, circleOptions);
+c9.bindPopup("Лубянка");
+map.addLayer(c9);var cL = new L.LatLng(55.7576233,37.6163179),
+circleOptions = {color: '#f03', opacity: 0.7},
+c10 = new L.Circle(cL, 30, circleOptions);
+c10.bindPopup("Охотный ряд");
+map.addLayer(c10);var cL = new L.LatLng(55.7510926,37.6101205),
+circleOptions = {color: '#f03', opacity: 0.7},
+c11 = new L.Circle(cL, 30, circleOptions);
+c11.bindPopup("Библиотека имени Ленина");
+map.addLayer(c11);var cL = new L.LatLng(55.7450427,37.6031423),
+circleOptions = {color: '#f03', opacity: 0.7},
+c12 = new L.Circle(cL, 30, circleOptions);
+c12.bindPopup("Кропоткинская");
+map.addLayer(c12);var cL = new L.LatLng(55.7359039,37.5915912),
+circleOptions = {color: '#f03', opacity: 0.7},
+c13 = new L.Circle(cL, 30, circleOptions);
+c13.bindPopup("Парк Культуры");
+map.addLayer(c13);var cL = new L.LatLng(55.727145,37.5799407),
+circleOptions = {color: '#f03', opacity: 0.7},
+c14 = new L.Circle(cL, 30, circleOptions);
+c14.bindPopup("Фрунзенская");
+map.addLayer(c14);var cL = new L.LatLng(55.7233832,37.5637548),
+circleOptions = {color: '#f03', opacity: 0.7},
+c15 = new L.Circle(cL, 30, circleOptions);
+c15.bindPopup("Спортивная");
+map.addLayer(c15);var cL = new L.LatLng(55.7103574,37.5591032),
+circleOptions = {color: '#f03', opacity: 0.7},
+c16 = new L.Circle(cL, 30, circleOptions);
+c16.bindPopup("Воробьёвы горы");
+map.addLayer(c16);var cL = new L.LatLng(55.692163,37.5340698),
+circleOptions = {color: '#f03', opacity: 0.7},
+c17 = new L.Circle(cL, 30, circleOptions);
+c17.bindPopup("Университет");
+map.addLayer(c17);var cL = new L.LatLng(55.6767308,37.5064149),
+circleOptions = {color: '#f03', opacity: 0.7},
+c18 = new L.Circle(cL, 30, circleOptions);
+c18.bindPopup("Проспект Вернадского");
+map.addLayer(c18);var cL = new L.LatLng(55.6636112,37.4832382),
+circleOptions = {color: '#f03', opacity: 0.7},
+c19 = new L.Circle(cL, 30, circleOptions);
+c19.bindPopup("Юго-Западная");
+map.addLayer(c19);var p1 = new L.LatLng(55.8548635,37.4761955),
+p2 = new L.LatLng(55.8400444,37.4865846),
+p3 = new L.LatLng(55.8190209,37.4978477),
+p4 = new L.LatLng(55.8049784,37.5148913),
+p5 = new L.LatLng(55.8002374,37.5324136),
+p6 = new L.LatLng(55.7897125,37.5581576),
+p7 = new L.LatLng(55.7761092,37.5839377),
+p8 = new L.LatLng(55.7701264,37.5957904),
+p9 = new L.LatLng(55.7656773,37.6052125),
+p10 = new L.LatLng(55.757742,37.6192513),
+p11 = new L.LatLng(55.7423335,37.6293041),
+p12 = new L.LatLng(55.7317716,37.6376891),
+p13 = new L.LatLng(55.7076556,37.657483),
+p14 = new L.LatLng(55.6784809,37.6638965),
+p15 = new L.LatLng(55.655094,37.648866),
+p16 = new L.LatLng(55.6358179,37.6565565),
+p17 = new L.LatLng(55.6215598,37.6693833),
+p18 = new L.LatLng(55.613247,37.6947891),
+p19 = new L.LatLng(55.6109687,37.7193262),
+p20 = new L.LatLng(55.6137894,37.7445335),
+
+
+ polygonPoints = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20],
+lineOptions = {color: '#00873a', opacity: 0.7}, 
+polygon1 = new L.Polyline(polygonPoints, lineOptions);
+
+
+map.addLayer(polygon1);polygon1.bindPopup("Замоскворецкая");
+var cL = new L.LatLng(55.8548635,37.4761955),
+circleOptions = {color: '#f03', opacity: 0.7},
+c41 = new L.Circle(cL, 30, circleOptions);
+c41.bindPopup("Речной вокзал");
+map.addLayer(c41);var cL = new L.LatLng(55.8400444,37.4865846),
+circleOptions = {color: '#f03', opacity: 0.7},
+c42 = new L.Circle(cL, 30, circleOptions);
+c42.bindPopup("Водный стадион");
+map.addLayer(c42);var cL = new L.LatLng(55.8190209,37.4978477),
+circleOptions = {color: '#f03', opacity: 0.7},
+c43 = new L.Circle(cL, 30, circleOptions);
+c43.bindPopup("Войковская");
+map.addLayer(c43);var cL = new L.LatLng(55.8049784,37.5148913),
+circleOptions = {color: '#f03', opacity: 0.7},
+c44 = new L.Circle(cL, 30, circleOptions);
+c44.bindPopup("Сокол");
+map.addLayer(c44);var cL = new L.LatLng(55.8002374,37.5324136),
+circleOptions = {color: '#f03', opacity: 0.7},
+c45 = new L.Circle(cL, 30, circleOptions);
+c45.bindPopup("Аэропорт");
+map.addLayer(c45);var cL = new L.LatLng(55.7897125,37.5581576),
+circleOptions = {color: '#f03', opacity: 0.7},
+c46 = new L.Circle(cL, 30, circleOptions);
+c46.bindPopup("Динамо");
+map.addLayer(c46);var cL = new L.LatLng(55.7761092,37.5839377),
+circleOptions = {color: '#f03', opacity: 0.7},
+c47 = new L.Circle(cL, 30, circleOptions);
+c47.bindPopup("Белорусская");
+map.addLayer(c47);var cL = new L.LatLng(55.7701264,37.5957904),
+circleOptions = {color: '#f03', opacity: 0.7},
+c48 = new L.Circle(cL, 30, circleOptions);
+c48.bindPopup("Маяковская");
+map.addLayer(c48);var cL = new L.LatLng(55.7656773,37.6052125),
+circleOptions = {color: '#f03', opacity: 0.7},
+c49 = new L.Circle(cL, 30, circleOptions);
+c49.bindPopup("Тверская");
+map.addLayer(c49);var cL = new L.LatLng(55.757742,37.6192513),
+circleOptions = {color: '#f03', opacity: 0.7},
+c50 = new L.Circle(cL, 30, circleOptions);
+c50.bindPopup("Театральная");
+map.addLayer(c50);var cL = new L.LatLng(55.7423335,37.6293041),
+circleOptions = {color: '#f03', opacity: 0.7},
+c51 = new L.Circle(cL, 30, circleOptions);
+c51.bindPopup("Новокузнецкая");
+map.addLayer(c51);var cL = new L.LatLng(55.7317716,37.6376891),
+circleOptions = {color: '#f03', opacity: 0.7},
+c52 = new L.Circle(cL, 30, circleOptions);
+c52.bindPopup("Павелецкая");
+map.addLayer(c52);var cL = new L.LatLng(55.7076556,37.657483),
+circleOptions = {color: '#f03', opacity: 0.7},
+c53 = new L.Circle(cL, 30, circleOptions);
+c53.bindPopup("Автозаводская");
+map.addLayer(c53);var cL = new L.LatLng(55.6784809,37.6638965),
+circleOptions = {color: '#f03', opacity: 0.7},
+c54 = new L.Circle(cL, 30, circleOptions);
+c54.bindPopup("Коломенская");
+map.addLayer(c54);var cL = new L.LatLng(55.655094,37.648866),
+circleOptions = {color: '#f03', opacity: 0.7},
+c55 = new L.Circle(cL, 30, circleOptions);
+c55.bindPopup("Каширская");
+map.addLayer(c55);var cL = new L.LatLng(55.6358179,37.6565565),
+circleOptions = {color: '#f03', opacity: 0.7},
+c56 = new L.Circle(cL, 30, circleOptions);
+c56.bindPopup("Кантемировская");
+map.addLayer(c56);var cL = new L.LatLng(55.6215598,37.6693833),
+circleOptions = {color: '#f03', opacity: 0.7},
+c57 = new L.Circle(cL, 30, circleOptions);
+c57.bindPopup("Царицыно");
+map.addLayer(c57);var cL = new L.LatLng(55.613247,37.6947891),
+circleOptions = {color: '#f03', opacity: 0.7},
+c58 = new L.Circle(cL, 30, circleOptions);
+c58.bindPopup("Орехово");
+map.addLayer(c58);var cL = new L.LatLng(55.6109687,37.7193262),
+circleOptions = {color: '#f03', opacity: 0.7},
+c59 = new L.Circle(cL, 30, circleOptions);
+c59.bindPopup("Домодедовская");
+map.addLayer(c59);var cL = new L.LatLng(55.6137894,37.7445335),
+circleOptions = {color: '#f03', opacity: 0.7},
+c60 = new L.Circle(cL, 30, circleOptions);
+c60.bindPopup("Красногвардейская");
+map.addLayer(c60);var p1 = new L.LatLng(55.8093419,37.7985144),
+p2 = new L.LatLng(55.7947324,37.7992368),
+p3 = new L.LatLng(55.787812,37.7814948),
+p4 = new L.LatLng(55.788524,37.750729),
+p5 = new L.LatLng(55.7830875,37.7207673),
+p6 = new L.LatLng(55.7820537,37.7038734),
+p7 = new L.LatLng(55.7725709,37.6795213),
+p8 = new L.LatLng(55.7581501,37.658076),
+p9 = new L.LatLng(55.7566721,37.621965),
+p10 = new L.LatLng(55.7518731,37.6007529),
+p11 = new L.LatLng(55.7487722,37.5826348),
+p12 = new L.LatLng(55.7444971,37.5672838),
+p13 = new L.LatLng(55.7362565,37.5177438),
+p14 = new L.LatLng(55.7296453,37.4707354),
+p15 = new L.LatLng(55.7307016,37.4460094),
+p16 = new L.LatLng(55.7408429,37.4169177),
+p17 = new L.LatLng(55.7568353,37.4082585),
+p18 = new L.LatLng(55.8035744,37.4031167),
+p19 = new L.LatLng(55.8250372,37.385102),
+p20 = new L.LatLng(55.8354581,37.3822721),
+p21 = new L.LatLng(55.8456832,37.3623906),
+
+
+ polygonPoints = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20, p21],
+lineOptions = {color: '#0171bb', opacity: 0.7}, 
+polygon2 = new L.Polyline(polygonPoints, lineOptions);
+
+
+map.addLayer(polygon2);polygon2.bindPopup("Арбатско-Покровская");
+var cL = new L.LatLng(55.8093419,37.7985144),
+circleOptions = {color: '#f03', opacity: 0.7},
+c61 = new L.Circle(cL, 30, circleOptions);
+c61.bindPopup("Щёлковская");
+map.addLayer(c61);var cL = new L.LatLng(55.7947324,37.7992368),
+circleOptions = {color: '#f03', opacity: 0.7},
+c62 = new L.Circle(cL, 30, circleOptions);
+c62.bindPopup("Первомайская");
+map.addLayer(c62);var cL = new L.LatLng(55.787812,37.7814948),
+circleOptions = {color: '#f03', opacity: 0.7},
+c63 = new L.Circle(cL, 30, circleOptions);
+c63.bindPopup("Измайловская");
+map.addLayer(c63);var cL = new L.LatLng(55.788524,37.750729),
+circleOptions = {color: '#f03', opacity: 0.7},
+c64 = new L.Circle(cL, 30, circleOptions);
+c64.bindPopup("Партизанская");
+map.addLayer(c64);var cL = new L.LatLng(55.7830875,37.7207673),
+circleOptions = {color: '#f03', opacity: 0.7},
+c65 = new L.Circle(cL, 30, circleOptions);
+c65.bindPopup("Семёновская");
+map.addLayer(c65);var cL = new L.LatLng(55.7820537,37.7038734),
+circleOptions = {color: '#f03', opacity: 0.7},
+c66 = new L.Circle(cL, 30, circleOptions);
+c66.bindPopup("Электрозаводская");
+map.addLayer(c66);var cL = new L.LatLng(55.7725709,37.6795213),
+circleOptions = {color: '#f03', opacity: 0.7},
+c67 = new L.Circle(cL, 30, circleOptions);
+c67.bindPopup("Бауманская");
+map.addLayer(c67);var cL = new L.LatLng(55.7581501,37.658076),
+circleOptions = {color: '#f03', opacity: 0.7},
+c68 = new L.Circle(cL, 30, circleOptions);
+c68.bindPopup("Курская");
+map.addLayer(c68);var cL = new L.LatLng(55.7566721,37.621965),
+circleOptions = {color: '#f03', opacity: 0.7},
+c69 = new L.Circle(cL, 30, circleOptions);
+c69.bindPopup("Площадь Революции");
+map.addLayer(c69);var cL = new L.LatLng(55.7518731,37.6007529),
+circleOptions = {color: '#f03', opacity: 0.7},
+c70 = new L.Circle(cL, 30, circleOptions);
+c70.bindPopup("Арбатская");
+map.addLayer(c70);var cL = new L.LatLng(55.7487722,37.5826348),
+circleOptions = {color: '#f03', opacity: 0.7},
+c71 = new L.Circle(cL, 30, circleOptions);
+c71.bindPopup("Смоленская");
+map.addLayer(c71);var cL = new L.LatLng(55.7444971,37.5672838),
+circleOptions = {color: '#f03', opacity: 0.7},
+c72 = new L.Circle(cL, 30, circleOptions);
+c72.bindPopup("Киевская");
+map.addLayer(c72);var cL = new L.LatLng(55.7362565,37.5177438),
+circleOptions = {color: '#f03', opacity: 0.7},
+c73 = new L.Circle(cL, 30, circleOptions);
+c73.bindPopup("Парк Победы");
+map.addLayer(c73);var cL = new L.LatLng(55.7296453,37.4707354),
+circleOptions = {color: '#f03', opacity: 0.7},
+c74 = new L.Circle(cL, 30, circleOptions);
+c74.bindPopup("Славянский бульвар");
+map.addLayer(c74);var cL = new L.LatLng(55.7307016,37.4460094),
+circleOptions = {color: '#f03', opacity: 0.7},
+c75 = new L.Circle(cL, 30, circleOptions);
+c75.bindPopup("Кунцевская");
+map.addLayer(c75);var cL = new L.LatLng(55.7408429,37.4169177),
+circleOptions = {color: '#f03', opacity: 0.7},
+c76 = new L.Circle(cL, 30, circleOptions);
+c76.bindPopup("Молодёжная");
+map.addLayer(c76);var cL = new L.LatLng(55.7568353,37.4082585),
+circleOptions = {color: '#f03', opacity: 0.7},
+c77 = new L.Circle(cL, 30, circleOptions);
+c77.bindPopup("Крылатское");
+map.addLayer(c77);var cL = new L.LatLng(55.8035744,37.4031167),
+circleOptions = {color: '#f03', opacity: 0.7},
+c78 = new L.Circle(cL, 30, circleOptions);
+c78.bindPopup("Строгино");
+map.addLayer(c78);var cL = new L.LatLng(55.8250372,37.385102),
+circleOptions = {color: '#f03', opacity: 0.7},
+c79 = new L.Circle(cL, 30, circleOptions);
+c79.bindPopup("Мякинино");
+map.addLayer(c79);var cL = new L.LatLng(55.8354581,37.3822721),
+circleOptions = {color: '#f03', opacity: 0.7},
+c80 = new L.Circle(cL, 30, circleOptions);
+c80.bindPopup("Волоколамская");
+map.addLayer(c80);var cL = new L.LatLng(55.8456832,37.3623906),
+circleOptions = {color: '#f03', opacity: 0.7},
+c81 = new L.Circle(cL, 30, circleOptions);
+c81.bindPopup("Митино");
+map.addLayer(c81);var p1 = new L.LatLng(55.5689938,37.5763664),
+p2 = new L.LatLng(55.5481606,37.5545984),
+p3 = new L.LatLng(55.5454833,37.5431878),
+p4 = new L.LatLng(55.5417384,37.5306687),
+p5 = new L.LatLng(55.5381944,37.5165046),
+
+
+ polygonPoints = [p1, p2, p3, p4, p5],
+lineOptions = {color: '#5a98ff', opacity: 0.7}, 
+polygon3 = new L.Polyline(polygonPoints, lineOptions);
+
+
+map.addLayer(polygon3);polygon3.bindPopup("Бутовская");
+var cL = new L.LatLng(55.5689938,37.5763664),
+circleOptions = {color: '#f03', opacity: 0.7},
+c182 = new L.Circle(cL, 30, circleOptions);
+c182.bindPopup("Улица Старокачаловская");
+map.addLayer(c182);var cL = new L.LatLng(55.5481606,37.5545984),
+circleOptions = {color: '#f03', opacity: 0.7},
+c183 = new L.Circle(cL, 30, circleOptions);
+c183.bindPopup("Улица Скобелевская");
+map.addLayer(c183);var cL = new L.LatLng(55.5454833,37.5431878),
+circleOptions = {color: '#f03', opacity: 0.7},
+c184 = new L.Circle(cL, 30, circleOptions);
+c184.bindPopup("Бульвар Адмирала Ушакова");
+map.addLayer(c184);var cL = new L.LatLng(55.5417384,37.5306687),
+circleOptions = {color: '#f03', opacity: 0.7},
+c185 = new L.Circle(cL, 30, circleOptions);
+c185.bindPopup("Улица Горчакова");
+map.addLayer(c185);var cL = new L.LatLng(55.5381944,37.5165046),
+circleOptions = {color: '#f03', opacity: 0.7},
+c186 = new L.Circle(cL, 30, circleOptions);
+c186.bindPopup("Бунинская аллея");
+map.addLayer(c186);var p1 = new L.LatLng(55.7524514,37.608832),
+p2 = new L.LatLng(55.7518731,37.6007529),
+p3 = new L.LatLng(55.7487722,37.5826348),
+p4 = new L.LatLng(55.7444971,37.5672838),
+p5 = new L.LatLng(55.7388362,37.5483675),
+p6 = new L.LatLng(55.7400038,37.53429),
+p7 = new L.LatLng(55.7460754,37.5149237),
+p8 = new L.LatLng(55.7436954,37.4978443),
+p9 = new L.LatLng(55.7394565,37.4834225),
+p10 = new L.LatLng(55.7359279,37.4671943),
+p11 = new L.LatLng(55.7307016,37.4460094),
+
+
+ polygonPoints = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11],
+lineOptions = {color: '#02e9f9', opacity: 0.7}, 
+polygon4 = new L.Polyline(polygonPoints, lineOptions);
+
+
+map.addLayer(polygon4);polygon4.bindPopup("Филёвская");
+var cL = new L.LatLng(55.7524514,37.608832),
+circleOptions = {color: '#f03', opacity: 0.7},
+c82 = new L.Circle(cL, 30, circleOptions);
+c82.bindPopup("Александровский сад");
+map.addLayer(c82);var cL = new L.LatLng(55.7518731,37.6007529),
+circleOptions = {color: '#f03', opacity: 0.7},
+c83 = new L.Circle(cL, 30, circleOptions);
+c83.bindPopup("Арбатская");
+map.addLayer(c83);var cL = new L.LatLng(55.7487722,37.5826348),
+circleOptions = {color: '#f03', opacity: 0.7},
+c84 = new L.Circle(cL, 30, circleOptions);
+c84.bindPopup("Смоленская");
+map.addLayer(c84);var cL = new L.LatLng(55.7444971,37.5672838),
+circleOptions = {color: '#f03', opacity: 0.7},
+c85 = new L.Circle(cL, 30, circleOptions);
+c85.bindPopup("Киевская");
+map.addLayer(c85);var cL = new L.LatLng(55.7388362,37.5483675),
+circleOptions = {color: '#f03', opacity: 0.7},
+c88 = new L.Circle(cL, 30, circleOptions);
+c88.bindPopup("Студенческая");
+map.addLayer(c88);var cL = new L.LatLng(55.7400038,37.53429),
+circleOptions = {color: '#f03', opacity: 0.7},
+c89 = new L.Circle(cL, 30, circleOptions);
+c89.bindPopup("Кутузовская");
+map.addLayer(c89);var cL = new L.LatLng(55.7460754,37.5149237),
+circleOptions = {color: '#f03', opacity: 0.7},
+c90 = new L.Circle(cL, 30, circleOptions);
+c90.bindPopup("Фили");
+map.addLayer(c90);var cL = new L.LatLng(55.7436954,37.4978443),
+circleOptions = {color: '#f03', opacity: 0.7},
+c91 = new L.Circle(cL, 30, circleOptions);
+c91.bindPopup("Багратионовская");
+map.addLayer(c91);var cL = new L.LatLng(55.7394565,37.4834225),
+circleOptions = {color: '#f03', opacity: 0.7},
+c92 = new L.Circle(cL, 30, circleOptions);
+c92.bindPopup("Филёвский парк");
+map.addLayer(c92);var cL = new L.LatLng(55.7359279,37.4671943),
+circleOptions = {color: '#f03', opacity: 0.7},
+c93 = new L.Circle(cL, 30, circleOptions);
+c93.bindPopup("Пионерская");
+map.addLayer(c93);var cL = new L.LatLng(55.7307016,37.4460094),
+circleOptions = {color: '#f03', opacity: 0.7},
+c94 = new L.Circle(cL, 30, circleOptions);
+c94.bindPopup("Кунцевская");
+map.addLayer(c94);var p1 = new L.LatLng(55.7359039,37.5915912),
+p2 = new L.LatLng(55.7304781,37.6114623),
+p3 = new L.LatLng(55.7289247,37.6226127),
+p4 = new L.LatLng(55.7317716,37.6376891),
+p5 = new L.LatLng(55.7420249,37.6533521),
+p6 = new L.LatLng(55.7581501,37.658076),
+p7 = new L.LatLng(55.7748805,37.6544171),
+p8 = new L.LatLng(55.7796107,37.6326993),
+p9 = new L.LatLng(55.779514,37.6020659),
+p10 = new L.LatLng(55.7761092,37.5839377),
+p11 = new L.LatLng(55.7608568,37.5774606),
+p12 = new L.LatLng(55.7444971,37.5672838),
+p13 = new L.LatLng(55.7359039,37.5915912),
+
+
+ polygonPoints = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13],
+lineOptions = {color: '#59351d', opacity: 0.7}, 
+polygon5 = new L.Polyline(polygonPoints, lineOptions);
+
+
+map.addLayer(polygon5);polygon5.bindPopup("Кольцевая");
+var cL = new L.LatLng(55.7359039,37.5915912),
+circleOptions = {color: '#f03', opacity: 0.7},
+c95 = new L.Circle(cL, 30, circleOptions);
+c95.bindPopup("Парк культуры");
+map.addLayer(c95);var cL = new L.LatLng(55.7304781,37.6114623),
+circleOptions = {color: '#f03', opacity: 0.7},
+c96 = new L.Circle(cL, 30, circleOptions);
+c96.bindPopup("Октябрьская");
+map.addLayer(c96);var cL = new L.LatLng(55.7289247,37.6226127),
+circleOptions = {color: '#f03', opacity: 0.7},
+c97 = new L.Circle(cL, 30, circleOptions);
+c97.bindPopup("Добрынинская");
+map.addLayer(c97);var cL = new L.LatLng(55.7317716,37.6376891),
+circleOptions = {color: '#f03', opacity: 0.7},
+c98 = new L.Circle(cL, 30, circleOptions);
+c98.bindPopup("Павелецкая");
+map.addLayer(c98);var cL = new L.LatLng(55.7420249,37.6533521),
+circleOptions = {color: '#f03', opacity: 0.7},
+c99 = new L.Circle(cL, 30, circleOptions);
+c99.bindPopup("Таганская");
+map.addLayer(c99);var cL = new L.LatLng(55.7581501,37.658076),
+circleOptions = {color: '#f03', opacity: 0.7},
+c100 = new L.Circle(cL, 30, circleOptions);
+c100.bindPopup("Курская");
+map.addLayer(c100);var cL = new L.LatLng(55.7748805,37.6544171),
+circleOptions = {color: '#f03', opacity: 0.7},
+c101 = new L.Circle(cL, 30, circleOptions);
+c101.bindPopup("Комсомольская");
+map.addLayer(c101);var cL = new L.LatLng(55.7796107,37.6326993),
+circleOptions = {color: '#f03', opacity: 0.7},
+c102 = new L.Circle(cL, 30, circleOptions);
+c102.bindPopup("Проспект Мира");
+map.addLayer(c102);var cL = new L.LatLng(55.779514,37.6020659),
+circleOptions = {color: '#f03', opacity: 0.7},
+c103 = new L.Circle(cL, 30, circleOptions);
+c103.bindPopup("Новослободская");
+map.addLayer(c103);var cL = new L.LatLng(55.7761092,37.5839377),
+circleOptions = {color: '#f03', opacity: 0.7},
+c104 = new L.Circle(cL, 30, circleOptions);
+c104.bindPopup("Белорусская");
+map.addLayer(c104);var cL = new L.LatLng(55.7608568,37.5774606),
+circleOptions = {color: '#f03', opacity: 0.7},
+c105 = new L.Circle(cL, 30, circleOptions);
+c105.bindPopup("Краснопресненская");
+map.addLayer(c105);var cL = new L.LatLng(55.7444971,37.5672838),
+circleOptions = {color: '#f03', opacity: 0.7},
+c106 = new L.Circle(cL, 30, circleOptions);
+c106.bindPopup("Киевская");
+map.addLayer(c106);var cL = new L.LatLng(55.7359039,37.5915912),
+circleOptions = {color: '#f03', opacity: 0.7},
+c107 = new L.Circle(cL, 30, circleOptions);
+c107.bindPopup("Парк культуры");
+map.addLayer(c107);var p1 = new L.LatLng(55.8871576,37.6614511),
+p2 = new L.LatLng(55.8697248,37.6641638),
+p3 = new L.LatLng(55.8551422,37.6526672),
+p4 = new L.LatLng(55.8453055,37.6383529),
+p5 = new L.LatLng(55.8211047,37.6411949),
+p6 = new L.LatLng(55.8086032,37.6387088),
+p7 = new L.LatLng(55.7933484,37.6361518),
+p8 = new L.LatLng(55.7796107,37.6326993),
+p9 = new L.LatLng(55.7730267,37.6312329),
+p10 = new L.LatLng(55.7661322,37.6374127),
+p11 = new L.LatLng(55.7554876,37.6331162),
+p12 = new L.LatLng(55.7409164,37.6270535),
+p13 = new L.LatLng(55.7304781,37.6114623),
+p14 = new L.LatLng(55.7194704,37.60792),
+p15 = new L.LatLng(55.7077138,37.5859796),
+p16 = new L.LatLng(55.6878389,37.5736131),
+p17 = new L.LatLng(55.6779484,37.5629779),
+p18 = new L.LatLng(55.670291,37.5547367),
+p19 = new L.LatLng(55.6567573,37.5401361),
+p20 = new L.LatLng(55.6425059,37.5262),
+p21 = new L.LatLng(55.6330883,37.5190729),
+p22 = new L.LatLng(55.6186964,37.5080944),
+p23 = new L.LatLng(55.6062069,37.5337173),
+p24 = new L.LatLng(55.6016929,37.5528619),
+
+
+ polygonPoints = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20, p21, p22, p23, p24],
+lineOptions = {color: '#e87f14', opacity: 0.7}, 
+polygon6 = new L.Polyline(polygonPoints, lineOptions);
+
+
+map.addLayer(polygon6);polygon6.bindPopup("Калужско-рижская");
+var cL = new L.LatLng(55.8871576,37.6614511),
+circleOptions = {color: '#f03', opacity: 0.7},
+c111 = new L.Circle(cL, 30, circleOptions);
+c111.bindPopup("Медведково");
+map.addLayer(c111);var cL = new L.LatLng(55.8697248,37.6641638),
+circleOptions = {color: '#f03', opacity: 0.7},
+c112 = new L.Circle(cL, 30, circleOptions);
+c112.bindPopup("Бабушкинская");
+map.addLayer(c112);var cL = new L.LatLng(55.8551422,37.6526672),
+circleOptions = {color: '#f03', opacity: 0.7},
+c113 = new L.Circle(cL, 30, circleOptions);
+c113.bindPopup("Свиблово");
+map.addLayer(c113);var cL = new L.LatLng(55.8453055,37.6383529),
+circleOptions = {color: '#f03', opacity: 0.7},
+c114 = new L.Circle(cL, 30, circleOptions);
+c114.bindPopup("Ботанический сад");
+map.addLayer(c114);var cL = new L.LatLng(55.8211047,37.6411949),
+circleOptions = {color: '#f03', opacity: 0.7},
+c115 = new L.Circle(cL, 30, circleOptions);
+c115.bindPopup("ВДНХ");
+map.addLayer(c115);var cL = new L.LatLng(55.8086032,37.6387088),
+circleOptions = {color: '#f03', opacity: 0.7},
+c116 = new L.Circle(cL, 30, circleOptions);
+c116.bindPopup("Алексеевская");
+map.addLayer(c116);var cL = new L.LatLng(55.7933484,37.6361518),
+circleOptions = {color: '#f03', opacity: 0.7},
+c118 = new L.Circle(cL, 30, circleOptions);
+c118.bindPopup("Рижская");
+map.addLayer(c118);var cL = new L.LatLng(55.7796107,37.6326993),
+circleOptions = {color: '#f03', opacity: 0.7},
+c119 = new L.Circle(cL, 30, circleOptions);
+c119.bindPopup("Проспект Мира");
+map.addLayer(c119);var cL = new L.LatLng(55.7730267,37.6312329),
+circleOptions = {color: '#f03', opacity: 0.7},
+c120 = new L.Circle(cL, 30, circleOptions);
+c120.bindPopup("Сухаревская");
+map.addLayer(c120);var cL = new L.LatLng(55.7661322,37.6374127),
+circleOptions = {color: '#f03', opacity: 0.7},
+c121 = new L.Circle(cL, 30, circleOptions);
+c121.bindPopup("Тургеневская");
+map.addLayer(c121);var cL = new L.LatLng(55.7554876,37.6331162),
+circleOptions = {color: '#f03', opacity: 0.7},
+c122 = new L.Circle(cL, 30, circleOptions);
+c122.bindPopup("Китай-город");
+map.addLayer(c122);var cL = new L.LatLng(55.7409164,37.6270535),
+circleOptions = {color: '#f03', opacity: 0.7},
+c123 = new L.Circle(cL, 30, circleOptions);
+c123.bindPopup("Третьяковская");
+map.addLayer(c123);var cL = new L.LatLng(55.7304781,37.6114623),
+circleOptions = {color: '#f03', opacity: 0.7},
+c124 = new L.Circle(cL, 30, circleOptions);
+c124.bindPopup("Октябрьская");
+map.addLayer(c124);var cL = new L.LatLng(55.7194704,37.60792),
+circleOptions = {color: '#f03', opacity: 0.7},
+c125 = new L.Circle(cL, 30, circleOptions);
+c125.bindPopup("Шаболовская");
+map.addLayer(c125);var cL = new L.LatLng(55.7077138,37.5859796),
+circleOptions = {color: '#f03', opacity: 0.7},
+c126 = new L.Circle(cL, 30, circleOptions);
+c126.bindPopup("Ленинский проспект");
+map.addLayer(c126);var cL = new L.LatLng(55.6878389,37.5736131),
+circleOptions = {color: '#f03', opacity: 0.7},
+c127 = new L.Circle(cL, 30, circleOptions);
+c127.bindPopup("Академическая");
+map.addLayer(c127);var cL = new L.LatLng(55.6779484,37.5629779),
+circleOptions = {color: '#f03', opacity: 0.7},
+c128 = new L.Circle(cL, 30, circleOptions);
+c128.bindPopup("Профсоюзная");
+map.addLayer(c128);var cL = new L.LatLng(55.670291,37.5547367),
+circleOptions = {color: '#f03', opacity: 0.7},
+c129 = new L.Circle(cL, 30, circleOptions);
+c129.bindPopup("Новые Черёмушки");
+map.addLayer(c129);var cL = new L.LatLng(55.6567573,37.5401361),
+circleOptions = {color: '#f03', opacity: 0.7},
+c130 = new L.Circle(cL, 30, circleOptions);
+c130.bindPopup("Калужская");
+map.addLayer(c130);var cL = new L.LatLng(55.6425059,37.5262),
+circleOptions = {color: '#f03', opacity: 0.7},
+c131 = new L.Circle(cL, 30, circleOptions);
+c131.bindPopup("Беляево");
+map.addLayer(c131);var cL = new L.LatLng(55.6330883,37.5190729),
+circleOptions = {color: '#f03', opacity: 0.7},
+c132 = new L.Circle(cL, 30, circleOptions);
+c132.bindPopup("Коньково");
+map.addLayer(c132);var cL = new L.LatLng(55.6186964,37.5080944),
+circleOptions = {color: '#f03', opacity: 0.7},
+c133 = new L.Circle(cL, 30, circleOptions);
+c133.bindPopup("Тёплый Стан");
+map.addLayer(c133);var cL = new L.LatLng(55.6062069,37.5337173),
+circleOptions = {color: '#f03', opacity: 0.7},
+c134 = new L.Circle(cL, 30, circleOptions);
+c134.bindPopup("Ясенево");
+map.addLayer(c134);var cL = new L.LatLng(55.6016929,37.5528619),
+circleOptions = {color: '#f03', opacity: 0.7},
+c135 = new L.Circle(cL, 30, circleOptions);
+c135.bindPopup("Новоясеневская");
+map.addLayer(c135);var p1 = new L.LatLng(55.860731,37.4363874),
+p2 = new L.LatLng(55.8503173,37.4397991),
+p3 = new L.LatLng(55.8265208,37.4369313),
+p4 = new L.LatLng(55.8085823,37.4643097),
+p5 = new L.LatLng(55.7933364,37.4937378),
+p6 = new L.LatLng(55.7774569,37.5190398),
+p7 = new L.LatLng(55.7732656,37.546422),
+p8 = new L.LatLng(55.7645028,37.5615355),
+p9 = new L.LatLng(55.761005,37.5792186),
+p10 = new L.LatLng(55.7653522,37.6056237),
+p11 = new L.LatLng(55.7649696,37.6097183),
+p12 = new L.LatLng(55.7607712,37.626016),
+p13 = new L.LatLng(55.7554876,37.6331162),
+p14 = new L.LatLng(55.7420249,37.6533521),
+p15 = new L.LatLng(55.7317659,37.6661457),
+p16 = new L.LatLng(55.7253024,37.6867846),
+p17 = new L.LatLng(55.7087389,37.7318594),
+p18 = new L.LatLng(55.7055754,37.7657487),
+p19 = new L.LatLng(55.7170907,37.7935753),
+p20 = new L.LatLng(55.715631,37.8179174),
+
+
+ polygonPoints = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20],
+lineOptions = {color: '#b400f9', opacity: 0.7}, 
+polygon7 = new L.Polyline(polygonPoints, lineOptions);
+
+
+map.addLayer(polygon7);polygon7.bindPopup("Таганско-краснопресненская");
+var cL = new L.LatLng(55.860731,37.4363874),
+circleOptions = {color: '#f03', opacity: 0.7},
+c20 = new L.Circle(cL, 30, circleOptions);
+c20.bindPopup("Планерная");
+map.addLayer(c20);var cL = new L.LatLng(55.8503173,37.4397991),
+circleOptions = {color: '#f03', opacity: 0.7},
+c21 = new L.Circle(cL, 30, circleOptions);
+c21.bindPopup("Сходненская");
+map.addLayer(c21);var cL = new L.LatLng(55.8265208,37.4369313),
+circleOptions = {color: '#f03', opacity: 0.7},
+c22 = new L.Circle(cL, 30, circleOptions);
+c22.bindPopup("Тушинская");
+map.addLayer(c22);var cL = new L.LatLng(55.8085823,37.4643097),
+circleOptions = {color: '#f03', opacity: 0.7},
+c23 = new L.Circle(cL, 30, circleOptions);
+c23.bindPopup("Щукинская");
+map.addLayer(c23);var cL = new L.LatLng(55.7933364,37.4937378),
+circleOptions = {color: '#f03', opacity: 0.7},
+c24 = new L.Circle(cL, 30, circleOptions);
+c24.bindPopup("Октябрьское поле");
+map.addLayer(c24);var cL = new L.LatLng(55.7774569,37.5190398),
+circleOptions = {color: '#f03', opacity: 0.7},
+c25 = new L.Circle(cL, 30, circleOptions);
+c25.bindPopup("Полежаевская");
+map.addLayer(c25);var cL = new L.LatLng(55.7732656,37.546422),
+circleOptions = {color: '#f03', opacity: 0.7},
+c26 = new L.Circle(cL, 30, circleOptions);
+c26.bindPopup("Беговая");
+map.addLayer(c26);var cL = new L.LatLng(55.7645028,37.5615355),
+circleOptions = {color: '#f03', opacity: 0.7},
+c27 = new L.Circle(cL, 30, circleOptions);
+c27.bindPopup("Улица 1905 года");
+map.addLayer(c27);var cL = new L.LatLng(55.761005,37.5792186),
+circleOptions = {color: '#f03', opacity: 0.7},
+c28 = new L.Circle(cL, 30, circleOptions);
+c28.bindPopup("Баррикадная");
+map.addLayer(c28);var cL = new L.LatLng(55.7653522,37.6056237),
+circleOptions = {color: '#f03', opacity: 0.7},
+c30 = new L.Circle(cL, 30, circleOptions);
+c30.bindPopup("Пушкинская");
+map.addLayer(c30);var cL = new L.LatLng(55.7649696,37.6097183),
+circleOptions = {color: '#f03', opacity: 0.7},
+c31 = new L.Circle(cL, 30, circleOptions);
+c31.bindPopup("Чеховская");
+map.addLayer(c31);var cL = new L.LatLng(55.7607712,37.626016),
+circleOptions = {color: '#f03', opacity: 0.7},
+c32 = new L.Circle(cL, 30, circleOptions);
+c32.bindPopup("Кузнецкий мост");
+map.addLayer(c32);var cL = new L.LatLng(55.7554876,37.6331162),
+circleOptions = {color: '#f03', opacity: 0.7},
+c33 = new L.Circle(cL, 30, circleOptions);
+c33.bindPopup("Китай-город");
+map.addLayer(c33);var cL = new L.LatLng(55.7420249,37.6533521),
+circleOptions = {color: '#f03', opacity: 0.7},
+c34 = new L.Circle(cL, 30, circleOptions);
+c34.bindPopup("Таганская");
+map.addLayer(c34);var cL = new L.LatLng(55.7317659,37.6661457),
+circleOptions = {color: '#f03', opacity: 0.7},
+c35 = new L.Circle(cL, 30, circleOptions);
+c35.bindPopup("Пролетарская");
+map.addLayer(c35);var cL = new L.LatLng(55.7253024,37.6867846),
+circleOptions = {color: '#f03', opacity: 0.7},
+c36 = new L.Circle(cL, 30, circleOptions);
+c36.bindPopup("Волгоградский проспект");
+map.addLayer(c36);var cL = new L.LatLng(55.7087389,37.7318594),
+circleOptions = {color: '#f03', opacity: 0.7},
+c37 = new L.Circle(cL, 30, circleOptions);
+c37.bindPopup("Текстильщики");
+map.addLayer(c37);var cL = new L.LatLng(55.7055754,37.7657487),
+circleOptions = {color: '#f03', opacity: 0.7},
+c38 = new L.Circle(cL, 30, circleOptions);
+c38.bindPopup("Кузьминки");
+map.addLayer(c38);var cL = new L.LatLng(55.7170907,37.7935753),
+circleOptions = {color: '#f03', opacity: 0.7},
+c39 = new L.Circle(cL, 30, circleOptions);
+c39.bindPopup("Рязанский проспект");
+map.addLayer(c39);var cL = new L.LatLng(55.715631,37.8179174),
+circleOptions = {color: '#f03', opacity: 0.7},
+c40 = new L.Circle(cL, 30, circleOptions);
+c40.bindPopup("Выхино");
+map.addLayer(c40);var p1 = new L.LatLng(55.7409164,37.6270535),
+p2 = new L.LatLng(55.7412767,37.6547762),
+p3 = new L.LatLng(55.7468604,37.6820961),
+p4 = new L.LatLng(55.7523487,37.7199709),
+p5 = new L.LatLng(55.7575668,37.7497943),
+p6 = new L.LatLng(55.751266,37.7864677),
+p7 = new L.LatLng(55.7517187,37.8166274),
+
+
+ polygonPoints = [p1, p2, p3, p4, p5, p6, p7],
+lineOptions = {color: '#ffe401', opacity: 0.7}, 
+polygon8 = new L.Polyline(polygonPoints, lineOptions);
+
+
+map.addLayer(polygon8);polygon8.bindPopup("Калининская");
+var cL = new L.LatLng(55.7409164,37.6270535),
+circleOptions = {color: '#f03', opacity: 0.7},
+c136 = new L.Circle(cL, 30, circleOptions);
+c136.bindPopup("Третьяковская");
+map.addLayer(c136);var cL = new L.LatLng(55.7412767,37.6547762),
+circleOptions = {color: '#f03', opacity: 0.7},
+c137 = new L.Circle(cL, 30, circleOptions);
+c137.bindPopup("Марксистская");
+map.addLayer(c137);var cL = new L.LatLng(55.7468604,37.6820961),
+circleOptions = {color: '#f03', opacity: 0.7},
+c138 = new L.Circle(cL, 30, circleOptions);
+c138.bindPopup("Площадь Ильича");
+map.addLayer(c138);var cL = new L.LatLng(55.7523487,37.7199709),
+circleOptions = {color: '#f03', opacity: 0.7},
+c139 = new L.Circle(cL, 30, circleOptions);
+c139.bindPopup("Авиамоторная");
+map.addLayer(c139);var cL = new L.LatLng(55.7575668,37.7497943),
+circleOptions = {color: '#f03', opacity: 0.7},
+c140 = new L.Circle(cL, 30, circleOptions);
+c140.bindPopup("Шоссе Энтузиастов");
+map.addLayer(c140);var cL = new L.LatLng(55.751266,37.7864677),
+circleOptions = {color: '#f03', opacity: 0.7},
+c141 = new L.Circle(cL, 30, circleOptions);
+c141.bindPopup("Перово");
+map.addLayer(c141);var cL = new L.LatLng(55.7517187,37.8166274),
+circleOptions = {color: '#f03', opacity: 0.7},
+c142 = new L.Circle(cL, 30, circleOptions);
+c142.bindPopup("Новогиреево");
+map.addLayer(c142);var p1 = new L.LatLng(55.8978497,37.5873192),
+p2 = new L.LatLng(55.8836915,37.6024383),
+p3 = new L.LatLng(55.8634536,37.6048165),
+p4 = new L.LatLng(55.8472205,37.5898414),
+p5 = new L.LatLng(55.8345884,37.574433),
+p6 = new L.LatLng(55.8189683,37.5786581),
+p7 = new L.LatLng(55.8074277,37.5812016),
+p8 = new L.LatLng(55.7928665,37.5876906),
+p9 = new L.LatLng(55.7802999,37.6025508),
+p10 = new L.LatLng(55.7710979,37.6188598),
+p11 = new L.LatLng(55.7649696,37.6097183),
+p12 = new L.LatLng(55.7508858,37.6066657),
+p13 = new L.LatLng(55.7379467,37.6176544),
+p14 = new L.LatLng(55.727521,37.6249676),
+p15 = new L.LatLng(55.7087682,37.6231936),
+p16 = new L.LatLng(55.6830582,37.6227483),
+p17 = new L.LatLng(55.6722659,37.6103732),
+p18 = new L.LatLng(55.6627149,37.6056692),
+p19 = new L.LatLng(55.6520286,37.598314),
+p20 = new L.LatLng(55.64069,37.6067634),
+p21 = new L.LatLng(55.622278,37.6091666),
+p22 = new L.LatLng(55.6124609,37.6041499),
+p23 = new L.LatLng(55.5951773,37.6009269),
+p24 = new L.LatLng(55.582549,37.5964216),
+p25 = new L.LatLng(55.56931,37.5768338),
+
+
+ polygonPoints = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20, p21, p22, p23, p24, p25],
+lineOptions = {color: '#848389', opacity: 0.7}, 
+polygon9 = new L.Polyline(polygonPoints, lineOptions);
+
+
+map.addLayer(polygon9);polygon9.bindPopup("Серпуховско-темерязевская");
+var cL = new L.LatLng(55.8978497,37.5873192),
+circleOptions = {color: '#f03', opacity: 0.7},
+c143 = new L.Circle(cL, 30, circleOptions);
+c143.bindPopup("Алтуфьево");
+map.addLayer(c143);var cL = new L.LatLng(55.8836915,37.6024383),
+circleOptions = {color: '#f03', opacity: 0.7},
+c144 = new L.Circle(cL, 30, circleOptions);
+c144.bindPopup("Бибирево");
+map.addLayer(c144);var cL = new L.LatLng(55.8634536,37.6048165),
+circleOptions = {color: '#f03', opacity: 0.7},
+c145 = new L.Circle(cL, 30, circleOptions);
+c145.bindPopup("Отрадное");
+map.addLayer(c145);var cL = new L.LatLng(55.8472205,37.5898414),
+circleOptions = {color: '#f03', opacity: 0.7},
+c146 = new L.Circle(cL, 30, circleOptions);
+c146.bindPopup("Владыкино");
+map.addLayer(c146);var cL = new L.LatLng(55.8345884,37.574433),
+circleOptions = {color: '#f03', opacity: 0.7},
+c147 = new L.Circle(cL, 30, circleOptions);
+c147.bindPopup("Петровско-Разумовская");
+map.addLayer(c147);var cL = new L.LatLng(55.8189683,37.5786581),
+circleOptions = {color: '#f03', opacity: 0.7},
+c148 = new L.Circle(cL, 30, circleOptions);
+c148.bindPopup("Тимирязевская");
+map.addLayer(c148);var cL = new L.LatLng(55.8074277,37.5812016),
+circleOptions = {color: '#f03', opacity: 0.7},
+c149 = new L.Circle(cL, 30, circleOptions);
+c149.bindPopup("Дмитровская");
+map.addLayer(c149);var cL = new L.LatLng(55.7928665,37.5876906),
+circleOptions = {color: '#f03', opacity: 0.7},
+c150 = new L.Circle(cL, 30, circleOptions);
+c150.bindPopup("Савёловская");
+map.addLayer(c150);var cL = new L.LatLng(55.7802999,37.6025508),
+circleOptions = {color: '#f03', opacity: 0.7},
+c151 = new L.Circle(cL, 30, circleOptions);
+c151.bindPopup("Менделеевская");
+map.addLayer(c151);var cL = new L.LatLng(55.7710979,37.6188598),
+circleOptions = {color: '#f03', opacity: 0.7},
+c152 = new L.Circle(cL, 30, circleOptions);
+c152.bindPopup("Цветной бульвар");
+map.addLayer(c152);var cL = new L.LatLng(55.7649696,37.6097183),
+circleOptions = {color: '#f03', opacity: 0.7},
+c153 = new L.Circle(cL, 30, circleOptions);
+c153.bindPopup("Чеховская");
+map.addLayer(c153);var cL = new L.LatLng(55.7508858,37.6066657),
+circleOptions = {color: '#f03', opacity: 0.7},
+c154 = new L.Circle(cL, 30, circleOptions);
+c154.bindPopup("Боровицкая");
+map.addLayer(c154);var cL = new L.LatLng(55.7379467,37.6176544),
+circleOptions = {color: '#f03', opacity: 0.7},
+c155 = new L.Circle(cL, 30, circleOptions);
+c155.bindPopup("Полянка");
+map.addLayer(c155);var cL = new L.LatLng(55.727521,37.6249676),
+circleOptions = {color: '#f03', opacity: 0.7},
+c156 = new L.Circle(cL, 30, circleOptions);
+c156.bindPopup("Серпуховская");
+map.addLayer(c156);var cL = new L.LatLng(55.7087682,37.6231936),
+circleOptions = {color: '#f03', opacity: 0.7},
+c157 = new L.Circle(cL, 30, circleOptions);
+c157.bindPopup("Тульская");
+map.addLayer(c157);var cL = new L.LatLng(55.6830582,37.6227483),
+circleOptions = {color: '#f03', opacity: 0.7},
+c158 = new L.Circle(cL, 30, circleOptions);
+c158.bindPopup("Нагатинская");
+map.addLayer(c158);var cL = new L.LatLng(55.6722659,37.6103732),
+circleOptions = {color: '#f03', opacity: 0.7},
+c159 = new L.Circle(cL, 30, circleOptions);
+c159.bindPopup("Нагорная");
+map.addLayer(c159);var cL = new L.LatLng(55.6627149,37.6056692),
+circleOptions = {color: '#f03', opacity: 0.7},
+c160 = new L.Circle(cL, 30, circleOptions);
+c160.bindPopup("Нахимовский проспект");
+map.addLayer(c160);var cL = new L.LatLng(55.6520286,37.598314),
+circleOptions = {color: '#f03', opacity: 0.7},
+c161 = new L.Circle(cL, 30, circleOptions);
+c161.bindPopup("Севастопольская");
+map.addLayer(c161);var cL = new L.LatLng(55.64069,37.6067634),
+circleOptions = {color: '#f03', opacity: 0.7},
+c162 = new L.Circle(cL, 30, circleOptions);
+c162.bindPopup("Чертановская");
+map.addLayer(c162);var cL = new L.LatLng(55.622278,37.6091666),
+circleOptions = {color: '#f03', opacity: 0.7},
+c163 = new L.Circle(cL, 30, circleOptions);
+c163.bindPopup("Южная");
+map.addLayer(c163);var cL = new L.LatLng(55.6124609,37.6041499),
+circleOptions = {color: '#f03', opacity: 0.7},
+c164 = new L.Circle(cL, 30, circleOptions);
+c164.bindPopup("Пражская");
+map.addLayer(c164);var cL = new L.LatLng(55.5951773,37.6009269),
+circleOptions = {color: '#f03', opacity: 0.7},
+c165 = new L.Circle(cL, 30, circleOptions);
+c165.bindPopup("Улица Академика Янгеля");
+map.addLayer(c165);var cL = new L.LatLng(55.582549,37.5964216),
+circleOptions = {color: '#f03', opacity: 0.7},
+c166 = new L.Circle(cL, 30, circleOptions);
+c166.bindPopup("Аннино");
+map.addLayer(c166);var cL = new L.LatLng(55.56931,37.5768338),
+circleOptions = {color: '#f03', opacity: 0.7},
+c167 = new L.Circle(cL, 30, circleOptions);
+c167.bindPopup("Бульвар Дмитрия Донского");
+map.addLayer(c167);var p1 = new L.LatLng(55.7945253,37.6164476),
+p2 = new L.LatLng(55.7812802,37.6140516),
+p3 = new L.LatLng(55.7685309,37.6202837),
+p4 = new L.LatLng(55.7667368,37.6394833),
+p5 = new L.LatLng(55.7568918,37.6573462),
+p6 = new L.LatLng(55.7461294,37.6818969),
+p7 = new L.LatLng(55.7330126,37.6667866),
+p8 = new L.LatLng(55.718932,37.6756382),
+p9 = new L.LatLng(55.7075562,37.6850483),
+p10 = new L.LatLng(55.6933636,37.7268242),
+p11 = new L.LatLng(55.6907556,37.7532335),
+p12 = new L.LatLng(55.6756254,37.7619338),
+p13 = new L.LatLng(55.6596899,37.7506502),
+p14 = new L.LatLng(55.6500225,37.7431944),
+
+
+ polygonPoints = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14],
+lineOptions = {color: '#02fcb4', opacity: 0.7}, 
+polygon10 = new L.Polyline(polygonPoints, lineOptions);
+
+
+map.addLayer(polygon10);polygon10.bindPopup("Люблинская");
+var cL = new L.LatLng(55.7945253,37.6164476),
+circleOptions = {color: '#f03', opacity: 0.7},
+c168 = new L.Circle(cL, 30, circleOptions);
+c168.bindPopup("Марьина Роща");
+map.addLayer(c168);var cL = new L.LatLng(55.7812802,37.6140516),
+circleOptions = {color: '#f03', opacity: 0.7},
+c169 = new L.Circle(cL, 30, circleOptions);
+c169.bindPopup("Достоевская");
+map.addLayer(c169);var cL = new L.LatLng(55.7685309,37.6202837),
+circleOptions = {color: '#f03', opacity: 0.7},
+c170 = new L.Circle(cL, 30, circleOptions);
+c170.bindPopup("Трубная");
+map.addLayer(c170);var cL = new L.LatLng(55.7667368,37.6394833),
+circleOptions = {color: '#f03', opacity: 0.7},
+c171 = new L.Circle(cL, 30, circleOptions);
+c171.bindPopup("Сретенский бульвар");
+map.addLayer(c171);var cL = new L.LatLng(55.7568918,37.6573462),
+circleOptions = {color: '#f03', opacity: 0.7},
+c172 = new L.Circle(cL, 30, circleOptions);
+c172.bindPopup("Чкаловская");
+map.addLayer(c172);var cL = new L.LatLng(55.7461294,37.6818969),
+circleOptions = {color: '#f03', opacity: 0.7},
+c173 = new L.Circle(cL, 30, circleOptions);
+c173.bindPopup("Римская");
+map.addLayer(c173);var cL = new L.LatLng(55.7330126,37.6667866),
+circleOptions = {color: '#f03', opacity: 0.7},
+c174 = new L.Circle(cL, 30, circleOptions);
+c174.bindPopup("Крестьянская застава");
+map.addLayer(c174);var cL = new L.LatLng(55.718932,37.6756382),
+circleOptions = {color: '#f03', opacity: 0.7},
+c175 = new L.Circle(cL, 30, circleOptions);
+c175.bindPopup("Дубровка");
+map.addLayer(c175);var cL = new L.LatLng(55.7075562,37.6850483),
+circleOptions = {color: '#f03', opacity: 0.7},
+c176 = new L.Circle(cL, 30, circleOptions);
+c176.bindPopup("Кожуховская");
+map.addLayer(c176);var cL = new L.LatLng(55.6933636,37.7268242),
+circleOptions = {color: '#f03', opacity: 0.7},
+c177 = new L.Circle(cL, 30, circleOptions);
+c177.bindPopup("Печатники");
+map.addLayer(c177);var cL = new L.LatLng(55.6907556,37.7532335),
+circleOptions = {color: '#f03', opacity: 0.7},
+c178 = new L.Circle(cL, 30, circleOptions);
+c178.bindPopup("Волжская");
+map.addLayer(c178);var cL = new L.LatLng(55.6756254,37.7619338),
+circleOptions = {color: '#f03', opacity: 0.7},
+c179 = new L.Circle(cL, 30, circleOptions);
+c179.bindPopup("Люблино");
+map.addLayer(c179);var cL = new L.LatLng(55.6596899,37.7506502),
+circleOptions = {color: '#f03', opacity: 0.7},
+c180 = new L.Circle(cL, 30, circleOptions);
+c180.bindPopup("Братиславская");
+map.addLayer(c180);var cL = new L.LatLng(55.6500225,37.7431944),
+circleOptions = {color: '#f03', opacity: 0.7},
+c181 = new L.Circle(cL, 30, circleOptions);
+c181.bindPopup("Марьино");
+map.addLayer(c181);var p1 = new L.LatLng(55.655094,37.648866),
+p2 = new L.LatLng(55.6533004,37.6187593),
+p3 = new L.LatLng(55.6529571,37.5981698),
+
+
+ polygonPoints = [p1, p2, p3],
+lineOptions = {color: '#32be99', opacity: 0.7}, 
+polygon11 = new L.Polyline(polygonPoints, lineOptions);
+
+
+map.addLayer(polygon11);polygon11.bindPopup("Каховская");
+var cL = new L.LatLng(55.655094,37.648866),
+circleOptions = {color: '#f03', opacity: 0.7},
+c187 = new L.Circle(cL, 30, circleOptions);
+c187.bindPopup("Каширская");
+map.addLayer(c187);var cL = new L.LatLng(55.6533004,37.6187593),
+circleOptions = {color: '#f03', opacity: 0.7},
+c188 = new L.Circle(cL, 30, circleOptions);
+c188.bindPopup("Варшавская");
+map.addLayer(c188);var cL = new L.LatLng(55.6529571,37.5981698),
+circleOptions = {color: '#f03', opacity: 0.7},
+c189 = new L.Circle(cL, 30, circleOptions);
+c189.bindPopup("Каховская");
+map.addLayer(c189);
+
+ polygonPoints = [],
+lineOptions = {color: '#e8e714', opacity: 0.7}, 
+polygon12 = new L.Polyline(polygonPoints, lineOptions);
+
+
+map.addLayer(polygon12);polygon12.bindPopup("Строящиеся линии");
+var p1 = new L.LatLng(55.8189683,37.5786581),
+p2 = new L.LatLng(55.8218696,37.5910299),
+p3 = new L.LatLng(55.821913,37.60889),
+p4 = new L.LatLng(55.8218566,37.6270221),
+p5 = new L.LatLng(55.8240727,37.638308),
+p6 = new L.LatLng(55.8292233,37.6448066),
+
+
+ polygonPoints = [p1, p2, p3, p4, p5, p6],
+lineOptions = {color: '#e87f14', opacity: 0.7}, 
+polygon13 = new L.Polyline(polygonPoints, lineOptions);
+
+
+map.addLayer(polygon13);polygon13.bindPopup("Монорельс");
+var cL = new L.LatLng(55.8189683,37.5786581),
+circleOptions = {color: '#f03', opacity: 0.7},
+c190 = new L.Circle(cL, 30, circleOptions);
+c190.bindPopup("Тимирязевская");
+map.addLayer(c190);var cL = new L.LatLng(55.8218696,37.5910299),
+circleOptions = {color: '#f03', opacity: 0.7},
+c191 = new L.Circle(cL, 30, circleOptions);
+c191.bindPopup("Улица Милашенкова");
+map.addLayer(c191);var cL = new L.LatLng(55.821913,37.60889),
+circleOptions = {color: '#f03', opacity: 0.7},
+c192 = new L.Circle(cL, 30, circleOptions);
+c192.bindPopup("Телецентр");
+map.addLayer(c192);var cL = new L.LatLng(55.8218566,37.6270221),
+circleOptions = {color: '#f03', opacity: 0.7},
+c193 = new L.Circle(cL, 30, circleOptions);
+c193.bindPopup("Улица Академика Королёва");
+map.addLayer(c193);var cL = new L.LatLng(55.8240727,37.638308),
+circleOptions = {color: '#f03', opacity: 0.7},
+c194 = new L.Circle(cL, 30, circleOptions);
+c194.bindPopup("Выставочный центр");
+map.addLayer(c194);var cL = new L.LatLng(55.8292233,37.6448066),
+circleOptions = {color: '#f03', opacity: 0.7},
+c195 = new L.Circle(cL, 30, circleOptions);
+c195.bindPopup("Улица Сергея Эйзенштейна");
+map.addLayer(c195);var p1 = new L.LatLng(55.7444971,37.5672838),
+p2 = new L.LatLng(55.7500562,37.5413387),
+p3 = new L.LatLng(55.7483228,37.534383),
+
+
+ polygonPoints = [p1, p2, p3],
+lineOptions = {color: '#02e9f9', opacity: 0.7}, 
+polygon14 = new L.Polyline(polygonPoints, lineOptions);
+
+
+map.addLayer(polygon14);polygon14.bindPopup("Филёвская");
+var cL = new L.LatLng(55.7444971,37.5672838),
+circleOptions = {color: '#f03', opacity: 0.7},
+c108 = new L.Circle(cL, 30, circleOptions);
+c108.bindPopup("Киевская");
+map.addLayer(c108);var cL = new L.LatLng(55.7500562,37.5413387),
+circleOptions = {color: '#f03', opacity: 0.7},
+c109 = new L.Circle(cL, 30, circleOptions);
+c109.bindPopup("Выставочная");
+map.addLayer(c109);var cL = new L.LatLng(55.7483228,37.534383),
+circleOptions = {color: '#f03', opacity: 0.7},
+c110 = new L.Circle(cL, 30, circleOptions);
+c110.bindPopup("Международная");
+map.addLayer(c110);
 
 
 
+	
+	
+map.addLayer(vectorLayer);
+map.addControl(new OpenLayers.Control.LayerSwitcher());
+            map.addControl(new OpenLayers.Control.Permalink());			
+            map.setCenter(new OpenLayers.LonLat(37.62131,55.73948).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()), 10); 			
 
-</body>
+        }
+    </script>
+
+  </head>
+  <body onload="init()">
+    <div id="map" class="smallmap" style="height: 700px; margin-bottom: 18px"></div>	
+	
+	
+	</body>
 </html>
