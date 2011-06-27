@@ -20,15 +20,9 @@ function init() {
 osm.cpan.startPan = function(e) {
   this.dragging = true;
   var dist = Math.sqrt(Math.pow(e.layerX - 43, 2) + Math.pow(e.layerY - 43, 2));
-  if (dist < 25) {
-    this.panX = e.layerX - 43;
-    this.panY = e.layerY - 43;
-  }
-  else {
-    var c = 20 / dist;
-    this.panX = ((e.layerX - 43) * c);
-    this.panY = ((e.layerY - 43) * c);
-  }
+  var c = (dist > 25) ? 20 / dist : 1;
+  this.panX = ((e.layerX - 43) * c);
+  this.panY = ((e.layerY - 43) * c);
   this.joy.style.left = (this.panX + 37) + 'px';
   this.joy.style.top = (this.panY + 37) + 'px';
   osm.map.fire('movestart');
