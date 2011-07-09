@@ -280,7 +280,6 @@ button:active {
   background: #fff;
   border-bottom: 1px solid #ddd;
   color: #aaa;
-  font-family: Verdana, sans-serif;
   font-size: 12px;
   left: 0;
   right: 0;
@@ -308,7 +307,6 @@ button:active {
 
 #loginpan {
   color: #aaa;
-  font-family: Verdana, sans-serif;
   font-size: 12px;
   left: 110px;
   position: absolute;
@@ -354,7 +352,7 @@ button:active {
   height: 87px;
   position: absolute;
   left: 10px;
-  top: 38px;
+  top: 10px;
   z-index: 3;
 }
 
