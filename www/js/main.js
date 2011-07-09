@@ -1,4 +1,4 @@
-var osm = {cpan: {}, leftpan: {on: true}, mappan: {}};
+var osm = {cpan: {}, leftpan: {on: true}, mappan: {}, ui: {}};
 var search = {};
 
 function setView(position) {
@@ -7,14 +7,13 @@ function setView(position) {
 
 function init() {
   var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: 'Map data &copy; OpenStreetMap contributors'});
-  osm.map = new L.Map('map', {zoomControl: false, center: new L.LatLng(0.0, 0.0), zoom: 2, layers: [layer]});
+  osm.map = new L.Map('map', {zoomControl: false, center: new L.LatLng(62.0, 88.0), zoom: (document.width > 1200 ? 3 : 2), layers: [layer]});
   osm.cpan.joy = document.getElementById('cpanjoy');
   osm.cpan.arrows = document.getElementById('cpanarr');
   osm.leftpan.panel = document.getElementById('leftpan');
   osm.leftpan.content = document.getElementById('content');
   osm.mappan.panel = document.getElementById('mappan');
   osm.input = document.getElementById('search');
-  navigator.geolocation.getCurrentPosition(setView);
 }
 
 osm.cpan.startPan = function(e) {
@@ -102,4 +101,8 @@ search.search = function() {
   this.request.onreadystatechange = function(){search.processResults(this)};
   this.request.send(null);
   return false;
+};
+
+osm.ui.whereima = function() {
+  navigator.geolocation.getCurrentPosition(setView);
 };

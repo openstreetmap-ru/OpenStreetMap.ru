@@ -16,18 +16,29 @@ include_once ('include/functions.php');
 <body onload="init()">
 <div id="toppan">
   <a href="/"><div id="logo"></div></a><div id="header"><header>OpenStreetMap</header></div>
-  <div id="searchpan"><input id="search" type="search" placeholder="Поиск" /> <button onClick="search.search();">Найти&nbsp;&raquo;</button></div>
+  <div id="searchcont"><div id="searchpan"><table><tr><td style="width:100%;"><input id="search" type="search" /></td><td><button onClick="search.search();">Найти&nbsp;&raquo;</button></td></tr></table></div></div>
   <? show_menu(); ?>
-  <div id="loginpan"><ul><li><?=($loginned ? '<a href="map.html">Hind</a>' : '<a href="map.html">Вход</a>') ?></li> | <li><?=($loginned ? '<a href="map.html">Выход</a>' : '<a href="map.html">Регистрация</a>') ?></li></ul></div>
+  <!--<div id="loginpan"><ul><li><?=($loginned ? '<a href="map.html">Hind</a>' : '<a href="map.html">Вход</a>') ?></li> | <li><?=($loginned ? '<a href="map.html">Выход</a>' : '<a href="map.html">Регистрация</a>') ?></li></ul></div>-->
+  <div class="toolbar">
+    <div class="rightalign">
+      <button><img src="img/ui-print.png"></button>
+      <button><img src="img/ui-link.png"></button>
+    </div>
+  </div>
 </div>
 <div id="downpan">
   <div id="leftpan">
-    <div id="content"></div>
+    <div id="content">
+      <ul>
+        <br>
+        <li><span class="pseudolink" onClick="osm.ui.whereima()">Найти меня</span></li>
+        <li><span class="pseudolink" onClick="osm.ui.whereima()">Проложить маршрут</span></li>
+      </ul>
+    </div>
     <div id="toggler" onClick="osm.leftpan.toggle()"></div>
   </div>
   <div id="mappan">
     <div id="map"></div>
-    <div id="toolbar"></div>
     <div id="cpan">
       <img id="cpanglo" src="img/glow.png" />
       <img id="cpanarr" src="img/arrows.png" />

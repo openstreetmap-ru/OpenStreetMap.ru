@@ -7,10 +7,16 @@
   margin: 0;
 }
 
-#toppan {
-  height: 99px;
+body {
+  font-family: arial,sans-serif;
+  font-size: 13px;
   overflow: hidden;
-  border-bottom: 1px solid #CCCCCC;
+}
+
+#toppan {
+  background: #fafafa;
+  height: 100px;
+  overflow: hidden;
 }
 
 #downpan {
@@ -23,15 +29,17 @@
 
 #leftpan {
   bottom: 0;
+  border-top: 1px solid #ddd;
   left: 0;
+  overflow: hidden;
   position: absolute;
   top: 0;
-  width: 300px;
+  width: 350px;
   z-index: 3;
 }
 
 .left-on #leftpan {
-  width: 10px;
+  width: 8px;
 }
 
 #content {
@@ -49,8 +57,13 @@
   margin-left: 20px;
 }
 
+#content ul {
+  margin-left: 20px;
+  list-style: none;
+}
+
 #content li {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 #toggler {
@@ -58,20 +71,20 @@
   top: 0;
   bottom: 0;
   right: 0;
-  width: 10px;
-  background: url("../img/arrow.png") no-repeat 0 center;
+  width: 8px;
+  background: url("../img/arrow.gif") no-repeat 0 center;
   cursor: pointer;
   border-right: 1px solid #CCCCCC;
 }
 
 .left-on #toggler {
-  background: url("../img/arrow.png") no-repeat -12px center;
+  background: url("../img/arrow.gif") no-repeat -9px center;
 }
 
 #mappan {
   top: 0;
   bottom: 0;
-  left: 300px;
+  left: 350px;
   right: 0;
   position: absolute;
   -webkit-user-select: none;
@@ -81,29 +94,28 @@
 }
 
 .left-on #mappan {
-  left: 10px;
+  left: 8px;
 }
 
 #map {
-  top: 28px;
+  top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   position: absolute;
 }
 
-#toolbar {
-  background-color: #fafafa;
-  height: 28px;
+.toolbar {
+  height: 36px;
   left: 0;
+  top: 64px;
   position: absolute;
   right: 0;
-  z-index: 3;
 }
 
 .hshadow {
   position: absolute;
-  top: 28px;
+  top: 0;
   left: 0;
   right: 0;
   height: 5px;
@@ -148,17 +160,54 @@
  * Style definitions
  */
 
+button {
+  background: #eeeeee;
+  background: -moz-linear-gradient(top, #eeeeee 0%, #dddddd 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#dddddd));
+  background: -webkit-linear-gradient(top, #eeeeee 0%,#dddddd 100%);
+  background: -o-linear-gradient(top, #eeeeee 0%,#dddddd 100%);
+  background: -ms-linear-gradient(top, #eeeeee 0%,#dddddd 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#dddddd',GradientType=0 );
+  background: linear-gradient(top, #eeeeee 0%,#dddddd 100%);
+  border-color: #DDDDDD #CCCCCC #AAAAAA;
+  border-radius: 2px;
+  border-style: solid;
+  border-width: 1px;
+  box-shadow: 0 -1px 1px #FAFAFA inset;
+  color: #222222;
+  text-shadow: 0 1px 1px #FFFFFF;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #eaeaea;
+  background: -moz-linear-gradient(top, #eaeaea 0%, #d9d9d9 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eaeaea), color-stop(100%,#d9d9d9));
+  background: -webkit-linear-gradient(top, #eaeaea 0%,#d9d9d9 100%);
+  background: -o-linear-gradient(top, #eaeaea 0%,#d9d9d9 100%);
+  background: -ms-linear-gradient(top, #eaeaea 0%,#d9d9d9 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eaeaea', endColorstr='#d9d9d9',GradientType=0 );
+  background: linear-gradient(top, #eaeaea 0%,#d9d9d9 100%);
+}
+
+button:active {
+  background: #dadada;
+  box-shadow: 0 -1px 1px #FAFAFA inset, 0 2px 1px #BBBBBB inset;
+  padding-top: 1px;
+}
+
 #logo {
   background: url("../img/logo_hind_80.png") no-repeat;
   width: 80px;
   height: 80px;
   left: 15px;
-  top: 15px;
+  top: 10px;
   position: absolute;
   -webkit-user-select: none;
   -moz-user-select: none;
   -o-user-select: none;
   user-select: none;
+  z-index: 1;
 }
 
 #line {
@@ -171,36 +220,74 @@
 }
 
 #header {
+  -moz-user-select: none;
+  cursor: default;
   font-family: Arial, sans-serif;
   font-size: 20px;
-  color: #222222;
+  color: #444444;
   left: 110px;
   position: absolute;
-  top: 22px;
+  top: 42px;
+  text-shadow: 1px 1px 2px #DADADA, 0 0 15px #DDDDDD;
+}
+
+#searchcont {
+  top: 40px;
+  left: 0;
+  right: 0;
+  position: absolute;
+  padding: 0 300px 0 300px;
 }
 
 #searchpan {
-  left: 300px;
-  position: absolute;
-  top: 24px;
+  border-color: #AAAAAA #CCCCCC #DDDDDD;
+  border-style: solid;
+  border-width: 1px;
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  min-width: 300px;
+}
+
+#searchpan table {
+  border-collapse: collapse;
+  border: 0;
 }
 
 #searchpan input {
-  height: 22px;
-  min-width: 400px;
+  border: 0;
+  height: 28px;
+  padding-left: 5px;
+  outline: 0 none;
+  width: 100%;
 }
 
 #searchpan button {
+  box-shadow: none;
+  border-color: #FAFAFA #CCCCCC #CCCCCC;
+  border-width: 1px 0 1px 1px;
+  border-radius: 0;
+  height: 28px;
   min-width: 80px;
+  vertical-align: top;
 }
 
 #menupan {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
   color: #aaa;
   font-family: Verdana, sans-serif;
   font-size: 12px;
-  left: 300px;
+  left: 0;
+  right: 0;
   position: absolute;
-  top: 70px;
+  top: 0;
+  padding: 3px;
+  text-align: right;
 }
 
 #menupan ul {
@@ -246,6 +333,16 @@
 
 .current {
   color: #000;
+}
+
+.pseudolink {
+  color: #3399DD;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.pseudolink:hover {
+  text-decoration: underline;
 }
 
 /*
@@ -326,6 +423,22 @@
   top: 0;
   position: absolute;
   z-index: 3;
+}
+
+/*
+ * Toolbar
+ */
+
+.rightalign {
+  float: right;
+}
+
+.toolbar button {
+  box-shadow: 0 -1px 1px #FAFAFA inset, 0 0 1px #FFFFFF;
+  height: 28px;
+  width: 32px;
+  margin-top: 4px;
+  vertical-align: top;
 }
 
 /*
