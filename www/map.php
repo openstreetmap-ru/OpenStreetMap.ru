@@ -16,7 +16,7 @@ include_once ('include/functions.php');
 <body onload="init()">
 <div id="toppan">
   <a href="/"><div id="logo"></div></a><div id="header"><header>OpenStreetMap</header></div>
-  <div id="searchcont"><div id="searchpan"><table><tr><td style="width:100%;"><input id="search" type="search" /></td><td><button onClick="search.search();">Найти&nbsp;&raquo;</button></td></tr></table></div></div>
+  <div id="searchcont"><div id="searchpan"><table style="width:100%;"><tr><td><input id="search" type="search" /></td><td style="width:1px;"><button onClick="search.search();">Найти&nbsp;&raquo;</button></td></tr></table></div></div>
   <? show_menu(); ?>
   <!--<div id="loginpan"><ul><li><?=($loginned ? '<a href="map.html">Hind</a>' : '<a href="map.html">Вход</a>') ?></li> | <li><?=($loginned ? '<a href="map.html">Выход</a>' : '<a href="map.html">Регистрация</a>') ?></li></ul></div>-->
   <div class="toolbar">
