@@ -1,0 +1,1 @@
+﻿UPDATE search_osm SET c_geom=ST_Centroid(geom);
