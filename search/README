@@ -1,1 +1,11 @@
 search module
+
+run:
+  search_schema.sql
+  first_insert_search.sql
+  delete_out.sql
+  add_if_in.sql
+  split_housenumber.sql
+  add_point.sql
+  add__full_name.sql
+
