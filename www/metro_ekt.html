@@ -1,0 +1,84 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<head><title>База M  | Stud555</title>
+
+   <link rel="stylesheet" href="./css/style.css" type="text/css" />
+   <link rel="stylesheet" href="./css/style2.css" type="text/css" />
+<link rel="stylesheet" href="./css/leaflet.css" />
+<script src="./js/leaflet.js"></script>   
+  <script src="./js/urlfun.js"></script>
+  <script type="text/javascript">
+        var map;
+		
+		
+		
+        function init(){
+		    var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png',
+				cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
+				cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18, attribution: cloudmadeAttribution});
+			
+			var map = new L.Map('map');
+			map.setView(new L.LatLng(56.838, 60.612), 10).addLayer(cloudmade);
+
+
+
+
+var p1 = new L.LatLng(56.9008687,60.6141341),
+p2 = new L.LatLng(56.8887037,60.6132758),
+p3 = new L.LatLng(56.8772851,60.6121085),
+p4 = new L.LatLng(56.8579086,60.6003419),
+p5 = new L.LatLng(56.8476306,60.5994407),
+p6 = new L.LatLng(56.8368333,60.5992689),
+p7 = new L.LatLng(56.8267858,60.6025984),
+
+
+ polygonPoints = [p1, p2, p3, p4, p5, p6, p7],
+lineOptions = {color: '#848389', opacity: 0.7}, 
+polygon0 = new L.Polyline(polygonPoints, lineOptions);
+
+
+map.addLayer(polygon0);polygon0.bindPopup("Свердловская");
+var cL = new L.LatLng(56.9008687,60.6141341),
+circleOptions = {color: '#f03', opacity: 0.7},
+c1 = new L.Circle(cL, 30, circleOptions);
+c1.bindPopup("м. Проспект космонавтов");
+map.addLayer(c1);var cL = new L.LatLng(56.8887037,60.6132758),
+circleOptions = {color: '#f03', opacity: 0.7},
+c2 = new L.Circle(cL, 30, circleOptions);
+c2.bindPopup("м. Уралмаш");
+map.addLayer(c2);var cL = new L.LatLng(56.8772851,60.6121085),
+circleOptions = {color: '#f03', opacity: 0.7},
+c3 = new L.Circle(cL, 30, circleOptions);
+c3.bindPopup("м. Машиностроителей");
+map.addLayer(c3);var cL = new L.LatLng(56.8579086,60.6003419),
+circleOptions = {color: '#f03', opacity: 0.7},
+c4 = new L.Circle(cL, 30, circleOptions);
+c4.bindPopup("м. Уральская");
+map.addLayer(c4);var cL = new L.LatLng(56.8476306,60.5994407),
+circleOptions = {color: '#f03', opacity: 0.7},
+c5 = new L.Circle(cL, 30, circleOptions);
+c5.bindPopup("м. Динамо");
+map.addLayer(c5);var cL = new L.LatLng(56.8368333,60.5992689),
+circleOptions = {color: '#f03', opacity: 0.7},
+c6 = new L.Circle(cL, 30, circleOptions);
+c6.bindPopup("м. пл. 1905 года");
+map.addLayer(c6);var cL = new L.LatLng(56.8267858,60.6025984),
+circleOptions = {color: '#f03', opacity: 0.7},
+c7 = new L.Circle(cL, 30, circleOptions);
+c7.bindPopup("м. Геологическая");
+map.addLayer(c7);
+
+
+        }
+    </script>
+
+  </head>
+  <body onload="init()">
+    <div id="map" class="smallmap" style="height: 700px; margin-bottom: 18px"></div>	
+	
+Поехали!!!<br>
+	
+	
+	
+	</body>
+</html>
