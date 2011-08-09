@@ -1,0 +1,93 @@
+#!/usr/bin/python
+# -*- coding: utf8 -*-
+
+# search osm
+# ErshKUS
+
+from sphinxapi import *
+import cgi, sys, json
+
+host = 'localhost'
+port = 3312
+
+limit = 10
+
+q = ''
+mode = SPH_MATCH_ALL
+lat = 0
+lon = 0
+
+def main():
+  print "Content-type: text/javascript; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n"
+  #print "Content-type: application/json; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n"
+  values=cgi.FieldStorage()
+  q = values.getfirst("q","")
+  lat = float(values.getfirst("lat","0"))
+  lon = float(values.getfirst("lon","0"))
+  if not q:
+    print "no query words, 'q' is empty"
+    sys.exit(1)
+  
+  
+  cl = SphinxClient()
+  cl.SetServer ( host, port )
+  cl.SetMatchMode ( mode )
+    
+  if (lat and lon):
+    cl.SetGeoAnchor("lat", "lon", lat, lon)   
+    cl.SetSortMode ( SPH_SORT_EXTENDED, '@relevance desc' )
+    #cl.SetSortMode ( SPH_SORT_EXTENDED, '@geodist ASC @relevance desc' )
+    #cl.SetSortMode ( SPH_SORT_EXPR, '@weight/@geodist' )
+    #cl.SetSortMode ( SPH_SORT_EXTENDED, '@geodist ASC' )
+  else:
+    cl.SetSortMode ( SPH_SORT_RELEVANCE )
+    
+  #cl.SetFilterRange('@relevance', 10, 10000)
+  #cl.SetSelect ( "*, @expr AS myweight" )  
+  
+  if limit:
+    cl.SetLimits ( 0, limit, max(limit,1000) )
+        
+  res = cl.Query ( q )
+#  res = cl.Query ( q, '*' )
+	
+  if not res:
+    print 'query failed: %s' % cl.GetLastError()
+    sys.exit(2)
+
+  if cl.GetLastWarning():
+    print 'WARNING: %s\n' % cl.GetLastWarning()	
+
+  if not res['total_found']:
+    print 'no find'
+    sys.exit(0)
+  
+ # print res
+  if res.has_key('matches'):
+    outputdata=[]
+  #  print '\nMatches:'
+    for match in res['matches']:
+      #match['attrs']['name']=match['attrs']['name']
+      #print match
+    #ff.append('e')
+      outputlen=match['attrs']
+      outputlen['id']=match['id']
+      outputlen['weight']=match['weight']
+     
+      outputdata.append(outputlen)
+      
+      #print outputlen
+      #print outputlen['display_name']
+      #print outputlen['id']
+      #print outputlen['weight']
+      
+      #print 
+      #print 'ff'
+      #print '%d. id=%s, weight=%d%s' % (n, match['id'], match['weight'], attrsdump)
+  
+  #print outputdata
+
+  print json.dumps(outputdata)
+	
+	
+main()
