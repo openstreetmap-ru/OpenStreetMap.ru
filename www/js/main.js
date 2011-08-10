@@ -13,7 +13,7 @@ function init() {
   osm.leftpan.panel = document.getElementById('leftpan');
   osm.leftpan.content = document.getElementById('content');
   osm.mappan.panel = document.getElementById('mappan');
-  osm.input = document.getElementById('search');
+  osm.input = document.getElementById('qsearch');
 }
 
 osm.cpan.startPan = function(e) {
