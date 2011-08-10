@@ -99,8 +99,7 @@ search.search = function() {
   mapCenter=osm.map.getCenter();
   this.request = new XMLHttpRequest();
   //this.request.open('GET', 'http://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(osm.input.value) + '&format=json');
-  this.request.open('GET', 'http://mycraft.dyndns.info/api/search?q=' + encodeURIComponent(osm.input.value) + '&lat=' + mapCenter.lat + '&lon=' + mapCenter.lng);
-  //this.request.open('GET', 'http://192.168.1.6/api/search?q=' + encodeURIComponent(osm.input.value) + '&lat=' + mapCenter.lat + '&lon=' + mapCenter.lng);
+  this.request.open('GET', '/api/search?q=' + encodeURIComponent(osm.input.value) + '&lat=' + mapCenter.lat + '&lon=' + mapCenter.lng);
   this.request.onreadystatechange = function(){search.processResults(this)};
   this.request.send(null);
   return false;
