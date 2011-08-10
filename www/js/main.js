@@ -14,6 +14,8 @@ function init() {
   osm.leftpan.content = document.getElementById('content');
   osm.mappan.panel = document.getElementById('mappan');
   osm.input = document.getElementById('qsearch');
+  osm.search_marker = new L.LayerGroup();
+  osm.map.addLayer(osm.search_marker);
 }
 
 osm.cpan.startPan = function(e) {
@@ -79,9 +81,10 @@ search.processResults = function() {
       if (this.request.status == 200) {
         var results = eval('(' + this.request.responseText + ')');
         var content = '<ol>';
+        osm.search_marker.clearLayers();
         for (var i in results) {
           content += ('<li><a href="" onClick="osm.map.setView(new L.LatLng(' + results[i].lat + ',' + results[i].lon + '), 12); return false;">' + results[i].display_name + '</a></li>');
-          osm.map.addLayer(new L.Marker(new L.LatLng(results[i].lat, results[i].lon)));
+          osm.search_marker.addLayer(new L.Marker(new L.LatLng(results[i].lat, results[i].lon)));
         }
         content += '</ol>';
         osm.leftpan.content.innerHTML = content;
