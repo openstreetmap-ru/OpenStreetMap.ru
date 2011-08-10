@@ -7,7 +7,7 @@ function setView(position) {
 
 function init() {
   var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: 'Map data &copy; OpenStreetMap contributors'});
-  osm.map = new L.Map('map', {zoomControl: false, center: new L.LatLng(62.0, 88.0), zoom: (document.width > 1200 ? 3 : 2), layers: [layer]});
+  osm.map = new L.Map('map', {zoomControl: true, center: new L.LatLng(62.0, 88.0), zoom: (document.width > 1200 ? 3 : 2), layers: [layer]});
   osm.cpan.joy = document.getElementById('cpanjoy');
   osm.cpan.arrows = document.getElementById('cpanarr');
   osm.leftpan.panel = document.getElementById('leftpan');
@@ -80,7 +80,7 @@ search.processResults = function() {
     if (this.request.readyState == 4) {
       if (this.request.status == 200) {
         var results = eval('(' + this.request.responseText + ')');
-        var content = '<ol>';
+        var content = '<ol id="ol-search_result">';
         osm.search_marker.clearLayers();
         for (var i in results) {
           content += ('<li><a href="" onClick="osm.map.setView(new L.LatLng(' + results[i].lat + ',' + results[i].lon + '), 12); return false;">' + results[i].display_name + '</a></li>');

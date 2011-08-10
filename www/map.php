@@ -7,8 +7,10 @@ include_once ('include/functions.php');
 <title>OpenStreetMap Россия — <?=$pages[$page]['name'] ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="css/main.css" type="text/css" media="screen, projection" />
-<link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.css" />
-<script src="http://leaflet.cloudmade.com/dist/leaflet.js"></script>
+<!--<link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.css" />-->
+<link rel="stylesheet" href="css/leaflet.css" />
+<!--<script src="http://leaflet.cloudmade.com/dist/leaflet.js"></script>-->
+<script src="js/leaflet.js"></script>
 <!--[if lte IE 8]><link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.ie.css" /><![endif]-->
 <script type="text/javascript" src="js/main.js"></script>
 </head>

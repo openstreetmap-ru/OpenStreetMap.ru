@@ -343,6 +343,10 @@ button:active {
   text-decoration: underline;
 }
 
+#ol-search_result a {
+  color: #3399DD;
+}
+
 /*
  * Map controls
  */
@@ -351,8 +355,8 @@ button:active {
   width: 87px;
   height: 87px;
   position: absolute;
-  left: 10px;
-  top: 10px;
+  /*left: 10px;
+  top: 10px;*/
   z-index: 3;
 }
 
@@ -448,4 +452,8 @@ button:active {
   -o-box-shadow: none !important;
   box-shadow: none !important;
   background-color: inherit !important
+}
+.leaflet-control-zoom {
+  margin-left: 29px !important;
+  margin-top: 80px !important;
 }
