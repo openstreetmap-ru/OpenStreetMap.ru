@@ -82,9 +82,18 @@ search.processResults = function() {
         var results = eval('(' + this.request.responseText + ')');
         var content = '<ol id="ol-search_result">';
         osm.search_marker.clearLayers();
+        var MyIcon = L.Icon.extend({
+            iconUrl: '../img/marker-search.png',
+            shadowUrl: '../img/marker-search-shadow.png',
+            iconSize: new L.Point(33, 46),
+            shadowSize: new L.Point(47, 46),
+            iconAnchor: new L.Point(17, 50),
+            popupAnchor: new L.Point(-8, -50)
+        });
+        var icon = new MyIcon();
         for (var i in results) {
           content += ('<li><a href="" onClick="osm.map.setView(new L.LatLng(' + results[i].lat + ',' + results[i].lon + '), 12); return false;">' + results[i].display_name + '</a></li>');
-          osm.search_marker.addLayer(new L.Marker(new L.LatLng(results[i].lat, results[i].lon)));
+          osm.search_marker.addLayer(new L.Marker(new L.LatLng(results[i].lat, results[i].lon),{icon: icon}));
         }
         content += '</ol>';
         osm.leftpan.content.innerHTML = content;
