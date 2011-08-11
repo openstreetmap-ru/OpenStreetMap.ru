@@ -93,7 +93,9 @@ search.processResults = function() {
         var icon = new MyIcon();
         for (var i in results) {
           content += ('<li><a href="" onClick="osm.map.setView(new L.LatLng(' + results[i].lat + ',' + results[i].lon + '), 12); return false;">' + results[i].display_name + '</a></li>');
-          osm.search_marker.addLayer(new L.Marker(new L.LatLng(results[i].lat, results[i].lon),{icon: icon}));
+          marker = new L.Marker(new L.LatLng(results[i].lat, results[i].lon),{icon: icon});
+          marker.bindPopup("<b>Адрес:</b><br /> " + results[i].display_name);
+          osm.search_marker.addLayer(marker);
         }
         content += '</ol>';
         osm.leftpan.content.innerHTML = content;
