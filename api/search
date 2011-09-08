@@ -9,11 +9,11 @@ import cgi, sys, json
 
 host = 'localhost'
 port = 3312
-
-limit = 10
-
+limit = 21
 q = ''
-mode = SPH_MATCH_ALL
+#mode = SPH_MATCH_ALL
+#mode = SPH_MATCH_ANY
+mode=SPH_MATCH_EXTENDED2
 lat = 0
 lon = 0
 
@@ -32,62 +32,46 @@ def main():
   cl = SphinxClient()
   cl.SetServer ( host, port )
   cl.SetMatchMode ( mode )
-    
+  
+  cl.SetRankingMode(SPH_RANK_SPH04)
+  #cl.SetFieldWeights ({'region':10, 'district2':100, 'city2':1000, 'village2':10000, 'street2':100000, 'housenumber2':1000000})
+  
   if (lat and lon):
-    cl.SetGeoAnchor("lat", "lon", lat, lon)   
-    cl.SetSortMode ( SPH_SORT_EXTENDED, '@relevance desc' )
-    #cl.SetSortMode ( SPH_SORT_EXTENDED, '@geodist ASC @relevance desc' )
+    cl.SetGeoAnchor("lat", "lon", lat, lon)
+    cl.SetSortMode ( SPH_SORT_EXTENDED, '@weight desc @geodist ASC' )
     #cl.SetSortMode ( SPH_SORT_EXPR, '@weight/@geodist' )
-    #cl.SetSortMode ( SPH_SORT_EXTENDED, '@geodist ASC' )
   else:
-    cl.SetSortMode ( SPH_SORT_RELEVANCE )
-    
+    cl.SetSortMode ( SPH_SORT_EXTENDED, '@weight desc' )
+  
   #cl.SetFilterRange('@relevance', 10, 10000)
-  #cl.SetSelect ( "*, @expr AS myweight" )  
+  #cl.SetSelect ( "*, @expr AS myweight" )
   
   if limit:
     cl.SetLimits ( 0, limit, max(limit,1000) )
-        
+  
+  q = q.replace("-","\-")
+
   res = cl.Query ( q )
-#  res = cl.Query ( q, '*' )
 	
   if not res:
     print 'query failed: %s' % cl.GetLastError()
     sys.exit(2)
 
   if cl.GetLastWarning():
-    print 'WARNING: %s\n' % cl.GetLastWarning()	
+    print 'WARNING: %s\n' % cl.GetLastWarning()
 
   if not res['total_found']:
     print 'no find'
     sys.exit(0)
   
- # print res
   if res.has_key('matches'):
     outputdata=[]
-  #  print '\nMatches:'
     for match in res['matches']:
-      #match['attrs']['name']=match['attrs']['name']
-      #print match
-    #ff.append('e')
       outputlen=match['attrs']
       outputlen['id']=match['id']
-      outputlen['weight']=match['weight']
-     
+      outputlen['weight']=match['weight']     
       outputdata.append(outputlen)
       
-      #print outputlen
-      #print outputlen['display_name']
-      #print outputlen['id']
-      #print outputlen['weight']
-      
-      #print 
-      #print 'ff'
-      #print '%d. id=%s, weight=%d%s' % (n, match['id'], match['weight'], attrsdump)
-  
-  #print outputdata
-
   print json.dumps(outputdata)
-	
-	
+  
 main()
