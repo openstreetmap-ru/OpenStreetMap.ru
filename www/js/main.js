@@ -97,6 +97,7 @@ search.processResults = function() {
           marker.bindPopup("<b>Адрес:</b><br /> " + results[i].display_name);
           osm.search_marker.addLayer(marker);
         }
+		osm.map.setView(new L.LatLng(results[0].lat , results[0].lon), 11);
         content += '</ol>';
         osm.leftpan.content.innerHTML = content;
       }
