@@ -12,10 +12,14 @@ function init() {
   osm.cpan.arrows = document.getElementById('cpanarr');
   osm.leftpan.panel = document.getElementById('leftpan');
   osm.leftpan.content = document.getElementById('content');
+  osm.permalink = document.getElementById('permalink');
   osm.mappan.panel = document.getElementById('mappan');
   osm.input = document.getElementById('qsearch');
   osm.search_marker = new L.LayerGroup();
   osm.map.addLayer(osm.search_marker);
+  osm.map.on('dragend',osm.onPermalink);
+  osm.map.on('zoomend',osm.onPermalink);
+  osm.onPermalink();
 }
 
 osm.cpan.startPan = function(e) {
@@ -79,32 +83,37 @@ search.processResults = function() {
   try {
     if (this.request.readyState == 4) {
       if (this.request.status == 200) {
-        var results = eval('(' + this.request.responseText + ')');
-        var content = '<ol id="ol-search_result">';
-        osm.search_marker.clearLayers();
-        var MyIcon = L.Icon.extend({
-            iconUrl: '../img/marker-search.png',
-            shadowUrl: '../img/marker-search-shadow.png',
-            iconSize: new L.Point(33, 46),
-            shadowSize: new L.Point(47, 46),
-            iconAnchor: new L.Point(17, 50),
-            popupAnchor: new L.Point(-8, -50)
-        });
-        var icon = new MyIcon();
-        for (var i in results) {
-          content += ('<li><a href="" onClick="osm.map.setView(new L.LatLng(' + results[i].lat + ',' + results[i].lon + '), 16); return false;">' + results[i].display_name + '</a></li>');
-          marker = new L.Marker(new L.LatLng(results[i].lat, results[i].lon),{icon: icon});
-          marker.bindPopup("<b>Адрес:</b><br /> " + results[i].display_name);
-          osm.search_marker.addLayer(marker);
+        if (this.request.responseText == 'no find\n') {
+          osm.leftpan.content.innerHTML='Не найдено';
         }
-		osm.map.setView(new L.LatLng(results[0].lat , results[0].lon), 11);
-        content += '</ol>';
-        osm.leftpan.content.innerHTML = content;
+        else {
+          var results = eval('(' + this.request.responseText + ')');
+          var content = '<ol id="ol-search_result">';
+          osm.search_marker.clearLayers();
+          var MyIcon = L.Icon.extend({
+            iconUrl: '../img/marker.png',
+            shadowUrl: '../img/marker-shadow.png',
+            iconSize: new L.Point(18, 29),
+            shadowSize: new L.Point(29, 29),
+            iconAnchor: new L.Point(8, 29),
+            popupAnchor: new L.Point(-8, -50)
+          });
+          var icon = new MyIcon();
+          for (var i in results) {
+              content += ('<li><a href="" onClick="osm.map.setView(new L.LatLng(' + results[i].lat + ',' + results[i].lon + '), 16); return false;">' + results[i].display_name + '  id='+results[i].id+'  weight='+results[i].weight+'</a></li>');
+            marker = new L.Marker(new L.LatLng(results[i].lat, results[i].lon),{icon: icon});
+            marker.bindPopup("<b>Адрес:</b><br /> " + results[i].display_name);
+            osm.search_marker.addLayer(marker);
+          }
+          osm.map.setView(new L.LatLng(results[0].lat , results[0].lon), 11);
+          content += '</ol>';
+          osm.leftpan.content.innerHTML = content;
+        }
       }
     }
   }
-  catch( e ) {
-      osm.leftpan.content.innerHTML = 'Ошибка: ' + e.description;
+  catch(e) {
+      osm.leftpan.content.innerHTML = 'Ошибка: ' + e.description + '<br /> Ответ поиск.серв.: '+this.request.responseText;
   }
 };
 
@@ -123,3 +132,8 @@ search.search = function() {
 osm.ui.whereima = function() {
   navigator.geolocation.getCurrentPosition(setView);
 };
+
+osm.onPermalink = function () {
+  mapCenter=osm.map.getCenter();
+  osm.permalink.href = 'http://' + location.host + '?lat=' + mapCenter.lat + '&lon=' + mapCenter.lng + '&zoom=' + osm.map._zoom;
+ };

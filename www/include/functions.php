@@ -10,4 +10,15 @@ function show_menu() {
   echo '</ul></div>';
 }
 
+function setPermalink() {
+  $lat=$_GET['lat'];
+  $lon=$_GET['lon'];
+  $zoom=$_GET['zoom'];
+  settype($lat,"float");
+  settype($lon,"float");
+  settype($zoom,"float");
+  if ($lat<>0 or $lon<>0 and $zoom<>0)
+    print(" osm.map.setView(new L.LatLng(".$lat.",".$lon."), ".$zoom.");");
+}
+
 ?>

@@ -15,7 +15,7 @@ include_once ('include/functions.php');
 <script type="text/javascript" src="js/main.js"></script>
 </head>
 
-<body onload="init()">
+<body onload="init();<?php setPermalink(); ?>">
 <div id="toppan">
   <a href="/"><div id="logo"></div></a><div id="header"><header>OpenStreetMap</header></div>
   <div id="searchcont"><div id="searchpan"><form id="search" onsubmit="search.search(); return false;" method="get" action="/"><table style="width:100%;"><tr>
@@ -31,7 +31,7 @@ include_once ('include/functions.php');
   <div class="toolbar">
     <div class="rightalign">
       <button><img src="img/ui-print.png"></button>
-      <button><img src="img/ui-link.png"></button>
+      <a href='' id='permalink'><button><img src="img/ui-link.png"></button></a>
     </div>
   </div>
 </div>
@@ -41,7 +41,7 @@ include_once ('include/functions.php');
       <ul>
         <br>
         <li><span class="pseudolink" onClick="osm.ui.whereima()">Найти меня</span></li>
-        <li><span class="pseudolink" onClick="osm.ui.whereima()">Проложить маршрут</span></li>
+        <li>Проложить маршрут</li>
       </ul>
     </div>
     <div id="toggler" onClick="osm.leftpan.toggle()"></div>
