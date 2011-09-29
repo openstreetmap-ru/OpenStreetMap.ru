@@ -1,13 +1,24 @@
-var osm = {cpan: {}, leftpan: {on: true}, mappan: {}, ui: {}};
+var osm = {cpan: {}, leftpan: {on: true}, mappan: {}, ui: {}, layers:{}};
 var search = {};
+//var osbpopup = new L.Popup();
 
 function setView(position) {
   osm.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 10);
 }
 
 function init() {
-  var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: 'Map data &copy; OpenStreetMap contributors'});
-  osm.map = new L.Map('map', {zoomControl: true, center: new L.LatLng(62.0, 88.0), zoom: (document.width > 1200 ? 3 : 2), layers: [layer]});
+  osm.layers.layerOSM = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: 'Map data &copy; OpenStreetMap contributors'});
+  osm.map = new L.Map('map', {zoomControl: true, center: new L.LatLng(62.0, 88.0), zoom: (document.width > 1200 ? 3 : 2), layers: [osm.layers.layerOSM]});
+  osm.layers.osb = new L.osb();
+  osm.map.addLayer(osm.layers.osb);
+  osm.layers.search_marker = new L.LayerGroup();
+  osm.map.addLayer(osm.layers.search_marker);
+  
+	osm.map.doubleClickZoom.disable();
+	osm.map.on('dblclick', osm.layers.osb.OSBonMapDbClick);
+	osm.osbpopup = new L.Popup();
+  
+  osm.map.addControl(new L.Control.Layers({'OSM':osm.layers.layerOSM}, {'отметки поиска':osm.layers.search_marker, 'Bugs':osm.layers.osb}));
   osm.cpan.joy = document.getElementById('cpanjoy');
   osm.cpan.arrows = document.getElementById('cpanarr');
   osm.leftpan.panel = document.getElementById('leftpan');
@@ -15,8 +26,6 @@ function init() {
   osm.permalink = document.getElementById('permalink');
   osm.mappan.panel = document.getElementById('mappan');
   osm.input = document.getElementById('qsearch');
-  osm.search_marker = new L.LayerGroup();
-  osm.map.addLayer(osm.search_marker);
   osm.map.on('dragend',osm.onPermalink);
   osm.map.on('zoomend',osm.onPermalink);
   osm.onPermalink();

@@ -11,6 +11,7 @@ include_once ('include/functions.php');
 <link rel="stylesheet" href="css/leaflet.css" />
 <!--<script src="http://leaflet.cloudmade.com/dist/leaflet.js"></script>-->
 <script src="js/leaflet.js"></script>
+<script src="js/osb.js"></script>
 <!--[if lte IE 8]><link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.ie.css" /><![endif]-->
 <script type="text/javascript" src="js/main.js"></script>
 </head>
