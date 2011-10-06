@@ -2,6 +2,17 @@
 function show_menu($current = '', $level = 0) {
   $result = mysql_query('SELECT * FROM pagedata WHERE level<='.$level);
 
+  echo '<div id="menupan"><div id="menuback"></div><table><tr>';
+  $menu = array();
+  while ($row = mysql_fetch_assoc($result))
+    $menu[] = ($current == $row['name'] ? '<td><div class="current">'.$row['text'].'</div></td>' : '<td><a href="'.$row['name'].'.htm"><div>'.$row['text'].'</div></a></td>');
+  echo implode($menu);
+  echo '</tr></table></div>';
+}
+
+function show_menu_old($current = '', $level = 0) {
+  $result = mysql_query('SELECT * FROM pagedata WHERE level<='.$level);
+
   echo '<div id="menupan"><ul>';
   $menu = array();
   while ($row = mysql_fetch_assoc($result))

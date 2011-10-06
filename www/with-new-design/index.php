@@ -14,7 +14,7 @@ if (!file_exists($data['name'].'.php'))
 <!doctype html>
 <html>
 <head>
-<title>OpenStreetMap Россия — <?=$pages[$page]['name'] ?></title>
+<title>OpenStreetMap Россия — <?=$data['text'] ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="css/main.css" type="text/css" media="screen, projection" />
 <!--<link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.css" />-->

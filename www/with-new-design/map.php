@@ -1,5 +1,5 @@
 <div id="toppan">
-  <a id="logo" href="/"><div></div></a>
+  <a href="/"><div id="logo"></div></a>
   <div id="searchcont"><div id="searchpan"><form id="search" onsubmit="search.search(); return false;" method="get" action="/"><table style="width:100%;"><tr>
     <td>
       <input id="qsearch" autocomplete="off" type="search"  />
@@ -23,17 +23,18 @@
   </div>
   <div id="mappan">
     <div id="map"></div>
+    <div id="fsbutton" onClick="osm.ui.togglefs()">&uarr;</div>
     <div id="cpan">
       <img id="cpanglo" src="img/glow.png" />
       <img id="cpanarr" src="img/arrows.png" />
       <img id="cpanjoy" src="img/joy.png" />
       <div id="cpanact" onmousedown="osm.cpan.startPan(event)" onmousemove="osm.cpan.dragPan(event)" onmouseup="osm.cpan.endPan(event)" onmouseout="osm.cpan.endPan(event)"></div>
     </div>
-    <div class="vshadow">
+    <!--<div class="vshadow">
       <div class="w1"></div><div class="w2"></div><div class="w3"></div><div class="w4"></div><div class="w5"></div>
     </div>
     <div class="hshadow">
       <div class="h1"></div><div class="h2"></div><div class="h3"></div><div class="h4"></div><div class="h5"></div>
-    </div>
+    </div>-->
   </div>
 </div>

@@ -1,4 +1,4 @@
-var osm = {cpan: {}, leftpan: {on: true}, mappan: {}, ui: {}};
+var osm = {cpan: {}, leftpan: {on: false}, mappan: {}, ui: {fs: false}};
 var search = {};
 
 function setView(position) {
@@ -6,8 +6,12 @@ function setView(position) {
 }
 
 function init() {
+  var w;
+  if (self.innerHeight) w = self.innerWidth;
+  else if (document.documentElement && document.documentElement.clientHeight) w = document.documentElement.clientWidth;
+  else if (document.body) w = document.body.clientWidth;
   var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: 'Map data &copy; OpenStreetMap contributors'});
-  osm.map = new L.Map('map', {zoomControl: true, center: new L.LatLng(62.0, 88.0), zoom: (document.width > 1200 ? 3 : 2), layers: [layer]});
+  osm.map = new L.Map('map', {zoomControl: true, center: new L.LatLng(62.0, 88.0), zoom: (w > 1200 ? 4 : 3), layers: [layer]});
   osm.cpan.joy = document.getElementById('cpanjoy');
   osm.cpan.arrows = document.getElementById('cpanarr');
   osm.leftpan.panel = document.getElementById('leftpan');
@@ -121,4 +125,16 @@ search.search = function() {
 
 osm.ui.whereima = function() {
   navigator.geolocation.getCurrentPosition(setView);
+};
+
+osm.ui.togglefs = function() {
+  if (osm.ui.fs) {
+    document.body.className = '';
+    document.getElementById('fsbutton').innerHTML = '&uarr;';
+  }
+  else {
+    document.body.className = 'fs';
+    document.getElementById('fsbutton').innerHTML = '&darr;';
+  }
+  osm.ui.fs = !osm.ui.fs;
 };
