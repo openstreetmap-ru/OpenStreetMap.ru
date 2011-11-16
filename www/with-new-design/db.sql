@@ -12,8 +12,8 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 # Dumping database structure for web_osm
-CREATE DATABASE IF NOT EXISTS `web_osm` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `web_osm`;
+#CREATE DATABASE IF NOT EXISTS `web_osm` /*!40100 DEFAULT CHARACTER SET utf8 */;
+#USE `web_osm`;
 
 
 # Dumping structure for table web_osm.pagedata

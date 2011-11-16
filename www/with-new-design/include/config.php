@@ -2,8 +2,8 @@
 Header('Content-Type: text/html; charset=UTF-8');
 setlocale(LC_ALL, 'ru_RU.UTF-8');
 
-include_once ('/include/passwd.php');
-include_once ('/include/functions.php');
+include_once ('passwd.php');
+include_once ('functions.php');
 
 mysql_connect($mysql_host, $mysql_user, $mysql_pass) or die(Err500());
 mysql_query('SET CHARACTER SET utf8');
