@@ -23,7 +23,7 @@ function show_menu_old($current = '', $level = 0) {
 
 function err404($code=0) {
   header("Status: 404 Not Found");
-  include_once 'include/404.php';
+  include_once '404.php';
   exit();
 }
 
