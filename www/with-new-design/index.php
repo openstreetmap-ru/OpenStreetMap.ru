@@ -20,6 +20,7 @@ if (!file_exists($data['name'].'.php'))
 <link rel="stylesheet" href="css/main_small.css" type="text/css" media="handheld, only screen and (max-device-width:800px)" />
 <!--<link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.css" />-->
 <link rel="stylesheet" href="css/leaflet.css" />
+<link rel="search" href="search.xml" type="application/opensearchdescription+xml" title="Поиск в OpenStreetMap.Ru" />
 <!--<script src="http://leaflet.cloudmade.com/dist/leaflet.js"></script>-->
 <script src="js/leaflet.js"></script>
 <!--[if lte IE 8]><link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.ie.css" /><![endif]-->

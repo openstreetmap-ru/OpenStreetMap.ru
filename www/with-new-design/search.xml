@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+  <ShortName>OpenStreetMap.Ru</ShortName>
+  <LongName>Поиск в OpenStreetMap.Ru</LongName>
+  <Description>Поиск на карте OpenStreetMap</Description>
+  <InputEncoding>UTF-8</InputEncoding>
+  <OutputEncoding>UTF-8</OutputEncoding>
+  <Image width="16" height="16">data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAACXBIWXMAAAinAAAIpwEyxgIDAAAAYFBMVEUAAAA0MjZzdl90rd1/kG6LnoKNuOCQuomWpYiaz4Gbqp6cdXyeuIWex+iryZWu4pG5y7e83Z2/56fK26bM6KrP6czQ7bTU8rbV4rXV8bvY97/Y+LzahI7t9/zvhIr1uL5WeJg2AAAAAXRSTlMAQObYZgAAAIZJREFUeNptz9EOgyAMhWGrG2i3QaGg6Ka+/1uuQNhu/O/Ol4aE7qLtX9k68LJ6a4ioCYfZG9olkXoSHO6lCmty+JLUMFDey8wWVdkVNDuPSskWaI/i4/hIZ4NIIsdx4lYhjT1gjipsI8CYnHlOroLsnmNKbprKvgPcmN9xsVZ3OQD96+LvX3c2CudKmPv6AAAAAElFTkSuQmCC</Image>
+  <Url type="text/html" method="post" template="http://openstreetmap.ru/">
+    <Param name="q" value="{searchTerms}"/>
+  </Url>
+  <Query role="example" searchTerms="Москва, Таймырская ул., д. 6" />
+  <Developer>Hind</Developer>
+  <AdultContent>false</AdultContent>
+  <Attribution>Data &amp;copy; OpenStreetMap contributors, Some Rights Reserved. CC by-sa 2.0. Geolocation provided by openstreemap.ru.</Attribution>
+</OpenSearchDescription>
