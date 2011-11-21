@@ -19,7 +19,7 @@ background:transparent url(/img/v1/bg.jpg) 90% 10px no-repeat;
 }
 
 #container {
-width:990px;
+width:745px;
 margin:0 auto;
 }
 
@@ -44,7 +44,7 @@ font:18px Georgia, serif;
 /* welcome */
 
 #welcome {
-margin:10px 0 40px 130px;
+margin:20px 0 40px;
 }
 
 #welcome p {
