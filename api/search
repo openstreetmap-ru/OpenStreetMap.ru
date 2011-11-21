@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/local/bin/python
 # -*- coding: utf8 -*-
 
 # search osm
@@ -9,13 +9,16 @@ import cgi, sys, json
 
 host = 'localhost'
 port = 3312
-limit = 21
+limit = 12
 q = ''
-#mode = SPH_MATCH_ALL
-#mode = SPH_MATCH_ANY
+
 mode=SPH_MATCH_EXTENDED2
 lat = 0
 lon = 0
+accuracy = False
+
+output={}
+output['ver']='0.5'
 
 def main():
   print "Content-type: text/javascript; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n"
@@ -24,6 +27,8 @@ def main():
   q = values.getfirst("q","")
   lat = float(values.getfirst("lat","0"))
   lon = float(values.getfirst("lon","0"))
+  accuracy = bool(values.getfirst("accuracy",""))
+  output['search']=q
   if not q:
     print "no query words, 'q' is empty"
     sys.exit(1)
@@ -34,7 +39,6 @@ def main():
   cl.SetMatchMode ( mode )
   
   cl.SetRankingMode(SPH_RANK_SPH04)
-  #cl.SetFieldWeights ({'region':10, 'district2':100, 'city2':1000, 'village2':10000, 'street2':100000, 'housenumber2':1000000})
   
   if (lat and lon):
     cl.SetGeoAnchor("lat", "lon", lat, lon)
@@ -50,6 +54,7 @@ def main():
     cl.SetLimits ( 0, limit, max(limit,1000) )
   
   q = q.replace("-","\-")
+  q = q.replace("/","\/")
 
   res = cl.Query ( q )
 	
@@ -61,17 +66,24 @@ def main():
     print 'WARNING: %s\n' % cl.GetLastWarning()
 
   if not res['total_found']:
-    print 'no find'
-    sys.exit(0)
+    output['find']=0
+    return
   
   if res.has_key('matches'):
+    output['find']=1
+    output['accuracy_find']=0
     outputdata=[]
+    weight_min=(res['matches'][0]['weight']-100)
     for match in res['matches']:
-      outputlen=match['attrs']
-      outputlen['id']=match['id']
-      outputlen['weight']=match['weight']     
-      outputdata.append(outputlen)
       
-  print json.dumps(outputdata)
+      if (not accuracy) or (accuracy and match['weight']>weight_min) :
+        outputlen=match['attrs']
+        outputlen['id']=match['id']
+        outputlen['weight']=match['weight']     
+        outputdata.append(outputlen)
+        output['accuracy_find']=1
+      
+  output['matches']=outputdata
   
 main()
+print json.dumps(output)

@@ -1,6 +1,0 @@
-DirectoryIndex index.php
-ErrorDocument 403 /include/404.php
-ErrorDocument 404 /include/404.php
-
-RewriteEngine on
-RewriteRule ^([-_a-z0-9]+)\.htm$ index.php?name=$1 [L]
