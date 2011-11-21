@@ -1,0 +1,210 @@
+
+#container * {
+margin:0;
+/*padding:0;*/
+border:0;
+}
+
+#container a {
+color:#447BC4;
+text-decoration:none;
+}
+
+#container a:hover {
+text-decoration:underline;
+}
+
+body {
+background:transparent url(/img/v1/bg.jpg) 90% 10px no-repeat;
+}
+
+#container {
+width:990px;
+margin:0 auto;
+}
+
+#header1 {
+margin:90px 0 0 80px;
+background:transparent url(/img/v1/logo_osm.png) top left no-repeat;
+height:100px;
+}
+
+#header1 h1 {
+font:33px Georgia, serif;
+padding:10px 0 5px 100px;
+color:#000;
+text-decoration:none;
+}
+
+#header1 p {
+padding:0 0 0 100px;
+font:18px Georgia, serif;
+}
+
+/* welcome */
+
+#welcome {
+margin:10px 0 40px 130px;
+}
+
+#welcome p {
+font:14px Georgia;
+line-height:150%;
+}
+
+/* wherenext */
+
+#wherenext {
+overflow:hidden;
+zoom:1;
+list-style:none;
+margin:30px 0 0 0;
+}
+
+#wherenext li {
+list-style:none;
+width:200px;
+height:425px;
+margin-right:17px;
+float:left;
+-moz-border-radius:15px;
+border-radius:15px;
+background-color:#EEE;
+padding:10px 15px 10px 15px;
+}
+
+#wherenext li h2 {
+font:italic 23px Georgia;
+margin:0 0 10px 0;
+}
+
+#wherenext li p {
+font:15px Georgia;
+color:#333;
+line-height:130%;
+margin:0 0 7px 0;
+}
+
+#wherenext li ul {
+list-style:disc;
+margin:0 0 7px 25px;
+}
+
+#wherenext li ul li {
+list-style:disc;
+margin:0 0 7px 0;
+font:14px Georgia;
+-moz-border-radius:0;
+border-radius:0;
+padding:0;
+width:100%;
+height:auto;
+background-color:transparent;
+}
+
+#wherenext li ul.programms {
+list-style:none;
+margin:0 0 7px 0;
+overflow:hidden;
+zoom:1;
+}
+
+#wherenext li ul.programms li {
+list-style:none;
+margin:0 5px 5px 0;
+width:88px;
+height:33px;
+font:14px Georgia;
+float:left;
+background-color:#FFF;
+border-radius:3px;
+-moz-border-radius:3px;
+padding:3px;
+}
+
+#wherenext li ul.programms li.p1 img {
+margin:2px 0 0 0;
+}
+
+#wherenext li ul.programms li.p2 img {
+margin:0 0 0 3px;
+}
+
+#wherenext li ul.programms li.p3 img {
+margin:6px 0 0 1px;
+}
+
+#wherenext li ul.programms li.p4 img {
+margin:0 0 0 12px;
+}
+
+#wherenext li ul.programms li.p5 img {
+margin: 2px 0 0;
+}
+
+#wherenext li ul.programms li.p6 img {
+margin: 6px 4px 0;
+}
+
+#wherenext li ul.programms li.p7 img {
+margin: 6px 0 0;
+}
+
+#wherenext li.look {
+background-color:#FDD;
+}
+
+#wherenext li.create {
+background-color:#DFD;
+}
+
+#wherenext li.use {
+background-color:#DDF;
+}
+
+#wherenext li.join {
+background-color:#FFB;
+}
+
+.search_city {
+margin-top:10px;
+padding:0;
+}
+
+.search_city select {
+font:14px Georgia, serif;
+width:95%;
+padding:5px 5px;
+background-color:#FFF;
+border-radius:6px;
+-moz-border-radius:6px;
+margin-bottom:10px;
+}
+
+#go-link {
+border-radius:6px;
+-moz-border-radius:6px;
+background-color:#FCC;
+font:14px Georgia, serif;
+padding:3px 8px;
+margin-top:5px;
+color:#555 !important;
+border:2px solid #ffc0c0;
+}
+
+#go-link:hover {
+background-color:#ffAAAA;
+text-decoration:none;
+color:#333;
+border:2px solid #ffc0c0;
+}
+
+#go p {
+font:italic 22px Georgia, serif;
+color:#333;
+}
+
+#go {
+margin:30px 0 100px 150px;
+}
+
