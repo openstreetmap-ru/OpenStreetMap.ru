@@ -23,6 +23,9 @@ function init() {
   osm.input = document.getElementById('qsearch');
   osm.search_marker = new L.LayerGroup();
   osm.map.addLayer(osm.search_marker);
+  
+  osm.map.addControl(new L.Control.Permalink());
+  
   search.inLoad();
 }
 

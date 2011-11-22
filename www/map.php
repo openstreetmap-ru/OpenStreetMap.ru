@@ -3,6 +3,7 @@ $page_logo = "/img/logo.png";
 
 $page_head = <<<PHP_HEAD
   <script type="text/javascript" src="js/map.js"></script>
+  <script type="text/javascript" src="js/Control.Permalink.js"></script>
 PHP_HEAD;
 
 $page_toopbar = <<<PHP_TOOLBAR
