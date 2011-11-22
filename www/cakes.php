@@ -5,6 +5,9 @@ $page_head = <<<PHP_HEAD
 	<link href="css/v1/styles.css" type="text/css" rel="stylesheet">
 PHP_HEAD;
 
+$page_toopbar = <<<PHP_TOOLBAR
+PHP_TOOLBAR;
+
 $page_content = <<<PHP_CONTENT
 
 <div id="container">

@@ -29,7 +29,7 @@ include_once ($_URL[0].'.php');
   <link rel="stylesheet" href="css/main_small.css" type="text/css" media="handheld, only screen and (max-device-width:800px)" />
   <link rel="stylesheet" href="css/leaflet.css" />
   <script src="js/leaflet.js"></script>
-  <!--[if lte IE 8]><link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.ie.css" /><![endif]-->
+  <!--[if lte IE 8]><link rel="stylesheet" href="css/leaflet.ie.css" /><![endif]-->
   <script type="text/javascript" src="js/main.js"></script>
   <link rel="icon" type="image/png" href="/favicon.png" />
   <? print($external_head); ?>
