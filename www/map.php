@@ -54,10 +54,4 @@ $page_content = <<<PHP_CONTENT
   </div>
 </body>
 PHP_CONTENT;
-
 ?>
-
-
-
-
-

@@ -1,17 +1,13 @@
 <?
 $page_logo = "/img/logo-cakes.png";
 
-$page_content = <<<PHP_CONTENT
-<head>
-	<title>OpenStreetMap — Россия</title>	
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+$page_head = <<<PHP_HEAD
 	<link href="css/v1/styles.css" type="text/css" rel="stylesheet">
-</head>
-<body>
+PHP_HEAD;
+
+$page_content = <<<PHP_CONTENT
 
 <div id="container">
-
-
   
 	<div id="welcome">
 		<p>Добро пожаловать на сайт «OpenStreetMap — Россия», российскую часть проекта <a href="http://osm.org">OpenStreetMap</a> (OSM).<br/>
@@ -57,9 +53,7 @@ $page_content = <<<PHP_CONTENT
 				<li><a href="http://forum.openstreetmap.org/viewtopic.php?id=5019">в IRC</a></li>
 			</ul>
 		</li>
-	</ul>	
+	</ul>
 </div>
-
-</body>
 PHP_CONTENT;
 ?>

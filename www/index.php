@@ -1,22 +1,12 @@
 <?
 include_once ('include/config.php');
 
-
 $_URL = preg_replace("/^(.*?)index\.php$/is", "$1", $_SERVER['SCRIPT_NAME']);
 $_URL = preg_replace("/^".preg_quote($_URL, "/")."/is", "", urldecode($_SERVER['REQUEST_URI']));
 $_URL = preg_replace("/(\/?)(\?.*)?$/is", "", $_URL);
 $_URL = preg_replace("/[^0-9A-Za-z._\\-\\/]/is", "", $_URL); // вырезаем ненужные символы (не обязательно это делать)
 $_URL = explode("/", $_URL);
-
 if (preg_match("/^index\.(?:html|php)$/is", $_URL[count($_URL) - 1])) unset($_URL[count($_URL) - 1]); // удаляем суффикс
-/*
-switch (@$_URL[0]) {
-        case '': case 'map': $_GET['name'] = 'map'; break;
-        case 'cakes': $_GET['name'] = 'cakes'; break;
-        default: Err404();
-}
-*/
-
 
 if (empty($_URL[0]))
   $_URL[0] = 'map';
@@ -27,6 +17,7 @@ $data = pg_fetch_assoc($result);
 if (!file_exists($data['name'].'.php'))
   Err404();
 
+include_once ('include/external.php');
 include_once ($_URL[0].'.php');
 ?>
 <!doctype html>
@@ -36,12 +27,12 @@ include_once ($_URL[0].'.php');
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" href="css/main.css" type="text/css" media="screen, projection" />
   <link rel="stylesheet" href="css/main_small.css" type="text/css" media="handheld, only screen and (max-device-width:800px)" />
-  <!--<link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.css" />-->
   <link rel="stylesheet" href="css/leaflet.css" />
-  <!--<script src="http://leaflet.cloudmade.com/dist/leaflet.js"></script>-->
   <script src="js/leaflet.js"></script>
   <!--[if lte IE 8]><link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.ie.css" /><![endif]-->
   <script type="text/javascript" src="js/main.js"></script>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <? print($external_head); ?>
   <? print($page_head); ?>
 </head>
 <body>
@@ -62,4 +53,6 @@ include_once ($_URL[0].'.php');
   <div id="content">
     <? print($page_content); ?>
   </div>
+  
+  <? print($external_bodyend); ?>
 </body>
