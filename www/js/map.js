@@ -15,7 +15,10 @@ function init() {
   osm.map = new L.Map('map', {zoomControl: true, center: new L.LatLng(62.0, 88.0), zoom: (w > 1200 ? 3 : 2), layers: [osm.layers.layerOSM]});
 
   osm.layers.search_marker = new L.LayerGroup();
+  osm.layers.osb = new L.OpenStreetBugs();
   osm.map.addLayer(osm.layers.search_marker);
+  osm.map.control_layers = new L.Control.Layers({'OSM':osm.layers.layerOSM}, {'отметки поиска':osm.layers.search_marker, 'Bugs':osm.layers.osb});
+  osm.map.addControl(osm.map.control_layers);
 
   osm.leftpan.panel = document.getElementById('leftpan');
   osm.leftpan.content = document.getElementById('content_pan');
@@ -27,7 +30,15 @@ function init() {
   osm.map.addControl(new L.Control.Permalink());
   
   search.inLoad();
-}
+  osm.setLinkOSB();
+};
+
+osm.setLinkOSB = function() {
+  if (parseInt(get['bugid'])) {
+    osm.map.addLayer(osm.layers.osb);
+    osm.map.control_layers._update();
+  }
+};
 
 osm.leftpan.toggle = function(on) {
   if (typeof on == "undefined") on = !this.on;

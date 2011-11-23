@@ -124,10 +124,10 @@ table {
   left: 330px;
   right: 0;
   position: absolute;
-  -webkit-user-select: none;
+/*  -webkit-user-select: none;
   -moz-user-select: none;
   -o-user-select: none;
-  user-select: none;
+  user-select: none;*/
 }
 
 .left-on #mappan {
@@ -560,3 +560,7 @@ button:active {
   margin-left: 29px !important;
   margin-top: 80px !important;
 }*/
+
+.leaflet-control-container .leaflet-control-layers.leaflet-control {
+  margin-top: 30px;
+}

@@ -1,0 +1,240 @@
+.osb-popup {
+    /*font-family: sans-serif;*/
+    font-size: small;
+    /*max-width: 380px;*/
+    overflow: auto;
+}
+.osb-popup a:link, .osb-popup a:visited {
+    border-bottom: 1px dotted #C0C0C0;
+    text-decoration: none;
+}
+.osb-popup a:link {
+    color: #990000;
+}
+.osb-popup a:visited {
+    color: #500000;
+}
+.osb-popup a:link:hover, .osb-popup a:visited:hover {
+    border-bottom: 1px solid #C0C0C0;
+    color: red;
+}
+.osb-popup a:link:focus .osb-popup a:visited:focus {
+    outline: 1px dotted #C0C0C0;
+}
+.osb-popup a:link:active, .osb-popup a:visited:active {
+    border-bottom: 1px solid #F0F0F0;
+    color: red;
+    outline: 1px solid #C0C0C0;
+}
+.osb-popup h1 {
+    color: #176BC1;
+    font: none;
+    margin-bottom: 7px;
+    margin-top: 0;
+	font-family: arial;
+	font-size: 11.5pt;
+	font-weight: bold;
+}
+.osb-popup p {
+    margin-bottom: 0;
+    margin-top: 5px;
+}
+.osb-popup p.Comment {
+    margin-left: 15px;
+    margin-top: 5px;
+}
+.osb-popup p.Note {
+    border-top: 1px solid gray;
+    font-size: x-small;
+    margin-top: 7px;
+    padding-top: 3px;
+}
+.osb-popup form + p {
+    border-top: 1px solid gray;
+    margin-top: 15px;
+    padding-top: 10px;
+}
+.osb-popup ul {
+    border-top: 1px solid gray;
+    /*margin: 10px 0 0;*/
+    margin: 0;
+	padding: 10px 0 0;
+    text-align: center;
+}
+.osb-popup ul li {
+    display: inline;
+    margin-left: 12px;
+    margin-right: 12px;
+    padding: 0;
+}
+.osb-popup form {
+    margin-bottom: 0;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+.osbOpen .osb-popup form {
+    border-top: 3px solid #DB4C39;
+}
+.osbActive .osb-popup form {
+    border-top: 3px solid #4A8AF5;
+}
+.osb-popup form.osb-comment {
+    border-top: 1px solid gray;
+    padding-top: 5px;
+}
+.osb-popup form div {
+    margin-left: 17px;
+    margin-right: 15px;
+    margin-top: 10px;
+}
+.osb-popup form div.osb-footer {
+    margin-bottom: 0;
+    margin-top: 15px;
+    text-align: center;
+}
+.osb-popup form div.osb-formfooter {
+    text-align: center;
+}
+.osb-popup span.osb-inputlabel {
+    display: inline-block;
+    margin-right: 10px;
+    min-width: 101px;
+}
+.osb-popup input {
+    margin-left: 3px;
+    margin-right: 3px;
+    min-width: 75px;
+}
+.osb-popup input[type="text"] {
+    min-width: 257px;
+    margin-left: 0px;
+    margin-right: 0px;    
+}
+
+/* for OpenStreetMap.ru*/
+
+.osb-popup {
+    padding-bottom: 17px;
+}
+
+.osb .leaflet-popup-content-wrapper {
+	-moz-border-radius: 0px ;
+	border: 2px solid #A0A0A0;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+}
+
+.osb .leaflet-popup-content{
+	margin: -1px;
+}
+
+.osb-popup h1 {
+    color: #FFFFFF;
+    padding: 7px;
+    background-position: 5px center;
+    background-repeat: no-repeat;
+    padding-left: 32px;
+}
+
+.osbOpen .osb-popup h1, .osbCreate .osb-popup h1 {
+    background-color: #DB4C39;
+}
+
+.osbOpen .osb-popup h1 {
+    background-image: url("/img/osb/open_bug_img.png");	
+}
+
+.osbClosed .osb-popup h1 {
+    background-color: #99BD1B;
+    background-image: url("/img/osb/closed_bug_img.png");	
+}
+
+.osbActive .osb-popup h1 {
+    background-color: #4A8AF5;
+    background-image: url("/img/osb/active_bug_img.png");	
+    background-image: url("/img/osb/active_bug_img.png");	
+}
+
+.osbCreate .osb-popup .osbCreateInfo {
+    color: #A8A8A8;
+    padding-left: 17px;
+    padding-top: 10px;
+    margin-bottom: -10px;
+}
+
+.osb .leaflet-popup-tip-container {
+	  overflow: visible;
+}
+
+.osb  .leaflet-popup-tip {
+    -moz-transform: none;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    height: 10px;
+    width: 10px;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;	
+}
+
+.osbOpen  .leaflet-popup-tip {
+	  background-image: url("/img/osb/open_bug_tip.png");
+}
+.osbClosed  .leaflet-popup-tip {
+	  background-image: url("/img/osb/closed_bug_tip.png");
+}
+.osbActive  .leaflet-popup-tip {
+	  background-image: url("/img/osb/active_bug_tip.png");
+}
+
+.osbCreate .leaflet-popup-tip {
+    background-color: white;
+    -moz-transform: rotate(45deg);
+}
+
+.osb .leaflet-popup-close-button {
+	background: url("/img/osb/popup-close.png") no-repeat scroll 0 0 transparent;
+    height: 18px;
+    right: 12px;
+    width: 18px;
+}
+
+.osb-table {
+	  width: 100%;
+	  font-family: arial;
+}
+
+.osb-tr-info {
+    color: #B2B2B2;
+	  font-size: 10pt;
+}
+
+.osb-td-nickname {
+	  width: 50%;
+}
+
+.osb-td-datetime {
+	  width: 50%;
+	  text-align: right;
+	  /*color: #B2B2B2;*/
+}
+
+.osb-td-comment {
+	  font-size: 11pt;
+	  padding-left: 20px;
+	  /*font-weight: bold;*/
+	  padding-bottom: 15px;
+}
+
+.osb-info {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.osb-popup a:link, .osb-popup a:visited {
+    color: #4D8CF5;
+}
+
+.osb-popup a:link:hover, .osb-popup a:visited:hover {
+    color: #0048BC;
+}
