@@ -1,6 +1,8 @@
 var osm = {cpan: {}, leftpan: {on: false}, mappan: {}, ui: {fs: false}, layers:{}};
 var search = {};
 
+function $(id) { return document.getElementById(id); }
+
 function setView(position) {
   osm.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 10);
 }
@@ -20,10 +22,10 @@ function init() {
   osm.map.control_layers = new L.Control.Layers({'OSM':osm.layers.layerOSM}, {'отметки поиска':osm.layers.search_marker, 'Bugs':osm.layers.osb});
   osm.map.addControl(osm.map.control_layers);
 
-  osm.leftpan.panel = document.getElementById('leftpan');
-  osm.leftpan.content = document.getElementById('content_pan');
-  osm.mappan.panel = document.getElementById('mappan');
-  osm.input = document.getElementById('qsearch');
+  osm.leftpan.panel = $('leftpan');
+  osm.leftpan.content = $('content_pan');
+  osm.mappan.panel = $('mappan');
+  osm.input = $('qsearch');
   osm.search_marker = new L.LayerGroup();
   osm.map.addLayer(osm.search_marker);
   
@@ -46,11 +48,11 @@ osm.leftpan.toggle = function(on) {
   if (on != this.on) {
     if (on) {
       this.on = true;
-      document.getElementById('downpan').className = '';
+      $('downpan').className = '';
     }
     else {
       this.on = false;
-      document.getElementById('downpan').className = 'left-on';
+      $('downpan').className = 'left-on';
     }
     osm.map.invalidateSize();
   }
@@ -137,7 +139,7 @@ function parseGET() {
 osm.onPermalink = function () {
   mapCenter=osm.map.getCenter();
   osm.permalink.href = 'http://' + location.host + '?lat=' + mapCenter.lat + '&lon=' + mapCenter.lng + '&zoom=' + osm.map._zoom;
- };
+};
 
 osm.ui.whereima = function() {
   navigator.geolocation.getCurrentPosition(setView);
@@ -146,11 +148,15 @@ osm.ui.whereima = function() {
 osm.ui.togglefs = function() {
   if (osm.ui.fs) {
     document.body.className = '';
-    document.getElementById('fsbutton').innerHTML = '&uarr;';
+    $('fsbutton').innerHTML = '&uarr;';
   }
   else {
     document.body.className = 'fs';
-    document.getElementById('fsbutton').innerHTML = '&darr;';
+    $('fsbutton').innerHTML = '&darr;';
   }
   osm.ui.fs = !osm.ui.fs;
 };
+
+osm.ui.searchsubmit = function() {
+  return search.search($('qsearch').value);
+}

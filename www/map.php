@@ -10,12 +10,12 @@ PHP_HEAD;
 
 $page_toopbar = <<<PHP_TOOLBAR
       <div id="searchpan">
-        <form id="search" method="get" action="/"><table style="width:100%;"><tr>
+        <form id="search" method="get" action="/" onsubmit="return osm.ui.searchsubmit();"><table style="width:100%;"><tr>
           <td>
             <input id="qsearch" autocomplete="off" type="search" name="q" />
           </td>
           <td style="width:1px;">
-            <button>Найти&nbsp;&raquo;</button>
+            <input type="submit" value="Найти&nbsp;&raquo;" />
           </td>
         </tr></table></form>
       </div>
