@@ -205,7 +205,7 @@ table {
  * Style definitions
  */
 
-button {
+input[type="submit"], button {
   background: #eeeeee;
   background: -moz-linear-gradient(top, #eeeeee 0%, #dddddd 100%);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#dddddd));
@@ -224,7 +224,7 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+input[type="submit"]:hover, button:hover {
   background: #eaeaea;
   background: -moz-linear-gradient(top, #eaeaea 0%, #d9d9d9 100%);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eaeaea), color-stop(100%,#d9d9d9));
@@ -235,7 +235,7 @@ button:hover {
   background: linear-gradient(top, #eaeaea 0%,#d9d9d9 100%);
 }
 
-button:active {
+input[type="submit"]:active, button:active {
   background: #dadada;
   box-shadow: 0 -1px 1px #FAFAFA inset, 0 2px 1px #BBBBBB inset;
   padding-top: 1px;
@@ -303,7 +303,7 @@ button:active {
   border: 0;
 }
 
-#searchpan input {
+#searchpan input[type="search"] {
   border: 0;
   height: 28px;
   padding-left: 5px;
@@ -311,7 +311,7 @@ button:active {
   width: 100%;
 }
 
-#searchpan button {
+#searchpan input[type="submit"] {
   box-shadow: none;
   border-color: #FAFAFA #CCCCCC #CCCCCC;
   border-width: 1px 0 1px 1px;
