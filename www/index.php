@@ -28,6 +28,7 @@ include_once ($_URL[0].'.php');
   <link rel="stylesheet" href="css/main.css" type="text/css" media="screen, projection" />
   <link rel="stylesheet" href="css/main_small.css" type="text/css" media="handheld, only screen and (max-device-width:800px)" />
   <link rel="stylesheet" href="css/leaflet.css" />
+  <link rel="search" href="/search.xml" type="application/opensearchdescription+xml" title="OpenStreetMap.Ru" />
   <script src="js/leaflet.js"></script>
   <!--[if lte IE 8]><link rel="stylesheet" href="css/leaflet.ie.css" /><![endif]-->
   <script type="text/javascript" src="js/main.js"></script>
