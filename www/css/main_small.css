@@ -24,19 +24,27 @@ table {
   position: absolute;
   top: 0;
   width: 100%;
+  -webkit-transition: all 0.1s ease;
+  -moz-transition: all 0.1s ease;
+  -o-transition: all 0.1s ease;
+  transition: all 0.1s ease;
 }
 
-.fs #toppan { display: none; }
+.fs #toppan { top: -90px; }
 
-#downpan {
+#content {
   bottom: 0;
   left: 0;
   position: absolute;
   right: 0;
   top: 90px;
+  -webkit-transition: all 0.1s ease;
+  -moz-transition: all 0.1s ease;
+  -o-transition: all 0.1s ease;
+  transition: all 0.1s ease;
 }
 
-.fs #downpan { top: 0; }
+.fs #content { top: 9px; }
 
 #leftpan {
   bottom: 0;
@@ -45,7 +53,7 @@ table {
   overflow: hidden;
   position: absolute;
   top: 0;
-  width: 350px;
+  width: 330px;
   z-index: 3;
 }
 
@@ -53,28 +61,46 @@ table {
   width: 0;
 }
 
-#content {
+#leftpan div.close {
+    background-image: url("/img/leftpan_close.png");
+    height: 16px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 16px;
+    z-index: 1;
+    cursor: pointer;
+}
+#leftpan div.header h1 {
+    font-weight: normal;
+    left: 15px;
+    position: absolute;
+    top: 15px;
+ }
+
+#content_pan {
   bottom: 0;
   left: 0;
   position: absolute;
-  top: 0;
+  top: 55px;
   right: 10px;
-  padding: 10px;
+  padding: 10px 15px 15px;
   font-family: Verdana, sans-serif;
   font-size: 12px;
+  overflow: auto;
 }
 
-#content ol {
-  margin-left: 20px;
+#content_pan ol {
+  /*margin-left: 20px;*/
 }
 
-#content ul {
-  margin-left: 20px;
+#content_pan ul {
+  /*margin-left: 20px;*/
   list-style: none;
 }
 
-#content li {
-  margin-bottom: 10px;
+#content_pan li {
+  margin-bottom: 14px;
 }
 
 #toggler {
@@ -95,9 +121,13 @@ table {
 #mappan {
   top: 0;
   bottom: 0;
-  left: 350px;
+  left: 330px;
   right: 0;
   position: absolute;
+/*  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;*/
 }
 
 .left-on #mappan {
@@ -110,10 +140,10 @@ table {
   cursor: pointer;
   height: 20px;
   position: absolute;
-  right: 40px;
+  right: 20px;
   text-align: center;
   top: 0;
-  width: 70px;
+  width: 50px;
   z-index: 5;
 }
 
@@ -125,11 +155,57 @@ table {
   position: absolute;
 }
 
+.hshadow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  z-index: 2;
+}
+.hshadow div {
+  background-color: #000;
+  opacity: 0.05;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.h1 { height: 1px; }
+.h2 { height: 2px; }
+.h3 { height: 3px; }
+.h4 { height: 4px; }
+.h5 { height: 5px; }
+.vshadow {
+  display: none;
+}
+.left-on .vshadow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 5px;
+  z-index: 2;
+}
+.vshadow div {
+  background-color: #000;
+  opacity: 0.05;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
+.w1 { width: 1px; }
+.w2 { width: 2px; }
+.w3 { width: 3px; }
+.w4 { width: 4px; }
+.w5 { width: 5px; }
+
 /*
  * Style definitions
  */
 
-button {
+input[type="submit"], button {
   background: #eeeeee;
   background: -moz-linear-gradient(top, #eeeeee 0%, #dddddd 100%);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#dddddd));
@@ -148,7 +224,7 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+input[type="submit"]:hover, button:hover {
   background: #eaeaea;
   background: -moz-linear-gradient(top, #eaeaea 0%, #d9d9d9 100%);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eaeaea), color-stop(100%,#d9d9d9));
@@ -159,7 +235,7 @@ button:hover {
   background: linear-gradient(top, #eaeaea 0%,#d9d9d9 100%);
 }
 
-button:active {
+input[type="submit"]:active, button:active {
   background: #dadada;
   box-shadow: 0 -1px 1px #FAFAFA inset, 0 2px 1px #BBBBBB inset;
   padding-top: 1px;
@@ -176,10 +252,11 @@ button:active {
   left: 22px;
   top: 30px;
   position: absolute;
-  background: url("http://dl.dropbox.com/u/40819624/sample/index_htm_files/22.png") no-repeat;
+/*  background: url("/img/logo.png") no-repeat;*/
   width: 288px;
   height: 49px;
   z-index: 1;
+  border: medium none;
 }
 
 #line {
@@ -226,7 +303,7 @@ button:active {
   border: 0;
 }
 
-#searchpan input {
+#searchpan input[type="search"] {
   border: 0;
   height: 28px;
   padding-left: 5px;
@@ -234,7 +311,7 @@ button:active {
   width: 100%;
 }
 
-#searchpan button {
+#searchpan input[type="submit"] {
   box-shadow: none;
   border-color: #FAFAFA #CCCCCC #CCCCCC;
   border-width: 1px 0 1px 1px;
@@ -260,19 +337,23 @@ button:active {
   z-index: 4;
 }
 
-.fs #menupan {
-  display: none;
-}
-
 #menupan #menuback {
   background: #333333;
   height: 30px;
   width: 100%;
+  -webkit-transition: all 0.1s ease;
+  -moz-transition: all 0.1s ease;
+  -o-transition: all 0.1s ease;
+  transition: all 0.1s ease;
+}
+
+.fs #menupan #menuback {
+  height: 9px;
 }
 
 #menupan table {
   margin: 0 22px;
-  min-width: 980px;
+  /*min-width: 980px;*/
   position: absolute;
   top: 0;
 }
@@ -286,13 +367,23 @@ button:active {
   overflow: hidden;
 }
 
+.fs #menupan table div {
+  border-bottom: 0 none;
+  height: 4px;
+}
+
+.fs #menupan table div:hover {
+  height: 22px;
+}
+
 #menupan a {
   color: #aaaaaa;
   text-decoration: none;
 }
 
-#menupan a:hover {
+#menupan a:hover, #menupan a:active {
   color: #ffffff;
+  outline: none;
 }
 
 #menupan td {
@@ -354,7 +445,9 @@ button:active {
 }
 
 #ol-search_result a {
-  color: #3399DD;
+  color: #7E9B17;
+  text-decoration: none;
+  font-size: 15px;
 }
 
 /*
@@ -463,7 +556,11 @@ button:active {
   box-shadow: none !important;
   background-color: inherit !important
 }
-.leaflet-control-zoom {
+/*.leaflet-control-zoom {
   margin-left: 29px !important;
   margin-top: 80px !important;
+}*/
+
+.leaflet-control-container .leaflet-control-layers.leaflet-control {
+  margin-top: 30px;
 }
