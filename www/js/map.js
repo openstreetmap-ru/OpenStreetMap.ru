@@ -13,15 +13,28 @@ function init() {
   if (self.innerHeight) w = self.innerWidth;
   else if (document.documentElement && document.documentElement.clientHeight) w = document.documentElement.clientWidth;
   else if (document.body) w = document.body.clientWidth;
+
   osm.layers.layerMapnik = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: 'Map data &copy; OpenStreetMap contributors'});
   osm.layers.layerTAH = new L.TileLayer('http://{s}.tah.openstreetmap.org/Tiles/tile/{z}/{x}/{y}.png', {maxZoom: 18, attribution: 'Map data &copy; OpenStreetMap contributors'});
   osm.layers.layerCycle = new L.TileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png', {maxZoom: 18, attribution: 'Map data &copy; OpenStreetMap contributors'});
+  osm.layers.layerTransport = new L.TileLayer('http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png', {maxZoom: 18, attribution: 'Map data &copy; OpenStreetMap contributors'});
   osm.map = new L.Map('map', {zoomControl: true, center: new L.LatLng(62.0, 88.0), zoom: (w > 1200 ? 3 : 2), layers: [osm.layers.layerMapnik]});
 
   osm.layers.search_marker = new L.LayerGroup();
   osm.layers.osb = new L.OpenStreetBugs();
   osm.map.addLayer(osm.layers.search_marker);
-  osm.map.control_layers = new L.Control.Layers({'Mapnik':osm.layers.layerMapnik, 'Osmarender':osm.layers.layerTAH, 'Карта для велосипедистов':osm.layers.layerCycle}, {'отметки поиска':osm.layers.search_marker, 'Bugs':osm.layers.osb});
+  osm.map.control_layers = new L.Control.Layers(
+    {
+      'Mapnik':osm.layers.layerMapnik,
+      'Osmarender':osm.layers.layerTAH,
+      'Карта для велосипедистов':osm.layers.layerCycle,
+      'Transport map':osm.layers.layerTransport
+    },
+    {
+      'отметки поиска':osm.layers.search_marker,
+      'Bugs':osm.layers.osb
+    }
+  );
   osm.map.addControl(osm.map.control_layers);
 
   osm.leftpan.panel = $('leftpan');
