@@ -74,7 +74,6 @@ function init() {
       'Transport map':osm.layers.layerTransport
     },
     {
-      'отметки поиска':osm.layers.search_marker,
       'Bugs':osm.layers.osb,
       'Маршруты':osm.layers.layerLatlonPt
     }
