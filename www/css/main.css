@@ -10,7 +10,7 @@
 body {
   font-family: arial,sans-serif;
   font-size: 13px;
-  overflow: hidden;
+  /*overflow: hidden;*/
 }
 
 table {
