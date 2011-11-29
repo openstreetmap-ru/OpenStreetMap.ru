@@ -11,6 +11,7 @@ L.Control.Permalink = L.Class.extend({
 
 	onAdd: function(map) {
 		this._container = L.DomUtil.create('div', 'leaflet-control-attribution');
+		this._container.style.position="fixed";
 		L.DomEvent.disableClickPropagation(this._container);
 		map.on('moveend', this._update, this);
 		this._map = map;
