@@ -3,7 +3,6 @@ $page_logo = "/img/logo.png";
 
 $page_head = <<<PHP_HEAD
   <script type="text/javascript" src="js/map.js"></script>
-  <script type="text/javascript" src="js/Control.Scale.js"></script>
   <script type="text/javascript" src="js/Control.Permalink.js"></script>
   <script type="text/javascript" src="js/osb.js"></script>
   <link rel="stylesheet" href="css/osb.css" />
