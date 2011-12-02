@@ -556,11 +556,62 @@ input[type="submit"]:active, button:active {
   box-shadow: none !important;
   background-color: inherit !important
 }
-/*.leaflet-control-zoom {
-  margin-left: 29px !important;
-  margin-top: 80px !important;
-}*/
 
 .leaflet-control-container .leaflet-control-layers.leaflet-control {
   margin-top: 30px;
+}
+
+/*
+ for page about 
+*/
+
+div.page-about {
+  position: relative;
+  top: 20px;
+  font-family: Tahoma,sans-serif;
+  font-size: 12pt;
+}
+
+div.page-about .left {
+  max-width: 279px;
+  left: 25px;
+  position: absolute;
+  top: 64px;
+}
+div.page-about .left p.donate {
+  padding-top: 6em;
+}
+
+div.page-about .center {
+  max-width: 500px;
+  left: 400px;
+  position: absolute;
+  top: 0px;
+}
+
+div.page-about .title {
+  color: #FAD051;
+  font-size: 20pt;
+}
+
+div.page-about .green {
+  color: #99BD1B;
+}
+
+div.page-about p {
+  padding-bottom: 1em;
+}
+
+div.page-about .center .subtitle {
+  color: #9C9C9C;
+  padding-bottom: 2em;
+}
+div.page-about div.list {
+/*  padding-bottom: 0.1em;*/
+  margin-top: -0.5em;
+  position: relative;
+  left: 20px;
+}
+div.page-about div.list p {
+  padding-bottom: 0.3em;
 }

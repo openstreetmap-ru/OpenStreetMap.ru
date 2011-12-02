@@ -2,6 +2,9 @@
 $page_logo = "/img/logo.png";
 
 $page_head = <<<PHP_HEAD
+  <link rel="stylesheet" href="css/leaflet.css" />
+  <script src="js/leaflet.js"></script>
+  <!--[if lte IE 8]><link rel="stylesheet" href="css/leaflet.ie.css" /><![endif]-->
   <script type="text/javascript" src="js/map.js"></script>
   <script type="text/javascript" src="js/Control.Permalink.js"></script>
   <script type="text/javascript" src="js/osb.js"></script>
