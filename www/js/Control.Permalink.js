@@ -1,23 +1,37 @@
 L.Control.Permalink = L.Class.extend({
 	options: {
 		position: L.Control.Position.BOTTOM_LEFT,
+		useAnchor: true
 	},
 
-	initialize: function(options) {
+	initialize: function(layers, options) {
 		L.Util.setOptions(this, options);
 		this._set_urlvars();
 		this._centered = false;
+		this._layers = layers;
 	},
 
 	onAdd: function(map) {
 		this._container = L.DomUtil.create('div', 'leaflet-control-attribution');
 		L.DomEvent.disableClickPropagation(this._container);
-		map.on('moveend', this._update, this);
+		map.on('moveend', this._update_center, this);
+		map.on('layeradd', this._update_layers, this);
+		map.on('layerremove', this._update_layers, this);
 		this._map = map;
 		this._href = L.DomUtil.create('a', null, this._container);
 		this._href.innerHTML = "Permalink";
 		this._set_center(this._params);
-		this._update();
+		this._update_layers();
+		this._update_center();
+
+		if (this.options.useAnchor && 'onhashchange' in window) {
+			var _this = this, fn = window.onhashchange;
+			window.onhashchange = function() {
+				_this._set_urlvars();
+				_this._set_center(_this._params, true);
+				if (fn) return fn();
+			}
+		}
 	},
 
 	getPosition: function() {
@@ -28,7 +42,7 @@ L.Control.Permalink = L.Class.extend({
 		return this._container;
 	},
 
-	_update: function() {
+	_update_center: function() {
 		if (!this._map) return;
 
 		var center = this._map.getCenter();
@@ -36,14 +50,22 @@ L.Control.Permalink = L.Class.extend({
 		this._params['zoom'] = this._map.getZoom();
 		this._params['lat'] = center.lat;
 		this._params['lon'] = center.lng;
+		this._update_href();
+	},
 
-		var url = [];
-		for (var i in this._params) {
-			if (this._params.hasOwnProperty(i))
-				url.push(i + "=" + this._params[i]);
-		}
+	_update_href: function() {
+		var params = L.Util.getParamString(this._params);
+		var sep = '?';
+		if (this.options.useAnchor) sep = '#';
+		this._href.setAttribute('href', this._url_base + sep + params.slice(1))
+	},
 
-		this._href.setAttribute('href', this._url_base + "?" + url.join('&'));
+	_update_layers: function() {
+		if (!this._layers) return;
+		var layer = this._layers.currentBaseLayer();
+		if (layer)
+			this._params['layer'] = layer.name;
+		this._update_href();
 	},
 
 	_round_point : function(point) {
@@ -67,27 +89,76 @@ L.Control.Permalink = L.Class.extend({
 
 	_set_urlvars: function()
 	{
-		this._params = {};
-		var idx = window.location.href.indexOf('?');
-		if (idx < 0) {
-			this._url_base = window.location.href;
+		this._url_base = window.location.href.split('#')[0];
+		this._params = this._parse_urlvars(window.location.hash.slice(1));
+		if (this._params.lat && this._params.lon && this._params.zoom)
 			return;
-		}
-		var params = window.location.href.slice(idx + 1).split('&');
+
+		var idx = this._url_base.indexOf('?');
+		if (idx < 0)
+			return;
+
+		this._params = this._parse_urlvars(this._url_base.slice(idx + 1));
+		this._url_base = this._url_base.substring(0, idx);
+	},
+
+	_parse_urlvars: function(s) {
+		var p = {};
+		var params = s.split('&');
 		for(var i = 0; i < params.length; i++) {
 			var tmp = params[i].split('=');
-			this._params[tmp[0]] = tmp[1];
+			if (tmp.length != 2) continue;
+			p[tmp[0]] = tmp[1];
 		}
-		this._url_base = window.location.href.substring(0, idx);
-	}, 
+		return p;
+	},
 
-	_set_center: function(params)
+	_set_center: function(params, force)
 	{
-		if (this._centered) return;
+		if (!force && this._centered) return;
 		if (params.zoom == undefined ||
 		    params.lat == undefined ||
 		    params.lon == undefined) return;
 		this._centered = true;
 		this._map.setView(new L.LatLng(params.lat, params.lon), params.zoom);
+		if (params.layer && this._layers)
+			this._layers.chooseBaseLayer(params.layer);
 	}
 });
+
+L.Control.Layers.include({
+	chooseBaseLayer: function(name) {
+		var layer, obj;
+		for (var i in this._layers) {
+			if (!this._layers.hasOwnProperty(i))
+				continue;
+			obj = this._layers[i];
+			if (!obj.overlay && obj.name == name)
+				layer = obj.layer;
+		}
+		if (!layer || this._map.hasLayer(layer))
+			return;
+
+		for (var i in this._layers) {
+			if (!this._layers.hasOwnProperty(i))
+				continue;
+			obj = this._layers[i];
+			if (!obj.overlay && this._map.hasLayer(obj.layer))
+				this._map.removeLayer(obj.layer)
+		}
+		this._map.addLayer(layer)
+		this._update();
+	},
+
+	currentBaseLayer: function() {
+		for (var i in this._layers) {
+			if (!this._layers.hasOwnProperty(i))
+				continue;
+			var obj = this._layers[i];
+			if (obj.overlay) continue;
+			if (!obj.overlay && this._map.hasLayer(obj.layer))
+				return obj;
+		}
+	},
+});
+	

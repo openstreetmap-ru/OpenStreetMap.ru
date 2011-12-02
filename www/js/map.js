@@ -87,7 +87,7 @@ function init() {
   osm.search_marker = new L.LayerGroup();
   osm.map.addLayer(osm.search_marker);
   
-  osm.map.addControl(new L.Control.Permalink());
+  osm.map.addControl(new L.Control.Permalink(osm.map.control_layers));
   
   search.inLoad();
   osm.setLinkOSB();
