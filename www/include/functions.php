@@ -1,6 +1,6 @@
 <?
 function show_menu($current = '', $level = 0) {
-  $result = pg_query('SELECT * FROM pagedata WHERE level<='.$level.' AND activate');
+  $result = pg_query('SELECT * FROM "pagedata" WHERE "level"<='.$level.' AND "activate" AND "order">0 ORDER BY "order" asc');
 
   echo '<div id="menupan"><div id="menuback"></div><table><tr>';
   $menu = array();
