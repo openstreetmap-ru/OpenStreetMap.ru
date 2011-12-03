@@ -321,6 +321,22 @@ input[type="submit"]:active, button:active {
   vertical-align: top;
 }
 
+a.wheremi div.wheremi {
+  background-image: url("/img/wheremi.png");
+  height: 28px;
+  width: 30px;
+}
+a.wheremi, a.wheremi:hover, a.wheremi:active {
+  color: #ffffff;
+  outline: none;
+}
+
+a.wheremi:hover div.wheremi {
+  background-image: url("/img/wheremi-hover.png");
+  height: 28px;
+  width: 30px;
+}
+
 #menupan {
   -webkit-user-select: none;
   -moz-user-select: none;

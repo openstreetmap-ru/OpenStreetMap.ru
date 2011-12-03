@@ -14,6 +14,9 @@ PHP_HEAD;
 $page_toopbar = <<<PHP_TOOLBAR
       <div id="searchpan">
         <form id="search" method="get" action="/" onsubmit="return osm.ui.searchsubmit();"><table style="width:100%;"><tr>
+          <td style="width:1px;">
+            <a href="#" onClick="osm.ui.whereima();" class="wheremi" title="Где я?"><div class="wheremi">&nbsp;</div></a>
+          </td>
           <td>
             <input id="qsearch" autocomplete="off" type="search" name="q" />
           </td>
