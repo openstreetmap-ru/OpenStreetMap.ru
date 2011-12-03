@@ -10,11 +10,12 @@ function setView(position) {
 function saveLocation() {
   var ll = osm.map.getCenter();
   var z = osm.map.getZoom();
+  var l = osm.map.control_layers.currentBaseLayer().name;
 
   var d = new Date();
   d.setYear(d.getFullYear()+10);
   
-  document.cookie = "_osm_location=" + ll.lng + "|" + ll.lat + "|" + z + "|; expires=" + d.toGMTString();
+  document.cookie = "_osm_location=" + ll.lng + "|" + ll.lat + "|" + z + "|" + l + "; expires=" + d.toGMTString();
 }
 
 function getCookie(name) {
@@ -51,9 +52,11 @@ function init() {
     var locs = loc.split('|');
     center = new L.LatLng(locs[1], locs[0]);
     zoom = locs[2];
+    layer = locs[3];
   } else {
     center = new L.LatLng(62.0, 88.0);
     zoom = w > 1200 ? 3 : 2;
+    layer = "Mapnik";
   }
   
   osm.layers.layerMapnik = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors"});
@@ -87,6 +90,7 @@ function init() {
   osm.search_marker = new L.LayerGroup();
   osm.map.addLayer(osm.search_marker);
   
+  osm.map.control_layers.chooseBaseLayer(layer);
   osm.map.addControl(new L.Control.Permalink(osm.map.control_layers));
   osm.map.addControl(new L.Control.Zoom({shiftClick: true}));
   
