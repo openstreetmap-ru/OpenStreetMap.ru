@@ -327,7 +327,6 @@ a.wheremi div.wheremi {
   width: 30px;
 }
 a.wheremi, a.wheremi:hover, a.wheremi:active {
-  color: #ffffff;
   outline: none;
 }
 
@@ -630,4 +629,11 @@ div.page-about div.list {
 }
 div.page-about div.list p {
   padding-bottom: 0.3em;
+}
+
+/*
+for leaflet
+*/
+.leaflet-control-zoom a, .leaflet-control-zoom a:hover, .leaflet-control-zoom a:active {
+  outline: none;
 }

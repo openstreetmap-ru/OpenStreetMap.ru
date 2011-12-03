@@ -61,7 +61,7 @@ function init() {
   osm.layers.layerTAH = new L.TileLayer('http://{s}.tah.openstreetmap.org/Tiles/tile/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors (TAH)"});
   osm.layers.layerCycle = new L.TileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors (Cycle)"});
   osm.layers.layerLatlonPt = new L.TileLayer('http://{s}.tile.osmosnimki.ru/pt/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Маршруты &copy; <a href='http://latlon.org/pt'>LatLon.org</a>", subdomains: 'abcdef'});
-  osm.map = new L.Map('map', {zoomControl: true, center: center, zoom: zoom, layers: [osm.layers.layerMapnik]});
+  osm.map = new L.Map('map', {zoomControl: false, center: center, zoom: zoom, layers: [osm.layers.layerMapnik]});
 
   osm.layers.search_marker = new L.LayerGroup();
   osm.layers.osb = new L.OpenStreetBugs();
@@ -88,6 +88,7 @@ function init() {
   osm.map.addLayer(osm.search_marker);
   
   osm.map.addControl(new L.Control.Permalink(osm.map.control_layers));
+  osm.map.addControl(new L.Control.Zoom({shiftClick: true}));
   
   search.inLoad();
   osm.setLinkOSB();
