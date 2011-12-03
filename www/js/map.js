@@ -7,10 +7,10 @@ function setView(position) {
   osm.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 10);
 }
 
-function saveLocation() {
+osm.saveLocation = function() {
   var ll = osm.map.getCenter();
   var z = osm.map.getZoom();
-  var l = osm.map.control_layers.currentBaseLayer().name;
+  var l = escape(osm.map.control_layers.currentBaseLayer().name);
 
   var d = new Date();
   d.setYear(d.getFullYear()+10);
@@ -18,7 +18,7 @@ function saveLocation() {
   document.cookie = "_osm_location=" + ll.lng + "|" + ll.lat + "|" + z + "|" + l + "; expires=" + d.toGMTString();
 }
 
-function getCookie(name) {
+osm.getCookie = function(name) {
   var cookie = " " + document.cookie;
   var search = " " + name + "=";
   var setStr = null;
@@ -45,14 +45,14 @@ function init() {
   else if (document.documentElement && document.documentElement.clientHeight) w = document.documentElement.clientWidth;
   else if (document.body) w = document.body.clientWidth;
 
-  var loc = getCookie('_osm_location');
+  var loc = osm.getCookie('_osm_location');
   var center;
   var zoom;
   if(loc) {
     var locs = loc.split('|');
     center = new L.LatLng(locs[1], locs[0]);
     zoom = locs[2];
-    layer = locs[3];
+    layer = unescape(locs[3]);
   } else {
     center = new L.LatLng(62.0, 88.0);
     zoom = w > 1200 ? 3 : 2;
@@ -97,7 +97,7 @@ function init() {
   search.inLoad();
   osm.setLinkOSB();
 
-  osm.map.on('moveend', saveLocation);
+  osm.map.on('moveend', osm.saveLocation);
 };
 
 osm.setLinkOSB = function() {
