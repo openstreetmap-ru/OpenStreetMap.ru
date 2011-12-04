@@ -11,6 +11,7 @@ function wpcnext(e) {
       break;
     }
   }
+  return false;
 }
 
 function wpcprev(e) {
@@ -26,5 +27,6 @@ function wpcprev(e) {
       break;
     }
   }
+  return false;
 }
 
