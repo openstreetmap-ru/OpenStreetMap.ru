@@ -7,17 +7,18 @@ function setView(position) {
   osm.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 10);
 }
 
-function saveLocation() {
+osm.saveLocation = function() {
   var ll = osm.map.getCenter();
   var z = osm.map.getZoom();
+  var l = escape(osm.map.control_layers.currentBaseLayer().name);
 
   var d = new Date();
   d.setYear(d.getFullYear()+10);
   
-  document.cookie = "_osm_location=" + ll.lng + "|" + ll.lat + "|" + z + "|; expires=" + d.toGMTString();
+  document.cookie = "_osm_location=" + ll.lng + "|" + ll.lat + "|" + z + "|" + l + "; expires=" + d.toGMTString();
 }
 
-function getCookie(name) {
+osm.getCookie = function(name) {
   var cookie = " " + document.cookie;
   var search = " " + name + "=";
   var setStr = null;
@@ -44,20 +45,22 @@ function init() {
   else if (document.documentElement && document.documentElement.clientHeight) w = document.documentElement.clientWidth;
   else if (document.body) w = document.body.clientWidth;
 
-  var loc = getCookie('_osm_location');
+  var loc = osm.getCookie('_osm_location');
   var center;
   var zoom;
   if(loc) {
     var locs = loc.split('|');
     center = new L.LatLng(locs[1], locs[0]);
     zoom = locs[2];
+    layer = unescape(locs[3]);
   } else {
     center = new L.LatLng(62.0, 88.0);
     zoom = w > 1200 ? 3 : 2;
+    layer = "Mapnik";
   }
   
   osm.layers.layerMapnik = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors"});
-  osm.layers.layerKosmo = new L.TileLayer('http://{s}.tile.osmosnimki.ru/kosmo-be/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy <a href='http://osm.org'>OpenStreetMap</a> contributors, CC-BY-SA; rendering by <a href='http://kosmonimki.ru'>kosmosnimki.ru</a>"});
+  osm.layers.layerKosmo = new L.TileLayer('http://{s}.tile.osmosnimki.ru/kosmo/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy <a href='http://osm.org'>OpenStreetMap</a> contributors, CC-BY-SA; rendering by <a href='http://kosmonimki.ru'>kosmosnimki.ru</a>"});
   osm.layers.layerTAH = new L.TileLayer('http://{s}.tah.openstreetmap.org/Tiles/tile/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors (TAH)"});
   osm.layers.layerCycle = new L.TileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors (Cycle)"});
   osm.layers.layerLatlonPt = new L.TileLayer('http://{s}.tile.osmosnimki.ru/pt/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Маршруты &copy; <a href='http://latlon.org/pt'>LatLon.org</a>", subdomains: 'abcdef'});
@@ -87,13 +90,14 @@ function init() {
   osm.search_marker = new L.LayerGroup();
   osm.map.addLayer(osm.search_marker);
   
+  osm.map.control_layers.chooseBaseLayer(layer);
   osm.map.addControl(new L.Control.Permalink(osm.map.control_layers));
   osm.map.addControl(new L.Control.Zoom({shiftClick: true}));
   
   search.inLoad();
   osm.setLinkOSB();
 
-  osm.map.on('moveend', saveLocation);
+  osm.map.on('moveend', osm.saveLocation);
 };
 
 osm.setLinkOSB = function() {
