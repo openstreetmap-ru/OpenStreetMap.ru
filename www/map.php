@@ -13,6 +13,7 @@ $page_head = <<<PHP_HEAD
   <script type="text/javascript" src="js/Layer.KML.js"></script>
   <script type="text/javascript" src="js/osb.js"></script>
   <script type="text/javascript" src="js/markers.js"></script>
+  <script type="text/javascript" src="js/wpc.js"></script>
   <link rel="stylesheet" href="css/osb.css" />
 PHP_HEAD;
 
