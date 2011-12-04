@@ -1,6 +1,6 @@
 function wpcnext(e) {
   var evt = e || window.event;
-  var div = evt.target.parentElement.parentElement.childNodes;
+  var div = evt.target.parentNode.parentNode.childNodes;
 
   for(var i=1;i<div.length;i++) {
     if(div[i].style.display=='block') {
@@ -15,7 +15,7 @@ function wpcnext(e) {
 
 function wpcprev(e) {
   var evt = e || window.event;
-  var div = evt.target.parentElement.parentElement.childNodes;
+  var div = evt.target.parentNode.parentNode.childNodes;
 
   for(var i=1;i<div.length;i++) {
     if(div[i].style.display=='block') {
