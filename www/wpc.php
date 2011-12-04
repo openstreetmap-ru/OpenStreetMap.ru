@@ -103,7 +103,7 @@ while ($row = pg_fetch_assoc($res)) {
     while ($qrow = pg_fetch_assoc($qres)) {
       $display = "block";
       if($desc) $display = "none";
-      $bar = "<br><a href='#' onclick='wpcprev(event)'>&laquo;</a> $i/".$row["cnt"]." <a href='#' onclick='wpcnext(event)'>&raquo;</a>";
+      $bar = "<br><a href='#' onclick='wpcprev(event);return false;'>&laquo;</a> $i/".$row["cnt"]." <a href='#' onclick='wpcnext(event);return false;'>&raquo;</a>";
       $desc .= "<div style='display: $display'>".row2desc($qrow).$bar."</div>";
       $i++;
     }
