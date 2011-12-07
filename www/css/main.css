@@ -280,7 +280,7 @@ input[type="submit"]:active, button:active {
   text-shadow: 1px 1px 2px #DADADA, 0 0 15px #DDDDDD;
 }
 
-#searchcont {
+#topbar {
   top: 44px;
   left: 0;
   right: 0;
@@ -577,10 +577,10 @@ a.wheremi:hover div.wheremi {
 }
 
 /*
- for page about 
+ for page about
 */
 
-div.page-about {
+div.page-about, div.top-about {
   position: relative;
   top: 20px;
   font-family: Tahoma,sans-serif;
@@ -588,20 +588,20 @@ div.page-about {
 }
 
 div.page-about .left {
-  max-width: 279px;
-  left: 25px;
+  max-width: 200px;
+  left: 60px;
   position: absolute;
-  top: 64px;
+  top: 20px;
 }
 div.page-about .left p.donate {
   padding-top: 6em;
 }
 
 div.page-about .center {
-  max-width: 500px;
-  left: 400px;
+  max-width: 571px;
+  left: 350px;
   position: absolute;
-  top: 0px;
+  top: 15px;
 }
 
 div.page-about .title {
@@ -630,6 +630,46 @@ div.page-about div.list {
 div.page-about div.list p {
   padding-bottom: 0.3em;
 }
+/*********/
+div.top-about {
+  color: #F9BA1C;
+  padding-left: 20px;
+}
+div.page-about .left .link-menu {
+  padding-left: 10px;
+  padding-top: 20px;
+}
+div.page-about .left .link-menu p {
+  color: #4A8AF5;
+  font-size: 14pt;
+}
+div.page-about .left .link-menu ul li {
+  list-style-type: none;
+  margin-bottom: 0.7em;
+}
+div.page-about .left .link-menu ul li a {
+  color: #99BD1B;
+}
+div.page-about .center .head {
+  color: #4A8AF5;
+  font-size: 14pt;
+  padding-bottom: 0.5em;
+}
+div.page-about .center .text {
+  font-size: 10pt;
+  padding-bottom: 3em;
+}
+div.page-about .center .asterisk{
+  color: #4A8AF5;
+  font-size: 12pt;
+  font-weight: bold;
+}
+div.page-about .center .footnote{
+  text-indent: -0.6em;
+  font-size: 10pt;
+  color: #666666;
+}
+
 
 /*
 for leaflet

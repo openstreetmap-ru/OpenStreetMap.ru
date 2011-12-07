@@ -11,6 +11,7 @@ if (preg_match("/^index\.(?:html|php)$/is", $_URL[count($_URL) - 1])) unset($_UR
 if (empty($_URL[0]))
   $_URL[0] = 'map';
 $result = pg_query("SELECT * FROM \"pagedata\" WHERE \"name\"='".pg_escape_string($_URL[0])."' AND \"activate\"");
+
 if (pg_num_rows($result) <= 0) Err404();
 $data = pg_fetch_assoc($result);
 
@@ -41,9 +42,8 @@ include_once ($_URL[0].'.php');
     <a href="/">
       <img src="<? print($page_logo); ?>" alt="OpenStreetMap.ru" id="logo">
     </a>
-    <div id="searchcont">
-<? print($page_toopbar); ?>
-
+    <div id="topbar">
+      <? print($page_topbar); ?>
     </div>
     <div id="colorline" style="background:<?=$data['color']?>;"></div>
   </div>

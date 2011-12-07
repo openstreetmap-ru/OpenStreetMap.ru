@@ -12,7 +12,7 @@ $page_head = <<<PHP_HEAD
   <link rel="stylesheet" href="css/osb.css" />
 PHP_HEAD;
 
-$page_toopbar = <<<PHP_TOOLBAR
+$page_topbar = <<<PHP_TOPBAR
       <div id="searchpan">
         <form id="search" method="get" action="/" onsubmit="return osm.ui.searchsubmit();"><table style="width:100%;"><tr>
           <td style="width:1px;">
@@ -26,7 +26,7 @@ $page_toopbar = <<<PHP_TOOLBAR
           </td>
         </tr></table></form>
       </div>
-PHP_TOOLBAR;
+PHP_TOPBAR;
 
 $page_content = <<<PHP_CONTENT
 <body onload="init()">
