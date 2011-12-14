@@ -17,11 +17,11 @@ $page_content = <<<PHP_CONTENT
     <div class='link-menu'>
       <p>Полезные ссылки:</p>
       <ul>
-        <li><a href="http://OpenStreetMap.org">Основной сайт</a></li>
-        <li><a href="http://wiki.openstreetmap.org/wiki/RU:Main_Page">Вики по проекту</a></li>
-        <li><a href="http://wiki.openstreetmap.org/wiki/RU:Beginners_Guide">С чего начать?</a></li>
-        <li><a href="http://forum.openstreetmap.org/viewforum.php?id=21">Русскоязычный форум</a></li>
-        <li><a href="http://forum.openstreetmap.org/viewtopic.php?id=5019">IRC канал 24x7</a></li>
+        <li><a target="_blank" href="http://OpenStreetMap.org">Основной сайт</a></li>
+        <li><a target="_blank" href="http://wiki.openstreetmap.org/wiki/RU:Main_Page">Вики по проекту</a></li>
+        <li><a target="_blank" href="http://wiki.openstreetmap.org/wiki/RU:Beginners_Guide">С чего начать?</a></li>
+        <li><a target="_blank" href="http://forum.openstreetmap.org/viewforum.php?id=21">Русскоязычный форум</a></li>
+        <li><a target="_blank" href="http://forum.openstreetmap.org/viewtopic.php?id=5019">IRC канал 24x7</a></li>
       </ul>
     </div>
   </div>
