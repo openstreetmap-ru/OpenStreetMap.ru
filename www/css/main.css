@@ -658,6 +658,7 @@ div.page-about .center .head {
 div.page-about .center .text {
   font-size: 10pt;
   padding-bottom: 3em;
+  text-align: justify;
 }
 div.page-about .center .asterisk{
   color: #4A8AF5;
