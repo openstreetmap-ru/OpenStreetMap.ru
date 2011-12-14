@@ -468,7 +468,6 @@ a.wheremi:hover div.wheremi {
 /*
  * Map controls
  */
-
 #cpan {
   width: 87px;
   height: 87px;
@@ -477,7 +476,6 @@ a.wheremi:hover div.wheremi {
   top: 10px;*/
   z-index: 3;
 }
-
 #cpan #cpanglo {
   width: 31px;
   height: 31px;
@@ -489,7 +487,6 @@ a.wheremi:hover div.wheremi {
 	-o-transition: all 0.2s ease;
 	transition: all 0.2s ease;
 }
-
 #cpan:hover #cpanglo {
   width: 87px;
   height: 87px;
@@ -497,7 +494,6 @@ a.wheremi:hover div.wheremi {
   top: 0;
   position: absolute;
 }
-
 #cpanjoy {
   width: 13px;
   height: 13px;
@@ -505,7 +501,6 @@ a.wheremi:hover div.wheremi {
   top: 37px;
   position: absolute;
 }
-
 #cpan #cpanarr {
   width: 48px;
   height: 48px;
@@ -518,7 +513,6 @@ a.wheremi:hover div.wheremi {
   -o-transition: all 0.1s linear 0.1s;
   transition: all 0.1s linear 0.1s;
 }
-
 #cpan:hover #cpanarr {
   width: 48px;
   height: 48px;
@@ -531,11 +525,9 @@ a.wheremi:hover div.wheremi {
   -o-transition: none;
   transition: none;
 }
-
 .opanull {
   opacity: 0 !important;
 }
-
 #cpan #cpanact {
   width: 87px;
   height: 87px;
@@ -552,7 +544,6 @@ a.wheremi:hover div.wheremi {
 .rightalign {
   float: right;
 }
-
 .toolbar button {
   box-shadow: 0 -1px 1px #FAFAFA inset, 0 0 1px #FFFFFF;
   height: 28px;
@@ -571,7 +562,6 @@ a.wheremi:hover div.wheremi {
   box-shadow: none !important;
   background-color: inherit !important
 }
-
 .leaflet-control-container .leaflet-control-layers.leaflet-control {
   margin-top: 30px;
 }
@@ -579,61 +569,33 @@ a.wheremi:hover div.wheremi {
 /*
  for page about
 */
-
 div.page-about, div.top-about {
   position: relative;
   top: 20px;
   font-family: Tahoma,sans-serif;
   font-size: 12pt;
 }
-
 div.page-about .left {
   max-width: 200px;
   left: 60px;
   position: absolute;
   top: 20px;
 }
-div.page-about .left p.donate {
-  padding-top: 6em;
-}
-
 div.page-about .center {
   max-width: 571px;
   left: 350px;
   position: absolute;
   top: 15px;
 }
-
-div.page-about .title {
-  color: #FAD051;
-  font-size: 20pt;
-}
-
-div.page-about .green {
-  color: #99BD1B;
-}
-
 div.page-about p {
   padding-bottom: 1em;
 }
-
-div.page-about .center .subtitle {
-  color: #9C9C9C;
-  padding-bottom: 2em;
-}
-div.page-about div.list {
-/*  padding-bottom: 0.1em;*/
-  margin-top: -0.5em;
-  position: relative;
-  left: 20px;
-}
-div.page-about div.list p {
-  padding-bottom: 0.3em;
-}
-/*********/
 div.top-about {
   color: #F9BA1C;
   padding-left: 20px;
+}
+div.top-about a {
+  color: #F9BA1C;
 }
 div.page-about .left .link-menu {
   padding-left: 10px;
@@ -670,7 +632,6 @@ div.page-about .center .footnote{
   font-size: 10pt;
   color: #666666;
 }
-
 
 /*
 for leaflet
