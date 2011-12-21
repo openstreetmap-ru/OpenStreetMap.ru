@@ -285,7 +285,7 @@ input[type="submit"]:active, button:active {
   left: 0;
   right: 0;
   position: absolute;
-  padding: 0 300px 0 325px;
+  padding: 0 25px 0 325px;
 }
 
 #searchpan {
