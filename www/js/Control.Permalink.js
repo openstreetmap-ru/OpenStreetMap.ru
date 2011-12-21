@@ -1,7 +1,9 @@
 L.Control.Permalink = L.Class.extend({
 	options: {
 		position: L.Control.Position.BOTTOM_LEFT,
-		useAnchor: true
+		useAnchor: true,
+		useMarker: true,
+		markerOptions: {},
 	},
 
 	initialize: function(layers, options) {
@@ -9,10 +11,11 @@ L.Control.Permalink = L.Class.extend({
 		this._set_urlvars();
 		this._centered = false;
 		this._layers = layers;
+		this._marker = null;
 	},
 
 	onAdd: function(map) {
-		this._container = L.DomUtil.create('div', 'leaflet-control-attribution');
+		this._container = L.DomUtil.create('div', 'leaflet-control-attribution permalink');
 		L.DomEvent.disableClickPropagation(this._container);
 		map.on('moveend', this._update_center, this);
 		map.on('layeradd', this._update_layers, this);
@@ -21,6 +24,7 @@ L.Control.Permalink = L.Class.extend({
 		this._href = L.DomUtil.create('a', null, this._container);
 		this._href.innerHTML = "Permalink";
 		this._set_center(this._params);
+		this._set_marker(this._params);
 		this._update_layers();
 		this._update_center();
 
@@ -29,6 +33,7 @@ L.Control.Permalink = L.Class.extend({
 			window.onhashchange = function() {
 				_this._set_urlvars();
 				_this._set_center(_this._params, true);
+				_this._set_marker(_this._params);
 				if (fn) return fn();
 			}
 		}
@@ -89,17 +94,40 @@ L.Control.Permalink = L.Class.extend({
 
 	_set_urlvars: function()
 	{
+		function alter(p) {
+			if (!p.mlat || !p.mlon) return p;
+			p.lat = p.mlat;
+			p.lon = p.mlon;
+			p.marker = '1';
+			delete p['mlat'];
+			delete p['mlon'];
+			return p;
+		}
+
 		this._url_base = window.location.href.split('#')[0];
-		this._params = this._parse_urlvars(window.location.hash.slice(1));
-		if (this._params.lat && this._params.lon && this._params.zoom)
-			return;
+		var ph = {};
+		if (this.options.useAnchor)
+			ph = alter(L.UrlUtil.queryParse(window.location.hash.slice(1)));
 
-		var idx = this._url_base.indexOf('?');
-		if (idx < 0)
+		var q = L.UrlUtil.query();
+		if (!q) {
+			this._params = ph;
 			return;
+		}
 
-		this._params = this._parse_urlvars(this._url_base.slice(idx + 1));
-		this._url_base = this._url_base.substring(0, idx);
+		var pq = alter(L.UrlUtil.queryParse(q));
+
+		if (!this.options.useAnchor) {
+			this._url_base = this._url_base.split('?')[0]
+			this._params = pq;
+			return;
+		}
+
+		this._params = ph;
+		if (pq.lat && pq.lon && pq.zoom)
+			this._params = L.Util.extend({lat: pq.lat, lon: pq.lon, zoom: pq.zoom}, this._params);
+		if (pq.layer)
+			this._params = L.Util.extend({layer: pq.layer}, this._params);
 	},
 
 	_parse_urlvars: function(s) {
@@ -123,6 +151,16 @@ L.Control.Permalink = L.Class.extend({
 		this._map.setView(new L.LatLng(params.lat, params.lon), params.zoom);
 		if (params.layer && this._layers)
 			this._layers.chooseBaseLayer(params.layer);
+	},
+
+	_set_marker: function(params)
+	{
+		if (this._marker)
+			this._map.removeLayer(this._marker);
+		this._marker = null;
+		if (params.marker != '1' || !this._centered || !this.options.useMarker) return;
+		this._marker = new L.Marker(new L.LatLng(params.lat, params.lon), this.options.markerOptions);
+		this._map.addLayer(this._marker);
 	}
 });
 
@@ -161,4 +199,24 @@ L.Control.Layers.include({
 		}
 	},
 });
-	
+
+L.UrlUtil = {
+	queryParse: function(s) {
+		var p = {};
+		var params = s.split('&');
+		for(var i = 0; i < params.length; i++) {
+			var tmp = params[i].split('=');
+			if (tmp.length != 2) continue;
+			p[tmp[0]] = tmp[1];
+		}
+		return p;
+	},
+
+	query: function() {
+		var href = window.location.href.split('#')[0], idx = href.indexOf('?');
+		if (idx < 0)
+			return '';
+		return href.slice(idx+1);
+	}
+};
+

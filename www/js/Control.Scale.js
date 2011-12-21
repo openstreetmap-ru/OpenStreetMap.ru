@@ -1,6 +1,7 @@
 L.Control.Scale = L.Class.extend({
 	options: {
 		position: L.Control.Position.BOTTOM_LEFT,
+		useCanvas: null,
 		width: 100,
 	},
 
@@ -10,10 +11,24 @@ L.Control.Scale = L.Class.extend({
 
 	onAdd: function(map) {
 		this._map = map;
+
 		this._container = L.DomUtil.create('div', 'leaflet-control-attribution');
 		this._label = L.DomUtil.create('div', null, this._container);
 		this._label.style.textAlign = 'right';
-		this._canvas = L.DomUtil.create('canvas', 'leaflet-canvas-marker', this._container);
+
+		if (!this.options.useCanvas && this.options.useCanvas != false)
+			this.options.useCanvas = "HTMLCanvasElement" in window;
+		if (this.options.useCanvas) {
+			this._canvas = L.DomUtil.create('canvas', 'leaflet-canvas-marker', this._container);
+		} else {
+			this._canvas = L.DomUtil.create('div', null, this._container);
+			this._canvas.style.border = "1px solid black";
+			this._canvas.innerHTML = "&nbsp;";
+			//this._canvas.style.padding = "none";
+			//this._canvas.style.margin = "none";
+			//this._canvas.style.width = 100;
+			//this._canvas.style.height = 5;
+		}
 		map.on('moveend', this._update, this);
 		this._update();
 	},
@@ -49,10 +64,17 @@ L.Control.Scale = L.Class.extend({
 
 		size = size * iw / width;
 
-		var ctx = this._canvas.getContext("2d");
-		this._canvas.width = size+1;
-		this._canvas.height = 10+1;
-		this._draw(ctx, size, 5);
+		if (this.options.useCanvas) {
+			this._canvas.width = size+1;
+			this._canvas.height = 10+1;
+
+			var ctx = this._canvas.getContext("2d");
+			this._draw(ctx, size, 5);
+		} else {
+			this._canvas.style.width = size;
+			this._canvas.style.height = 5;
+
+		}
 	},
 
 	_draw: function(ctx, width, height) {

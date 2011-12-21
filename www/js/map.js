@@ -91,6 +91,7 @@ function init() {
   osm.map.addLayer(osm.search_marker);
   
   osm.map.control_layers.chooseBaseLayer(layer);
+  osm.map.addControl(new L.Control.Scale({width: 100, position: L.Control.Position.BOTTOM_LEFT})); 
   osm.map.addControl(new L.Control.Permalink(osm.map.control_layers));
   osm.map.addControl(new L.Control.Zoom({shiftClick: true}));
   
