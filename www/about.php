@@ -5,8 +5,8 @@ $page_head = <<<PHP_HEAD
 PHP_HEAD;
 
 $page_topbar = <<<PHP_TOPBAR
-  <div class="top-about">Отдельное спасибо компании <a target="_blank" href="http://rambler.ru">Рамблер</a> за всестороннюю помощь проекту!
-  </div>
+  <!--<div class="top-about">Отдельное спасибо компании <a target="_blank" href="http://rambler.ru">Рамблер</a> за всестороннюю помощь проекту!
+  </div>-->
 
 PHP_TOPBAR;
 
