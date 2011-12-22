@@ -10,6 +10,7 @@ $page_head = <<<PHP_HEAD
   <script type="text/javascript" src="js/Control.Scale.js"></script>
   <script type="text/javascript" src="js/Control.Zoom.js"></script>
   <script type="text/javascript" src="js/osb.js"></script>
+  <script type="text/javascript" src="js/markers.js"></script>
   <link rel="stylesheet" href="css/osb.css" />
 PHP_HEAD;
 
@@ -48,7 +49,8 @@ $page_content = <<<PHP_CONTENT
     </div>
     <div id="mappan">
       <div id="map"></div>
-      <div id="fsbutton" onClick="osm.ui.togglefs()">&uarr;</div>
+      <div id="markerbutton" class="map-feature-button" onClick="osm.markers.addPoint()">Marker</div>
+      <div id="fsbutton" class="map-feature-button" onClick="osm.ui.togglefs()">&uarr;</div>
       <!--<div id="cpan">
         <img id="cpanglo" src="img/glow.png" />
         <img id="cpanarr" src="img/arrows.png" />

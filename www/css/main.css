@@ -134,17 +134,29 @@ table {
   left: 0;
 }
 
-#fsbutton {
+.map-feature-button {
   background: #99BD1B;
   color: #ffffff;
   cursor: pointer;
   height: 20px;
   position: absolute;
-  right: 20px;
   text-align: center;
   top: 0;
   width: 50px;
   z-index: 5;
+}
+
+.map-feature-button-pressed {
+  background: #455412;
+}
+
+
+#fsbutton {
+  right: 20px;
+}
+
+#markerbutton {
+  right: 90px;
 }
 
 #map {

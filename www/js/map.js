@@ -1,4 +1,4 @@
-var osm = {cpan: {}, leftpan: {on: false}, mappan: {}, ui: {fs: false}, layers:{}};
+var osm = {cpan: {}, leftpan: {on: false}, mappan: {}, ui: {fs: false}, layers:{}, markers:{}};
 var search = {};
 
 function $(id) { return document.getElementById(id); }
@@ -92,7 +92,8 @@ function init() {
   
   osm.map.control_layers.chooseBaseLayer(layer);
   osm.map.addControl(new L.Control.Scale({width: 100, position: L.Control.Position.BOTTOM_LEFT})); 
-  osm.map.addControl(new L.Control.Permalink(osm.map.control_layers));
+  osm.map.permalink = new L.Control.Permalink(osm.map.control_layers);
+  osm.map.addControl(osm.map.permalink);
   osm.map.addControl(new L.Control.Zoom({shiftClick: true}));
   
   search.inLoad();
