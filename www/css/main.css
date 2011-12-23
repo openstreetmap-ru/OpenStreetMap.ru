@@ -154,6 +154,14 @@ table {
   right: 90px;
 }
 
+#multimarkerbutton {
+  right: 160px;
+}
+
+#pathbutton {
+	right: 230px;
+}
+
 #map {
   top: 0;
   bottom: 0;
