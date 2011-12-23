@@ -11,8 +11,9 @@ osm.markers.createPoint = function(e) {
 	$('map').style.cursor='';
 	
 	var url = osm.map.permalink._href.getAttribute('href');
-	url = url.replace(/lat=\d*(.?\d*)/, 'lat='+e.latlng.lat);
-	url = url.replace(/lon=\d*(.?\d*)/, 'lon='+e.latlng.lng);
+	var point = osm.map.permalink._round_point(e.latlng);
+	url = url.replace(/lat=\d*(.?\d*)/, 'lat='+point.lat);
+	url = url.replace(/lon=\d*(.?\d*)/, 'lon='+point.lng);
 	url += '&marker=1';
 	//http://openstreetmap.ru/#layer=Mapnik&zoom=7&lat=48.305&lon=27.11&marker=1
 	marker.bindPopup('<a href="'+url+'">Ссылка на маркер</a>').openPopup();
