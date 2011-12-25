@@ -49,7 +49,13 @@ $page_content = <<<PHP_CONTENT
     </div>
     <div id="mappan">
       <div id="map"></div>
-      <div id="markerbutton" class="map-feature-button" onClick="osm.markers.addPoint()">Marker</div>
+      <div id="tools" onmouseover="this.className='on';" onmouseout="this.className='';">
+        <a id="tools-button" href="#" title="Инструменты"></a>
+        <div>
+          <p><a href="#" title="Маркер" onClick="osm.markers.addPoint()">Маркер</a></p>
+          <p><a href="#" title="Редактировать" onClick="osm.markers.addPoint()">Редактировать (в JOSM)</a></p>
+        </div>
+      </div>
       <div id="fsbutton" class="map-feature-button" onClick="osm.ui.togglefs()">&uarr;</div>
       <!--<div id="cpan">
         <img id="cpanglo" src="img/glow.png" />

@@ -1,13 +1,11 @@
 osm.markers.addPoint = function () {
 	osm.map.on('click', osm.markers.createPoint);
-	$('markerbutton').className += ' map-feature-button-pressed';
 	$('map').style.cursor = 'crosshair';
 }
 osm.markers.createPoint = function(e) {
 	var marker = new L.Marker(e.latlng);
 	osm.map.addLayer(marker);
-	osm.map.off('click', osm.markers.createPoint); 
-	$('markerbutton').className = 'map-feature-button';
+	osm.map.off('click', osm.markers.createPoint);
 	$('map').style.cursor='';
 	
 	var url = osm.map.permalink._href.getAttribute('href');
