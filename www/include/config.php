@@ -5,6 +5,9 @@ setlocale(LC_ALL, 'ru_RU.UTF-8');
 include_once ('passwd.php');
 include_once ('functions.php');
 
+define("PERSMAP_MAX_POINTS", 30);
+define("PERSMAP_MAX_LINES", 20);
+define("PERSMAP_MAX_LINE_POINTS", 30);
 pg_connect("host='".$pg_host."' user='".$pg_user."' password='".$pg_pass."' dbname='".$pg_base."'") or die(Err500());
 //mysql_query('SET CHARACTER SET utf8');
 //mysql_query('SET NAMES utf8');
