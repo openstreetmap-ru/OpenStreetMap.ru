@@ -229,8 +229,6 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 			a.onclick = function(e) { return showComment("Close bug", false); }
 		}
 		var a = create_link(ul, "JOSM");
-		
-
 
 		var ydelta = this.options.editArea || 0.01;
 		var xdelta = ydelta * 2;
@@ -240,14 +238,12 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 		//var frame = L.DomUtil.create('iframe', null);
 		
 		a.href = url;
-		a.target = 'hiddenIframeOSB';
-		
+		a.target = 'hiddenIframe';
 		
 		/*frame.style.display = 'none';
 		frame.src = url;
 		document.body.appendChild(frame);
 		frame.onload = function(e) { document.body.removeChild(frame); };*/
-		
 		
 		//a.onclick = function() { _this.remoteEdit(rawbug[0]); };
 

@@ -53,7 +53,7 @@ $page_content = <<<PHP_CONTENT
         <a id="tools-button" href="#" title="Инструменты"></a>
         <div>
           <p><a href="#" title="Маркер" onClick="osm.markers.addPoint()">Маркер</a></p>
-          <p><a href="#" title="Редактировать" onClick="osm.markers.addPoint()">Редактировать (в JOSM)</a></p>
+          <p><a id="EditJOSM" href="#" title="Редактировать">Редактировать (в JOSM)</a></p>
         </div>
       </div>
       <div id="fsbutton" class="map-feature-button" onClick="osm.ui.togglefs()">&uarr;</div>
@@ -71,7 +71,7 @@ $page_content = <<<PHP_CONTENT
       </div>-->
     </div>
   </div>
-  <iframe name="hiddenIframeOSB" id="hiddenIframeOSB" style="display: none;"></iframe>
+  <iframe name="hiddenIframe" id="hiddenIframe" style="display: none;"></iframe>
 </body>
 PHP_CONTENT;
 ?>
