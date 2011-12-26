@@ -35,17 +35,29 @@ PHP_TOPBAR;
 $page_content = <<<PHP_CONTENT
 <body onload="init()">
   <div id="downpan" class="left-on">
-    <div id="leftpan">
+    <div id="leftpan" class="leftSearch">
       <div class="close" onClick="osm.leftpan.toggle(false);"></div>
-      <div class="header">
-        <h1>Результаты поиска:</h1>
+      <div id="leftsearchpan">
+        <div class="header">
+          <h1>Результаты поиска:</h1>
+        </div>
+        <div id="content_pan" class="contentpan">
+          <ul>
+            <br>
+            <li><span class="pseudolink" onClick="osm.ui.whereima()">Найти меня</span></li>
+            <li><span class="pseudolink" onClick="osm.ui.whereima()">Проложить маршрут</span></li>
+          </ul>
+        </div>
       </div>
-      <div id="content_pan">
-        <ul>
-          <br>
-          <li><span class="pseudolink" onClick="osm.ui.whereima()">Найти меня</span></li>
-          <li><span class="pseudolink" onClick="osm.ui.whereima()">Проложить маршрут</span></li>
-        </ul>
+      <div id="leftpersmappan">
+        <div class="header">
+          <h1>Персональная карта</h1>
+        </div>
+        <div class="contentpan">
+          <p>Нарисовать:</p>
+          <div id="multimarkerbutton" class="pseudolink" onClick="osm.markers.addMultiMarker()">Маркеры</div>
+          <div id="pathbutton" class="pseudolink" onClick="osm.markers.addPath()">Путь</div>
+        </div>
       </div>
       <div id="toggler" onClick="osm.leftpan.toggle()"></div>
     </div>
@@ -58,10 +70,9 @@ $page_content = <<<PHP_CONTENT
         <div class="p">
           <p><a href="#" title="Маркер" onClick="osm.markers.addPoint()">Маркер</a></p>
           <p><a id="EditJOSM" href="#" title="Редактировать">Редактировать (в JOSM)</a></p>
+          <p><a href="#" title="Персональная карта" onClick="osm.markers.personalMap()">Персональная карта</a></p>
         </div>
       </div>
-      <!--<div id="pathbutton" class="map-feature-button" onClick="osm.markers.addPath()">Path</div>
-      <div id="multimarkerbutton" class="map-feature-button" onClick="osm.markers.addMultiMarker()">Markers</div>-->
       <div id="fsbutton" class="map-feature-button" onClick="osm.ui.togglefs()">&uarr;</div>
       <!--<div id="cpan">
         <img id="cpanglo" src="img/glow.png" />

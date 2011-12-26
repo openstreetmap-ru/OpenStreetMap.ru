@@ -227,9 +227,14 @@ osm.leftpan.toggle = function(on) {
   if (typeof on == "undefined") on = !this.on;
   var center = osm.map.getCenter();
   if (on != this.on) {
-    if (on) {
+    if (on === 2) {
+      this.on = 2;
+      $('downpan').className = '';
+      $('leftpan').className = 'leftPersmap';
+	} else if (on) {
       this.on = true;
       $_('downpan').className = '';
+      $('leftpan').className = 'leftSearch';
     }
     else {
       this.on = false;

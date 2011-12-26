@@ -76,9 +76,21 @@ table {
     left: 15px;
     position: absolute;
     top: 15px;
- }
+}
 
-#content_pan {
+#leftpan.leftSearch div#leftpersmappan {
+  display: none;
+}
+
+#leftpan.leftPersmap div#leftsearchpan {
+  display: none;
+}
+
+#leftpan div.persmappressed {
+  background-color: #AAFFAA;
+}
+
+.contentpan {
   bottom: 0;
   left: 0;
   position: absolute;
@@ -90,16 +102,16 @@ table {
   overflow: auto;
 }
 
-#content_pan ol {
+.contentpan ol {
   /*margin-left: 20px;*/
 }
 
-#content_pan ul {
+.contentpan ul {
   /*margin-left: 20px;*/
   list-style: none;
 }
 
-#content_pan li {
+.contentpan li {
   margin-bottom: 14px;
 }
 

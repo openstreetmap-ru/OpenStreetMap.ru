@@ -16,6 +16,10 @@ osm.markers.createPoint = function(e) {
 	osm.map.off('click', osm.markers.createPoint);
 	$_('map').style.cursor='';
 }
+osm.markers.personalMap = function() {
+  osm.leftpan.toggle(2);
+}
+
 osm.markers._removeHandlers = function() {
 	var oldDrawingMode = osm.markers._drawingMode;
 	var func, elementId;
@@ -37,7 +41,7 @@ osm.markers._removeHandlers = function() {
 	}
 	osm.map.off('click', func);
 	if (elementId)
-		$(elementId).className = 'map-feature-button';
+		$(elementId).className = 'pseudolink';
 	$('map').style.cursor='';
 	osm.markers._drawingMode = 0;
 	return oldDrawingMode;
@@ -48,7 +52,7 @@ osm.markers.addMultiMarker = function() {
 		return;
 
 	osm.map.on('click', osm.markers.createPoints);
-	$('multimarkerbutton').className += ' map-feature-button-pressed';
+	$('multimarkerbutton').className += ' persmappressed';
 	$('map').style.cursor = 'crosshair';
 	osm.markers._drawingMode = 2;
 
@@ -67,7 +71,7 @@ osm.markers.addPath = function() {
 		return;
 
 	osm.map.on('click', osm.markers.createPath);
-	$('pathbutton').className += ' map-feature-button-pressed';
+	$('pathbutton').className += ' persmappressed';
 	$('map').style.cursor = 'crosshair';
 	osm.markers._drawingMode = 3;
 	osm.markers._newPath = new L.Polyline([]);
