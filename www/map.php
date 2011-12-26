@@ -50,8 +50,10 @@ $page_content = <<<PHP_CONTENT
     <div id="mappan">
       <div id="map"></div>
       <div id="tools" onmouseover="this.className='on';" onmouseout="this.className='';">
-        <a id="tools-button" href="#" title="Инструменты"></a>
-        <div>
+        <div class="a">
+          <a id="tools-button" href="#" title="Инструменты"></a>
+        </div>
+        <div class="p">
           <p><a href="#" title="Маркер" onClick="osm.markers.addPoint()">Маркер</a></p>
           <p><a id="EditJOSM" href="#" title="Редактировать">Редактировать (в JOSM)</a></p>
         </div>
