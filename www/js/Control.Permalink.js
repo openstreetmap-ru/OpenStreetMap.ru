@@ -49,16 +49,11 @@ L.Control.Permalink = L.Class.extend({
 
 	_update_center: function() {
 		if (!this._map) return;
-
-		var center = this._map.getCenter();
-		center = this._round_point(center);
-		this._params['zoom'] = this._map.getZoom();
-		this._params['lat'] = center.lat;
-		this._params['lon'] = center.lng;
 		this._update_href();
 	},
 
 	_update_href: function() {
+	  this.get_params();
 		var params = L.Util.getParamString(this._params);
 		var sep = '?';
 		if (this.options.useAnchor) sep = '#';
@@ -67,13 +62,21 @@ L.Control.Permalink = L.Class.extend({
 
 	_update_layers: function() {
 		if (!this._layers) return;
+		this._update_href();
+	},
+	
+	get_params: function () {
+		var center = this._map.getCenter();
+		center = this._round_point(center);
+		this._params['zoom'] = this._map.getZoom();
+		this._params['lat'] = center.lat;
+		this._params['lon'] = center.lng;
 		var layer = this._layers.currentBaseLayer();
 		if (layer)
 			this._params['layer'] = layer.name;
-		this._update_href();
 	},
 
-	_round_point : function(point) {
+	_round_point: function(point) {
 		var bounds = this._map.getBounds(), size = this._map.getSize();
 		var ne = bounds.getNorthEast(), sw = bounds.getSouthWest();
 
