@@ -90,8 +90,8 @@ function init() {
   osm.search_marker = new L.LayerGroup();
   osm.map.addLayer(osm.search_marker);
   
-  osm.map.control_layers.chooseBaseLayer(layer);
-  osm.map.addControl(new L.Control.Scale({width: 100, position: L.Control.Position.BOTTOM_LEFT})); 
+  //osm.map.control_layers.chooseBaseLayer(layer);
+  osm.map.addControl(new L.Control.Scale({width: 100, position: L.Control.Position.BOTTOM_LEFT}));
   osm.map.permalink = new L.Control.Permalink(osm.map.control_layers);
   osm.map.addControl(osm.map.permalink);
   osm.map.addControl(new L.Control.Zoom({shiftClick: true}));

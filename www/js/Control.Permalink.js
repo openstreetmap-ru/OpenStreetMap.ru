@@ -72,8 +72,12 @@ L.Control.Permalink = L.Class.extend({
 		this._params['lat'] = center.lat;
 		this._params['lon'] = center.lng;
 		var layer = this._layers.currentBaseLayer();
-		if (layer)
-			this._params['layer'] = layer.name;
+		if (layer) this._params['layer'] = layer.name;
+		for(x in osm.map.control_layers._layers) {
+		  if (osm.map.control_layers._layers[x].overlay)
+		    if (this._map.hasLayer(osm.map.control_layers._layers[x].layer))
+		      this._params['layer'] += ',' + osm.map.control_layers._layers[x].name;
+		}
 	},
 
 	_round_point: function(point) {
@@ -169,25 +173,31 @@ L.Control.Permalink = L.Class.extend({
 
 L.Control.Layers.include({
 	chooseBaseLayer: function(name) {
-		var layer, obj;
-		for (var i in this._layers) {
-			if (!this._layers.hasOwnProperty(i))
-				continue;
-			obj = this._layers[i];
-			if (!obj.overlay && obj.name == name)
-				layer = obj.layer;
+    var obj;
+    var layers = new Array();
+    var names = name.split(',');
+		for (var n in names) {
+		  for (var i in this._layers) {
+			  if (!this._layers.hasOwnProperty(i))
+				  continue;
+			  obj = this._layers[i];
+			  if (obj.name == names[n])
+				  layers.push(obj.layer);
+		  }
 		}
-		if (!layer || this._map.hasLayer(layer))
+		if (!layers || !layers.length)
 			return;
 
 		for (var i in this._layers) {
 			if (!this._layers.hasOwnProperty(i))
 				continue;
 			obj = this._layers[i];
-			if (!obj.overlay && this._map.hasLayer(obj.layer))
+			if (this._map.hasLayer(obj.layer))
 				this._map.removeLayer(obj.layer)
 		}
-		this._map.addLayer(layer)
+		for (l in layers) {
+		  this._map.addLayer(layers[l])
+		}
 		this._update();
 	},
 
