@@ -62,6 +62,14 @@ L.Control.Permalink = L.Class.extend({
 
 	_update_layers: function() {
 		if (!this._layers) return;
+		
+		var layer = this._layers.currentBaseLayer();
+		if (layer) this._params['layer'] = layer.name;
+		for(x in osm.map.control_layers._layers) {
+		  if (osm.map.control_layers._layers[x].overlay)
+		    if (this._map.hasLayer(osm.map.control_layers._layers[x].layer))
+		      this._params['layer'] += ',' + osm.map.control_layers._layers[x].name;
+		}
 		this._update_href();
 	},
 	
@@ -71,13 +79,6 @@ L.Control.Permalink = L.Class.extend({
 		this._params['zoom'] = this._map.getZoom();
 		this._params['lat'] = center.lat;
 		this._params['lon'] = center.lng;
-		var layer = this._layers.currentBaseLayer();
-		if (layer) this._params['layer'] = layer.name;
-		for(x in osm.map.control_layers._layers) {
-		  if (osm.map.control_layers._layers[x].overlay)
-		    if (this._map.hasLayer(osm.map.control_layers._layers[x].layer))
-		      this._params['layer'] += ',' + osm.map.control_layers._layers[x].name;
-		}
 	},
 
 	_round_point: function(point) {
