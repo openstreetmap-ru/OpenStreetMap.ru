@@ -31,6 +31,7 @@ include_once ($_URL[0].'.php');
   <link rel="search" href="/search.xml" type="application/opensearchdescription+xml" title="OpenStreetMap.Ru" />
   <script type="text/javascript" src="js/main.js"></script>
   <link rel="icon" type="image/png" href="/favicon.png" />
+  <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
   <? print($external_head); ?>
   <? print($page_head); ?>
 </head>

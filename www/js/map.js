@@ -1,7 +1,7 @@
 var osm = {cpan: {}, leftpan: {on: false}, mappan: {}, ui: {fs: false}, layers:{}, markers:{}};
 var search = {};
 
-function $(id) { return document.getElementById(id); }
+function $_(id) { return document.getElementById(id); }
 
 function setView(position) {
   osm.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 10);
@@ -83,10 +83,10 @@ function init() {
   );
   osm.map.addControl(osm.map.control_layers);
 
-  osm.leftpan.panel = $('leftpan');
-  osm.leftpan.content = $('content_pan');
-  osm.mappan.panel = $('mappan');
-  osm.input = $('qsearch');
+  osm.leftpan.panel = $_('leftpan');
+  osm.leftpan.content = $_('content_pan');
+  osm.mappan.panel = $_('mappan');
+  osm.input = $_('qsearch');
   osm.search_marker = new L.LayerGroup();
   osm.map.addLayer(osm.search_marker);
   
@@ -107,7 +107,7 @@ function init() {
 osm.editUpdate = function() {
   var pos = osm.map.getBounds();
   var url="http://127.0.0.1:8111/load_and_zoom?left=" + pos._southWest.lng + "&top=" + pos._northEast.lat + "&right=" + pos._northEast.lng + "&bottom=" + pos._southWest.lat;
-  var edit = $('EditJOSM');
+  var edit = $_('EditJOSM');
   edit.target = 'hiddenIframe';
   edit.href = url;
 }
@@ -125,57 +125,54 @@ osm.leftpan.toggle = function(on) {
   if (on != this.on) {
     if (on) {
       this.on = true;
-      $('downpan').className = '';
+      $_('downpan').className = '';
     }
     else {
       this.on = false;
-      $('downpan').className = 'left-on';
+      $_('downpan').className = 'left-on';
     }
     osm.map.invalidateSize();
   }
 };
 
-search.processResults = function() {
+search.processResults = function(results) {
   try {
-    if (this.request.readyState == 4) {
-      if (this.request.status == 200) {
-        var results = eval('(' + this.request.responseText + ')');
-        if (results.find==0) {
-          osm.leftpan.content.innerHTML='Ничего не найдено по запросу "' + (results.search)  + '"';
-        }
-        else if (results.find==1 && results.accuracy_find==0) {
-          osm.leftpan.content.innerHTML='Пожалуйста, уточните запрос "' + (results.search) + '"';
-        }
-        else {
-          //var results = eval('(' + this.request.responseText + ')');
-          var content = '<ul id="ol-search_result">';
-          osm.layers.search_marker.clearLayers();
-          var MyIcon = L.Icon.extend({
-            iconUrl: '../img/marker.png',
-            shadowUrl: '../img/marker-shadow.png',
-            iconSize: new L.Point(18, 29),
-            shadowSize: new L.Point(29, 29),
-            iconAnchor: new L.Point(8, 29),
-            popupAnchor: new L.Point(-8, -50)
-          });
-          var icon = new MyIcon();
-          var matches=results.matches;
-          for (var i in matches) {
-            content += ('<li><a href="" onClick="osm.map.setView(new L.LatLng(' + matches[i].lat + ',' + matches[i].lon + '), 16); return false;" info="id='+matches[i].id+'  weight='+matches[i].weight+'">' + matches[i].display_name + '</a></li>');
-            marker = new L.Marker(new L.LatLng(matches[i].lat, matches[i].lon),{icon: icon});
-            marker.bindPopup("<b>Адрес:</b><br /> " + matches[i].display_name);
-            osm.layers.search_marker.addLayer(marker);
-          }
-          osm.map.setView(new L.LatLng(matches[0].lat, matches[0].lon), 11);
-          content += '</ul>';
-          osm.leftpan.content.innerHTML = content;
-        }
-      }
+    if (results.find==0) {
+      osm.leftpan.content.innerHTML='Ничего не найдено по запросу "' + (results.search)  + '"';
     }
+    else if (results.find==1 && results.accuracy_find==0) {
+      osm.leftpan.content.innerHTML='Пожалуйста, уточните запрос "' + (results.search) + '"';
+    }
+    else {
+      var content = '<ul id="ol-search_result">';
+      osm.layers.search_marker.clearLayers();
+      var MyIcon = L.Icon.extend({
+      iconUrl: '../img/marker.png',
+      shadowUrl: '../img/marker-shadow.png',
+      iconSize: new L.Point(18, 29),
+      shadowSize: new L.Point(29, 29),
+      iconAnchor: new L.Point(8, 29),
+      popupAnchor: new L.Point(-8, -50)
+      });
+      var icon = new MyIcon();
+      var matches=results.matches;
+      for (var i in matches) {
+      content += ('<li><a href="" onClick="osm.map.setView(new L.LatLng(' + matches[i].lat + ',' + matches[i].lon + '), 16); return false;" info="id='+matches[i].id+'  weight='+matches[i].weight+'">' + matches[i].display_name + '</a></li>');
+      marker = new L.Marker(new L.LatLng(matches[i].lat, matches[i].lon),{icon: icon});
+      marker.bindPopup("<b>Адрес:</b><br /> " + matches[i].display_name);
+      osm.layers.search_marker.addLayer(marker);
+      }
+      osm.map.setView(new L.LatLng(matches[0].lat, matches[0].lon), 11);
+      content += '</ul>';
+      osm.leftpan.content.innerHTML = content;
+    }
+  } catch(e) {
+    osm.leftpan.content.innerHTML = 'Ошибка: ' + errorThrown.description + '<br /> Ответ поиск.серв.: '+this.request.responseText;
   }
-  catch(e) {
-      osm.leftpan.content.innerHTML = 'Ошибка: ' + e.description + '<br /> Ответ поиск.серв.: '+this.request.responseText;
-  }
+};
+
+search.errorHandler = function(jqXHR, textStatus, errorThrown) {
+  osm.leftpan.content.innerHTML = 'Ошибка: ' + textStatus + '<br />' + errorThrown.message;
 };
 
 search.search = function(inQuery) {
@@ -185,11 +182,13 @@ search.search = function(inQuery) {
     return false;
   mapCenter=osm.map.getCenter();
   osm.leftpan.toggle(true);
-  this.request = new XMLHttpRequest();
+  $.getJSON('/api/search', {q: inQuery, accuracy: 1, lat: mapCenter.lat, lon: mapCenter.lon}, search.processResults)
+  .error(search.errorHandler);
+/*  this.request = new XMLHttpRequest();
   //this.request.open('GET', 'http://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(osm.input.value) + '&format=json');
   this.request.open('GET', '/api/search?q=' + encodeURIComponent(inQuery) + '&accuracy=1' + '&lat=' + mapCenter.lat + '&lon=' + mapCenter.lng);
   this.request.onreadystatechange = function(){search.processResults(this)};
-  this.request.send(null);
+  this.request.send(null);*/
   return false;
 };
 
@@ -225,15 +224,15 @@ osm.ui.whereima = function() {
 osm.ui.togglefs = function() {
   if (osm.ui.fs) {
     document.body.className = '';
-    $('fsbutton').innerHTML = '&uarr;';
+    $_('fsbutton').innerHTML = '&uarr;';
   }
   else {
     document.body.className = 'fs';
-    $('fsbutton').innerHTML = '&darr;';
+    $_('fsbutton').innerHTML = '&darr;';
   }
   osm.ui.fs = !osm.ui.fs;
 };
 
 osm.ui.searchsubmit = function() {
-  return search.search($('qsearch').value);
+  return search.search($_('qsearch').value);
 }

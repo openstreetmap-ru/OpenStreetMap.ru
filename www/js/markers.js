@@ -1,6 +1,6 @@
 osm.markers.addPoint = function () {
 	osm.map.on('click', osm.markers.createPoint);
-	$('map').style.cursor = 'crosshair';
+	$_('map').style.cursor = 'crosshair';
 }
 osm.markers.createPoint = function(e) {
 	var marker = new L.Marker(e.latlng);
