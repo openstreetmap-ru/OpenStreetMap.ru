@@ -229,12 +229,12 @@ osm.leftpan.toggle = function(on) {
   if (on != this.on) {
     if (on === 2) {
       this.on = 2;
-      $('downpan').className = '';
-      $('leftpan').className = 'leftPersmap';
+      $_('downpan').className = '';
+      $_('leftpan').className = 'leftPersmap';
 	} else if (on) {
       this.on = true;
       $_('downpan').className = '';
-      $('leftpan').className = 'leftSearch';
+      $_('leftpan').className = 'leftSearch';
     }
     else {
       this.on = false;
