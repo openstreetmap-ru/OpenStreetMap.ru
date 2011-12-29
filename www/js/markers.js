@@ -64,6 +64,8 @@ osm.markers.addMultiMarker = function() {
 osm.markers.createPoints = function(e) {
 	var marker = new L.Marker(e.latlng);
 	osm.markers._layerGroup.addLayer(marker);
+  var popupHTML = $('personal_marker_popup').innerHTML;
+  marker.bindPopup(popupHTML).openPopup();
 }
 
 osm.markers.addPath = function() {
@@ -86,4 +88,12 @@ osm.markers.createPath = function(e) {
 		
 	}
 	osm.markers._newPath.addLatLng(e.latlng);
+}
+
+osm.markers.toggleCheck = function(el) {
+  var colorBoxes = document.getElementsByClassName('colour-picker-button');
+  for (var i=0; i < colorBoxes.length; i++) {
+    colorBoxes[i].innerHTML = '';
+  }
+  el.innerHTML = '&#x2713;';
 }

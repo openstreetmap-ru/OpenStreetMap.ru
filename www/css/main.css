@@ -721,6 +721,43 @@ div.page-about .center .footnote{
   color: #666666;
 }
 
+/* personal map */
+
+.colour-picker-button {
+  width: 15px;
+  height: 15px;
+  border: 1px solid black;
+  text-align: center;
+  vertical-align: top;
+  padding: 0px;
+  margin: 3px;
+  line-height: 13px;
+  color: white;
+  float: left;
+}
+.colour-picker-button-blue {
+  background: #2288dd;
+}
+.colour-picker-button-green {
+  background: #22dd44;
+  color: #000000;
+}
+.colour-picker-button-red {
+  background: #dd4422;
+}
+.colour-picker-button-yellow {
+  background: #f5fc26;
+  color: #000000;
+}
+.colour-picker-button-violet {
+  background: #aa22cc;
+}
+.colour-picker-button-orange {
+  background: #fa970c;
+  color: #000000;
+}
+
+
 /*
 for leaflet
 */
