@@ -182,7 +182,7 @@ search.search = function(inQuery) {
     return false;
   mapCenter=osm.map.getCenter();
   osm.leftpan.toggle(true);
-  $.getJSON('/api/search', {q: inQuery, accuracy: 1, lat: mapCenter.lat, lon: mapCenter.lon}, search.processResults)
+  $.getJSON('/api/search', {q: inQuery, accuracy: 1, lat: mapCenter.lat, lon: mapCenter.lng}, search.processResults)
   .error(search.errorHandler);
 /*  this.request = new XMLHttpRequest();
   //this.request.open('GET', 'http://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(osm.input.value) + '&format=json');
