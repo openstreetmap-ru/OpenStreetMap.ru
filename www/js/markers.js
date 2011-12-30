@@ -3,16 +3,7 @@ osm.markers.addPoint = function () {
 	$_('map').style.cursor = 'crosshair';
 }
 osm.markers.createPoint = function(e) {
-	var marker = new L.Marker(e.latlng);
-	osm.map.addLayer(marker);
+	osm.map.permalink._popup_marker(e.latlng);
 	osm.map.off('click', osm.markers.createPoint);
-	$('map').style.cursor='';
-	
-	var url = osm.map.permalink._href.getAttribute('href');
-	var point = osm.map.permalink._round_point(e.latlng);
-	url = url.replace(/lat=\d*(.?\d*)/, 'lat='+point.lat);
-	url = url.replace(/lon=\d*(.?\d*)/, 'lon='+point.lng);
-	url += '&marker=1';
-	//http://openstreetmap.ru/#layer=Mapnik&zoom=7&lat=48.305&lon=27.11&marker=1
-	marker.bindPopup('<a href="'+url+'">Ссылка на маркер</a>').openPopup();
+	$_('map').style.cursor='';
 }

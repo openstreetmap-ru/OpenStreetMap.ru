@@ -24,7 +24,7 @@ L.Control.Permalink = L.Class.extend({
 		this._href = L.DomUtil.create('a', null, this._container);
 		this._href.innerHTML = "Permalink";
 		this._set_center(this._params);
-		this._set_marker(this._params);
+		this._set_marker(this._params, true);
 		this._update_layers();
 		this._update_center();
 
@@ -33,7 +33,7 @@ L.Control.Permalink = L.Class.extend({
 			window.onhashchange = function() {
 				_this._set_urlvars();
 				_this._set_center(_this._params, true);
-				_this._set_marker(_this._params);
+				_this._set_marker(_this._params, true);
 				if (fn) return fn();
 			}
 		}
@@ -52,13 +52,17 @@ L.Control.Permalink = L.Class.extend({
 		this._update_href();
 	},
 
-	_update_href: function() {
-	  this.get_params();
-		var params = L.Util.getParamString(this._params);
-		var sep = '?';
-		if (this.options.useAnchor) sep = '#';
-		this._href.setAttribute('href', this._url_base + sep + params.slice(1))
-	},
+  _generate_url: function(params) {
+    var link = L.Util.getParamString(params);
+    var sep = '?';
+    if (this.options.useAnchor) sep = '#';
+    return this._url_base + sep + link.slice(1);
+  },
+ 
+  _update_href: function() {
+    this.get_params();
+    this._href.setAttribute('href', this._generate_url(this._params));
+  },
 
 	_update_layers: function() {
 		if (!this._layers) return;
@@ -161,15 +165,32 @@ L.Control.Permalink = L.Class.extend({
 			this._layers.chooseBaseLayer(params.layer);
 	},
 
-	_set_marker: function(params)
+	_set_marker: function(params, center)
 	{
 		if (this._marker)
 			this._map.removeLayer(this._marker);
 		this._marker = null;
-		if (params.marker != '1' || !this._centered || !this.options.useMarker) return;
+		if ((params.marker != '1' || !this._centered || !this.options.useMarker) && center) return;
 		this._marker = new L.Marker(new L.LatLng(params.lat, params.lon), this.options.markerOptions);
 		this._map.addLayer(this._marker);
-	}
+    var popup = this._marker.bindPopup('<a href="'+this._generate_url(params)+'">Ссылка на маркер</a>');
+    if (!center)
+      popup.openPopup();
+	},
+
+  _popup_marker: function(latlng) {
+    latlng = this._round_point(latlng);
+    //copy simple obj
+    var params = {};
+    for (i in this._params)
+      params[i] = this._params[i];
+
+    params.lat = latlng.lat;
+    params.lon = latlng.lng;
+    params.marker = 1;
+
+    this._set_marker(params, false);
+  }
 });
 
 L.Control.Layers.include({
