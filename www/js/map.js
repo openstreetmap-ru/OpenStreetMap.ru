@@ -137,7 +137,9 @@ osm.leftpan.toggle = function(on) {
 
 search.processResults = function(results) {
   try {
-    if (results.find==0) {
+    if (results.error) {
+      osm.leftpan.content.innerHTML='Произошла ошибка: ' + (results.error);
+    } else if (results.find==0) {
       osm.leftpan.content.innerHTML='Ничего не найдено по запросу "' + (results.search)  + '"';
     }
     else if (results.find==1 && results.accuracy_find==0) {
