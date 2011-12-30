@@ -169,7 +169,7 @@ search.processResults = function(results) {
       osm.leftpan.content.innerHTML = content;
     }
   } catch(e) {
-    osm.leftpan.content.innerHTML = 'Ошибка: ' + errorThrown.description + '<br /> Ответ поиск.серв.: '+this.request.responseText;
+    osm.leftpan.content.innerHTML = 'Ошибка: ' + e.description + '<br /> Ответ поиск.серв.: '+results.error;
   }
 };
 
@@ -178,6 +178,7 @@ search.errorHandler = function(jqXHR, textStatus, errorThrown) {
 };
 
 search.search = function(inQuery) {
+  if ($.isArray(inQuery)) inQuery = inQuery.join();
   inQuery = inQuery || osm.input.value;
   osm.input.value = inQuery;
   if (inQuery.length < 1)
