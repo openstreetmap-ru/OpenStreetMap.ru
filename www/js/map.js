@@ -178,7 +178,6 @@ search.errorHandler = function(jqXHR, textStatus, errorThrown) {
 };
 
 search.search = function(inQuery) {
-  if ($.isArray(inQuery)) inQuery = inQuery.join();
   inQuery = inQuery || osm.input.value;
   osm.input.value = inQuery;
   if (inQuery.length < 1)
@@ -210,7 +209,7 @@ function parseGET() {
     tmp = (url.substr(1)).split('&');
     for(var i=0; i < tmp.length; i++) {
       tmp2 = tmp[i].split('=');
-      get[tmp2[0]] = decodeURIComponent(tmp2[1].replace(/\+/g, " ")).split(",");
+      get[tmp2[0]] = decodeURIComponent(tmp2[1].replace(/\+/g, " "));
     }
   }
 };
