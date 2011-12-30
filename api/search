@@ -30,8 +30,8 @@ def main():
   accuracy = bool(values.getfirst("accuracy",""))
   output['search']=q
   if not q:
-    print "no query words, 'q' is empty"
-    sys.exit(1)
+    output['error']="no query words, 'q' is empty"
+    return
   
   
   cl = SphinxClient()
@@ -59,11 +59,12 @@ def main():
   res = cl.Query ( q )
 	
   if not res:
-    print 'query failed: %s' % cl.GetLastError()
-    sys.exit(2)
+    output['error']='query failed: %s' % cl.GetLastError()
+    return
 
   if cl.GetLastWarning():
-    print 'WARNING: %s\n' % cl.GetLastWarning()
+    output['error']='WARNING: %s\n' % cl.GetLastWarning()
+    return
 
   if not res['total_found']:
     output['find']=0
