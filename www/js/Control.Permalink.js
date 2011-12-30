@@ -181,6 +181,7 @@ L.Control.Permalink = L.Class.extend({
   _popup_marker: function(latlng) {
     latlng = this._round_point(latlng);
     //copy simple obj
+    this.get_params();
     var params = {};
     for (i in this._params)
       params[i] = this._params[i];
@@ -214,11 +215,12 @@ L.Control.Layers.include({
 			if (!this._layers.hasOwnProperty(i))
 				continue;
 			obj = this._layers[i];
-			if (this._map.hasLayer(obj.layer))
+			if (this._map.hasLayer(obj.layer) && (layers.indexOf(obj.layer) === -1) ) //remove only unneeded layers
 				this._map.removeLayer(obj.layer)
 		}
 		for (l in layers) {
-		  this._map.addLayer(layers[l])
+      if (toString.call(obj) === "[object Array]" && this._layers.indexOf(layers[l]) !== -1) // add only non-existing layers
+        this._map.addLayer(layers[l])
 		}
 		this._update();
 	},
