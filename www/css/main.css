@@ -582,7 +582,7 @@ a.wheremi:hover div.wheremi {
 #tools.on div.p, .leaflet-control-layers-expanded .leaflet-control-layers-list {
 	display: block;
 	padding: 16px 40px 6px 10px;
-	margin-right: 40px;
+	margin-right: 36px;
 }
 
 div.leaflet-control-layers {
