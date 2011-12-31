@@ -65,15 +65,15 @@ function init() {
   osm.layers.layerCycle = new L.TileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors (Cycle)"});
   osm.layers.layerMQ = new L.TileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, tiles &copy; <a href=\"http://www.mapquest.com/\" target=\"_blank\">MapQuest</a> <img src=\"http://developer.mapquest.com/content/osm/mq_logo.png\">", subdomains: '1234'});
   osm.layers.layerLatlonPt = new L.TileLayer('http://{s}.tile.osmosnimki.ru/pt/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Маршруты &copy; <a href='http://latlon.org/pt'>LatLon.org</a>", subdomains: 'abcdef'});
-  osm.map = new L.Map('map', {zoomControl: false, center: center, zoom: zoom, layers: [osm.layers.layerKosmo]});
+  osm.map = new L.Map('map', {zoomControl: false, center: center, zoom: zoom, layers: [osm.layers.layerMapnik]});
 
   osm.layers.search_marker = new L.LayerGroup();
   osm.layers.osb = new L.OpenStreetBugs();
   osm.map.addLayer(osm.layers.search_marker);
   osm.map.control_layers = new L.Control.Layers(
     {
-      'Космоснимки':osm.layers.layerKosmo,
       'Mapnik':osm.layers.layerMapnik,
+      'Космоснимки':osm.layers.layerKosmo,
       'Osmarender':osm.layers.layerTAH,
       'MapQuest':osm.layers.layerMQ,
       'Карта для велосипедистов':osm.layers.layerCycle,
