@@ -53,7 +53,7 @@ def main():
   if limit:
     cl.SetLimits ( 0, limit, max(limit,1000) )
   
-  q = q.replace("-","\-")
+  q = q.replace("-"," \-")
   q = q.replace("/","\/")
 
   res = cl.Query ( q )
