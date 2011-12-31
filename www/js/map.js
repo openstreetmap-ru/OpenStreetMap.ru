@@ -66,6 +66,7 @@ function init() {
   osm.layers.layerMQ = new L.TileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, tiles &copy; <a href=\"http://www.mapquest.com/\" target=\"_blank\">MapQuest</a> <img src=\"http://developer.mapquest.com/content/osm/mq_logo.png\">", subdomains: '1234'});
   osm.layers.layerBing = new L.BingLayer('AjNsLhRbwTu3T2lUw5AuzE7oCERzotoAdzGXnK8-lWKKlc2Ax3d9kzbxbdi3IdKt', {maxZoom: 18});
   osm.layers.layerLatlonPt = new L.TileLayer('http://{s}.tile.osmosnimki.ru/pt/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Маршруты &copy; <a href='http://latlon.org/pt'>LatLon.org</a>", subdomains: 'abcdef'});
+  osm.layers.layerKosmoHyb = new L.TileLayer('http://{s}.tile.osmosnimki.ru/hyb/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy <a href='http://osm.org'>OpenStreetMap</a> contributors, CC-BY-SA; rendering by <a href='http://kosmosnimki.ru'>kosmosnimki.ru</a>"});
   osm.map = new L.Map('map', {zoomControl: false, center: center, zoom: zoom, layers: [osm.layers.layerMapnik]});
 
   osm.layers.search_marker = new L.LayerGroup();
@@ -82,7 +83,8 @@ function init() {
     },
     {
       'Bugs':osm.layers.osb,
-      'Маршруты':osm.layers.layerLatlonPt
+      'Маршруты':osm.layers.layerLatlonPt,
+      'Космоснимки (гибрид)':osm.layers.layerKosmoHyb
     }
   );
   osm.map.addControl(osm.map.control_layers);
