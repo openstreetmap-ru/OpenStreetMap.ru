@@ -79,11 +79,11 @@ function init() {
       'Osmarender':osm.layers.layerTAH,
       'MapQuest':osm.layers.layerMQ,
       'Карта для велосипедистов':osm.layers.layerCycle,
-      'Bing':osm.layers.layerBing
+      'Bing (снимки)':osm.layers.layerBing
     },
     {
-      'Bugs':osm.layers.osb,
-      'Маршруты':osm.layers.layerLatlonPt,
+      'Неточность на карте (bugs)':osm.layers.osb,
+      'Маршруты общ.транспорта':osm.layers.layerLatlonPt,
       'Космоснимки (гибрид)':osm.layers.layerKosmoHyb
     }
   );
