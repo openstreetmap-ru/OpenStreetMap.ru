@@ -79,7 +79,7 @@ function init() {
       'Mapnik':osm.layers.layerMapnik,
       'Космоснимки':osm.layers.layerKosmo,
       'MapQuest':osm.layers.layerMQ,
-      'Osmaprender':osm.layers.layerTAH,
+      'Osmarender':osm.layers.layerTAH,
       'Велокарта':osm.layers.layerCycle,
       'Снимки от Bing':osm.layers.layerBing
     },
