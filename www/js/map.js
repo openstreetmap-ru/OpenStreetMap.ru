@@ -86,7 +86,7 @@ function init() {
     {
       'Трёхмерные здания':osm.layers.LayerLatlonBuildings,
       'Ошибки на карте (bugs)':osm.layers.osb,
-      'Маршруты общ.транспорта':osm.layers.layerLatlonPt,
+      'Общественный транспорт':osm.layers.layerLatlonPt,
       'Космоснимки (гибрид)':osm.layers.layerKosmoHyb
     }
   );
