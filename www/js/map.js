@@ -76,8 +76,8 @@ function init() {
   osm.map.addLayer(osm.layers.search_marker);
   osm.map.control_layers = new L.Control.Layers(
     {
-      'Стандартный стиль':osm.layers.layerMapnik,
-      'Красивый стиль':osm.layers.layerKosmo,
+      'Mapnik':osm.layers.layerMapnik,
+      'Космоснимки':osm.layers.layerKosmo,
       'MapQuest':osm.layers.layerMQ,
       'Osmaprender':osm.layers.layerTAH,
       'Велокарта':osm.layers.layerCycle,
