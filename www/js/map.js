@@ -76,16 +76,16 @@ function init() {
   osm.map.addLayer(osm.layers.search_marker);
   osm.map.control_layers = new L.Control.Layers(
     {
-      'Mapnik':osm.layers.layerMapnik,
-      'Космоснимки':osm.layers.layerKosmo,
-      'Osmarender':osm.layers.layerTAH,
+      'Стандартный стиль':osm.layers.layerMapnik,
+      'Красивый стиль':osm.layers.layerKosmo,
       'MapQuest':osm.layers.layerMQ,
-      'Карта для велосипедистов':osm.layers.layerCycle,
-      'Bing (снимки)':osm.layers.layerBing
+      'Osmaprender':osm.layers.layerTAH,
+      'Велокарта':osm.layers.layerCycle,
+      'Снимки от Bing':osm.layers.layerBing
     },
     {
       'Трёхмерные здания':osm.layers.LayerLatlonBuildings,
-      'Ошибки на карте (bugs)':osm.layers.osb,
+      'Ошибки на карте':osm.layers.osb,
       'Общественный транспорт':osm.layers.layerLatlonPt,
       'Космоснимки (гибрид)':osm.layers.layerKosmoHyb
     }
