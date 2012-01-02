@@ -14,7 +14,7 @@ osm.saveLocation = function() {
 
   var d = new Date();
   d.setYear(d.getFullYear()+10);
-  
+
   document.cookie = "_osm_location=" + ll.lng + "|" + ll.lat + "|" + z + "|" + l + "; expires=" + d.toGMTString();
 }
 
@@ -58,7 +58,7 @@ function init() {
     zoom = w > 1200 ? 3 : 2;
     layer = "Mapnik";
   }
-  
+
   osm.layers.layerMapnik = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors"});
   osm.layers.layerKosmo = new L.TileLayer('http://{s}.tile.osmosnimki.ru/kosmo/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy <a href='http://osm.org'>OpenStreetMap</a> contributors, CC-BY-SA; rendering by <a href='http://kosmosnimki.ru'>kosmosnimki.ru</a>"});
   osm.layers.layerTAH = new L.TileLayer('http://{s}.tah.openstreetmap.org/Tiles/tile/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors (TAH)"});
@@ -68,22 +68,25 @@ function init() {
   osm.layers.layerLatlonPt = new L.TileLayer('http://{s}.tile.osmosnimki.ru/pt/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Маршруты &copy; <a href='http://latlon.org/pt'>LatLon.org</a>", subdomains: 'abcdef'});
   osm.layers.layerKosmoHyb = new L.TileLayer('http://{s}.tile.osmosnimki.ru/hyb/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy <a href='http://osm.org'>OpenStreetMap</a> contributors, CC-BY-SA; rendering by <a href='http://kosmosnimki.ru'>kosmosnimki.ru</a>"});
   osm.map = new L.Map('map', {zoomControl: false, center: center, zoom: zoom, layers: [osm.layers.layerMapnik]});
+  osm.layers.layerLatlonBuildings = new L.TileLayer('http://{s}.tile.osmosnimki.ru/buildings/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Трёхмерные здания &copy; <a href='http://latlon.org/pt'>LatLon.org</a>", subdomains: 'abcdef'});
+
 
   osm.layers.search_marker = new L.LayerGroup();
   osm.layers.osb = new L.OpenStreetBugs();
   osm.map.addLayer(osm.layers.search_marker);
   osm.map.control_layers = new L.Control.Layers(
     {
-      'Mapnik':osm.layers.layerMapnik,
-      'Космоснимки':osm.layers.layerKosmo,
-      'Osmarender':osm.layers.layerTAH,
+      'Стандартный стиль':osm.layers.layerMapnik,
+      'Красивый стиль':osm.layers.layerKosmo,
       'MapQuest':osm.layers.layerMQ,
-      'Карта для велосипедистов':osm.layers.layerCycle,
-      'Bing (снимки)':osm.layers.layerBing
+      'Osmaprender':osm.layers.layerTAH,
+      'Велокарта':osm.layers.layerCycle,
+      'Снимки от Bing':osm.layers.layerBing
     },
     {
-      'Неточность на карте (bugs)':osm.layers.osb,
-      'Маршруты общ.транспорта':osm.layers.layerLatlonPt,
+      'Трёхмерные здания':osm.layers.LayerLatlonBuildings,
+      'Ошибки на карте':osm.layers.osb,
+      'Общественный транспорт':osm.layers.layerLatlonPt,
       'Космоснимки (гибрид)':osm.layers.layerKosmoHyb
     }
   );
@@ -95,13 +98,13 @@ function init() {
   osm.input = $_('qsearch');
   osm.search_marker = new L.LayerGroup();
   osm.map.addLayer(osm.search_marker);
-  
+
   //osm.map.control_layers.chooseBaseLayer(layer);
   osm.map.addControl(new L.Control.Scale({width: 100, position: L.Control.Position.BOTTOM_LEFT}));
   osm.map.permalink = new L.Control.Permalink(osm.map.control_layers);
   osm.map.addControl(osm.map.permalink);
   osm.map.addControl(new L.Control.Zoom({shiftClick: true}));
-  
+
   search.inLoad();
   osm.setLinkOSB();
 
