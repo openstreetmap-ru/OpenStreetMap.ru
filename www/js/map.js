@@ -84,7 +84,7 @@ function init() {
       'Снимки от Bing':osm.layers.layerBing
     },
     {
-      'Трёхмерные здания':osm.layers.LayerLatlonBuildings,
+      'Трёхмерные здания':osm.layers.layerLatlonBuildings,
       'Ошибки на карте':osm.layers.osb,
       'Общественный транспорт':osm.layers.layerLatlonPt,
       'Космоснимки (гибрид)':osm.layers.layerKosmoHyb
