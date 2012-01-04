@@ -109,5 +109,26 @@ L.BingLayer = L.TileLayer.extend({
 
 		return (sw2.lat <= ne.lat) && (sw2.lng <= ne.lng) &&
 				(sw.lat <= ne2.lat) && (sw.lng <= ne2.lng);
+	},
+
+	onRemove: function(map) {
+		this._map.getPanes().tilePane.removeChild(this._container);
+		this._container = null;
+
+		this._map.off('viewreset', this._resetCallback, this);
+
+		if (this.options.updateWhenIdle) {
+			this._map.off('moveend', this._update, this);
+		} else {
+			this._map.off('move', this._limitedUpdate, this);
+		}
+
+		for (var i = 0; i < this._providers.length; i++) {
+			var p = this._providers[i];
+			if (p.active) {
+				this._map.attributionControl.removeAttribution(p.attrib);
+				p.active = false;
+			}
+		}
 	}
 });
