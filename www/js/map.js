@@ -81,7 +81,7 @@ function init() {
       'MapQuest':osm.layers.layerMQ,
       'Osmarender':osm.layers.layerTAH,
       'Велокарта':osm.layers.layerCycle,
-      'Снимки от Bing':osm.layers.layerBing
+      'Снимки Bing':osm.layers.layerBing
     },
     {
       'Трёхмерные здания':osm.layers.layerLatlonBuildings,
