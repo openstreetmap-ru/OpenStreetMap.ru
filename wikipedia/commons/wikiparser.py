@@ -98,11 +98,27 @@ def parse_templates(text):
     #print "FOUND TEMPLATE [%s] ARGS=%s" % (template, repr(args))
     # parse location
     try:
+      if template == 'location':
+        lat = float(args[0]) + float(args[1])/60 + float(args[2])/3600;
+        if args[3] == 'S':
+          lat = -lat
+        lon = float(args[4]) + float(args[5])/60 + float(args[6])/3600;
+        if args[7] == 'W':
+          lon = -lon
+        out["lat"] = str(lat)
+        out["lon"] = str(lon)
+    except KeyError:
+      print "Error parsing location [KeyError]: %s" % m.group(0)
+      pass
+    except ValueError:
+      print "Error parsing location [ValueError]: %s" % m.group(0)
+      pass
+    try:
       if template == 'location dec':
         out["lat"] = args[0]
         out["lon"] = args[1]
     except KeyError:
-      print "Error parsing location [KeyError]: %s" % m.group(0)
+      print "Error parsing location dec [KeyError]: %s" % m.group(0)
       pass
     # parse description
     try:
@@ -114,12 +130,12 @@ def parse_templates(text):
           else:
             out["desc"] = args[0]
         rudesc = True
-      elif template == 'en':
+      elif template == 'en' and not rudesc:
         if args.has_key("k_1"):
           out["desc"] = args["k_1"]
         else:
           out["desc"] = args[0]
-      elif template == 'information':
+      elif template == 'information' and not rudesc:
         if not out.has_key("desc"):
           if args.has_key("k_description"):
             out["desc"] = args["k_description"]
