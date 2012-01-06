@@ -10,7 +10,7 @@ def parse(text):
   out = parse_templates(text)
   return out
 
-fast_check_re = re.compile(ur'{{Location', re.M)
+fast_check_re = re.compile(ur'{{Location', re.M|re.I)
 
 # fast check
 def fast_check(text):
