@@ -187,7 +187,7 @@ osm.createTools = function() {
   }
   obTools.onmouseout = function() {
     if (!noOff)
-      timeoutId = setTimeout(ClosePan, 500);
+      timeoutId = setTimeout(ClosePan, 300);
   }
   var obButDiv = L.DomUtil.create('div', 'a', obTools);
   var obButDivA = L.DomUtil.create('a', null, obButDiv);
@@ -204,12 +204,12 @@ osm.createTools = function() {
   obListDivA.onclick = function(){
     osm.markers.addPoint();
   };
-  obListDivA.textContent='Маркер';
+  obListDivA.innerHTML='Маркер';
   var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
   obListDivA.id='EditJOSM'
   obListDivA.href='#';
   obListDivA.title='Редактировать (в JOSM)';
-  obListDivA.textContent='Редактировать (в JOSM)';
+  obListDivA.innerHTML='Редактировать (в JOSM)';
 };
 
 osm.setLinkOSB = function() {
