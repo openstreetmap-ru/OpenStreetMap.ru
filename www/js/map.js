@@ -153,6 +153,7 @@ function init() {
   osm.map.addControl(osm.map.permalink);
   osm.map.addControl(new L.Control.Zoom({shiftClick: true}));
 
+  osm.createTools();
   search.inLoad();
   osm.setLinkOSB();
 
@@ -169,6 +170,47 @@ osm.editUpdate = function() {
   edit.target = 'hiddenIframe';
   edit.href = url;
 }
+
+osm.createTools = function() {
+  var timeoutId = null;
+  var noOff = false;
+  var obMap = $_('mappan');
+  var obTools = L.DomUtil.create('div', null, obMap);
+  obTools.id = 'tools';
+  
+  function ClosePan() {
+    obTools.className='';
+  }
+  obTools.onmouseover = function() {
+    clearTimeout(timeoutId);
+    obTools.className='on';
+  }
+  obTools.onmouseout = function() {
+    if (!noOff)
+      timeoutId = setTimeout(ClosePan, 500);
+  }
+  var obButDiv = L.DomUtil.create('div', 'a', obTools);
+  var obButDivA = L.DomUtil.create('a', null, obButDiv);
+  obButDivA.href = '#';
+  obButDivA.title = 'Инструменты';
+  obButDivA.onclick = function(){
+    noOff=!noOff
+  };
+  
+  var obListDiv = L.DomUtil.create('div', 'p', obTools);
+  var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
+  obListDivA.href='#';
+  obListDivA.title='Маркер';
+  obListDivA.onclick = function(){
+    osm.markers.addPoint();
+  };
+  obListDivA.textContent='Маркер';
+  var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
+  obListDivA.id='EditJOSM'
+  obListDivA.href='#';
+  obListDivA.title='Редактировать (в JOSM)';
+  obListDivA.textContent='Редактировать (в JOSM)';
+};
 
 osm.setLinkOSB = function() {
   if (parseInt(get['bugid'])) {

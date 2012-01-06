@@ -569,6 +569,10 @@ a.wheremi:hover div.wheremi {
 	background-repeat: no-repeat;
 	display: block;
   height: 36px;
+  outline: none;
+}
+#tools div.a a:hover, #tools div.a a:active {
+  outline: none;
 }
 #tools div.p {
 	display: none;
