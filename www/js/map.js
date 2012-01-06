@@ -1,10 +1,40 @@
 var osm = {cpan: {}, leftpan: {on: false}, mappan: {}, ui: {fs: false}, layers:{}, markers:{}};
 var search = {};
+var wpc = {
+  layers: null,
+  rq: null,
+  bbox: null,
+  zoom: null
+};
 
 function $_(id) { return document.getElementById(id); }
 
 function setView(position) {
   osm.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 10);
+}
+
+function reloadKML() {
+  var algo = 1;
+  if (!wpc.layers.visible) return;
+  if(osm.map.getZoom()<8) algo = 2;
+  var zoom = osm.map.getZoom();
+  var bounds = osm.map.getBounds();
+  var minll = bounds.getSouthWest();
+  var maxll = bounds.getNorthEast();
+  if(wpc.zoom && wpc.bbox)
+    if(wpc.zoom == zoom && minll.lng >= wpc.bbox[0] && minll.lat >= wpc.bbox[1] && maxll.lng <= wpc.bbox[2] && maxll.lat <= wpc.bbox[3])
+      return;
+  var w = maxll.lng - minll.lng;
+  var h = maxll.lat - minll.lat;
+  wpc.bbox = []
+  wpc.bbox[0] = minll.lng - w/2;
+  wpc.bbox[1] = minll.lat - h/2;
+  wpc.bbox[2] = maxll.lng + w/2;
+  wpc.bbox[3] = maxll.lat + h/2;
+  wpc.zoom = zoom;
+  wpc.layers.clearLayers();
+  var url = 'wpc.php?bbox=' + wpc.bbox[0] + ',' + wpc.bbox[1] + ',' + wpc.bbox[2] + ',' + wpc.bbox[3] + '&algo=' + algo;
+  wpc.layers.addKML(url);
 }
 
 osm.saveLocation = function() {
@@ -74,6 +104,23 @@ function init() {
   osm.layers.search_marker = new L.LayerGroup();
   osm.layers.osb = new L.OpenStreetBugs();
   osm.map.addLayer(osm.layers.search_marker);
+  WPCLayer = L.KML.extend({
+    visible: false,
+    onAdd: function(map) {
+      this._map = map;
+      this._map.on('moveend',reloadKML,this);
+      this.visible = true;
+      this._iterateLayers(map.addLayer, map);
+      reloadKML();
+    },
+    onRemove: function(map) {
+      this._map.off('moveend',reloadKML,this);
+      this._iterateLayers(map.removeLayer, map);
+      this.visible = false;
+      delete this._map;
+    }
+  });
+  wpc.layers = new WPCLayer();
   osm.map.control_layers = new L.Control.Layers(
     {
       'Mapnik':osm.layers.layerMapnik,
@@ -87,7 +134,8 @@ function init() {
       'Трёхмерные здания':osm.layers.layerLatlonBuildings,
       'Ошибки на карте':osm.layers.osb,
       'Общественный транспорт':osm.layers.layerLatlonPt,
-      'Космоснимки (гибрид)':osm.layers.layerKosmoHyb
+      'Космоснимки (гибрид)':osm.layers.layerKosmoHyb,
+      'Фото (ВикиСклад) beta':wpc.layers
     }
   );
   osm.map.addControl(osm.map.control_layers);
@@ -109,6 +157,7 @@ function init() {
   osm.setLinkOSB();
 
   osm.editUpdate();
+  osm.map.on('moveend', reloadKML);
   osm.map.on('moveend', osm.saveLocation);
   osm.map.on('moveend', osm.editUpdate);
 };
