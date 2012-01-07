@@ -123,12 +123,11 @@ def parse_templates(text):
     # parse description
     try:
       # hack: override description only from first 'ru' template
-      if not rudesc:
-        if template == 'ru':
-          if args.has_key("k_1"):
-            out["desc"] = args["k_1"]
-          else:
-            out["desc"] = args[0]
+      if template == 'ru' and not rudesc:
+        if args.has_key("k_1"):
+          out["desc"] = args["k_1"]
+        else:
+          out["desc"] = args[0]
         rudesc = True
       elif template == 'en' and not rudesc:
         if args.has_key("k_1"):

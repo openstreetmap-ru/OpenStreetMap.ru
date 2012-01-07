@@ -74,7 +74,6 @@ class xmlWikiParser(handler.ContentHandler):
       print "CONTENTS ###\n%s\n###" % contents
     if self.tag:
       self.text = self.text + contents
-    #if self.tag in ['title', 'text']:
   
   def endElement(self, name):
     if self.debug > 4:
@@ -82,7 +81,6 @@ class xmlWikiParser(handler.ContentHandler):
     if self.tag == 'title':
       self.page['title'] = self.text
     if self.tag == 'text':
-      self.text = self.text.replace('\n', ' ').replace('\r', '')
       if re.search('^File:', self.page['title']):
         meta = wikiparser.parse(self.text)
         if meta.has_key("lat") and meta.has_key("lon"):
@@ -102,11 +100,6 @@ class xmlWikiParser(handler.ContentHandler):
             print "ValueError: meta=%s" % repr(meta)
             pass
           self.count = self.count + 1
-          #if self.count % 1000 == 0:
-          #  pg.commit()
-          #if self.count > 1000:
-          #  pg.commit()
-          #  sys.exit(0)
     self.tag = None
 
 xmlWikiParser(sys.stdin)
