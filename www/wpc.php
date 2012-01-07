@@ -44,7 +44,7 @@ $center = "ST_SetSRID(ST_MakePoint($cx,$cy),4326)";
 if ($algo == 1) {
   $dx = $bbox[3]-$bbox[1];
   $dy = $bbox[2]-$bbox[0];
-  $dx = $dx/30;
+  $dx = $dx/50;
   $dy = $dy/30;
   $orderby = "RANDOM()";
   $query = "SELECT MIN(page) AS page,MIN(\"desc\") AS \"desc\",MIN(ST_X(point)) AS lon,MIN(ST_Y(point)) AS lat FROM wpc_img WHERE point && $bboxg GROUP BY ST_SnapToGrid(point,$cx,$cy,$dx,$dy) ORDER BY $orderby ASC LIMIT 256";
@@ -78,7 +78,9 @@ while ($row = pg_fetch_assoc($res)) {
   $pm->name = "<a href=\"http://commons.wikimedia.org/\"><img src=\"img/commons-mini.png\" width=\"20\" height=\"27\" border=\"0\"></a> Wikimedia Commons";
 
   $pm->addChild("description");
-  $pm->{'description'} = "<p>".$row["desc"]."</p><a href=\"http://commons.wikipedia.org/wiki/".htmlspecialchars($row["page"])."?uselang=ru\" target=_blank><img src=\"".htmlspecialchars(furl(str_replace(" ","_",str_replace("File:","",$row["page"]))))."\" /></a>";
+  $links = "<a href=\"http://commons.wikimedia.org/w/index.php?title=".urlencode($row["page"])."&action=edit\" target=\"_blank\">Править</a>";
+  $links .= " <a href=\"wpc-up.php?title=".urlencode($row["page"])."\" target=\"_blank\">Обновить</a>";
+  $pm->{'description'} = "<p>".$row["desc"]."</p><a href=\"http://commons.wikipedia.org/wiki/".htmlspecialchars($row["page"])."?uselang=ru\" target=_blank><img src=\"".htmlspecialchars(furl(str_replace(" ","_",str_replace("File:","",$row["page"]))))."\" /></a><br><font size=-2>$links</font>";
   $pm->addChild("styleUrl");
   $pm->styleUrl = "#Commons-logo";
   $p = $pm->addChild("Point");

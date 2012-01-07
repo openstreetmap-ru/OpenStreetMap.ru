@@ -3,3 +3,7 @@ create table wpc_img (
   "desc" text not null default '',
   point geometry
 );
+create table wpc_req (
+  page text not null unique,
+  added timestamp with time zone
+);
