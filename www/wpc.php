@@ -47,12 +47,12 @@ if ($algo == 1) {
   $dx = $dx/50;
   $dy = $dy/30;
   $orderby = "RANDOM()";
-  $query = "SELECT FIRST(page) AS page,FIRST(\"desc\") AS \"desc\",FIRST(ST_X(point)) AS lon,FIRST(ST_Y(point)) AS lat FROM wpc_img WHERE point && $bboxg GROUP BY ST_SnapToGrid(point,$cx,$cy,$dx,$dy) ORDER BY $orderby ASC LIMIT 256";
+  $query = "SELECT COUNT(1) AS cnt,FIRST(page) AS page,FIRST(\"desc\") AS \"desc\",FIRST(ST_X(point)) AS lon,FIRST(ST_Y(point)) AS lat FROM wpc_img WHERE point && $bboxg GROUP BY ST_SnapToGrid(point,$cx,$cy,$dx,$dy) ORDER BY $orderby ASC LIMIT 256";
 } elseif($algo == 0) {
   $orderby = "ST_Distance_Sphere(FIRST(point),$center)";
-  $query = "SELECT FIRST(page) AS page,FIRST(\"desc\") AS \"desc\",FIRST(ST_X(point)) AS lon,FIRST(ST_Y(point)) AS lat FROM wpc_img WHERE point && $bboxg GROUP BY point ORDER BY $orderby ASC LIMIT 256";
+  $query = "SELECT COUNT(1) AS cnt,FIRST(page) AS page,FIRST(\"desc\") AS \"desc\",FIRST(ST_X(point)) AS lon,FIRST(ST_Y(point)) AS lat FROM wpc_img WHERE point && $bboxg GROUP BY point ORDER BY $orderby ASC LIMIT 256";
 } elseif($algo == 2) {
-  $query = "SELECT page,\"desc\",ST_X(point) AS lon,ST_Y(point) AS lat FROM wpc_img WHERE point && $bboxg LIMIT 256";
+  $query = "SELECT 1 AS cnt,page,\"desc\",ST_X(point) AS lon,ST_Y(point) AS lat FROM wpc_img WHERE point && $bboxg LIMIT 256";
 }
 
 $res = pg_query($query);
@@ -80,7 +80,10 @@ while ($row = pg_fetch_assoc($res)) {
   $pm->addChild("description");
   $links = "<a href=\"http://commons.wikimedia.org/w/index.php?title=".urlencode($row["page"])."&action=edit\" target=\"_blank\">Править</a>";
   $links .= " <a href=\"wpc-up.php?title=".urlencode($row["page"])."\" target=\"_blank\">Обновить</a>";
-  $pm->{'description'} = "<p>".$row["desc"]."</p><a href=\"http://commons.wikipedia.org/wiki/".htmlspecialchars($row["page"])."?uselang=ru\" target=_blank><img src=\"".htmlspecialchars(furl(str_replace(" ","_",str_replace("File:","",$row["page"]))))."\" /></a><br><font size=-2>$links</font>";
+  $other = "";
+  if ($row["cnt"]>1)
+    $other = "<br>Ещё изображений: ".($row["cnt"]-1).", приблизьтесь, чтобы увидеть их.";
+  $pm->{'description'} = "<p>".$row["desc"]."</p><a href=\"http://commons.wikipedia.org/wiki/".htmlspecialchars($row["page"])."?uselang=ru\" target=_blank><img src=\"".htmlspecialchars(furl(str_replace(" ","_",str_replace("File:","",$row["page"]))))."\" /></a><br><font style='font-size: 9px'>".$links.$other."</font>";
   $pm->addChild("styleUrl");
   $pm->styleUrl = "#Commons-logo";
   $p = $pm->addChild("Point");
