@@ -47,10 +47,10 @@ if ($algo == 1) {
   $dx = $dx/50;
   $dy = $dy/30;
   $orderby = "RANDOM()";
-  $query = "SELECT MIN(page) AS page,MIN(\"desc\") AS \"desc\",MIN(ST_X(point)) AS lon,MIN(ST_Y(point)) AS lat FROM wpc_img WHERE point && $bboxg GROUP BY ST_SnapToGrid(point,$cx,$cy,$dx,$dy) ORDER BY $orderby ASC LIMIT 256";
+  $query = "SELECT FIRST(page) AS page,FIRST(\"desc\") AS \"desc\",FIRST(ST_X(point)) AS lon,FIRST(ST_Y(point)) AS lat FROM wpc_img WHERE point && $bboxg GROUP BY ST_SnapToGrid(point,$cx,$cy,$dx,$dy) ORDER BY $orderby ASC LIMIT 256";
 } elseif($algo == 0) {
-  $orderby = "ST_Distance_Sphere(MIN(point),$center)";
-  $query = "SELECT MIN(page) AS page,MIN(\"desc\") AS \"desc\",MIN(ST_X(point)) AS lon,MIN(ST_Y(point)) AS lat FROM wpc_img WHERE point && $bboxg GROUP BY point ORDER BY $orderby ASC LIMIT 256";
+  $orderby = "ST_Distance_Sphere(FIRST(point),$center)";
+  $query = "SELECT FIRST(page) AS page,FIRST(\"desc\") AS \"desc\",FIRST(ST_X(point)) AS lon,FIRST(ST_Y(point)) AS lat FROM wpc_img WHERE point && $bboxg GROUP BY point ORDER BY $orderby ASC LIMIT 256";
 } elseif($algo == 2) {
   $query = "SELECT page,\"desc\",ST_X(point) AS lon,ST_Y(point) AS lat FROM wpc_img WHERE point && $bboxg LIMIT 256";
 }
