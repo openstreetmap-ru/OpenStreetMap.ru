@@ -157,7 +157,7 @@ function init() {
   osm.map.addControl(osm.map.permalink);
   osm.map.addControl(new L.Control.Zoom({shiftClick: true}));
 
-  osm.createTools();
+  osm.createTools(); //WHY??
   search.inLoad();
   osm.setLinkOSB();
 

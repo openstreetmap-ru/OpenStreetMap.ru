@@ -90,14 +90,19 @@ $page_content = <<<PHP_CONTENT
   </div>
   <iframe name="hiddenIframe" id="hiddenIframe" style="display: none;"></iframe>
   <div id="personal_marker_popup" style="display: none;">
-    <div>
-      <div class='colour-picker-button colour-picker-button-blue' onClick="osm.markers.toggleCheck(this);">&#x2713;</div>
-      <div class='colour-picker-button colour-picker-button-red' onClick="osm.markers.toggleCheck(this);"></div>
-      <div class='colour-picker-button colour-picker-button-green' onClick="osm.markers.toggleCheck(this);"></div>
-      <div class='colour-picker-button colour-picker-button-yellow' onClick="osm.markers.toggleCheck(this);"></div>
-      <div class='colour-picker-button colour-picker-button-violet' onClick="osm.markers.toggleCheck(this);"></div>
-      <div class='colour-picker-button colour-picker-button-orange' onClick="osm.markers.toggleCheck(this);"></div>
-    </div>
+    <table cellspacing="0" cellpadding="0" border="0">
+      <tr><td><input type="text" value="Name..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)"/></td></tr>
+      <tr><td><textarea class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)">Description...</textarea></td></tr>
+      <tr><td>
+        <div class='colour-picker-button colour-picker-button-blue' onClick="osm.markers.toggleCheck(this);">&#x2713;</div>
+        <div class='colour-picker-button colour-picker-button-red' onClick="osm.markers.toggleCheck(this);"></div>
+        <div class='colour-picker-button colour-picker-button-green' onClick="osm.markers.toggleCheck(this);"></div>
+        <div class='colour-picker-button colour-picker-button-yellow' onClick="osm.markers.toggleCheck(this);"></div>
+        <div class='colour-picker-button colour-picker-button-violet' onClick="osm.markers.toggleCheck(this);"></div>
+        <div class='colour-picker-button colour-picker-button-orange' onClick="osm.markers.toggleCheck(this);"></div>
+      </td></tr>
+      <tr><td><input type="button" value="Save" onClick="osm.markers.saveMarker(***)"/></td></tr>
+    </table>
   </div>
 </body>
 PHP_CONTENT;

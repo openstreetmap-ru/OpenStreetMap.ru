@@ -1,7 +1,11 @@
 osm.markers = {
   _drawingMode: 0,// 0 - nothing, 1 - marker (single, permalink), 2 - multimarker, 3 - line
   _layerGroup: 0,
-  _newPath: 0
+  _newPath: 0, 
+  _data: {
+    points: [],
+    lines: []
+  }
 }
 osm.markers.addPoint = function () {
   if (osm.markers._removeHandlers() === 1)
@@ -63,8 +67,11 @@ osm.markers.addMultiMarker = function() {
 }
 osm.markers.createPoints = function(e) {
   var marker = new L.Marker(e.latlng);
+  osm.markers._data.points.push(marker);
+  var markerIndex = osm.markers._data.points.length - 1;
   osm.markers._layerGroup.addLayer(marker);
   var popupHTML = $_('personal_marker_popup').innerHTML;
+  popupHTML = popupHTML.replace('***', 'osm.markers._data.points['+markerIndex+']');
   marker.bindPopup(popupHTML).openPopup();
 }
 
@@ -90,10 +97,29 @@ osm.markers.createPath = function(e) {
   osm.markers._newPath.addLatLng(e.latlng);
 }
 
+osm.markers.saveMarker = function(el) {
+  alert('done!');
+}
+
 osm.markers.toggleCheck = function(el) {
   var colorBoxes = document.getElementsByClassName('colour-picker-button');
   for (var i=0; i < colorBoxes.length; i++) {
     colorBoxes[i].innerHTML = '';
   }
   el.innerHTML = '&#x2713;';
+}
+
+osm.markers.focusDefaultInput = function(e) {
+  if(e.value==e.defaultValue) {
+    e.value='';
+    e.style.fontStyle='normal';
+    e.style.color='#000';
+  }
+}
+osm.markers.blurDefaultInput = function(e) {
+  if(e.value=='') {
+    e.value=e.defaultValue;
+    e.style.fontStyle='italic';
+    e.style.color='#ccc';
+  }
 }

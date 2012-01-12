@@ -756,6 +756,13 @@ div.page-about .center .footnote{
   background: #fa970c;
   color: #000000;
 }
+.default-input {
+  font-style: italic;
+  font-size: 14px;
+  font-family: sans-serif;
+  color: #ccc;
+  width: 200px;
+}
 
 
 /*
