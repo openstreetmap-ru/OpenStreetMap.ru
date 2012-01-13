@@ -157,7 +157,7 @@ function init() {
   osm.map.addControl(osm.map.permalink);
   osm.map.addControl(new L.Control.Zoom({shiftClick: true}));
 
-  osm.createTools(); //WHY??
+  osm.createTools();
   search.inLoad();
   osm.setLinkOSB();
 
@@ -214,6 +214,14 @@ osm.createTools = function() {
   obListDivA.href='#';
   obListDivA.title='Редактировать (в JOSM)';
   obListDivA.innerHTML='Редактировать (в JOSM)';
+
+  var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
+  obListDivA.href='#';
+  obListDivA.title='Персональная карта';
+  obListDivA.innerHTML='Персональная карта';
+  obListDivA.onclick = function(){
+    osm.markers.personalMap();
+  };
 };
 
 osm.setLinkOSB = function() {

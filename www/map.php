@@ -63,7 +63,7 @@ $page_content = <<<PHP_CONTENT
     </div>
     <div id="mappan">
       <div id="map"></div>
-      <div id="tools" onmouseover="this.className='on';" onmouseout="this.className='';">
+      <!--<div id="tools" onmouseover="this.className='on';" onmouseout="this.className='';">
         <div class="a">
           <a id="tools-button" href="#" title="Инструменты"></a>
         </div>
@@ -72,7 +72,7 @@ $page_content = <<<PHP_CONTENT
           <p><a id="EditJOSM" href="#" title="Редактировать">Редактировать (в JOSM)</a></p>
           <p><a href="#" title="Персональная карта" onClick="osm.markers.personalMap()">Персональная карта</a></p>
         </div>
-      </div>
+      </div>-->
       <div id="fsbutton" class="map-feature-button" onClick="osm.ui.togglefs()">&uarr;</div>
       <!--<div id="cpan">
         <img id="cpanglo" src="img/glow.png" />
@@ -91,8 +91,8 @@ $page_content = <<<PHP_CONTENT
   <iframe name="hiddenIframe" id="hiddenIframe" style="display: none;"></iframe>
   <div id="personal_marker_popup" style="display: none;">
     <table cellspacing="0" cellpadding="0" border="0">
-      <tr><td><input type="text" value="Name..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)"/></td></tr>
-      <tr><td><textarea class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)">Description...</textarea></td></tr>
+      <tr><td><input id="marker_name_$$$" type="text" value="Name..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)"/></td></tr>
+      <tr><td><textarea id="marker_description_$$$" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)">Description...</textarea></td></tr>
       <tr><td>
         <div class='colour-picker-button colour-picker-button-blue' onClick="osm.markers.toggleCheck(this);">&#x2713;</div>
         <div class='colour-picker-button colour-picker-button-red' onClick="osm.markers.toggleCheck(this);"></div>
@@ -101,7 +101,7 @@ $page_content = <<<PHP_CONTENT
         <div class='colour-picker-button colour-picker-button-violet' onClick="osm.markers.toggleCheck(this);"></div>
         <div class='colour-picker-button colour-picker-button-orange' onClick="osm.markers.toggleCheck(this);"></div>
       </td></tr>
-      <tr><td><input type="button" value="Save" onClick="osm.markers.saveMarker(***)"/></td></tr>
+      <tr><td><input type="button" value="Save" onClick="osm.markers.saveMarker($$$)"/></td></tr>
     </table>
   </div>
 </body>

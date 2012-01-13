@@ -70,9 +70,11 @@ osm.markers.createPoints = function(e) {
   osm.markers._data.points.push(marker);
   var markerIndex = osm.markers._data.points.length - 1;
   osm.markers._layerGroup.addLayer(marker);
+  marker._pm_id = markerIndex;
   var popupHTML = $_('personal_marker_popup').innerHTML;
-  popupHTML = popupHTML.replace('***', 'osm.markers._data.points['+markerIndex+']');
+  popupHTML = popupHTML.replace(/\$\$\$/g, markerIndex);
   marker.bindPopup(popupHTML).openPopup();
+  marker.on('click', osm.markers.loadMarker);
 }
 
 osm.markers.addPath = function() {
@@ -97,10 +99,24 @@ osm.markers.createPath = function(e) {
   osm.markers._newPath.addLatLng(e.latlng);
 }
 
-osm.markers.saveMarker = function(el) {
-  alert('done!');
+osm.markers.saveMarker = function(elementIndex) {
+  var marker = osm.markers._data.points[elementIndex];
+  marker._pm_name = $_('marker_name_'+elementIndex).value;
+  marker._pm_description = $_('marker_description_'+elementIndex).value;
 }
 
+osm.markers.loadMarker = function(event) {
+  var marker = event.target;
+  var elementIndex = marker._pm_id;
+  if (marker._pm_name) {
+    $_('marker_name_'+elementIndex).value = marker._pm_name;
+    $_('marker_name_'+elementIndex).className = 'default-input-focused';
+  }
+  if (marker._pm_description) {
+    $_('marker_description_'+elementIndex).value = marker._pm_description;
+    $_('marker_description_'+elementIndex).className = 'default-input-focused';
+  }
+}
 osm.markers.toggleCheck = function(el) {
   var colorBoxes = document.getElementsByClassName('colour-picker-button');
   for (var i=0; i < colorBoxes.length; i++) {
@@ -109,17 +125,15 @@ osm.markers.toggleCheck = function(el) {
   el.innerHTML = '&#x2713;';
 }
 
-osm.markers.focusDefaultInput = function(e) {
-  if(e.value==e.defaultValue) {
-    e.value='';
-    e.style.fontStyle='normal';
-    e.style.color='#000';
+osm.markers.focusDefaultInput = function(el) {
+  if(el.value==el.defaultValue) {
+    el.value='';
   }
+  el.className = 'default-input-focused';
 }
-osm.markers.blurDefaultInput = function(e) {
-  if(e.value=='') {
-    e.value=e.defaultValue;
-    e.style.fontStyle='italic';
-    e.style.color='#ccc';
+osm.markers.blurDefaultInput = function(el) {
+  if(el.value=='') {
+    el.value=el.defaultValue;
+    el.className = 'default-input';
   }
 }

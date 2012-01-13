@@ -756,12 +756,30 @@ div.page-about .center .footnote{
   background: #fa970c;
   color: #000000;
 }
-.default-input {
-  font-style: italic;
+.default-input, .default-input-focused {
   font-size: 14px;
   font-family: sans-serif;
-  color: #ccc;
   width: 200px;
+  border: 1px solid #999;
+}
+.default-input {
+  font-style: italic;
+  color: #999;
+}
+.default-input-focused {
+  font-style: normal;
+  color: #000;
+}
+
+textarea.default-input, textarea.default-input-focused {
+  max-width: 200px;
+  min-width: 200px;
+  max-height: 100px;
+  min-height: 100px;
+  resize: none;
+}
+input.default-input, input.default-input-focused {
+  font-size: 20px;
 }
 
 
