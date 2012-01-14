@@ -90,16 +90,16 @@ $page_content = <<<PHP_CONTENT
   </div>
   <iframe name="hiddenIframe" id="hiddenIframe" style="display: none;"></iframe>
   <div id="personal_marker_popup" style="display: none;">
-    <table cellspacing="0" cellpadding="0" border="0">
+    <table cellspacing="0" cellpadding="0" border="0" id="marker_popup_$$$">
       <tr><td><input id="marker_name_$$$" type="text" value="Name..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)"/></td></tr>
       <tr><td><textarea id="marker_description_$$$" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)">Description...</textarea></td></tr>
       <tr><td>
-        <div class='colour-picker-button colour-picker-button-blue' onClick="osm.markers.toggleCheck(this);">&#x2713;</div>
-        <div class='colour-picker-button colour-picker-button-red' onClick="osm.markers.toggleCheck(this);"></div>
-        <div class='colour-picker-button colour-picker-button-green' onClick="osm.markers.toggleCheck(this);"></div>
-        <div class='colour-picker-button colour-picker-button-yellow' onClick="osm.markers.toggleCheck(this);"></div>
-        <div class='colour-picker-button colour-picker-button-violet' onClick="osm.markers.toggleCheck(this);"></div>
-        <div class='colour-picker-button colour-picker-button-orange' onClick="osm.markers.toggleCheck(this);"></div>
+        <div class='colour-picker-button colour-picker-button-blue' onClick="osm.markers.toggleCheck($$$, 0);">&#x2713;</div>
+        <div class='colour-picker-button colour-picker-button-red' onClick="osm.markers.toggleCheck($$$, 1);"></div>
+        <div class='colour-picker-button colour-picker-button-green' onClick="osm.markers.toggleCheck($$$, 2);"></div>
+        <div class='colour-picker-button colour-picker-button-yellow' onClick="osm.markers.toggleCheck($$$, 3);"></div>
+        <div class='colour-picker-button colour-picker-button-violet' onClick="osm.markers.toggleCheck($$$, 4);"></div>
+        <div class='colour-picker-button colour-picker-button-orange' onClick="osm.markers.toggleCheck($$$, 5);"></div>
       </td></tr>
       <tr><td><input type="button" value="Save" onClick="osm.markers.saveMarker($$$)"/></td></tr>
     </table>

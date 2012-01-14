@@ -734,6 +734,7 @@ div.page-about .center .footnote{
   line-height: 13px;
   color: white;
   float: left;
+  cursor: pointer;
 }
 .colour-picker-button-blue {
   background: #2288dd;
@@ -743,17 +744,17 @@ div.page-about .center .footnote{
   color: #000000;
 }
 .colour-picker-button-red {
-  background: #dd4422;
+  background: #F21D53;
 }
 .colour-picker-button-yellow {
-  background: #f5fc26;
+  background: #F1E415;
   color: #000000;
 }
 .colour-picker-button-violet {
-  background: #aa22cc;
+  background: #9B5BA0;
 }
 .colour-picker-button-orange {
-  background: #fa970c;
+  background: #E48530;
   color: #000000;
 }
 .default-input, .default-input-focused {
@@ -788,4 +789,7 @@ for leaflet
 */
 .leaflet-control-zoom a, .leaflet-control-zoom a:hover, .leaflet-control-zoom a:active {
   outline: none;
+}
+.leaflet-popup-content-wrapper {
+  cursor: auto;
 }

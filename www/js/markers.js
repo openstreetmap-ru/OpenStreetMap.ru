@@ -5,7 +5,15 @@ osm.markers = {
   _data: {
     points: [],
     lines: []
-  }
+  },
+  _icons: [
+    new L.Icon('/img/marker.png'),
+    new L.Icon('/img/marker-red.png'),
+    new L.Icon('/img/marker-green.png'),
+    new L.Icon('/img/marker-yellow.png'),
+    new L.Icon('/img/marker-violet.png'),
+    new L.Icon('/img/marker-orange.png')
+  ]
 }
 osm.markers.addPoint = function () {
   if (osm.markers._removeHandlers() === 1)
@@ -101,8 +109,12 @@ osm.markers.createPath = function(e) {
 
 osm.markers.saveMarker = function(elementIndex) {
   var marker = osm.markers._data.points[elementIndex];
-  marker._pm_name = $_('marker_name_'+elementIndex).value;
-  marker._pm_description = $_('marker_description_'+elementIndex).value;
+
+  var nameElement = $_('marker_name_'+elementIndex);
+  marker._pm_name = (nameElement.value==nameElement.defaultValue? '': nameElement.value);
+
+  var nameElement = $_('marker_description_'+elementIndex);
+  marker._pm_description = (nameElement.value==nameElement.defaultValue? '': nameElement.value);
 }
 
 osm.markers.loadMarker = function(event) {
@@ -116,13 +128,20 @@ osm.markers.loadMarker = function(event) {
     $_('marker_description_'+elementIndex).value = marker._pm_description;
     $_('marker_description_'+elementIndex).className = 'default-input-focused';
   }
+  if (marker._pm_icon_color) {
+    osm.markers.toggleCheck(elementIndex, marker._pm_icon_color);
+  }
 }
-osm.markers.toggleCheck = function(el) {
-  var colorBoxes = document.getElementsByClassName('colour-picker-button');
+osm.markers.toggleCheck = function(markerIndex, colorIndex) {
+  var colorBoxes = $_('marker_popup_'+markerIndex).getElementsByClassName('colour-picker-button');
   for (var i=0; i < colorBoxes.length; i++) {
     colorBoxes[i].innerHTML = '';
   }
-  el.innerHTML = '&#x2713;';
+  colorBoxes[colorIndex].innerHTML = '&#x2713;';
+
+  var marker = osm.markers._data.points[markerIndex];
+  marker.setIcon(osm.markers._icons[colorIndex]);
+  marker._pm_icon_color = colorIndex;
 }
 
 osm.markers.focusDefaultInput = function(el) {
