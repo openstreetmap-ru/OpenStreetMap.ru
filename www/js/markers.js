@@ -74,15 +74,7 @@ osm.markers.addMultiMarker = function() {
   }
 }
 osm.markers.createPoints = function(e) {
-  var marker = new L.Marker(e.latlng);
-  osm.markers._data.points.push(marker);
-  var markerIndex = osm.markers._data.points.length - 1;
-  osm.markers._layerGroup.addLayer(marker);
-  marker._pm_id = markerIndex;
-  var popupHTML = $_('personal_marker_popup').innerHTML;
-  popupHTML = popupHTML.replace(/\$\$\$/g, markerIndex);
-  marker.bindPopup(popupHTML).openPopup();
-  marker.on('click', osm.markers.loadMarker);
+  new PersonalMarker(e.latlng);
 }
 
 osm.markers.addPath = function() {
@@ -107,43 +99,6 @@ osm.markers.createPath = function(e) {
   osm.markers._newPath.addLatLng(e.latlng);
 }
 
-osm.markers.saveMarker = function(elementIndex) {
-  var marker = osm.markers._data.points[elementIndex];
-
-  var nameElement = $_('marker_name_'+elementIndex);
-  marker._pm_name = (nameElement.value==nameElement.defaultValue? '': nameElement.value);
-
-  var nameElement = $_('marker_description_'+elementIndex);
-  marker._pm_description = (nameElement.value==nameElement.defaultValue? '': nameElement.value);
-}
-
-osm.markers.loadMarker = function(event) {
-  var marker = event.target;
-  var elementIndex = marker._pm_id;
-  if (marker._pm_name) {
-    $_('marker_name_'+elementIndex).value = marker._pm_name;
-    $_('marker_name_'+elementIndex).className = 'default-input-focused';
-  }
-  if (marker._pm_description) {
-    $_('marker_description_'+elementIndex).value = marker._pm_description;
-    $_('marker_description_'+elementIndex).className = 'default-input-focused';
-  }
-  if (marker._pm_icon_color) {
-    osm.markers.toggleCheck(elementIndex, marker._pm_icon_color);
-  }
-}
-osm.markers.toggleCheck = function(markerIndex, colorIndex) {
-  var colorBoxes = $_('marker_popup_'+markerIndex).getElementsByClassName('colour-picker-button');
-  for (var i=0; i < colorBoxes.length; i++) {
-    colorBoxes[i].innerHTML = '';
-  }
-  colorBoxes[colorIndex].innerHTML = '&#x2713;';
-
-  var marker = osm.markers._data.points[markerIndex];
-  marker.setIcon(osm.markers._icons[colorIndex]);
-  marker._pm_icon_color = colorIndex;
-}
-
 osm.markers.focusDefaultInput = function(el) {
   if(el.value==el.defaultValue) {
     el.value='';
@@ -156,3 +111,51 @@ osm.markers.blurDefaultInput = function(el) {
     el.className = 'default-input';
   }
 }
+
+PersonalMarker.prototype = new L.Marker();
+PersonalMarker.prototype.constructor = PersonalMarker;
+function PersonalMarker(coords) {
+    this.setLatLng(coords);
+    this.setIcon(osm.markers._icons[0]); // FIXME: why color is remembered to prototype?
+    osm.markers._data.points.push(this);
+    this.index = osm.markers._data.points.length - 1;
+    osm.markers._layerGroup.addLayer(this);
+    var popupHTML = $_('personal_marker_popup').innerHTML;
+    popupHTML = popupHTML.replace(/\$\$\$/g, 'osm.markers._data.points['+this.index+']');
+    popupHTML = popupHTML.replace(/\#\#\#/g, this.index);
+    this.bindPopup(popupHTML).openPopup();
+    this.on('click', function(e){e.target.loadMarker(e)});
+  
+  this.loadMarker = function(event) {
+    if (this._pm_name) {
+      $_('marker_name_'+this.index).value = this._pm_name;
+      $_('marker_name_'+this.index).className = 'default-input-focused';
+    }
+    if (this._pm_description) {
+      $_('marker_description_'+this.index).value = this._pm_description;
+      $_('marker_description_'+this.index).className = 'default-input-focused';
+    }
+    if (this._pm_icon_color) {
+      this.toggleCheck(this._pm_icon_color);
+    }
+  }
+  
+  this.toggleCheck = function(colorIndex) {
+    var colorBoxes = $_('marker_popup_'+this.index).getElementsByClassName('colour-picker-button');
+    for (var i=0; i < colorBoxes.length; i++) {
+      colorBoxes[i].innerHTML = '';
+    }
+    colorBoxes[colorIndex].innerHTML = '&#x2713;';
+
+    this.setIcon(osm.markers._icons[colorIndex]);
+    this._pm_icon_color = colorIndex;
+  }
+  
+  this.saveData = function() {
+    var nameElement = $_('marker_name_'+this.index);
+    this._pm_name = (nameElement.value==nameElement.defaultValue? '': nameElement.value);
+
+    var nameElement = $_('marker_description_'+this.index);
+    this._pm_description = (nameElement.value==nameElement.defaultValue? '': nameElement.value);
+  }
+};
