@@ -72,10 +72,11 @@ def process(page):
     cu.execute("SELECT * FROM wpc_img WHERE page=%s", (page,))
     try:
       if cu.rowcount > 0:
-        query = u"UPDATE wpc_img SET \"desc\"=%s, point=ST_SetSRID(ST_MakePoint(%lf,%lf),4326) WHERE page=%s" % (sqlesc(meta['desc']), float(meta['lat']), float(meta['lon']), sqlesc(page))
+        query = u"UPDATE wpc_img SET \"desc\"=%s, point=ST_SetSRID(ST_MakePoint(%lf,%lf),4326), date=NOW() WHERE page=%s" % (sqlesc(meta['desc']), float(meta['lat']), float(meta['lon']), sqlesc(page))
       else:
-        query = u"INSERT INTO wpc_img (page, \"desc\", point) VALUES(%s,%s,ST_SetSRID(ST_MakePoint(%lf,%lf),4326))" % (sqlesc(page), sqlesc(meta['desc']), float(meta['lat']), float(meta['lon']))
-      #print query
+        query = u"INSERT INTO wpc_img (page, \"desc\", point, date) VALUES(%s,%s,ST_SetSRID(ST_MakePoint(%lf,%lf),4326),NOW())" % (sqlesc(page), sqlesc(meta['desc']), float(meta['lat']), float(meta['lon']))
+      cu.execute(query)
+      query = u"INSERT INTO wpc_done (page, \"desc\", lat, lon, done) VALUES (%s,%s,%lf,%lf,NOW())" % (sqlesc(page), sqlesc(meta['desc']), float(meta['lat']), float(meta['lon']))
       cu.execute(query)
     except ValueError:
       print "ValueError: meta=%s" % repr(meta)
