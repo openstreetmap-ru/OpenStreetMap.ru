@@ -215,12 +215,11 @@ L.Control.Layers.include({
 			if (!this._layers.hasOwnProperty(i))
 				continue;
 			obj = this._layers[i];
-			//if (this._map.hasLayer(obj.layer) && (layers.indexOf(obj.layer) === -1) ) //remove only unneeded layers
-				this._map.removeLayer(obj.layer)
+			if (layers.indexOf(obj.layer) === -1 ) //remove only unneeded layers
+				this._map.removeLayer(obj.layer);
 		}
 		for (l in layers) {
-      //if (toString.call(obj) === "[object Array]" && this._layers.indexOf(layers[l]) !== -1) // add only non-existing layers
-        this._map.addLayer(layers[l])
+			this._map.addLayer(layers[l]); // map control does not add existing layers itself
 		}
 		this._update();
 	},
