@@ -783,6 +783,23 @@ input.default-input, input.default-input-focused {
   font-size: 20px;
 }
 
+.leaflet-container a.button, a.button  {
+	border: 1px solid transparent;
+	background: white;
+	top: 7px;
+	border-radius: 5px;
+	box-shadow:0 0 7px #777;
+	padding: 5px;
+	position: relative;
+	text-align: center;
+	text-decoration: none;
+	color: #777;
+}
+.leaflet-container  a.button:active, a.button:active {
+	color: #99BD1B;
+	top: 10px;
+	box-shadow: 0 0 7px #688014;
+}
 
 /*
 for leaflet

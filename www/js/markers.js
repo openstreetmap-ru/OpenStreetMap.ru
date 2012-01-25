@@ -89,16 +89,18 @@ osm.markers.addPath = function() {
   osm.map.addLayer(osm.markers._newPath);
 }
 osm.markers.createPath = function(e) {
-  if (osm.markers._newPath.getLatLngs().length === 0) {
+  /*if (osm.markers._newPath.getLatLngs().length === 0) {
     var marker = new L.Marker(e.latlng);
     osm.map.addLayer(marker);
     marker.bindPopup('Начальная точка');
     marker.openPopup();
     
-  }
+  }*/
+  osm.markers._newPath.addLatLng(e.latlng);
   osm.markers._newPath.addLatLng(e.latlng);
 }
 
+// TODO: when IE whould support placeholder attribute for input elements - remove that
 osm.markers.focusDefaultInput = function(el) {
   if(el.value==el.defaultValue) {
     el.value='';
@@ -126,6 +128,10 @@ function PersonalMarker(coords) {
     this.bindPopup(popupHTML).openPopup();
     this.on('click', function(e){e.target.loadMarker(e)});
   
+  this.remove = function() {
+    osm.markers._layerGroup.removeLayer(this);
+    delete osm.markers._data.points[this.index];
+  },
   this.loadMarker = function(event) {
     if (this._pm_name) {
       $_('marker_name_'+this.index).value = this._pm_name;
