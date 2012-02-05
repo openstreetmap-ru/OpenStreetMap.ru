@@ -205,7 +205,7 @@ L.Control.Layers.include({
 		var layers = new Array();
 		var names = [];
 
-		if (this.options.layerHashes == null)
+		if (this.options.layerHashes == null || name.indexOf(',') != -1)
 			names = name.split(',');
 		else {
 			var layerName;
