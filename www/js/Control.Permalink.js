@@ -3,7 +3,7 @@ L.Control.Permalink = L.Class.extend({
 		position: L.Control.Position.BOTTOM_LEFT,
 		useAnchor: true,
 		useMarker: true,
-		markerOptions: {},
+		markerOptions: {}
 	},
 
 	initialize: function(layers, options) {
@@ -52,27 +52,32 @@ L.Control.Permalink = L.Class.extend({
 		this._update_href();
 	},
 
-  _generate_url: function(params) {
-    var link = L.Util.getParamString(params);
-    var sep = '?';
-    if (this.options.useAnchor) sep = '#';
-    return this._url_base + sep + link.slice(1);
-  },
- 
-  _update_href: function() {
-    this.get_params();
-    this._href.setAttribute('href', this._generate_url(this._params));
-  },
+	_generate_url: function(params) {
+		var link = L.Util.getParamString(params);
+		var sep = '?';
+		if (this.options.useAnchor) sep = '#';
+		return this._url_base + sep + link.slice(1);
+	},
+
+	_update_href: function() {
+		this.get_params();
+		this._href.setAttribute('href', this._generate_url(this._params));
+	},
 
 	_update_layers: function() {
 		if (!this._layers) return;
 		
 		var layer = this._layers.currentBaseLayer();
-		if (layer) this._params['layer'] = layer.name;
+		if (layer) this._params['layer'] = (this._layers.options.layerHashes == null) ? layer.name : this._layers.options.layerHashes[layer.name];
 		for(x in osm.map.control_layers._layers) {
-		  if (osm.map.control_layers._layers[x].overlay)
-		    if (this._map.hasLayer(osm.map.control_layers._layers[x].layer))
-		      this._params['layer'] += ',' + osm.map.control_layers._layers[x].name;
+			if (osm.map.control_layers._layers[x].overlay) {
+				if (this._map.hasLayer(osm.map.control_layers._layers[x].layer)) {
+					if (this._layers.options.layerHashes == null)
+						this._params['layer'] += ',' + osm.map.control_layers._layers[x].name;
+					else
+						this._params['layer'] += this._layers.options.layerHashes[osm.map.control_layers._layers[x].name];
+				}
+			}
 		}
 		this._update_href();
 	},
@@ -157,8 +162,8 @@ L.Control.Permalink = L.Class.extend({
 	{
 		if (!force && this._centered) return;
 		if (params.zoom == undefined ||
-		    params.lat == undefined ||
-		    params.lon == undefined) return;
+				params.lat == undefined ||
+				params.lon == undefined) return;
 		this._centered = true;
 		this._map.setView(new L.LatLng(params.lat, params.lon), params.zoom);
 		if (params.layer && this._layers)
@@ -173,40 +178,50 @@ L.Control.Permalink = L.Class.extend({
 		if ((params.marker != '1' || !this._centered || !this.options.useMarker) && center) return;
 		this._marker = new L.Marker(new L.LatLng(params.lat, params.lon), this.options.markerOptions);
 		this._map.addLayer(this._marker);
-    var popup = this._marker.bindPopup('<a href="'+this._generate_url(params)+'">Ссылка на маркер</a>');
-    if (!center)
-      popup.openPopup();
+		var popup = this._marker.bindPopup('<a href="'+this._generate_url(params)+'">Ссылка на маркер</a>');
+		if (!center)
+			popup.openPopup();
 	},
 
-  _popup_marker: function(latlng) {
-    latlng = this._round_point(latlng);
-    //copy simple obj
-    this.get_params();
-    var params = {};
-    for (i in this._params)
-      params[i] = this._params[i];
+	_popup_marker: function(latlng) {
+		latlng = this._round_point(latlng);
+		//copy simple obj
+		this.get_params();
+		var params = {};
+		for (i in this._params)
+			params[i] = this._params[i];
 
-    params.lat = latlng.lat;
-    params.lon = latlng.lng;
-    params.marker = 1;
+		params.lat = latlng.lat;
+		params.lon = latlng.lng;
+		params.marker = 1;
 
-    this._set_marker(params, false);
-  }
+		this._set_marker(params, false);
+	}
 });
 
 L.Control.Layers.include({
 	chooseBaseLayer: function(name) {
-    var obj;
-    var layers = new Array();
-    var names = name.split(',');
+		var obj;
+		var layers = new Array();
+		var names = [];
+
+		if (this.options.layerHashes == null)
+			names = name.split(',');
+		else {
+			var layerName;
+			for(var i = 0; i < name.length; i++)
+				if (layerName = this._get_layername_by_hash(name.charAt(i)))
+					names.push(layerName);
+		}
+
 		for (var n in names) {
-		  for (var i in this._layers) {
-			  if (!this._layers.hasOwnProperty(i))
-				  continue;
-			  obj = this._layers[i];
-			  if (obj.name == names[n])
-				  layers.push(obj.layer);
-		  }
+			for (var i in this._layers) {
+				if (!this._layers.hasOwnProperty(i))
+					continue;
+				obj = this._layers[i];
+				if (obj.name == names[n])
+					layers.push(obj.layer);
+			}
 		}
 		if (!layers || !layers.length)
 			return;
@@ -233,6 +248,13 @@ L.Control.Layers.include({
 			if (!obj.overlay && this._map.hasLayer(obj.layer))
 				return obj;
 		}
+	},
+	_get_layername_by_hash: function(hash) {
+		if (this.options.layerHashes != null)
+			for (h in this.options.layerHashes)
+				if (this.options.layerHashes[h] == hash)
+					return h;
+		return false;
 	},
 });
 
