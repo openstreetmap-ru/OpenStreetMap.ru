@@ -59,9 +59,9 @@ osm.getCookie = function(name) {
     if (offset != -1) {
       offset += search.length;
       end = cookie.indexOf(";", offset)
-	if (end == -1) {
-	  end = cookie.length;
-	}
+  if (end == -1) {
+    end = cookie.length;
+  }
       setStr = unescape(cookie.substring(offset, end));
     }
   }
@@ -140,6 +140,23 @@ function init() {
       'Космоснимки (гибрид)':osm.layers.layerKosmoHyb,
       'MapSurfer.net (гибрид)':osm.layers.layerMSHyb,
       'Фото (ВикиСклад) beta':wpc.layers
+    },
+    {
+      layerHashes: {
+        'Mapnik':'M',
+        'Космоснимки':'K',
+        'MapQuest':'Q',
+        'Osmarender':'O',
+        'Велокарта':'C',
+        'MapSurfer.net':'S',
+        'Снимки Bing':'B',
+        'Трёхмерные здания':'Z',
+        'Ошибки на карте':'U',
+        'Общественный транспорт':'T',
+        'Космоснимки (гибрид)':'H',
+        'MapSurfer.net (гибрид)':'Y',
+        'Фото (ВикиСклад) beta':'W'
+      }
     }
   );
   osm.map.addControl(osm.map.control_layers);
@@ -153,6 +170,7 @@ function init() {
 
   //osm.map.control_layers.chooseBaseLayer(layer);
   osm.map.addControl(new L.Control.Scale({width: 100, position: L.Control.Position.BOTTOM_LEFT}));
+
   osm.map.permalink = new L.Control.Permalink(osm.map.control_layers);
   osm.map.addControl(osm.map.permalink);
   osm.map.addControl(new L.Control.Zoom({shiftClick: true}));
