@@ -57,6 +57,8 @@ $page_content = <<<PHP_CONTENT
           <p>Нарисовать:</p>
           <div id="multimarkerbutton" class="pseudolink" onClick="osm.markers.addMultiMarker()">Маркеры</div>
           <div id="pathbutton" class="pseudolink" onClick="osm.markers.addPath()">Путь</div>
+          <br>
+          <div id="pm_save" class="pseudolink" onClick="osm.markers.saveData()">Сохранить</div>
         </div>
       </div>
       <div id="toggler" onClick="osm.leftpan.toggle()"></div>

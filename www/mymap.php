@@ -1,6 +1,7 @@
 <?php
 include_once ('include/config.php');
 error_reporting(E_ERROR | E_WARNING);
+mb_internal_encoding("UTF-8");
 // json map format
 /*
 out:{
@@ -13,14 +14,14 @@ out:{
 		description: str, //map descr
 		user_osm: str, // creator
 	},
-	"data": { // saved at json at db
+	"data": { // saved at json at db, received from client side
 		points: [
 			{
 				lat:float,
-				lng:float,
+				lon:float,
 				name:str,
 				description:str
-				color:str // hex format? image name?
+				color:str //1-6// hex format? image name?
 			}
 		],
 		lines: [
@@ -93,8 +94,8 @@ else if ($action == 'save' && $id) {
 			if ($row["admin_hash"] !== $hash) {
 				header("HTTP/1.0 403 Authentication required");
 			} else {
-				$map_name = html_db_escape(@$_REQUEST['name']);
-				$map_description = html_db_escape(@$_REQUEST['description']);
+				$map_name = html_db_escape(@$_REQUEST['name'], 45);
+				$map_description = html_db_escape(@$_REQUEST['description'], 1024);
 				$json_data = json_html_db_escape(@$_REQUEST['data']); //filtering incorrect data?
 				
 				$result2 = pg_query("UPDATE \"personal_map\" SET \"name\"=$map_name, \"description\"=$map_description, \"json\"=$json_data WHERE \"id\"=".$id);
@@ -107,10 +108,9 @@ else if ($action == 'save' && $id) {
 			}
 		}
 	} else {
-		$map_name = html_db_escape(@$_REQUEST['name']); // change to $_POST in future
-		$map_description = html_db_escape(@$_REQUEST['description']);
+		$map_name = html_db_escape(@$_REQUEST['name'], 45); // change to $_POST in future
+		$map_description = html_db_escape(@$_REQUEST['description'], 1024);
 		$json_data = json_html_db_escape(@$_REQUEST['data']);
-		echo $json_data;
 		$query = "INSERT INTO \"personal_map\" (\"name\", \"description\", \"json\") VALUES ($map_name, $map_description, $json_data);";
 		$query.= "SELECT \"id\", \"admin_hash\" FROM \"personal_map\" WHERE \"id\"=currval('personal_map_id_seq');";
 		$result = pg_query($query);
@@ -124,17 +124,22 @@ else if ($action == 'save' && $id) {
 		}
 	}	
 }
-function html_escape($str) { return htmlspecialchars($str, ENT_NOQUOTES|ENT_HTML401, "UTF-8", false); }
+function html_escape($str, $len) { 
+  $str = mb_substr($str, 0, $len);
+  return htmlspecialchars($str, ENT_NOQUOTES|ENT_HTML401, "UTF-8", false); 
+}
+  
 function color_escape($str) {
-	if(preg_match('/^\\#[0-9a-fA-F]{6}$/',$str))
+	if(preg_match('/^\\#[0-9a-fA-F]{1,6}$/',$str))
 		return $str;
 	return "#ff0000";
 }
-function html_db_escape($str) {
-	return "'".pg_escape_string(html_escape($str))."'";
+function html_db_escape($str, $len) {
+	return "'".pg_escape_string(html_escape($str,$len))."'";
 }
 function json_html_db_escape($str) {
-	$data_pre = json_decode($str, true);
+//	$data_pre = json_decode($str, true);
+  $data_pre = $str; // already is the data
 	// processing and filtering html where needed
 	$points_pre = isset($data_pre['points'])?$data_pre['points']:array();
 	$lines_pre = isset($data_pre['lines'])?$data_pre['lines']:array();
@@ -145,14 +150,14 @@ function json_html_db_escape($str) {
 	foreach($points_pre as $ppoint) {
 		$points[]=array('lat'=>floatval($ppoint['lat']),
 						'lon'=>floatval($ppoint['lon']),
-						'name'=>html_escape($ppoint['name']),
-						'description'=>html_escape($ppoint['description']),
+						'name'=>html_escape($ppoint['name'], 45),
+						'description'=>html_escape($ppoint['description'], 1024),
 						'color'=>color_escape($ppoint['color']));
 	}
 	foreach($lines_pre as $pline) {
 		$pline['points'] = array_slice($pline['points'], 0, PERSMAP_MAX_LINE_POINTS);
-		$line = array(	'name'=>html_escape($pline['name']),
-						'description'=>html_escape($pline['description']),
+		$line = array(	'name'=>html_escape($pline['name'], 45),
+						'description'=>html_escape($pline['description'], 1024),
 						'color'=>color_escape($ppoint['color']));
 		$points = array();
 		if (is_array($pline['points']))

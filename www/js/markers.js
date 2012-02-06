@@ -13,7 +13,11 @@ osm.markers = {
     new L.Icon('/img/marker-yellow.png'),
     new L.Icon('/img/marker-violet.png'),
     new L.Icon('/img/marker-orange.png')
-  ]
+  ],
+  _admin: {
+    hash: '',
+    id: -1
+  }
 }
 osm.markers.addPoint = function () {
   if (osm.markers._removeHandlers() === 1)
@@ -112,6 +116,41 @@ osm.markers.blurDefaultInput = function(el) {
     el.value=el.defaultValue;
     el.className = 'default-input';
   }
+}
+
+osm.markers.saveData = function() {
+  var postData = {};
+  var mapName = "default map name";
+  var mapDescription = "default map description";
+  postData.points = [];
+  postData.lines = [];
+  var mlen = osm.markers._data.points.length;
+  for(var i = 0; i < mlen; i++) {
+    var point = osm.markers._data.points[i];
+    var coords = point.getLatLng();
+    postData.points.push({
+      lat:          coords.lat,
+      lon:          coords.lng,
+      name:         point._pm_name,
+      description:  point._pm_description,
+      color:        point._pm_icon_color
+    });
+  }
+  $.getJSON("mymap.php", {
+      action:       "save",
+      name:         mapName, 
+      description:  mapDescription, 
+      data:         postData, 
+      hash:         osm.markers._admin.hash,
+      id:           osm.markers._admin.id
+    }, function(json){
+      alert(json.result);
+      if (json.id) {
+        osm.markers._admin.id = json.id;
+        osm.markers._admin.hash = json.hash;
+      }
+    }
+  );
 }
 
 PersonalMarker.prototype = new L.Marker();
