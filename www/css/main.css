@@ -727,6 +727,8 @@ div.page-about .center .footnote{
   width: 15px;
   height: 15px;
   border: 1px solid black;
+  border-radius: 2px;
+  box-shadow:0 0 7px #777;
   text-align: center;
   vertical-align: top;
   padding: 0px;
