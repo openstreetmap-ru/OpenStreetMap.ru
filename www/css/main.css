@@ -432,7 +432,7 @@ a.wheremi:hover div.wheremi {
 #menupan td:nth-child(7) div:hover, #menupan td:nth-child(7) div.current { background: #4a8af5; }
 
 #menupan #mainmenupage td:nth-child(1) div { width: 200px; border-top: 5px solid #c3102e; }
-#menupan #mainmenupage td:nth-child(1) div:hover, #men0upan #mainmenupage td:nth-child(1) a.on div { background: #c3102e; }
+#menupan #mainmenupage td:nth-child(1) div:hover, #menupan #mainmenupage td:nth-child(1) a.on div { background: #c3102e; }
 
 
 #loginpan {
