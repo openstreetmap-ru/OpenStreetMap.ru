@@ -183,17 +183,20 @@ osm.markers.readMap = function() {
         osm.leftpan.toggle(2);
       //process map name and description
       var latlngs = new Array();
+      var p;
       if (json.data.points)
         for(var i=0;i<json.data.points.length;i++) {
           var point = json.data.points[i];
           var coords = new L.LatLng(point.lat, point.lon);
           latlngs.push(coords);
-          var p = new PersonalMarker(coords, point.name, point.description, point.color);
+          p = new PersonalMarker(coords, point.name, point.description, point.color);
         }
       if (latlngs.length>1)
         osm.map.fitBounds(new L.LatLngBounds(latlngs));
       else if (latlngs.length==1)
         osm.map.panTo(latlngs[0]);
+        if (p._popup) // hack - that should be included to leaflet (https://github.com/CloudMade/Leaflet/issues/507)
+          p.openPopup();
     }
   );
 }
