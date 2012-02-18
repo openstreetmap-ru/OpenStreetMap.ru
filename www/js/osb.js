@@ -151,8 +151,8 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 	osbIcon :  L.Icon.extend({
 			iconSize: new L.Point(20, 20),
 			shadowSize: new L.Point(0, 0),
-			iconAnchor: new L.Point(10, 0),
-			popupAnchor: new L.Point(0, 0)
+			iconAnchor: new L.Point(10, 10),
+			popupAnchor: new L.Point(0, -10)
 	}),
 
 	setPopupContent: function(id) {
