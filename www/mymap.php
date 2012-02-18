@@ -130,9 +130,10 @@ function html_escape($str, $len) {
 }
   
 function color_escape($str) {
-	if(preg_match('/^\\#[0-9a-fA-F]{1,6}$/',$str))
+	/*if(preg_match('/^\\#[0-9a-fA-F]{1,6}$/',$str))
 		return $str;
-	return "#ff0000";
+	return "#ff0000";*/
+  return intval($str);
 }
 function html_db_escape($str, $len) {
 	return "'".pg_escape_string(html_escape($str,$len))."'";

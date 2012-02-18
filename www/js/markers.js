@@ -19,6 +19,10 @@ osm.markers = {
     id: -1
   }
 }
+osm.markers.initialize = function() {
+  osm.markers._layerGroup = new L.LayerGroup();
+  osm.map.addLayer(osm.markers._layerGroup);
+}
 osm.markers.addPoint = function () {
   if (osm.markers._removeHandlers() === 1)
     return;
@@ -71,14 +75,10 @@ osm.markers.addMultiMarker = function() {
   $_('multimarkerbutton').className += ' persmappressed';
   $_('map').style.cursor = 'crosshair';
   osm.markers._drawingMode = 2;
-
-  if (osm.markers._layerGroup === 0) {
-    osm.markers._layerGroup = new L.LayerGroup();
-    osm.map.addLayer(osm.markers._layerGroup);
-  }
 }
 osm.markers.createPoints = function(e) {
-  new PersonalMarker(e.latlng);
+  var p = new PersonalMarker(e.latlng);
+  p.openPopup();
 }
 
 osm.markers.addPath = function() {
@@ -118,7 +118,7 @@ osm.markers.blurDefaultInput = function(el) {
   }
 }
 
-osm.markers.saveData = function() {
+osm.markers.saveMap = function() {
   var postData = {};
   var mapName = "default map name";
   var mapDescription = "default map description";
@@ -127,6 +127,7 @@ osm.markers.saveData = function() {
   var mlen = osm.markers._data.points.length;
   for(var i = 0; i < mlen; i++) {
     var point = osm.markers._data.points[i];
+    if (!point) continue;
     var coords = point.getLatLng();
     postData.points.push({
       lat:          coords.lat,
@@ -144,11 +145,44 @@ osm.markers.saveData = function() {
       hash:         osm.markers._admin.hash,
       id:           osm.markers._admin.id
     }, function(json){
-      alert(json.result);
-      if (json.id) {
+      //alert(json.result);
+      if (json.id)
         osm.markers._admin.id = json.id;
+      if (json.hash)
         osm.markers._admin.hash = json.hash;
-      }
+    }
+  );
+}
+
+osm.markers.readMap = function() {
+  var url = document.URL;
+  var results = url.match(/\Wmapid=(\d+)/);
+  if (!results)
+    return;
+  var mapid = results[1];
+  results = url.match(/\Whash=([0-9a-fA-F]){32}/);
+  var adminhash = "";
+  if (results)
+    adminhash = results[1];
+  $.getJSON("mymap.php", {
+      action: "load",
+      id:     mapid,
+      hash:   adminhash
+    }, function(json){
+      if (!json.service.existing) { alert("Карта не существует"); return; }
+      if (json.service.editing) {osm.markers._admin.hash=adminhash;}
+      osm.markers._admin.id = mapid;
+
+      //process map name and description
+      if (json.data.points)
+        for(var i=0;i<json.data.points.length;i++) {
+          var point = json.data.points[i];
+          var coords = new L.LatLng(point.lat, point.lon);
+          var p = new PersonalMarker(coords);
+          p._pm_name = point.name;
+          p._pm_description = point.description;
+          p._set_pm_icon_color(point.color);
+        }
     }
   );
 }
@@ -164,7 +198,7 @@ function PersonalMarker(coords) {
     var popupHTML = $_('personal_marker_popup').innerHTML;
     popupHTML = popupHTML.replace(/\$\$\$/g, 'osm.markers._data.points['+this.index+']');
     popupHTML = popupHTML.replace(/\#\#\#/g, this.index);
-    this.bindPopup(popupHTML).openPopup();
+    this.bindPopup(popupHTML);
     this.on('click', function(e){e.target.loadMarker(e)});
   
   this.remove = function() {
@@ -192,6 +226,13 @@ function PersonalMarker(coords) {
     }
     colorBoxes[colorIndex].innerHTML = '&#x2713;';
 
+    this._set_pm_icon_color(colorIndex);
+  }
+  
+  this._set_pm_icon_color = function(colorIndex) {
+    if (isNaN(parseFloat(colorIndex)) || !isFinite(colorIndex) ||
+      colorIndex < 0 || colorIndex >= osm.markers._icons.length )
+      return;
     this.setIcon(osm.markers._icons[colorIndex]);
     this._pm_icon_color = colorIndex;
   }

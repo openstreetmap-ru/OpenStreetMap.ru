@@ -174,6 +174,8 @@ function init() {
   osm.map.permalink = new L.Control.Permalink(osm.map.control_layers);
   osm.map.addControl(osm.map.permalink);
   osm.map.addControl(new L.Control.Zoom({shiftClick: true}));
+  osm.markers.initialize();
+  osm.markers.readMap();
 
   osm.createTools();
   search.inLoad();
