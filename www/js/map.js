@@ -360,3 +360,17 @@ osm.ui.togglefs = function() {
 osm.ui.searchsubmit = function() {
   return search.search($_('qsearch').value);
 }
+
+osm.osbclick = function(e) {
+  if (e.className!="on") {
+    e.className="on";
+    osm.map.addLayer(osm.layers.osb);
+    document.body.style.cursor="help"
+  }
+  else {
+    e.className="";
+    osm.map.removeLayer(osm.layers.osb);
+    document.body.style.cursor=""
+  }
+  osm.map.control_layers._update();
+}

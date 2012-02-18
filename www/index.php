@@ -36,8 +36,18 @@ include_once ($_URL[0].'.php');
   <? print($page_head); ?>
 </head>
 <body>
-
-<? show_menu($_URL[0]); ?>
+  <div id="menupan">
+    <div id="menuback"></div>
+    <table id="tablemenu"><tr>
+      <td><? show_menu($_URL[0]); ?></td>
+      <td width="100%"></td>
+      <td>
+        <table id="mainmenupage"><tr>
+          <? print($page_topmenu); ?>
+        </tr></table>
+      </td>
+    </tr></table>
+  </div>
 
   <div id="toppan">
     <a href="/">

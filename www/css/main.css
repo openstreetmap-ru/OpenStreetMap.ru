@@ -373,14 +373,17 @@ a.wheremi:hover div.wheremi {
   height: 9px;
 }
 
-#menupan table {
+#menupan #tablemenu {
   margin: 0 22px;
-  /*min-width: 980px;*/
   position: absolute;
   top: 0;
 }
 
-#menupan table div {
+#menupan #mainmenu {
+  top: 0;
+}
+
+#menupan #mainmenu div, #menupan #mainmenupage div {
   border-bottom: 3px solid #333333;
   cursor: pointer;
   height: 22px;
@@ -389,21 +392,22 @@ a.wheremi:hover div.wheremi {
   overflow: hidden;
 }
 
-.fs #menupan table div {
+.fs #menupan #mainmenu div {
   border-bottom: 0 none;
   height: 4px;
 }
 
-.fs #menupan table div:hover {
+.fs #menupan #mainmenu div:hover {
   height: 22px;
 }
 
 #menupan a {
   color: #aaaaaa;
   text-decoration: none;
+  outline: none;
 }
 
-#menupan a:hover, #menupan a:active {
+#menupan a:hover, #menupan a:active, #menupan a.on {
   color: #ffffff;
   outline: none;
 }
@@ -426,6 +430,9 @@ a.wheremi:hover div.wheremi {
 #menupan td:nth-child(5) div:hover, #menupan td:nth-child(5) div.current { background: #db4c39; }
 #menupan td:nth-child(6) div:hover, #menupan td:nth-child(6) div.current { background: #faaa87; }
 #menupan td:nth-child(7) div:hover, #menupan td:nth-child(7) div.current { background: #4a8af5; }
+
+#menupan #mainmenupage td:nth-child(1) div { width: 190px; border-top: 5px solid #c3102e; }
+#menupan #mainmenupage td:nth-child(1) div:hover, #menupan #mainmenupage td:nth-child(1) a.on div { background: #c3102e; }
 
 
 #loginpan {
