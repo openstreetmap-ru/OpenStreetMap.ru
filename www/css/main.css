@@ -784,6 +784,12 @@ textarea.default-input, textarea.default-input-focused {
 input.default-input, input.default-input-focused {
   font-size: 20px;
 }
+.marker-name {
+  font-weight: bold;
+}
+.marker-description {
+
+}
 
 .leaflet-container a.button, a.button  {
 	border: 1px solid transparent;

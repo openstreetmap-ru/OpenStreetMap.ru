@@ -59,6 +59,8 @@ $page_content = <<<PHP_CONTENT
           <div id="pathbutton" class="pseudolink" onClick="osm.markers.addPath()">Путь</div>
           <br>
           <div id="pm_save" class="pseudolink" onClick="osm.markers.saveMap()">Сохранить</div>
+          <br>
+          <div id="pm_status"></div>
         </div>
       </div>
       <div id="toggler" onClick="osm.leftpan.toggle()"></div>
@@ -91,7 +93,7 @@ $page_content = <<<PHP_CONTENT
     </div>
   </div>
   <iframe name="hiddenIframe" id="hiddenIframe" style="display: none;"></iframe>
-  <div id="personal_marker_popup" style="display: none;">
+  <div id="pm_edit_popup" style="display: none;">
     <table cellspacing="0" cellpadding="0" border="0" id="marker_popup_###">
       <tr><td><input id="marker_name_###" type="text" value="Name..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()"/></td></tr>
       <tr><td><textarea id="marker_description_###" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()">Description...</textarea></td></tr>
@@ -106,6 +108,11 @@ $page_content = <<<PHP_CONTENT
       <tr><td><a href="#" class="button" onClick="$$$.remove();return false">Delete</a>
       </td></tr>
     </table>
+  </div>
+  <div id="pm_show_popup" style="display: none;">
+    <table cellspacing="0" cellpadding="0" border="0">
+    <tr><td><div class="marker-name">#name</div></td></tr>
+    <tr><td><div class="marker-description">#description</div></td></tr>
   </div>
 </body>
 PHP_CONTENT;
