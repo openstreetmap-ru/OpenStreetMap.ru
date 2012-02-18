@@ -54,12 +54,16 @@ $page_content = <<<PHP_CONTENT
           <h1>Персональная карта</h1>
         </div>
         <div class="contentpan">
-          <p>Нарисовать:</p>
-          <div id="multimarkerbutton" class="pseudolink" onClick="osm.markers.addMultiMarker()">Маркеры</div>
-          <div id="pathbutton" class="pseudolink" onClick="osm.markers.addPath()">Путь</div>
-          <br>
-          <div id="pm_save" class="pseudolink" onClick="osm.markers.saveMap()">Сохранить</div>
-          <br>
+          <ul class="pm-menu">
+            <li class="pm-submenu"><img src='img/pencil.svg' /><span>Нарисовать</span></li>
+            <li>
+              <ul class="pm-options">
+                <li id="multimarkerbutton" onClick="osm.markers.addMultiMarker()"><img src='img/marker.svg' /><span>Маркер</span></li>
+                <li id="pathbutton" onClick='osm.markers.addPath();'><img src='img/path.svg' /><span>Путь</span></li>
+              </ul>
+            </li>
+            <li class="pm-submenu" onClick="osm.markers.saveMap()"><img src='img/save.svg' /><span>Сохранить</span></li>
+          </ul>
           <div id="pm_status"></div>
         </div>
       </div>

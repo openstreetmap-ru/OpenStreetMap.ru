@@ -63,7 +63,7 @@ osm.markers._removeHandlers = function() {
   }
   osm.map.off('click', func);
   if (elementId)
-    $_(elementId).className = 'pseudolink';
+    $_(elementId).className = '';
   $_('map').style.cursor='';
   osm.markers._drawingMode = 0;
   return oldDrawingMode;
@@ -74,7 +74,7 @@ osm.markers.addMultiMarker = function() {
     return;
 
   osm.map.on('click', osm.markers.createPoints);
-  $_('multimarkerbutton').className += ' persmappressed';
+  $_('multimarkerbutton').className = 'pm-pressed';
   $_('map').style.cursor = 'crosshair';
   osm.markers._drawingMode = 2;
 }
@@ -88,7 +88,7 @@ osm.markers.addPath = function() {
     return;
 
   osm.map.on('click', osm.markers.createPath);
-  $_('pathbutton').className += ' persmappressed';
+  $_('pathbutton').className = 'pm-pressed';
   $_('map').style.cursor = 'crosshair';
   osm.markers._drawingMode = 3;
   osm.markers._newPath = new L.Polyline([]);

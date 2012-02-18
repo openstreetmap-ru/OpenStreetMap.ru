@@ -86,10 +86,6 @@ table {
   display: none;
 }
 
-#leftpan div.persmappressed {
-  background-color: #AAFFAA;
-}
-
 .contentpan {
   bottom: 0;
   left: 0;
@@ -160,18 +156,6 @@ table {
 
 #fsbutton {
   right: 20px;
-}
-
-#markerbutton {
-  right: 90px;
-}
-
-#multimarkerbutton {
-  right: 160px;
-}
-
-#pathbutton {
-	right: 230px;
 }
 
 #map {
@@ -789,6 +773,52 @@ input.default-input, input.default-input-focused {
 }
 .marker-description {
 
+}
+
+ul.pm-menu {
+  list-style-type: none;
+}
+ul.pm-menu * {
+  margin: 0;
+}
+li.pm-submenu {
+  height: 25px;
+  background-color: #99bd1b;
+  width: 200px;
+}
+li.pm-submenu img {
+  background-color: #fff;
+  border: 0px;
+}
+li.pm-submenu span {
+  color: #fff;
+  font: 14pt /25px sans-serif;
+  padding: 5px;
+  vertical-align: top;
+}
+ul.pm-options {
+  list-style-type: none;
+}
+ul.pm-options li {
+  height: 37px;
+  width: 180px; 
+  padding-left: 20px;
+}
+ul.pm-options li img {
+  margin: 5px 0px 0px;
+  border: 1px solid #749014;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #777;
+}
+ul.pm-options span {
+  color: #749014;
+  font: 12pt /37px sans-serif;
+  margin: 0px;
+  padding: 5px;
+  vertical-align: top;
+}
+.pm-pressed {
+  background-color: #ff9;
 }
 
 .leaflet-container a.button, a.button  {
