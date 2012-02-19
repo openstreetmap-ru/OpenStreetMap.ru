@@ -361,16 +361,24 @@ osm.ui.searchsubmit = function() {
   return search.search($_('qsearch').value);
 }
 
-osm.osbclick = function(e) {
+osm.osbclickon = function(e) {
   if (e.className!="on") {
-    e.className="on";
     osm.map.addLayer(osm.layers.osb);
+  }
+  else {
+    osm.map.removeLayer(osm.layers.osb);
+  }
+  osm.map.control_layers._update();
+}
+
+osm.osbclick = function(e,on) {
+  if (on==null) on=e.className!="on"
+  if (on) {
+    e.className="on";
     document.body.style.cursor="help"
   }
   else {
     e.className="";
-    osm.map.removeLayer(osm.layers.osb);
     document.body.style.cursor=""
   }
-  osm.map.control_layers._update();
 }
