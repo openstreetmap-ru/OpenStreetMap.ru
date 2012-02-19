@@ -17,7 +17,7 @@ $page_head = <<<PHP_HEAD
 PHP_HEAD;
 
 $page_topmenu = <<<PHP_TOPMENU
-          <td><a href="/" title="Достаточно двойного клика мышью по месту и указать неточность" onclick="osm.osbclick(this); return false;"><div>Указать неточность на карте?</div></a></td>
+          <td id="mainmenupage-osb"><a href="/" title="Достаточно двойного клика мышью по месту и указать неточность" onclick="osm.osbclick(this); return false;"><div>Указать неточность на карте?</div></a></td>
 PHP_TOPMENU;
 
 $page_topbar = <<<PHP_TOPBAR
