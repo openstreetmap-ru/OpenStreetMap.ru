@@ -9,10 +9,6 @@ var wpc = {
 
 function $_(id) { return document.getElementById(id); }
 
-function setView(position) {
-  osm.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 10);
-}
-
 function reloadKML() {
   var algo = 1;
   if (!wpc.layers.visible) return;
@@ -342,8 +338,11 @@ osm.onPermalink = function () {
 };
 
 osm.ui.whereima = function() {
-  navigator.geolocation.getCurrentPosition(setView);
+  navigator.geolocation.getCurrentPosition(osm.ui.whereima_r);
 };
+osm.ui.whereima_r = function (position) {
+  osm.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 10);
+}
 
 osm.ui.togglefs = function() {
   if (osm.ui.fs) {
