@@ -66,7 +66,7 @@ $page_content = <<<PHP_CONTENT
                 <li id="pathbutton" onClick='osm.markers.addPath();'><img src='img/path.svg' /><span>Путь</span></li>
               </ul>
             </li>
-            <li class="pm-submenu" onClick="osm.markers.saveMap()"><img src='img/save.svg' /><span>Сохранить</span></li>
+            <li class="pm-submenu" id="pm_save" onClick="osm.markers.saveMap()"><img src='img/save.svg' /><span>Сохранить</span></li>
           </ul>
           <div id="pm_status"></div>
         </div>

@@ -79,7 +79,7 @@ osm.markers.addMultiMarker = function() {
   osm.markers._drawingMode = 2;
 }
 osm.markers.createPoints = function(e) {
-  var p = new PersonalMarker(e.latlng);
+  var p = new PersonalMarkerEditable(e.latlng);
   p.openPopup();
 }
 
@@ -148,7 +148,6 @@ osm.markers.saveMap = function() {
       hash:         osm.markers._admin.hash,
       id:           osm.markers._admin.id
     }, function(json){
-      //alert(json.result);
       if (json.id) {
         osm.markers._admin.id = json.id;
         osm.markers._admin.hash = json.hash;
@@ -156,7 +155,7 @@ osm.markers.saveMap = function() {
       $_("pm_status").innerHTML = "Сохранено<br>"+
         "<a href='/?mapid="+osm.markers._admin.id+"'>Ссылка на просмотр</a><br>"+
         "<a href='/?mapid="+osm.markers._admin.id+"&hash="+osm.markers._admin.hash+"'>Ссылка на редактирование</a>";
-    }
+    } //TODO: add failure handler
   );
 }
 
@@ -189,27 +188,90 @@ osm.markers.readMap = function() {
           var point = json.data.points[i];
           var coords = new L.LatLng(point.lat, point.lon);
           latlngs.push(coords);
-          p = new PersonalMarker(coords, point.name, point.description, point.color);
+          if (osm.markers._admin.editable)
+            p = new PersonalMarkerEditable(coords, point);
+          else
+            p = new PersonalMarker(coords, point);
         }
       if (latlngs.length>1)
         osm.map.fitBounds(new L.LatLngBounds(latlngs));
-      else if (latlngs.length==1)
+      else if (latlngs.length==1) {
         osm.map.panTo(latlngs[0]);
-        if (p._popup) // hack - that should be included to leaflet (https://github.com/CloudMade/Leaflet/issues/507)
+        if (p._popup) {// hack - that should be included to leaflet (https://github.com/CloudMade/Leaflet/issues/507)
           p.openPopup();
-    }
+          if (p instanceof PersonalMarkerEditable)
+            p.loadEditableMarker();
+        }
+      }
+    } // TODO: add failure handler
   );
 }
 
-PersonalMarker.prototype = new L.Marker();
-PersonalMarker.prototype.constructor = PersonalMarker;
-function PersonalMarker(coords, name, description, colorIndex) {
-  this.remove = function() {
-    osm.markers._layerGroup.removeLayer(this);
-    delete osm.markers._data.points[this.index];
+PersonalMarker = L.Marker.extend({ // simple marker without editable functions
+  initialize: function(coords, details) {
+    this.setLatLng(coords);
+    this.addToLayerGroup();
+    this.fillDetails(details);
+    if (this._pm_name || this._pm_description) {
+      var popupHTML = $_('pm_show_popup').innerHTML;
+      popupHTML = popupHTML.replace(/\#name/g, this._pm_name);
+      popupHTML = popupHTML.replace(/\#description/g, this._pm_description);
+      this.bindPopup(popupHTML);
+    }
+  },
+  fillDetails: function(details) {
+    if (details) {
+      this._pm_name = details.name;
+      this._pm_description = details.description;
+      this._set_pm_icon_color(details.color);
+    }
+  },
+  addToLayerGroup: function() {
+    if (!osm.markers._layerGroup) {
+      osm.markers._layerGroup = new L.LayerGroup();
+      osm.map.addLayer(osm.markers._layerGroup);
+    }
+    osm.markers._layerGroup.addLayer(this);
+  },
+  _set_pm_icon_color: function(colorIndex) {
+    if (isNaN(parseFloat(colorIndex)) || !isFinite(colorIndex) ||
+      colorIndex < 0 || colorIndex >= osm.markers._icons.length )
+      colorIndex = 0;
+    this.setIcon(osm.markers._icons[colorIndex]);
+    this._pm_icon_color = colorIndex;
   }
+});
 
-  this.loadEditableMarker = function(event) {
+PersonalMarkerEditable = PersonalMarker.extend({
+  initialize: function(coords, details) {
+    this.setLatLng(coords);
+    this.fillDetails(details);
+    osm.markers._data.points.push(this);
+    this.index = osm.markers._data.points.length - 1;
+    this.addToLayerGroup();
+    var popupHTML = $_('pm_edit_popup').innerHTML;
+    popupHTML = popupHTML.replace(/\$\$\$/g, 'osm.markers._data.points['+this.index+']');
+    popupHTML = popupHTML.replace(/\#\#\#/g, this.index);
+    this.bindPopup(popupHTML);
+    this.on('click', function(e){e.target.loadEditableMarker(e)});
+  },
+  saveData: function() {
+    var nameElement = $_('marker_name_'+this.index);
+    this._pm_name = (nameElement.value==nameElement.defaultValue? '': nameElement.value);
+
+    var nameElement = $_('marker_description_'+this.index);
+    this._pm_description = (nameElement.value==nameElement.defaultValue? '': nameElement.value);
+  },
+  toggleCheck: function(colorIndex) {
+    var colorBoxes = $_('marker_popup_'+this.index).getElementsByClassName('colour-picker-button');
+    for (var i=0; i < colorBoxes.length; i++) {
+      colorBoxes[i].innerHTML = '';
+    }
+    colorBoxes[colorIndex].innerHTML = '&#x2713;';
+
+    this._set_pm_icon_color(colorIndex);
+  },
+  loadEditableMarker: function(event) {
     if (this._pm_name) {
       $_('marker_name_'+this.index).value = this._pm_name;
       $_('marker_name_'+this.index).className = 'default-input-focused';
@@ -221,52 +283,9 @@ function PersonalMarker(coords, name, description, colorIndex) {
     if (this._pm_icon_color) {
       this.toggleCheck(this._pm_icon_color);
     }
+  },
+  remove: function() {
+    osm.markers._layerGroup.removeLayer(this);
+    delete osm.markers._data.points[this.index];
   }
-
-  this.toggleCheck = function(colorIndex) {
-    var colorBoxes = $_('marker_popup_'+this.index).getElementsByClassName('colour-picker-button');
-    for (var i=0; i < colorBoxes.length; i++) {
-      colorBoxes[i].innerHTML = '';
-    }
-    colorBoxes[colorIndex].innerHTML = '&#x2713;';
-
-    this._set_pm_icon_color(colorIndex);
-  }
-
-  this._set_pm_icon_color = function(colorIndex) {
-    if (isNaN(parseFloat(colorIndex)) || !isFinite(colorIndex) ||
-      colorIndex < 0 || colorIndex >= osm.markers._icons.length )
-      return;
-    this.setIcon(osm.markers._icons[colorIndex]);
-    this._pm_icon_color = colorIndex;
-  }
-
-  this.saveData = function() {
-    var nameElement = $_('marker_name_'+this.index);
-    this._pm_name = (nameElement.value==nameElement.defaultValue? '': nameElement.value);
-
-    var nameElement = $_('marker_description_'+this.index);
-    this._pm_description = (nameElement.value==nameElement.defaultValue? '': nameElement.value);
-  }
-    // Constructor code here
-    this.setLatLng(coords);
-    this.setIcon(osm.markers._icons[0]); // FIXME: why color is remembered to prototype?
-    osm.markers._data.points.push(this);
-    this.index = osm.markers._data.points.length - 1;
-    osm.markers._layerGroup.addLayer(this);
-    this._pm_name = name;
-    this._pm_description = description;
-    this._set_pm_icon_color(colorIndex);
-    if (osm.markers._admin.editable) {
-      var popupHTML = $_('pm_edit_popup').innerHTML;
-      popupHTML = popupHTML.replace(/\$\$\$/g, 'osm.markers._data.points['+this.index+']');
-      popupHTML = popupHTML.replace(/\#\#\#/g, this.index);
-      this.bindPopup(popupHTML);
-      this.on('click', function(e){e.target.loadEditableMarker(e)});
-    } else if (this._pm_name || this._pm_description) {
-      var popupHTML = $_('pm_show_popup').innerHTML;
-      popupHTML = popupHTML.replace(/\#name/g, this._pm_name);
-      popupHTML = popupHTML.replace(/\#description/g, this._pm_description);
-      this.bindPopup(popupHTML);
-    }
-};
+});

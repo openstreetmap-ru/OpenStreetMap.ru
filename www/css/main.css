@@ -810,6 +810,7 @@ ul.pm-options li {
   height: 37px;
   width: 180px; 
   padding-left: 20px;
+  cursor: pointer;
 }
 ul.pm-options li img {
   margin: 5px 0px 0px;
@@ -823,6 +824,9 @@ ul.pm-options span {
   margin: 0px;
   padding: 5px;
   vertical-align: top;
+}
+#pm_save {
+  cursor: pointer;
 }
 .pm-pressed {
   background-color: #ff9;
