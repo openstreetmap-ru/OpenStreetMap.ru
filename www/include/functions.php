@@ -2,12 +2,12 @@
 function show_menu($current = '', $level = 0) {
   $result = pg_query('SELECT * FROM "pagedata" WHERE "level"<='.$level.' AND "activate" AND "order">0 ORDER BY "order" asc');
 
-  echo '<div id="menupan"><div id="menuback"></div><table><tr>';
+  echo '<table id="mainmenu"><tr>';
   $menu = array();
   while ($row = pg_fetch_assoc($result))
     $menu[] = ($current == $row['name'] ? '<td><div class="current">'.$row['text'].'</div></td>' : '<td><a href="/'.$row['name'].'"><div>'.$row['text'].'</div></a></td>');
   echo implode($menu);
-  echo '</tr></table></div>';
+  echo '</tr></table>';
 }
 
 function show_menu_old($current = '', $level = 0) {

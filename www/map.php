@@ -16,6 +16,10 @@ $page_head = <<<PHP_HEAD
   <link rel="stylesheet" href="css/osb.css" />
 PHP_HEAD;
 
+$page_topmenu = <<<PHP_TOPMENU
+          <td id="mainmenupage-osb"><a href="/" title="Достаточно двойного клика мышью по месту и указать неточность" onclick="osm.osbclick(this); return false;"><div>Указать неточность на карте?</div></a></td>
+PHP_TOPMENU;
+
 $page_topbar = <<<PHP_TOPBAR
       <div id="searchpan">
         <form id="search" method="get" action="/" onsubmit="return osm.ui.searchsubmit();"><table style="width:100%;"><tr>
