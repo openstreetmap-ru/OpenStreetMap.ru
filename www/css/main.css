@@ -356,7 +356,7 @@ a.wheremi:hover div.wheremi {
   position: absolute;
   top: 0;
   width: 100%;
-  z-index: 4;
+  z-index: 10;
 }
 
 #menupan #menuback {
@@ -397,7 +397,7 @@ a.wheremi:hover div.wheremi {
   height: 4px;
 }
 
-.fs #menupan #mainmenu div:hover, .fs #menupan #mainmenupage div:hover, .fs #menupan #mainmenupage a.on div {
+.fs #menupan #mainmenu div:hover, .fs #menupan #mainmenupage div:hover {
   height: 22px;
 }
 

@@ -374,10 +374,10 @@ osm.osbclick = function(e,on) {
   if (on==null) on=e.className!="on"
   if (on) {
     e.className="on";
-    document.body.style.cursor="help"
+    osm.map._mapPane.style.cursor="crosshair"
   }
   else {
     e.className="";
-    document.body.style.cursor=""
+    osm.map._mapPane.style.cursor=""
   }
 }
