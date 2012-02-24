@@ -8,7 +8,6 @@ $page_head = <<<PHP_HEAD
   <script type="text/javascript" src="js/map.js"></script>
   <script type="text/javascript" src="js/Control.Permalink.js"></script>
   <script type="text/javascript" src="js/Control.Scale.js"></script>
-  <script type="text/javascript" src="js/Control.Zoom.js"></script>
   <script type="text/javascript" src="js/Layer.TileLayer.Bing.js"></script>
   <script type="text/javascript" src="js/Layer.KML.js"></script>
   <script type="text/javascript" src="js/osb.js"></script>
