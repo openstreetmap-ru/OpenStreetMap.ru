@@ -146,7 +146,8 @@ function init() {
   osm.editUpdate();
   osm.map.on('moveend', reloadKML);
   osm.map.on('moveend', osm.saveLocation); 
-  osm.map.on('layeradd', osm.saveLocation); 
+  osm.map.on('layeradd', osm.saveLocation);
+  osm.map.on('layerremove', osm.saveLocation); 
   osm.map.on('moveend', osm.editUpdate);
 };
 
