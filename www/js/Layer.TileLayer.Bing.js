@@ -15,9 +15,13 @@ L.BingLayer = L.TileLayer.extend({
 			if (this._url == null) return;
 			this._update_attribution();
 			this._update_tile();
-		};
-		this.loadMetadata();
+		};		
 	},
+
+    onAdd: function(map){
+        L.TileLayer.prototype.onAdd.apply(this, [map]);
+        this.loadMetadata();
+    },
 
 	tile2quad: function(x, y, z) {
 		var quad = '';
