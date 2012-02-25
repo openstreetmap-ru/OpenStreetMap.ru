@@ -41,7 +41,11 @@ osm.saveLocation = function() {
   var ol = '';
   var curOverlays = osm.map.control_layers.listCurrentOverlays();
   for(var i in curOverlays){
-     ol += osm.layerHashes[curOverlays[i].name] || '';
+    var hash = osm.layerHashes[curOverlays[i].name] || '';
+    //don't save OSB layer 
+    if(hash != 'U'){
+        ol += hash;
+    }
   } 
 
   var d = new Date();
@@ -98,18 +102,20 @@ function init() {
   
   //some pice of paranoia
   baseLayer = osm.layers[osm.layerHash2name[layer]] || osm.layers.layerMapnik;
-
-  var maplayers = [baseLayer];
-  for(var i = 0; i < overlaysAsString.length; i++){
-        var over = osm.layers[osm.layerHash2name[overlaysAsString.charAt(i)]];
-        if(over){
-            maplayers.push(over);
-        }
-  }
   
-  osm.map = new L.Map('map', {zoomControl: false, center: center, zoom: zoom, layers: maplayers});
+  osm.map = new L.Map('map', {zoomControl: false, center: center, zoom: zoom, layers: [baseLayer]});
 
   osm.map.addLayer(osm.layers.search_marker);
+  for(var i = 0; i < overlaysAsString.length; i++){
+        //don't save OSB layer 
+        var hash = overlaysAsString.charAt(i); 
+        if(hash != 'U'){
+            var over = osm.layers[osm.layerHash2name[hash]];
+            if(over){
+                osm.map.addLayer(over);
+            }
+        }
+  }
 
   osm.map.control_layers = new L.Control.Layers(
     osm.baseLayers,
@@ -127,7 +133,6 @@ function init() {
   osm.search_marker = new L.LayerGroup();
   osm.map.addLayer(osm.search_marker);
 
-  //osm.map.control_layers.chooseBaseLayer(layer);
   osm.map.addControl(new L.Control.Scale({width: 100, position: L.Control.Position.BOTTOM_LEFT}));
 
   osm.map.permalink = new L.Control.Permalink(osm.map.control_layers);
@@ -284,11 +289,16 @@ osm.initLayers = function(){
       delete this._map;
     }
   });
-  wpc.layers = new WPCLayer();
   
-  osm.overlays['Фото (ВикиСклад) beta'] = wpc.layers;
-  osm.layerHashes['Фото (ВикиСклад) beta'] = 'W';
-  osm.overlays['Фото (ВикиСклад) beta'] = 'W';
+  wpc.layers = new WPCLayer();
+
+  osm.registerLayer(
+    'layerWikiFoto', 
+    wpc.layers,
+    'Фото (ВикиСклад) beta',
+    'W',
+    false
+  );
     
 }
 
