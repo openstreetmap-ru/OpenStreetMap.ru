@@ -249,13 +249,27 @@ L.Control.Layers.include({
 				return obj;
 		}
 	},
+	
+	listCurrentOverlays: function() {
+        var result = [];
+        for (var i in this._layers) {
+            if (!this._layers.hasOwnProperty(i))
+                continue;
+            var obj = this._layers[i];
+            if (!obj.overlay) continue;
+            if (obj.overlay && this._map.hasLayer(obj.layer))
+                result.push(obj);
+        }
+        return result;
+    },
+
 	_get_layername_by_hash: function(hash) {
 		if (this.options.layerHashes != null)
 			for (h in this.options.layerHashes)
 				if (this.options.layerHashes[h] == hash)
 					return h;
 		return false;
-	},
+	}
 });
 
 L.UrlUtil = {
