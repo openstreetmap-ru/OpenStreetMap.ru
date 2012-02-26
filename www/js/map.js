@@ -9,10 +9,6 @@ var wpc = {
 
 function $_(id) { return document.getElementById(id); }
 
-function setView(position) {
-  osm.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 10);
-}
-
 function reloadKML() {
   var algo = 1;
   if (!wpc.layers.visible) return;
@@ -357,8 +353,11 @@ osm.onPermalink = function () {
 };
 
 osm.ui.whereima = function() {
-  navigator.geolocation.getCurrentPosition(setView);
+  navigator.geolocation.getCurrentPosition(osm.ui.whereima_r);
 };
+osm.ui.whereima_r = function (position) {
+  osm.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 10);
+}
 
 osm.ui.togglefs = function() {
   if (osm.ui.fs) {
@@ -376,16 +375,24 @@ osm.ui.searchsubmit = function() {
   return search.search($_('qsearch').value);
 }
 
-osm.osbclick = function(e) {
+osm.osbclickon = function(e) {
   if (e.className!="on") {
-    e.className="on";
     osm.map.addLayer(osm.layers.osb);
-    document.body.style.cursor="help"
+  }
+  else {
+    osm.map.removeLayer(osm.layers.osb);
+  }
+  osm.map.control_layers._update();
+}
+
+osm.osbclick = function(e,on) {
+  if (on==null) on=e.className!="on"
+  if (on) {
+    e.className="on";
+    osm.map._mapPane.style.cursor="crosshair"
   }
   else {
     e.className="";
-    osm.map.removeLayer(osm.layers.osb);
-    document.body.style.cursor=""
+    osm.map._mapPane.style.cursor=""
   }
-  osm.map.control_layers._update();
 }

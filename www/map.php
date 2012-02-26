@@ -8,7 +8,6 @@ $page_head = <<<PHP_HEAD
   <script type="text/javascript" src="js/map.js"></script>
   <script type="text/javascript" src="js/Control.Permalink.js"></script>
   <script type="text/javascript" src="js/Control.Scale.js"></script>
-  <script type="text/javascript" src="js/Control.Zoom.js"></script>
   <script type="text/javascript" src="js/Layer.TileLayer.Bing.js"></script>
   <script type="text/javascript" src="js/Layer.KML.js"></script>
   <script type="text/javascript" src="js/osb.js"></script>
@@ -17,7 +16,7 @@ $page_head = <<<PHP_HEAD
 PHP_HEAD;
 
 $page_topmenu = <<<PHP_TOPMENU
-          <td id="mainmenupage-osb"><a href="/" title="Достаточно двойного клика мышью по месту и указать неточность" onclick="osm.osbclick(this); return false;"><div>Указать неточность на карте?</div></a></td>
+          <td id="mainmenupage-osb"><a href="/" title="Достаточно двойного клика мышью по месту и указать неточность" onclick="osm.osbclickon(this); return false;"><div>Указать неточность на карте</div></a></td>
 PHP_TOPMENU;
 
 $page_topbar = <<<PHP_TOPBAR
