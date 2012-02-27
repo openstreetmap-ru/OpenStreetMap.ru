@@ -36,7 +36,8 @@ function reloadKML() {
 osm.saveLocation = function() {
   var ll = osm.map.getCenter();
   var z = osm.map.getZoom();
-  var l = osm.layerHashes[osm.map.control_layers.currentBaseLayer().name] || '';
+  var currentBaseLayer = osm.map.control_layers.currentBaseLayer();
+  var l = currentBaseLayer ? (osm.layerHashes[currentBaseLayer.name]) : '';
   
   var ol = '';
   var curOverlays = osm.map.control_layers.listCurrentOverlays();
