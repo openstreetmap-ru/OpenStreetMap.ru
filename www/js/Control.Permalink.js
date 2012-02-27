@@ -257,7 +257,7 @@ L.Control.Layers.include({
                 continue;
             var obj = this._layers[i];
             if (!obj.overlay) continue;
-            if (obj.overlay && this._map.hasLayer(obj.layer))
+            if (this._map.hasLayer(obj.layer))
                 result.push(obj);
         }
         return result;
