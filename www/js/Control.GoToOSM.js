@@ -1,6 +1,7 @@
 L.Control.GoToOSM = L.Class.extend({
 
 	OSM_HOST : 'http://openstreetmap.org',
+	HREF_TEXT: 'Открыть на osm.org',
 
 	_map: null,
 	_container: null,
@@ -23,7 +24,7 @@ L.Control.GoToOSM = L.Class.extend({
 	
 	_createHref : function(){
 		this._href = L.DomUtil.create('a');
-		this._href.innerHTML = 'Открыть на osm.org';
+		this._href.innerHTML = this.HREF_TEXT;
 		var p = L.DomUtil.create('p');
 		p.appendChild(this._href);
 		this._container.appendChild(p);
