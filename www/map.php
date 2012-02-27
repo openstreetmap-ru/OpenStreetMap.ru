@@ -7,6 +7,7 @@ $page_head = <<<PHP_HEAD
   <!--[if lte IE 8]><link rel="stylesheet" href="css/leaflet.ie.css" /><![endif]-->
   <script type="text/javascript" src="js/map.js"></script>
   <script type="text/javascript" src="js/Control.Permalink.js"></script>
+  <script type="text/javascript" src="js/Control.GoToOSM.js"></script>
   <script type="text/javascript" src="js/Control.Scale.js"></script>
   <script type="text/javascript" src="js/Layer.TileLayer.Bing.js"></script>
   <script type="text/javascript" src="js/Layer.KML.js"></script>

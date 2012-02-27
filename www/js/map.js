@@ -144,6 +144,9 @@ function init() {
   search.inLoad();
   osm.setLinkOSB();
 
+  osm.goToOSM = new L.Control.GoToOSM(osm.obTools);
+  osm.goToOSM.connectToMap(osm.map);
+
   osm.editUpdate();
   osm.map.on('moveend', reloadKML);
   osm.map.on('moveend', osm.saveLocation); 
@@ -342,6 +345,8 @@ osm.createTools = function() {
   var obMap = $_('mappan');
   var obTools = L.DomUtil.create('div', null, obMap);
   obTools.id = 'tools';
+  
+  osm.obTools = obTools;
   
   function ClosePan() {
     obTools.className='';
