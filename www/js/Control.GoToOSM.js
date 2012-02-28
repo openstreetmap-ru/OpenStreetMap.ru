@@ -25,6 +25,7 @@ L.Control.GoToOSM = L.Class.extend({
 	_createHref : function(){
 		this._href = L.DomUtil.create('a');
 		this._href.innerHTML = this.HREF_TEXT;
+		this._href.target = "_blank"
 		var p = L.DomUtil.create('p');
 		p.appendChild(this._href);
 		this._container.appendChild(p);
