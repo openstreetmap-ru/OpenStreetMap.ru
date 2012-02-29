@@ -4,8 +4,10 @@ function show_menu($current = '', $level = 0) {
 
   echo '<table id="mainmenu"><tr>';
   $menu = array();
-  while ($row = pg_fetch_assoc($result))
-    $menu[] = ($current == $row['name'] ? '<td><div class="current">'.$row['text'].'</div></td>' : '<td><a href="/'.$row['name'].'"><div>'.$row['text'].'</div></a></td>');
+  while ($row = pg_fetch_assoc($result)) {
+    $row['name2'] = ($row['name'] == 'map' ? '' : $row['name']);
+    $menu[] = ($current == $row['name'] ? '<td><div class="current">'.$row['text'].'</div></td>' : '<td><a href="/'.$row['name2'].'"><div>'.$row['text'].'</div></a></td>');
+  }
   echo implode($menu);
   echo '</tr></table>';
 }
