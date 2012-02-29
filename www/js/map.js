@@ -396,10 +396,12 @@ osm.leftpan.toggle = function(on) {
     if (on) {
       this.on = true;
       $_('downpan').className = '';
+      osm.map.addLayer(osm.layers.search_marker);
     }
     else {
       this.on = false;
       $_('downpan').className = 'left-on';
+      osm.map.removeLayer(osm.layers.search_marker);
     }
     osm.map.invalidateSize();
   }

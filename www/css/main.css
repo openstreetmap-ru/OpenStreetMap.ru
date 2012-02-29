@@ -53,12 +53,12 @@ table {
   overflow: hidden;
   position: absolute;
   top: 0;
-  width: 330px;
+  width: 327px;
   z-index: 3;
 }
 
 .left-on #leftpan {
-  width: 0;
+  width: 8px;
 }
 
 #leftpan div.close {
@@ -121,7 +121,7 @@ table {
 #mappan {
   top: 0;
   bottom: 0;
-  left: 330px;
+  left: 327px;
   right: 0;
   position: absolute;
 /*  -webkit-user-select: none;
@@ -131,7 +131,7 @@ table {
 }
 
 .left-on #mappan {
-  left: 0;
+  left: 8px;
 }
 
 .map-feature-button {

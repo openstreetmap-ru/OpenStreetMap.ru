@@ -45,11 +45,7 @@ $page_content = <<<PHP_CONTENT
         <h1>Результаты поиска:</h1>
       </div>
       <div id="content_pan">
-        <ul>
-          <br>
-          <li><span class="pseudolink" onClick="osm.ui.whereima()">Найти меня</span></li>
-          <li><span class="pseudolink" onClick="osm.ui.whereima()">Проложить маршрут</span></li>
-        </ul>
+        <p>Для поиска введите в строку искомый адрес и нажмите "Найти"</p>
       </div>
       <div id="toggler" onClick="osm.leftpan.toggle()"></div>
     </div>
