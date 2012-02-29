@@ -6,7 +6,7 @@
   <InputEncoding>UTF-8</InputEncoding>
   <OutputEncoding>UTF-8</OutputEncoding>
   <Image width="16" height="16" type="image/png">data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAIGNIUk0AAHolAACAgwAA+f8AAIDoAABSCAABFVgAADqXAAAXb9daH5AAAAAJcEhZcwAADsIAAA7CARUoSoAAAAFASURBVDhPY2RAAkZGRlGMjIxu////FwIKgzAIvAWKfQbiq79//77OxMR08+/fv48uXbr0FVkvmG1iYuIHNKQDiPOA7HBjY+N0IDsViOuBeBlQ7CxQ7D8IA/n/MQwgVgBkgJmZmTex6lHUATX/AbqkgyzNQFuvAZ2+H69moII9QBuSYIpAzlVVVU0A8YHsQwYGBiU4DTA3NxcHGnAeWYGWlhYPjA8KZKAhF/C6AKggB2iIMjZFQC8oAuV/EPQ/0IAT2BRpa2srEzKAEaj5Ci4bTE1Nw4AGnMLpAqCkCNCAG8gKQIEI4wPlzgIDNJdQGPADNa1EioUa5Bjh4+ODJXGCQYGhAOiChcCA/EK6TiQdFhYWu4AGvSLXEEZ7e3sWoAFfgfgehiHAhOIJy21A+gNQ0VtQtCGJwXLiUWCiKwcZAAC9CWbAEmqMZQAAAABJRU5ErkJggg==</Image>
-  <Url type="text/html" method="get" template="http://openstreetmap.ru/map?q={searchTerms}" />
+  <Url type="text/html" method="get" template="http://openstreetmap.ru/?q={searchTerms}" />
   <Query role="example" searchTerms="Москва, Таймырская ул., д. 6" />
   <AdultContent>false</AdultContent>
   <Attribution>Data &amp;copy; OpenStreetMap contributors, Some Rights Reserved. CC by-sa 2.0. Geolocation provided by openstreemap.ru.</Attribution>
