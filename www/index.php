@@ -39,7 +39,7 @@ include_once ($_URL[0].'.php');
   <div id="menupan">
     <div id="menuback"></div>
     <table id="tablemenu"><tr>
-      <td><? show_menu($_URL[0]); ?></td>
+      <td><? show_menu($pages_menu, $_URL[0]); ?></td>
       <td width="100%"></td>
       <td>
         <table id="mainmenupage"><tr>
