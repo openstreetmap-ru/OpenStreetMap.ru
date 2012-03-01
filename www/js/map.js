@@ -195,14 +195,6 @@ osm.initLayers = function(){
   );
 
   osm.registerLayer(
-    'layerTAH', 
-    new L.TileLayer('http://{s}.tah.openstreetmap.org/Tiles/tile/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors (TAH)"}), 
-    'Osmarender',
-    'O',
-    true
-  );
-
-  osm.registerLayer(
     'layerCycle', 
     new L.TileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors (Cycle)"}), 
     'Велокарта',
