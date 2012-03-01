@@ -53,12 +53,12 @@ table {
   overflow: hidden;
   position: absolute;
   top: 0;
-  width: 330px;
+  width: 327px;
   z-index: 3;
 }
 
 .left-on #leftpan {
-  width: 0;
+  width: 8px;
 }
 
 #leftpan div.close {
@@ -121,7 +121,7 @@ table {
 #mappan {
   top: 0;
   bottom: 0;
-  left: 330px;
+  left: 327px;
   right: 0;
   position: absolute;
 /*  -webkit-user-select: none;
@@ -131,20 +131,27 @@ table {
 }
 
 .left-on #mappan {
-  left: 0;
+  left: 8px;
 }
 
-#fsbutton {
+.map-feature-button {
   background: #99BD1B;
   color: #ffffff;
   cursor: pointer;
   height: 20px;
   position: absolute;
-  right: 20px;
   text-align: center;
   top: 0;
   width: 50px;
   z-index: 5;
+}
+
+#fsbutton {
+  right: 20px;
+}
+
+#markerbutton {
+  right: 90px;
 }
 
 #map {
@@ -280,12 +287,12 @@ input[type="submit"]:active, button:active {
   text-shadow: 1px 1px 2px #DADADA, 0 0 15px #DDDDDD;
 }
 
-#searchcont {
+#topbar {
   top: 44px;
   left: 0;
   right: 0;
   position: absolute;
-  padding: 0 300px 0 325px;
+  padding: 0 25px 0 325px;
 }
 
 #searchpan {
@@ -321,6 +328,21 @@ input[type="submit"]:active, button:active {
   vertical-align: top;
 }
 
+a.wheremi div.wheremi {
+  background-image: url("/img/wheremi.png");
+  height: 28px;
+  width: 30px;
+}
+a.wheremi, a.wheremi:hover, a.wheremi:active {
+  outline: none;
+}
+
+a.wheremi:hover div.wheremi {
+  background-image: url("/img/wheremi-hover.png");
+  height: 28px;
+  width: 30px;
+}
+
 #menupan {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -334,7 +356,7 @@ input[type="submit"]:active, button:active {
   position: absolute;
   top: 0;
   width: 100%;
-  z-index: 4;
+  z-index: 10;
 }
 
 #menupan #menuback {
@@ -351,14 +373,17 @@ input[type="submit"]:active, button:active {
   height: 9px;
 }
 
-#menupan table {
+#menupan #tablemenu {
   margin: 0 22px;
-  /*min-width: 980px;*/
   position: absolute;
   top: 0;
 }
 
-#menupan table div {
+#menupan #mainmenu {
+  top: 0;
+}
+
+#menupan #mainmenu div, #menupan #mainmenupage div {
   border-bottom: 3px solid #333333;
   cursor: pointer;
   height: 22px;
@@ -367,21 +392,22 @@ input[type="submit"]:active, button:active {
   overflow: hidden;
 }
 
-.fs #menupan table div {
+.fs #menupan #mainmenu div,.fs #menupan #mainmenupage div {
   border-bottom: 0 none;
   height: 4px;
 }
 
-.fs #menupan table div:hover {
+.fs #menupan #mainmenu div:hover, .fs #menupan #mainmenupage div:hover {
   height: 22px;
 }
 
 #menupan a {
   color: #aaaaaa;
   text-decoration: none;
+  outline: none;
 }
 
-#menupan a:hover, #menupan a:active {
+#menupan a:hover, #menupan a:active, #menupan a.on {
   color: #ffffff;
   outline: none;
 }
@@ -404,6 +430,9 @@ input[type="submit"]:active, button:active {
 #menupan td:nth-child(5) div:hover, #menupan td:nth-child(5) div.current { background: #db4c39; }
 #menupan td:nth-child(6) div:hover, #menupan td:nth-child(6) div.current { background: #faaa87; }
 #menupan td:nth-child(7) div:hover, #menupan td:nth-child(7) div.current { background: #4a8af5; }
+
+#menupan #mainmenupage td#mainmenupage-osb div { width: 220px; border-top: 5px solid #c3102e; }
+#menupan #mainmenupage td#mainmenupage-osb div:hover, #menupan #mainmenupage td#mainmenupage-osb a.on div { background: #c3102e; }
 
 
 #loginpan {
@@ -453,7 +482,6 @@ input[type="submit"]:active, button:active {
 /*
  * Map controls
  */
-
 #cpan {
   width: 87px;
   height: 87px;
@@ -462,7 +490,6 @@ input[type="submit"]:active, button:active {
   top: 10px;*/
   z-index: 3;
 }
-
 #cpan #cpanglo {
   width: 31px;
   height: 31px;
@@ -474,7 +501,6 @@ input[type="submit"]:active, button:active {
 	-o-transition: all 0.2s ease;
 	transition: all 0.2s ease;
 }
-
 #cpan:hover #cpanglo {
   width: 87px;
   height: 87px;
@@ -482,7 +508,6 @@ input[type="submit"]:active, button:active {
   top: 0;
   position: absolute;
 }
-
 #cpanjoy {
   width: 13px;
   height: 13px;
@@ -490,7 +515,6 @@ input[type="submit"]:active, button:active {
   top: 37px;
   position: absolute;
 }
-
 #cpan #cpanarr {
   width: 48px;
   height: 48px;
@@ -503,7 +527,6 @@ input[type="submit"]:active, button:active {
   -o-transition: all 0.1s linear 0.1s;
   transition: all 0.1s linear 0.1s;
 }
-
 #cpan:hover #cpanarr {
   width: 48px;
   height: 48px;
@@ -516,11 +539,9 @@ input[type="submit"]:active, button:active {
   -o-transition: none;
   transition: none;
 }
-
 .opanull {
   opacity: 0 !important;
 }
-
 #cpan #cpanact {
   width: 87px;
   height: 87px;
@@ -529,6 +550,63 @@ input[type="submit"]:active, button:active {
   position: absolute;
   z-index: 3;
 }
+/* tools */
+#tools {
+  position: absolute;
+  right: 10px;
+  top: 80px;
+	z-index: 8;
+}
+#tools div, .leaflet-control-layers a, .leaflet-control-layers-expanded .leaflet-control-layers-list {
+	-moz-border-radius: 7px;
+	-webkit-border-radius: 7px;
+	border-radius: 7px;
+	-moz-box-shadow: 0 0 7px #999;
+	-webkit-box-shadow: 0 0 7px #999;
+	box-shadow: 0 0 7px #999;
+	background: #f8f8f9;
+}
+#tools div.a, .leaflet-control-layers a {
+	float: right;
+	width: 36px;
+}
+#tools div.a a {
+  background-image: url("../img/tools.png");
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	display: block;
+  height: 36px;
+  outline: none;
+}
+#tools div.a a:hover, #tools div.a a:active {
+  outline: none;
+}
+#tools div.p {
+	display: none;
+}
+#tools div.p a {
+  color: #0078A8;
+}
+#tools div.p p {
+  margin-bottom: 0.7em;
+}
+#tools.on div.p, .leaflet-control-layers-expanded .leaflet-control-layers-list {
+	display: block;
+	padding: 16px 40px 6px 10px;
+	margin-right: 36px;
+}
+
+div.leaflet-control-layers {
+  background: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+	box-shadow: none;
+  padding: 0;
+}
+div.leaflet-control-layers-expanded .leaflet-control-layers-toggle {
+  display: block;
+}
+
 
 /*
  * Toolbar
@@ -537,7 +615,6 @@ input[type="submit"]:active, button:active {
 .rightalign {
   float: right;
 }
-
 .toolbar button {
   box-shadow: 0 -1px 1px #FAFAFA inset, 0 0 1px #FFFFFF;
   height: 28px;
@@ -556,11 +633,94 @@ input[type="submit"]:active, button:active {
   box-shadow: none !important;
   background-color: inherit !important
 }
-/*.leaflet-control-zoom {
-  margin-left: 29px !important;
-  margin-top: 80px !important;
-}*/
-
 .leaflet-control-container .leaflet-control-layers.leaflet-control {
   margin-top: 30px;
+}
+.leaflet-control-container .permalink {
+  top: 1.5em;
+  z-index: 8;
+}
+
+/*
+ for page about
+*/
+div.page-about, div.top-about {
+  position: relative;
+  top: 20px;
+  font-family: Tahoma,sans-serif;
+  font-size: 12pt;
+}
+div.page-about .left {
+  max-width: 200px;
+  left: 60px;
+  position: absolute;
+  top: 20px;
+}
+div.page-about .center {
+  max-width: 571px;
+  left: 350px;
+  position: absolute;
+  top: 15px;
+}
+div.page-about p {
+  padding-bottom: 1em;
+}
+div.top-about {
+  color: #F9BA1C;
+  padding-left: 20px;
+}
+div.top-about a {
+  color: #F9BA1C;
+}
+div.page-about .left .link-menu {
+  padding-left: 10px;
+  padding-top: 20px;
+}
+div.page-about .left .link-menu p {
+  color: #4A8AF5;
+  font-size: 14pt;
+}
+div.page-about .left .link-menu ul li {
+  list-style-type: none;
+  margin-bottom: 0.7em;
+}
+div.page-about .left .link-menu ul li a {
+  color: #99BD1B;
+}
+div.page-about .center .head {
+  color: #4A8AF5;
+  font-size: 14pt;
+  padding-bottom: 0.5em;
+}
+div.page-about .center .text {
+  font-size: 10pt;
+  padding-bottom: 3em;
+  text-align: justify;
+}
+div.page-about .center .asterisk{
+  color: #4A8AF5;
+  font-size: 12pt;
+  font-weight: bold;
+}
+div.page-about .center .footnote{
+  text-indent: -0.6em;
+  font-size: 10pt;
+  color: #666666;
+}
+
+/*
+for leaflet
+*/
+.leaflet-control-zoom a, .leaflet-control-zoom a:hover, .leaflet-control-zoom a:active {
+  outline: none;
+}
+
+.leaflet-control-layers a {
+  background-image: url("../img/layers.png") !important;
+}
+.leaflet-control-zoom-in {
+  background-image: url("../img/zoom-in.png") !important;
+}
+.leaflet-control-zoom-out {
+  background-image: url("../img/zoom-out.png") !important;
 }
