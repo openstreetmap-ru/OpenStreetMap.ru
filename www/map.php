@@ -1,8 +1,5 @@
 <?
 $page_logo = "/img/logo.png";
-$page_color = "#99bd1b";
-$page_name = "Карта";
-$page_order = 1;
 
 $page_head = <<<PHP_HEAD
   <link rel="stylesheet" href="css/leaflet.css" />
