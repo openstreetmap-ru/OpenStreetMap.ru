@@ -11,6 +11,7 @@ host = 'localhost'
 port = 3312
 limit = 12
 q = ''
+filters = {'&':'&amp;', '\"':"&quot;", '\'':'&#039;', '<':'&lt;', '>':'&gt;'}
 
 mode=SPH_MATCH_EXTENDED2
 lat = 0
@@ -29,6 +30,8 @@ def main():
   lon = float(values.getfirst("lon","0"))
   accuracy = bool(values.getfirst("accuracy",""))
   output['search']=q
+  for key in filters.keys():
+    output['search'] = output['search'].replace(key, str(filters[key]))
   if not q:
     output['error']="no query words, 'q' is empty"
     return
