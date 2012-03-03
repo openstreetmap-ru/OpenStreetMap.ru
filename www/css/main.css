@@ -869,3 +869,6 @@ for leaflet
 .leaflet-control-zoom-out {
   background-image: url("../img/zoom-out.png") !important;
 }
+.leaflet-popup-close-button {
+  background-image: url("../img/popup-close.png") !important;
+}
