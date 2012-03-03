@@ -1,24 +1,13 @@
 <?
-function show_menu($current = '', $level = 0) {
-  $result = pg_query('SELECT * FROM "pagedata" WHERE "level"<='.$level.' AND "activate" AND "order">0 ORDER BY "order" asc');
-
+function show_menu($pages, $current = '') {
   echo '<table id="mainmenu"><tr>';
   $menu = array();
-  while ($row = pg_fetch_assoc($result))
-    $menu[] = ($current == $row['name'] ? '<td><div class="current">'.$row['text'].'</div></td>' : '<td><a href="/'.$row['name'].'"><div>'.$row['text'].'</div></a></td>');
+  foreach  ($pages as $page) {
+    $page['name2'] = ($page['name'] == 'map' ? '' : $page['name']);
+    $menu[] = ($current == $page['name'] ? '<td><div class="current">'.$page['text'].'</div></td>' : '<td><a href="/'.$page['name2'].'"><div>'.$page['text'].'</div></a></td>');
+  }
   echo implode($menu);
   echo '</tr></table>';
-}
-
-function show_menu_old($current = '', $level = 0) {
-  $result = pg_query('SELECT * FROM pagedata WHERE level<='.$level);
-
-  echo '<div id="menupan"><ul>';
-  $menu = array();
-  while ($row = pg_fetch_assoc($result))
-    $menu[] = ($current == $row['name'] ? '<li><div class="current">'.$row['text'].'</div></li>' : '<li><a href="'.$row['name'].'"><div>'.$row['text'].'</div></a></li>');
-  echo implode($menu);
-  echo '</ul></div>';
 }
 
 function err404($code=0) {

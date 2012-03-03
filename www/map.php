@@ -7,6 +7,7 @@ $page_head = <<<PHP_HEAD
   <!--[if lte IE 8]><link rel="stylesheet" href="css/leaflet.ie.css" /><![endif]-->
   <script type="text/javascript" src="js/map.js"></script>
   <script type="text/javascript" src="js/Control.Permalink.js"></script>
+  <script type="text/javascript" src="js/Control.GoToOSM.js"></script>
   <script type="text/javascript" src="js/Control.Scale.js"></script>
   <script type="text/javascript" src="js/Layer.TileLayer.Bing.js"></script>
   <script type="text/javascript" src="js/Layer.KML.js"></script>
@@ -45,11 +46,7 @@ $page_content = <<<PHP_CONTENT
           <h1>Результаты поиска:</h1>
         </div>
         <div id="content_pan" class="contentpan">
-          <ul>
-            <br>
-            <li><span class="pseudolink" onClick="osm.ui.whereima()">Найти меня</span></li>
-            <li><span class="pseudolink" onClick="osm.ui.whereima()">Проложить маршрут</span></li>
-          </ul>
+          <p>Для поиска введите в строку искомый адрес и нажмите "Найти"</p>
         </div>
       </div>
       <div id="leftpersmappan">

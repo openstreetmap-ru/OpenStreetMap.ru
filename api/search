@@ -28,7 +28,14 @@ def main():
   lat = float(values.getfirst("lat","0"))
   lon = float(values.getfirst("lon","0"))
   accuracy = bool(values.getfirst("accuracy",""))
+  asis = bool(values.getfirst("asis",""))
   output['search']=q
+  if not asis :
+    output['search'] = output['search'].replace('&','&amp;')
+    output['search'] = output['search'].replace('\"',"&quot;")
+    output['search'] = output['search'].replace('\'','&#039;')
+    output['search'] = output['search'].replace('<','&lt;')
+    output['search'] = output['search'].replace('>','&gt;')
   if not q:
     output['error']="no query words, 'q' is empty"
     return
@@ -80,7 +87,13 @@ def main():
       if (not accuracy) or (accuracy and match['weight']>weight_min) :
         outputlen=match['attrs']
         outputlen['id']=match['id']
-        outputlen['weight']=match['weight']     
+        outputlen['weight']=match['weight']
+        if not asis :
+          outputlen['display_name'] = outputlen['display_name'].replace('&','&amp;')
+          outputlen['display_name'] = outputlen['display_name'].replace('\"',"&quot;")
+          outputlen['display_name'] = outputlen['display_name'].replace('\'','&#039;')
+          outputlen['display_name'] = outputlen['display_name'].replace('<','&lt;')
+          outputlen['display_name'] = outputlen['display_name'].replace('>','&gt;')
         outputdata.append(outputlen)
         output['accuracy_find']=1
       
