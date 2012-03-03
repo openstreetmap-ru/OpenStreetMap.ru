@@ -59,6 +59,7 @@ osm.markers._removeHandlers = function() {
       elementId = 'pathbutton';
       // remove mousemove event if any
       $("#map").unbind("mousemove", osm.markers.mouseMovePath);
+//      osm.map.doubleClickZoom.enable();
       osm.markers._newPath.finishEditing(true);
       break;
   default:
@@ -100,6 +101,7 @@ osm.markers.createPath = function(e) { // todo: move it to PersonalLine?
   osm.markers._newPath.addLatLng(e.latlng);
   if (osm.markers._newPath.getLatLngs().length === 1) {
     osm.markers._newPath.addLatLng(e.latlng);
+//    osm.map.doubleClickZoom.disable();
     $('#map').mousemove(osm.markers.mouseMovePath);
     // TODO: add enable editing after moving to Leaflet 0.4
   }
@@ -297,6 +299,7 @@ PersonalMarker = L.Marker.extend({ // simple marker without editable functions
 PersonalMarkerEditable = PersonalMarker.extend({
   initialize: function(coords, details) {
     this.setLatLng(coords);
+    this.setIcon(osm.markers._icons[0]);
     this.fillDetails(details);
     osm.markers._data.points.push(this);
     this.index = osm.markers._data.points.length - 1;
@@ -384,6 +387,7 @@ PersonalLineEditable = PersonalLine.extend({
     this.addToLayerGroup();
   },
   remove: function() {
+    this._popup._close();
     osm.markers._layerGroup.removeLayer(this);
     if (this.index !== undefined)
       delete osm.markers._data.points[this.index];
