@@ -120,6 +120,29 @@ $page_content = <<<PHP_CONTENT
     <table cellspacing="0" cellpadding="0" border="0">
     <tr><td><div class="marker-name">#name</div></td></tr>
     <tr><td><div class="marker-description">#description</div></td></tr>
+    </table>
+  </div>
+  <div id="pl_show_popup" style="display:none;">
+    <table cellspacing="0" cellpadding="0" border="0">
+    <tr><td><div class="marker-name">#name</div></td></tr>
+    <tr><td><div class="marker-description">#description</div></td></tr>
+    </table>
+  </div>
+  <div id="pl_edit_popup" style="display:none;">
+    <table cellspacing="0" cellpadding="0" border="0">
+      <tr><td><input id="line_name_###" type="text" value="Name..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()"/></td></tr>
+      <tr><td><textarea id="line_description_###" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()">Description...</textarea></td></tr>
+      <tr><td>
+        <div class='colour-picker-button colour-picker-button-blue' onClick="$$$.toggleCheck(0);">&#x2713;</div>
+        <div class='colour-picker-button colour-picker-button-red' onClick="$$$.toggleCheck(1);"></div>
+        <div class='colour-picker-button colour-picker-button-green' onClick="$$$.toggleCheck(2);"></div>
+        <div class='colour-picker-button colour-picker-button-yellow' onClick="$$$.toggleCheck(3);"></div>
+        <div class='colour-picker-button colour-picker-button-violet' onClick="$$$.toggleCheck(4);"></div>
+        <div class='colour-picker-button colour-picker-button-orange' onClick="$$$.toggleCheck(5);"></div>
+      </td></tr>
+      <tr><td><a href="#" class="button" onClick="$$$.remove();return false">Delete</a>
+      </td></tr>
+    </table>
   </div>
 </body>
 PHP_CONTENT;

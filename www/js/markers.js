@@ -57,6 +57,9 @@ osm.markers._removeHandlers = function() {
   case 3:
       func = osm.markers.createPath;
       elementId = 'pathbutton';
+      // remove mousemove event if any
+      $("#map").unbind("mousemove", osm.markers.mouseMovePath);
+      osm.markers._newPath.finishEditing(true);
       break;
   default:
     return 0;
@@ -91,19 +94,30 @@ osm.markers.addPath = function() {
   $_('pathbutton').className = 'pm-pressed';
   $_('map').style.cursor = 'crosshair';
   osm.markers._drawingMode = 3;
-  osm.markers._newPath = new L.Polyline([]);
-  osm.map.addLayer(osm.markers._newPath);
+  osm.markers._newPath = new PersonalLineEditable([]);
 }
-osm.markers.createPath = function(e) {
-  /*if (osm.markers._newPath.getLatLngs().length === 0) {
-    var marker = new L.Marker(e.latlng);
-    osm.map.addLayer(marker);
-    marker.bindPopup('Начальная точка');
-    marker.openPopup();
-    
-  }*/
+osm.markers.createPath = function(e) { // todo: move it to PersonalLine?
   osm.markers._newPath.addLatLng(e.latlng);
-  osm.markers._newPath.addLatLng(e.latlng);
+  if (osm.markers._newPath.getLatLngs().length === 1) {
+    osm.markers._newPath.addLatLng(e.latlng);
+    $('#map').mousemove(osm.markers.mouseMovePath);
+    // TODO: add enable editing after moving to Leaflet 0.4
+  }
+  if (osm.markers._newPath.getLatLngs().length > 2) {
+    var points = osm.markers._newPath.getLatLngs();
+    var p1 = osm.map.latLngToLayerPoint(points[points.length-3]);
+    var p2 = osm.map.latLngToLayerPoint(points[points.length-2]);
+    if (p1.distanceTo(p2)<3) {
+      points.pop();
+      osm.markers._removeHandlers();
+    }
+  }
+}
+osm.markers.mouseMovePath = function(event){
+  var points = osm.markers._newPath.getLatLngs();
+  var coord = osm.map.mouseEventToLatLng(event);
+  points[points.length-1] = coord;
+  osm.markers._newPath._redraw(); //TODO: change _redraw to redraw after moving to Leaflet 0.4
 }
 
 // TODO: when IE whould support placeholder attribute for input elements - remove that
@@ -139,24 +153,45 @@ osm.markers.saveMap = function() {
       color:        point._pm_icon_color
     });
   }
-  $_("pm_status").innerHTML = "Сохранение...";
-  $.getJSON("mymap.php", {
-      action:       "save",
-      name:         mapName, 
-      description:  mapDescription, 
-      data:         postData, 
-      hash:         osm.markers._admin.hash,
-      id:           osm.markers._admin.id
-    }, function(json){
-      if (json.id) {
-        osm.markers._admin.id = json.id;
-        osm.markers._admin.hash = json.hash;
-      }
-      $_("pm_status").innerHTML = "Сохранено<br>"+
-        "<a href='/?mapid="+osm.markers._admin.id+"'>Ссылка на просмотр</a><br>"+
-        "<a href='/?mapid="+osm.markers._admin.id+"&hash="+osm.markers._admin.hash+"'>Ссылка на редактирование</a>";
-    } //TODO: add failure handler
-  );
+  var llen = osm.markers._data.lines.length;
+  for(var i = 0; i < llen; i++) {
+    var line = osm.markers._data.lines[i];
+    if (!line) continue;
+    var lineData = {
+      name:       line._pl_name,
+      description:line._pl_description,
+      color:      line._pl_color_index,
+      points:     []
+    };
+    var lPoints = line.getLatLngs();
+    var llen = lPoints.length;
+    for(var j = 0; j < llen; j++)
+      lineData.points.push([lPoints[j].lat, lPoints[j].lng]);
+
+    postData.lines.push(lineData);
+  }
+  if (postData.points.length == 0 && postData.lines.length == 0) {
+    $_("pm_status").innerHTML = "Нет данных для сохранения!"
+  } else {
+    $_("pm_status").innerHTML = "Сохранение...";
+    $.getJSON("mymap.php", {
+        action:       "save",
+        name:         mapName,
+        description:  mapDescription,
+        data:         postData,
+        hash:         osm.markers._admin.hash,
+        id:           osm.markers._admin.id
+      }, function(json){
+        if (json.id) {
+          osm.markers._admin.id = json.id;
+          osm.markers._admin.hash = json.hash;
+        }
+        $_("pm_status").innerHTML = "Сохранено<br>"+
+          "<a href='/?mapid="+osm.markers._admin.id+"'>Ссылка на просмотр</a><br>"+
+          "<a href='/?mapid="+osm.markers._admin.id+"&hash="+osm.markers._admin.hash+"'>Ссылка на редактирование</a>";
+      } //TODO: add failure handler
+    );
+  }
 }
 
 osm.markers.readMap = function() {
@@ -193,11 +228,27 @@ osm.markers.readMap = function() {
           else
             p = new PersonalMarker(coords, point);
         }
+      if (json.data.lines)
+        for(var i=0;i<json.data.lines.length;i++) {
+          var line = json.data.lines[i];
+          var coords = [];
+          for(var j=0;j<line.points.length; j++) {
+            var point = new L.LatLng(line.points[j][0], line.points[j][1]);
+            coords.push(point);
+            latlngs.push(point);
+          }
+          if (osm.markers._admin.editable) {
+            p = new PersonalLineEditable(coords, line);
+            p.finishEditing(false);
+          }
+          else
+            p = new PersonalLine(coords, line);
+        }
       if (latlngs.length>1)
         osm.map.fitBounds(new L.LatLngBounds(latlngs));
       else if (latlngs.length==1) {
         osm.map.panTo(latlngs[0]);
-        if (p._popup) {// hack - that should be included to leaflet (https://github.com/CloudMade/Leaflet/issues/507)
+        if (p._popup) {// TODO: remove for Leaflet 0.4
           p.openPopup();
           if (p instanceof PersonalMarkerEditable)
             p.loadEditableMarker();
@@ -220,11 +271,11 @@ PersonalMarker = L.Marker.extend({ // simple marker without editable functions
     }
   },
   fillDetails: function(details) {
-    if (details) {
-      this._pm_name = details.name;
-      this._pm_description = details.description;
-      this._set_pm_icon_color(details.color);
-    }
+    if (!details) return;
+
+    this._pm_name = details.name;
+    this._pm_description = details.description;
+    this._set_pm_icon_color(details.color);
   },
   addToLayerGroup: function() {
     if (!osm.markers._layerGroup) {
@@ -256,11 +307,11 @@ PersonalMarkerEditable = PersonalMarker.extend({
     this.on('click', function(e){e.target.loadEditableMarker(e)});
   },
   saveData: function() {
-    var nameElement = $_('marker_name_'+this.index);
-    this._pm_name = (nameElement.value==nameElement.defaultValue? '': nameElement.value);
+    var nameEl = $_('marker_name_'+this.index);
+    this._pm_name = (nameEl.value==nameEl.defaultValue? '': nameEl.value);
 
-    var nameElement = $_('marker_description_'+this.index);
-    this._pm_description = (nameElement.value==nameElement.defaultValue? '': nameElement.value);
+    var nameEl = $_('marker_description_'+this.index);
+    this._pm_description = (nameEl.value==nameEl.defaultValue? '': nameEl.value);
   },
   toggleCheck: function(colorIndex) {
     var colorBoxes = $_('marker_popup_'+this.index).getElementsByClassName('colour-picker-button');
@@ -287,5 +338,88 @@ PersonalMarkerEditable = PersonalMarker.extend({
   remove: function() {
     osm.markers._layerGroup.removeLayer(this);
     delete osm.markers._data.points[this.index];
+  }
+});
+
+PersonalLine = L.Polyline.extend({
+  initialize: function(points, details) {
+    this.setLatLngs(points);
+    this.addToLayerGroup();
+    this.fillDetails(details);
+    if (this._pl_name || this._pl_description) {
+      var popupHTML = $_('pl_show_popup').innerHTML;
+      popupHTML = popupHTML.replace(/\#name/g, this._pl_name);
+      popupHTML = popupHTML.replace(/\#description/g, this._pl_description);
+      this.bindPopup(popupHTML);
+    }
+  },
+  fillDetails: function(details) {
+    if (!details) return;
+
+    this._pl_name = details.name;
+    this._pl_description = details.description;
+    this._pl_color = details.color;
+    this._pl_weight = details.weight;
+    this.updateStyle();
+  },
+  updateStyle: function() {
+    var properties = {};
+    if (this._pl_color) properties.color = this._pl_color;
+    if (this._pl_weight) properties.weight = this._pl_weight;
+    this.setStyle(properties);
+  },
+  addToLayerGroup: function() {
+    if (!osm.markers._layerGroup) {
+      osm.markers._layerGroup = new L.LayerGroup();
+      osm.map.addLayer(osm.markers._layerGroup);
+    }
+    osm.markers._layerGroup.addLayer(this);
+  }
+});
+PersonalLineEditable = PersonalLine.extend({
+  initialize: function(points, details) {
+    this.setLatLngs(points);
+    this.fillDetails(details);
+    this.addToLayerGroup();
+  },
+  remove: function() {
+    osm.markers._layerGroup.removeLayer(this);
+    if (this.index !== undefined)
+      delete osm.markers._data.points[this.index];
+  },
+  finishEditing: function(truncate) {
+    var points = this.getLatLngs();
+    if (truncate) {
+      points.pop();
+      this._redraw();//->redraw in Leaflet 0.4
+    }
+    if (points.length < 2) {
+      this.remove();
+      return;
+    }
+    osm.markers._data.lines.push(this);
+    this.index = osm.markers._data.lines.length - 1;
+    var popupHTML = $_('pl_edit_popup').innerHTML;
+    popupHTML = popupHTML.replace(/\$\$\$/g, 'osm.markers._data.lines['+this.index+']');
+    popupHTML = popupHTML.replace(/\#\#\#/g, this.index);
+    this.bindPopup(popupHTML);
+    this.on('click', function(e){e.target.loadEditableLine(e)});
+  },
+  saveData: function(e) {
+    var nameEl = $_('line_name_'+this.index);
+    this._pl_name = (nameEl.value==nameEl.defaultValue? '': nameEl.value);
+
+    var nameEl = $_('line_description_'+this.index);
+    this._pl_description = (nameEl.value==nameEl.defaultValue? '': nameEl.value);
+  },
+  loadEditableLine: function(e) {
+    if (this._pl_name) {
+      $_('line_name_'+this.index).value = this._pl_name;
+      $_('line_name_'+this.index).className = 'default-input-focused';
+    }
+    if (this._pl_description) {
+      $_('line_description_'+this.index).value = this._pl_description;
+      $_('line_description_'+this.index).className = 'default-input-focused';
+    }
   }
 });
