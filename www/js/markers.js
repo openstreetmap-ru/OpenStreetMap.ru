@@ -135,6 +135,7 @@ osm.markers.blurDefaultInput = function(el) {
 }
 
 osm.markers.saveMap = function() {
+  osm.markers._removeHandlers();
   var postData = {};
   var mapName = "default map name";
   var mapDescription = "default map description";
