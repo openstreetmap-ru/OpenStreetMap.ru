@@ -147,17 +147,6 @@ L.Control.Permalink = L.Class.extend({
 			this._params = L.Util.extend({layer: pq.layer}, this._params);
 	},
 
-	_parse_urlvars: function(s) {
-		var p = {};
-		var params = s.split('&');
-		for(var i = 0; i < params.length; i++) {
-			var tmp = params[i].split('=');
-			if (tmp.length != 2) continue;
-			p[tmp[0]] = tmp[1];
-		}
-		return p;
-	},
-
 	_set_center: function(params, force)
 	{
 		if (!force && this._centered) return;
@@ -275,8 +264,11 @@ L.Control.Layers.include({
 L.UrlUtil = {
 	queryParse: function(s) {
 		var p = {};
-		var params = s.split('&');
-		for(var i = 0; i < params.length; i++) {
+    var sep = "&";
+    if (s.search("&amp;") != -1)
+        sep = "&amp;";
+    var params = s.split(sep);
+    for(var i = 0; i < params.length; i++) {
 			var tmp = params[i].split('=');
 			if (tmp.length != 2) continue;
 			p[tmp[0]] = tmp[1];
