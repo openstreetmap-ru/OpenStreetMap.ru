@@ -14,6 +14,7 @@ if (isset($_GET["js"]) && $_GET["js"]) $title = urldecode($title);
 $title = preg_replace("@^http://commons\.wikimedia\.org/wiki/@", "", $title);
 $title = preg_replace("@\?.+$@", "", $title);
 $title = preg_replace("@#.+$@", "", $title);
+$title = preg_replace("@_@", " ", $title);
 if (!preg_match("@^File:@", $title)) {
   print "Страница <b>$title</b> не является страницей описания картинки";
   exit;
