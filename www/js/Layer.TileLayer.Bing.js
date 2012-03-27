@@ -9,6 +9,7 @@ L.BingLayer = L.TileLayer.extend({
 
 		this._key = key;
 		this._url = null;
+		this._providers = [];
 		this.meta = {};
 		this._update_tile = this._update;
 		this._update = function() {
