@@ -44,8 +44,6 @@ def pgconn(_host,_user,_pass,_data):
 pg = pgconn(pghost,pguser,pgpass,pgdata)
 cc=pg.cursor()
 
-cc.execute("DELETE FROM wpc_img");
-
 class xmlWikiParser(handler.ContentHandler):
   def __init__(self, filename):
     self.page = {}
@@ -83,6 +81,9 @@ class xmlWikiParser(handler.ContentHandler):
     if self.tag == 'text':
       if re.search('^File:', self.page['title']):
         meta = wikiparser.parse(self.text)
+        if meta.has_key("error"):
+          print "Error parsing [%s]: %s" % (self.page['title'], meta['error'])
+          return
         if meta.has_key("lat") and meta.has_key("lon"):
           if not meta.has_key("desc"):
             meta["desc"] = re.sub(ur'\.[^\.]+$', '', self.page['title'].replace('File:', '', 1))
@@ -93,13 +94,18 @@ class xmlWikiParser(handler.ContentHandler):
           print "%d>%s: [%s,%s] [%s]" % (self.count, self.page['title'], meta['lat'], meta['lon'], meta['desc'])
           # FIXME validate lat and lon as float
           try:
-            q = u"INSERT INTO wpc_img (page, \"desc\", point) VALUES(%s,%s,ST_SetSRID(ST_MakePoint(%lf,%lf),4326))" % (sqlesc(self.page['title']), sqlesc(meta['desc']), float(meta['lat']), float(meta['lon']))
+            q = "SELECT wpc_upsert (%s,%s,ST_SetSRID(ST_MakePoint(%lf,%lf),4326),timestamptz '%s')" % (sqlesc(self.page['title']), sqlesc(meta['desc']), float(meta['lat']), float(meta['lon']), self.page['timestamp'])
             #print q
             cc.execute(q)
           except ValueError:
             print "ValueError: meta=%s" % repr(meta)
             pass
           self.count = self.count + 1
+    if self.tag == 'timestamp':
+      m = re.match(r'(\d\d\d\d-\d\d-\d\d)T(\d\d:\d\d:\d\d)Z', self.text.strip())
+      if not m:
+        raise BaseException('Invalid timestamp format [%s]' % self.text)
+      self.page['timestamp'] = "%s %s+00" % (m.group(1), m.group(2))
     self.tag = None
 
 xmlWikiParser(sys.stdin)

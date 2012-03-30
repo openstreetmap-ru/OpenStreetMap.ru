@@ -26,3 +26,11 @@ CREATE AGGREGATE public.first (
         basetype = anyelement,
         stype    = anyelement
 );
+
+CREATE OR REPLACE FUNCTION wpc_upsert(_page text, _desc text, _point geometry, _date timestamp with time zone) RETURNS VOID AS $$
+BEGIN
+  INSERT INTO wpc_img (page, "desc", point, date) VALUES(_page,_desc,_point,_date);
+EXCEPTION WHEN unique_violation THEN
+  UPDATE wpc_img SET "desc"=_desc,point=_point,date=_date WHERE page=_page AND _date>date;
+END;
+$$ LANGUAGE plpgsql;
