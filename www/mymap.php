@@ -117,7 +117,7 @@ else if ($action == 'save' && $id) {
     $json_data = json_html_db_escape(@$_REQUEST['data']);
     if ($json_data) {
       $query = "INSERT INTO \"personal_map\" (\"name\", \"description\", \"json\") VALUES ($map_name, $map_description, $json_data);";
-      $query.= "SELECT \"id\", \"admin_hash\" FROM \"personal_map\" WHERE \"id\"=currval('personal_map_id_seq');";
+      $query.= "SELECT \"id\", \"admin_hash\" FROM \"personal_map\" WHERE \"id\"=pseudo_encrypt(currval('personal_map_id_seq')::int);";
       $result = pg_query($query);
       if (!$result) {
         header("HTTP/1.0 500 Internal server error");
