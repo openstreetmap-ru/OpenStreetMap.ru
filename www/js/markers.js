@@ -364,7 +364,7 @@ PersonalLine = L.Polyline.extend({
     this._pl_description = details.description;
     this._pl_color = details.color;
     this._pl_weight = details.weight;
-    this.updateStyle();
+    // this.updateStyle(); uncomment after coloring lines - color is incorrect
   },
   updateStyle: function() {
     var properties = {};
