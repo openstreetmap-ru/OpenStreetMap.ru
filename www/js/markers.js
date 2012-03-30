@@ -387,7 +387,7 @@ PersonalLineEditable = PersonalLine.extend({
     this.addToLayerGroup();
   },
   remove: function() {
-    this._popup._close();
+    if (this._popup) this._popup._close();
     osm.markers._layerGroup.removeLayer(this);
     if (this.index !== undefined)
       delete osm.markers._data.points[this.index];
