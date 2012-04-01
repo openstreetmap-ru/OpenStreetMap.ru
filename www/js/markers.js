@@ -91,6 +91,17 @@ osm.markers.addMultiMarker = function() {
   osm.markers._drawingMode = 2;
 }
 osm.markers.createPoints = function(e) {
+  var count = 0;
+  var mlen = osm.markers._data.points.length;
+  for(var i=0; i < mlen; i++) {
+    if (osm.markers._data.points[i])
+      count++;
+  }
+  if (count >= osm.markers._max_markers) {
+    alert("Маркеров не может быть больше " + osm.markers._max_markers);
+    return;
+  }
+
   var p = new PersonalMarkerEditable(e.latlng);
   p.openPopup();
 }
@@ -106,6 +117,19 @@ osm.markers.addPath = function() {
   osm.markers._newPath = new PersonalLineEditable([]);
 }
 osm.markers.createPath = function(e) { // todo: move it to PersonalLine?
+  var count = 0;
+  var mlen = osm.markers._data.lines.length;
+  for(var i=0; i < mlen; i++) {
+    if (osm.markers._data.lines[i])
+      count+=osm.markers._data.lines[i].getLatLngs().length;
+  }
+  if (osm.markers._newPath)
+  count+=osm.markers._newPath.getLatLngs().length-1;
+  if (count >= osm.markers._max_line_points) {
+    alert("Суммарно точек в линиях не может быть больше "+
+      osm.markers._max_line_points);
+    return;
+  }
   osm.markers._newPath.addLatLng(e.latlng);
   if (osm.markers._newPath.getLatLngs().length === 1) {
     osm.markers._newPath.addLatLng(e.latlng);
@@ -175,8 +199,8 @@ osm.markers.saveMap = function() {
       points:     []
     };
     var lPoints = line.getLatLngs();
-    var llen = lPoints.length;
-    for(var j = 0; j < llen; j++)
+    var lplen = lPoints.length;
+    for(var j = 0; j < lplen; j++)
       lineData.points.push([lPoints[j].lat, lPoints[j].lng]);
 
     postData.lines.push(lineData);
@@ -185,14 +209,19 @@ osm.markers.saveMap = function() {
     $_("pm_status").innerHTML = "Нет данных для сохранения!"
   } else {
     $_("pm_status").innerHTML = "Сохранение...";
-    $.getJSON("mymap.php", {
+    $.ajax({
+      url: "mymap.php",
+      type: "POST",
+      data: {
         action:       "save",
         name:         mapName,
         description:  mapDescription,
         data:         postData,
         hash:         osm.markers._admin.hash,
         id:           osm.markers._admin.id
-      }, function(json){
+      },
+      dataType: 'json',
+      success: function(json, text, jqXHR){
         if (json.id) {
           osm.markers._admin.id = json.id;
           osm.markers._admin.hash = json.hash;
@@ -200,8 +229,10 @@ osm.markers.saveMap = function() {
         $_("pm_status").innerHTML = "Сохранено<br>"+
           "<a href='/?mapid="+osm.markers._admin.id+"'>Ссылка на просмотр</a><br>"+
           "<a href='/?mapid="+osm.markers._admin.id+"&hash="+osm.markers._admin.hash+"'>Ссылка на редактирование</a>";
-      } //TODO: add failure handler
-    );
+      }
+    }).fail(function (jqXHR,textStatus) {
+      $_("pm_status").innerHTML = "Ошибка при сохранении!";
+    });
   }
 }
 
@@ -215,11 +246,16 @@ osm.markers.readMap = function() {
   var adminhash = "";
   if (results)
     adminhash = results[1];
-  $.getJSON("mymap.php", {
+  $.ajax({
+    url: "mymap.php",
+    type: "POST",
+    data: {
       action: "load",
       id:     mapid,
       hash:   adminhash
-    }, function(json){
+    },
+    dataType: 'json',
+    success: function(json, text, jqXHR){
       if (!json.service.existing) { alert("Карта не существует"); return; }
       osm.markers._admin.editable = json.service.editing;
       osm.markers._admin.hash = adminhash;
@@ -266,7 +302,9 @@ osm.markers.readMap = function() {
         }
       }
     } // TODO: add failure handler
-  );
+  }).fail(function (jqXHR, textStatus) {
+    alert("Произошла ошибка при чтении карты");
+  });
 }
 
 PersonalMarker = L.Marker.extend({ // simple marker without editable functions
@@ -397,7 +435,7 @@ PersonalLineEditable = PersonalLine.extend({
     if (this._popup) this._popup._close();
     osm.markers._layerGroup.removeLayer(this);
     if (this.index !== undefined)
-      delete osm.markers._data.points[this.index];
+      delete osm.markers._data.lines[this.index];
   },
   finishEditing: function(truncate) {
     var points = this.getLatLngs();

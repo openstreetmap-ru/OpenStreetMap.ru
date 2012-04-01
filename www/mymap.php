@@ -147,6 +147,7 @@ function html_db_escape($str, $len) {
   return "'".pg_escape_string(html_escape($str,$len))."'";
 }
 function json_html_db_escape($str) {
+  global $PERSMAP_MAX_POINTS, $PERSMAP_MAX_LINE_POINTS;
 //  $data_pre = json_decode($str, true);
   $data_pre = $str; // already is the data
   // processing and filtering html where needed
@@ -154,8 +155,7 @@ function json_html_db_escape($str) {
   $lines_pre = isset($data_pre['lines'])?$data_pre['lines']:array();
   $points = array();
   $lines = array();
-  $points_pre = array_slice($points_pre, 0, PERSMAP_MAX_POINTS);
-  $lines_pre = array_slice($lines_pre, 0, PERSMAP_MAX_LINES);
+  $points_pre = array_slice($points_pre, 0, $PERSMAP_MAX_POINTS);
   foreach($points_pre as $ppoint) {
     $points[]=array('lat'=>floatval($ppoint['lat']),
             'lon'=>floatval($ppoint['lon']),
@@ -163,8 +163,12 @@ function json_html_db_escape($str) {
             'description'=>html_escape($ppoint['description'], 1024),
             'color'=>color_escape($ppoint['color']));
   }
+  $points_left = $PERSMAP_MAX_LINE_POINTS;
   foreach($lines_pre as $pline) {
-    $pline['points'] = array_slice($pline['points'], 0, PERSMAP_MAX_LINE_POINTS);
+    $points_left -= count($pline['points']);
+    if ($points_left < 0)
+      continue;
+    $pline['points'] = array_slice($pline['points'], 0, $PERSMAP_MAX_LINE_POINTS);
     $line = array(  'name'=>html_escape($pline['name'], 45),
             'description'=>html_escape($pline['description'], 1024),
             'color'=>color_escape($pline['color']));
