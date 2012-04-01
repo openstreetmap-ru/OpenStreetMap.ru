@@ -3,7 +3,7 @@ include_once ('include/config.php');
 error_reporting(E_ERROR | E_WARNING);
 mb_internal_encoding("UTF-8");
 // json map format
-/*
+/* color are integers, not hex strings
 out:{
   "service": { //only sent from server
     existing: bool, // map exists?
@@ -167,7 +167,7 @@ function json_html_db_escape($str) {
     $pline['points'] = array_slice($pline['points'], 0, PERSMAP_MAX_LINE_POINTS);
     $line = array(  'name'=>html_escape($pline['name'], 45),
             'description'=>html_escape($pline['description'], 1024),
-            'color'=>color_escape($ppoint['color']));
+            'color'=>color_escape($pline['color']));
     $lpoints = array();
     if (is_array($pline['points']))
     foreach($pline['points'] as $platlon)

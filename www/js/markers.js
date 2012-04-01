@@ -14,6 +14,14 @@ osm.markers = {
     new L.Icon('/img/marker-violet.png'),
     new L.Icon('/img/marker-orange.png')
   ],
+  _line_color: [
+    '#2288dd',
+    '#F21D53',
+    '#22dd44',
+    '#F1E415',
+    '#9B5BA0',
+    '#E48530'
+  ],
   _admin: {
     hash: '',
     id: -1,
@@ -362,14 +370,13 @@ PersonalLine = L.Polyline.extend({
 
     this._pl_name = details.name;
     this._pl_description = details.description;
-    this._pl_color = details.color;
+    this._pl_color_index = details.color;
     this._pl_weight = details.weight;
-    // this.updateStyle(); uncomment after coloring lines - color is incorrect
+    this._updateLineStyle(); //uncomment after coloring lines - color is incorrect
   },
-  updateStyle: function() {
+  _updateLineStyle: function() {
     var properties = {};
-    if (this._pl_color) properties.color = this._pl_color;
-    if (this._pl_weight) properties.weight = this._pl_weight;
+    if (this._pl_color_index) properties.color = osm.markers._line_color[this._pl_color_index];
     this.setStyle(properties);
   },
   addToLayerGroup: function() {
@@ -426,5 +433,15 @@ PersonalLineEditable = PersonalLine.extend({
       $_('line_description_'+this.index).value = this._pl_description;
       $_('line_description_'+this.index).className = 'default-input-focused';
     }
+  },
+  toggleCheck: function(colorIndex) {
+    var colorBoxes = $_('line_popup_'+this.index).getElementsByClassName('colour-picker-button');
+    for (var i=0; i < colorBoxes.length; i++) {
+      colorBoxes[i].innerHTML = '';
+    }
+    colorBoxes[colorIndex].innerHTML = '&#x2713;';
+
+    this._pl_color_index = colorIndex;
+    this._updateLineStyle();
   }
 });
