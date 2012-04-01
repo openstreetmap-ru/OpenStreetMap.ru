@@ -376,7 +376,7 @@ PersonalLine = L.Polyline.extend({
   },
   _updateLineStyle: function() {
     var properties = {};
-    if (this._pl_color_index) properties.color = osm.markers._line_color[this._pl_color_index];
+    if (this._pl_color_index !== undefined) properties.color = osm.markers._line_color[this._pl_color_index];
     this.setStyle(properties);
   },
   addToLayerGroup: function() {
