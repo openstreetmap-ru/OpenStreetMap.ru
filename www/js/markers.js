@@ -15,7 +15,7 @@ osm.markers = {
     new L.Icon('/img/marker-orange.png')
   ],
   _line_color: [
-    '#2288dd',
+    '#0033FF',
     '#F21D53',
     '#22dd44',
     '#F1E415',
@@ -432,6 +432,9 @@ PersonalLineEditable = PersonalLine.extend({
     if (this._pl_description) {
       $_('line_description_'+this.index).value = this._pl_description;
       $_('line_description_'+this.index).className = 'default-input-focused';
+    }
+    if (this._pl_color_index) {
+      this.toggleCheck(this._pl_color_index);
     }
   },
   toggleCheck: function(colorIndex) {
