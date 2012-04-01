@@ -6,11 +6,15 @@
 
 from sphinxapi import *
 import cgi, sys, json
+import psycopg2
+import db_config
 
 host = 'localhost'
 port = 3312
 limit = 12
+listAddrType=['city','district','region']
 q = ''
+q2 = ''
 
 mode=SPH_MATCH_EXTENDED2
 lat = 0
@@ -21,6 +25,35 @@ output={}
 output['ver']='0.5'
 
 def main():
+  def ifresult(res):
+    if not res:
+      output['error']='query failed: %s' % cl.GetLastError()
+      return 11
+    if cl.GetLastWarning():
+      output['error']='WARNING: %s\n' % cl.GetLastWarning()
+      return 12
+    if not res['total_found']:
+      return 1
+    return 2
+    
+  def regeo(addrType):
+  
+    conn = psycopg2.connect(host=db_config.addr_host, database=db_config.addr_database, user=db_config.addr_user, password=db_config.addr_password)
+    cur = conn.cursor()
+    execute = """
+      SELECT full_name
+      FROM ershkus_search_addr
+      WHERE
+        (geom && (ST_GeomFromText('POINT(%(lon)s %(lat)s)',4326))) AND ST_Covers(geom, (ST_GeomFromText('POINT(%(lon)s %(lat)s)',4326)))
+        AND (full_name is not null AND full_name <> '')
+        AND addr_type='%(addrType)s'
+    """ % {"lat":lat, "lon":lon, "addrType":addrType}
+    cur.execute(execute)
+    regeo=cur.fetchone()
+    if regeo == None:
+      return None
+    return regeo[0]
+    
   print "Content-type: text/javascript; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n"
   #print "Content-type: application/json; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n"
   values=cgi.FieldStorage()
@@ -63,19 +96,26 @@ def main():
   q = q.replace("-"," \-")
   q = q.replace("/","\/")
 
-  res = cl.Query ( q )
-	
-  if not res:
-    output['error']='query failed: %s' % cl.GetLastError()
-    return
-
-  if cl.GetLastWarning():
-    output['error']='WARNING: %s\n' % cl.GetLastWarning()
-    return
-
-  if not res['total_found']:
-    output['find']=0
-    return
+  resQ=1
+  for xAddrType in listAddrType:
+    q2 = regeo(xAddrType)
+    if q2 == None:
+      continue
+    res = cl.Query(q + " " + q2)
+    resQ=ifresult(res)
+    if resQ > 10:
+      return
+    if resQ == 2:
+      break
+      
+  if resQ == 1:
+    res = cl.Query(q)
+    resQ2 = ifresult(res)
+    if resQ2 > 10:
+      return
+    if resQ2 == 1:
+      output['find']=0
+      return
   
   if res.has_key('matches'):
     output['find']=1
