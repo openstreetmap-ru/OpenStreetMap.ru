@@ -5,9 +5,8 @@ setlocale(LC_ALL, 'ru_RU.UTF-8');
 include_once ('passwd.php');
 include_once ('functions.php');
 
-define("PERSMAP_MAX_POINTS", 30);
-define("PERSMAP_MAX_LINES", 20);
-define("PERSMAP_MAX_LINE_POINTS", 30);
+$PERSMAP_MAX_POINTS = 30;
+$PERSMAP_MAX_LINE_POINTS = 600;
 
 $pages_menu=array(
 array("name"=>"map","text"=>"Карта","color"=>"#99bd1b"),
