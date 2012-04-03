@@ -97,16 +97,17 @@ def main():
   q = q.replace("/","\/")
 
   resQ=1
-  for xAddrType in listAddrType:
-    q2 = regeo(xAddrType)
-    if q2 == None:
-      continue
-    res = cl.Query(q + " " + q2)
-    resQ=ifresult(res)
-    if resQ > 10:
-      return
-    if resQ == 2:
-      break
+  if (lat and lon):
+    for xAddrType in listAddrType:
+      q2 = regeo(xAddrType)
+      if q2 == None:
+        continue
+      res = cl.Query(q + " " + q2)
+      resQ=ifresult(res)
+      if resQ > 10:
+        return
+      if resQ == 2:
+        break
       
   if resQ == 1:
     res = cl.Query(q)
