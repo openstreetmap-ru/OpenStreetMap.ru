@@ -48,7 +48,7 @@ out:{
 $id = intval(@$_REQUEST['id']);
 $hash = @$_REQUEST['hash'];
 $action = @$_REQUEST['action'];
-if ($action == 'load' && $id) {
+if (($action == 'load' || empty($action)) && $id) {
   $result_json = array("service"=>array());
   $result = pg_query("SELECT * FROM \"personal_map\" WHERE \"id\" = ".$id);
   $json_data = false;
@@ -131,6 +131,8 @@ else if ($action == 'save' && $id) {
       header("HTTP/1.0 406 Data incorrect");
     }
   }  
+} else {
+  header("HTTP/1.0 501 Not Implemented");
 }
 function html_escape($str, $len) { 
   $str = mb_substr($str, 0, $len);
