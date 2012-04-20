@@ -48,6 +48,7 @@ out:{
 $id = intval(@$_REQUEST['id']);
 $hash = @$_REQUEST['hash'];
 $action = @$_REQUEST['action'];
+$format = @$_REQUEST['format'];
 if (($action == 'load' || empty($action)) && $id) {
   $result_json = array("service"=>array());
   $result = pg_query("SELECT * FROM \"personal_map\" WHERE \"id\" = ".$id);
