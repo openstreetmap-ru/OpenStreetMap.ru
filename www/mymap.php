@@ -48,30 +48,19 @@ out:{
 $id = intval(@$_REQUEST['id']);
 $hash = @$_REQUEST['hash'];
 $action = @$_REQUEST['action'];
+$format = @$_REQUEST['format'];
 if (($action == 'load' || empty($action)) && $id) {
   $result_json = array("service"=>array());
   $result = pg_query("SELECT * FROM \"personal_map\" WHERE \"id\" = ".$id);
-  $json_data = false;
-  if (pg_num_rows($result) <= 0)  {
-    $result_json["service"]["existing"] = false;
-  } else {
-    $result_json["service"]["existing"] = true;
+  $row = pg_num_rows($result) <= 0;
+  if ($row)
     $row = pg_fetch_assoc($result);
-    $result_json["service"]["editing"] = ($hash === $row["admin_hash"]);
-    
-    $result_json["info"] = array("name"=>$row["name"], "description"=>$row["description"], "user_osm"=>$row["user_osm"]);
-
-    $json_data = $row["json"];
-  }
   pg_free_result($result);
-  $send = json_encode($result_json);
-  if ($json_data!==false) {
-    $send = substr($send, 0, -1);
-    echo $send;
-    echo ",\"data\":".$json_data;
-    echo "}";
-  } else {
-    echo $send;
+
+  if (empty($format)) {
+    generate_json_output($row);
+  } else if ($format === "gpx") {
+    generate_gpx_output($row);
   }
 } 
 /* saves map to server
@@ -149,6 +138,11 @@ function html_db_escape($str, $len) {
   return "'".pg_escape_string(html_escape($str,$len))."'";
 }
 function json_html_db_escape($str) {
+  $data = json_to_data($str);
+  $str = json_encode($data);
+  return "'".pg_escape_string($str)."'";
+}
+function json_to_data($str) {
   global $PERSMAP_MAX_POINTS, $PERSMAP_MAX_LINE_POINTS;
 //  $data_pre = json_decode($str, true);
   $data_pre = $str; // already is the data
@@ -185,7 +179,60 @@ function json_html_db_escape($str) {
   if (count($points) == 0 && count($lines) == 0)
     return false;
   $data = array("points"=>$points, "lines"=>$lines);
-  $str = json_encode($data);
-  return "'".pg_escape_string($str)."'";
+}
+
+function generate_json_output($row) {
+  $json_data = false;
+  if ($row)  {
+    $result_json["service"]["existing"] = false;
+  } else {
+    $result_json["service"]["existing"] = true;
+    $result_json["service"]["editing"] = ($hash === $row["admin_hash"]);
+
+    $result_json["info"] = array("name"=>$row["name"], "description"=>$row["description"], "user_osm"=>$row["user_osm"]);
+
+    $json_data = $row["json"];
+  }
+  $send = json_encode($result_json);
+  if ($json_data!==false) {
+    $send = substr($send, 0, -1);
+    echo $send;
+    echo ",\"data\":".$json_data;
+    echo "}";
+  } else {
+    echo $send;
+  }
+}
+
+function generate_gpx_output($row) {
+
+  echo <<<EOD
+<?xml version="1.0"?>
+<gpx
+ version="1.0"
+ creator="OpenStreetMap.ru PersonalMap"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns="http://www.topografix.com/GPX/1/0"
+ xsi:schemaLocation="http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd">
+EOD;
+  if ($row) {
+    echo "<metadata>";
+//  echo "<time>".$row['...']."</time>";    TODO: fill creation/modified time, map name, map description
+    echo "<name>{$row['name']}</name><desc>{$row['description']}</desc>";
+    echo "</metadata>";
+
+    $data = json_to_data($row['json']);
+    foreach($data['points'] as $point) {
+      echo "<wpt lat=\"{$point['lat']}\" lon=\"{$point['lon']}\"><name>{$point['name']}</name><desc><![CDATA[{$point['description']}]]></desc></wpt>";
+    }
+    foreach($data['lines'] as $line) {
+      echo "<rte><name>{$line['name']}</name><desc><![CDATA[{$line['description']}]]></desc>";
+      foreach($line['points'] as $point) {
+        echo "<rtept lat=\"{$point[0]}\" lon=\"{$point[1]}\"></rtept>";
+      }
+      echo "</rte>";
+    }
+  }
+  echo "</gpx>";
 }
 ?>
