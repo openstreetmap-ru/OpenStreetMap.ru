@@ -30,7 +30,7 @@ def main():
       full_name is null
       AND addr_type = 'street'
       AND (city is null and district is null)
-      AND ST_Covers(ST_PolygonFromText('POLYGON((%(minlon)s %(minlat)s,%(maxlon)s %(minlat)s,%(maxlon)s %(maxlat)s,%(minlon)s %(maxlat)s,%(minlon)s %(minlat)s))', 4326), geom)
+      AND ST_Intersects(ST_PolygonFromText('POLYGON((%(minlon)s %(minlat)s,%(maxlon)s %(minlat)s,%(maxlon)s %(maxlat)s,%(minlon)s %(maxlat)s,%(minlon)s %(minlat)s))', 4326), geom)
   """ % {"minlat":minlat, "minlon":minlon, "maxlat":maxlat, "maxlon":maxlon}
   cur.execute(execute)
   output['results']=[]
