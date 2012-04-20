@@ -420,7 +420,15 @@ search.processResults = function(results) {
     if (results.error) {
       osm.leftpan.content.innerHTML='Произошла ошибка: ' + (results.error);
     } else if (results.find==0) {
-      osm.leftpan.content.innerHTML='Ничего не найдено по запросу "' + (results.search)  + '"';
+      search.q=results.search;
+      osm.leftpan.content.innerHTML='<p>Ничего не найдено по запросу "' + (results.search)  + '"</p><br /><br />\
+          <p>Оставьте заявку об отсутствующем у нас адресе или неправильной работе поиска<br><br>\
+          Комментарий (запрос указывать не надо):\
+          </p>\
+          <form onsubmit="return search.reportError();">\
+          <p><textarea id="rsearch" style="width: 100%;"></textarea></p>\
+          <p style="text-align: center;"><input type="submit" style=""></p>\
+          </form>';
     }
     else if (results.find==1 && results.accuracy_find==0) {
       osm.leftpan.content.innerHTML='Пожалуйста, уточните запрос "' + (results.search) + '"';
@@ -452,6 +460,13 @@ search.processResults = function(results) {
     osm.leftpan.content.innerHTML = 'Ошибка: ' + e.description + '<br /> Ответ поиск.серв.: '+results.error;
   }
 };
+
+search.reportError = function() {
+  comment=$_('rsearch').value;
+  $.get("/api/search_report_add", {search: search.q, comment: comment.replace("\n", " ")} );
+  osm.leftpan.content.innerHTML='Спасибо за помощь в улучшении OpenStreetMap';
+  return false;
+}
 
 search.errorHandler = function(jqXHR, textStatus, errorThrown) {
   osm.leftpan.content.innerHTML = 'Ошибка: ' + textStatus + '<br />' + errorThrown.message;

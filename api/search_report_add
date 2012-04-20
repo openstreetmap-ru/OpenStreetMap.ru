@@ -1,0 +1,41 @@
+#!/usr/local/bin/python
+# -*- coding: utf8 -*-
+
+import cgi, json
+import psycopg2
+import db_config
+
+def main():
+  def escape(text):
+    text=text.replace('&gt;','>')
+    text=text.replace('&lt;','<')
+    text=text.replace('&#039;','\'')
+    text=text.replace('&quot;','\"')
+    text=text.replace('&amp;','&')
+    return text
+
+  values=cgi.FieldStorage()
+  search = values.getfirst("search","")
+  comment = values.getfirst("comment","")
+  
+  print "Content-type: text/javascript; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n"
+  if not (search):
+    return
+    
+  conn = psycopg2.connect(host=db_config.site_host, database=db_config.site_database, user=db_config.site_user, password=db_config.site_password)
+  cur = conn.cursor()
+  #execute = """
+   # INSERT INTO search_report(
+    #            "search", "comment")
+     #   VALUES ('%(search)s', '%(comment)s');
+#  """ % {"search":search, "comment":comment}
+  cur.execute("INSERT INTO search_report(search, comment) VALUES (%s, %s)",(escape(search),escape(comment)))
+  #cur.execute(execute)
+  #print cur.query
+  #print cur.statusmessage
+  conn.commit()
+
+  
+
+
+main()

@@ -54,8 +54,8 @@ def main():
       return None
     return regeo[0]
     
-  print "Content-type: text/javascript; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n"
-  #print "Content-type: application/json; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n"
+  #print "Content-type: text/javascript; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # debug
+  print "Content-type: application/json; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # production
   values=cgi.FieldStorage()
   q = values.getfirst("q","")
   lat = float(values.getfirst("lat","0"))

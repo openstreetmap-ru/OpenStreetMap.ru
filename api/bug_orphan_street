@@ -1,0 +1,50 @@
+#!/usr/local/bin/python
+# -*- coding: utf8 -*-
+
+import cgi, json
+import psycopg2
+import db_config
+
+output={}
+outputres={}
+
+def main():
+  #print "Content-type: text/javascript; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # debug
+  print "Content-type: application/json; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # production
+  values=cgi.FieldStorage()
+  minlat = float(values.getfirst("minlat","0"))
+  minlon = float(values.getfirst("minlon","0"))
+  maxlat = float(values.getfirst("maxlat","0"))
+  maxlon = float(values.getfirst("maxlon","0"))
+
+  if not (minlat and minlon and maxlat and maxlon):
+    output['error']='не получены все или один из minlat,minlon,maxlat,maxlon'
+    return
+    
+  conn = psycopg2.connect(host=db_config.addr_host, database=db_config.addr_database, user=db_config.addr_user, password=db_config.addr_password)
+  cur = conn.cursor()
+  execute = """
+    SELECT id_link_w, ST_AsGeoJson(geom,5), street
+    FROM ershkus_search_addr
+    WHERE
+      full_name is null
+      AND addr_type = 'street'
+      AND (city is null and district is null)
+      AND ST_Covers(ST_PolygonFromText('POLYGON((%(minlon)s %(minlat)s,%(maxlon)s %(minlat)s,%(maxlon)s %(maxlat)s,%(minlon)s %(maxlat)s,%(minlon)s %(minlat)s))', 4326), geom)
+  """ % {"minlat":minlat, "minlon":minlon, "maxlat":maxlat, "maxlon":maxlon}
+  cur.execute(execute)
+  output['results']=[]
+  for record in cur:
+    outputres={}
+    outputres['type']='orphan_street'
+    outputres['text']='улица "%(street)s" вне полигона города'%{"street":record[2]}
+    outputres['geometry']=json.loads(record[1])
+    outputres['objects']=[]
+    for osmid in record[0]:
+      outputres['objects'].append(['way', osmid])
+    output['results'].append(outputres)
+
+
+
+main()
+print json.dumps(output)
