@@ -50,17 +50,12 @@ $hash = @$_REQUEST['hash'];
 $action = @$_REQUEST['action'];
 $format = @$_REQUEST['format'];
 if (($action == 'load' || empty($action)) && $id) {
-  $result = pg_query("SELECT * FROM \"personal_map\" WHERE \"id\" = ".$id);
-  $row = pg_num_rows($result) > 0;
-  if ($row)
-    $row = pg_fetch_assoc($result);
-  pg_free_result($result);
+  $row = $dbapi->fetchRow("SELECT * FROM `personal_map` WHERE `id` = ?", array($id));
 
-  if (empty($format)) {
-    generate_json_output($row, $hash); // only format that needs hash for administration
-  } else if ($format === "gpx") {
+  if ($format === "gpx") {
     generate_gpx_output($row);
-  }
+  } else // Default format
+    generate_json_output($row, $hash); // only format that needs hash for administration
 } 
 /* saves map to server
    post data:
@@ -72,22 +67,21 @@ if (($action == 'load' || empty($action)) && $id) {
   return status: 200 ok: stdout={id:ID, hash:str}, 403 auth failed, 404 not found, 500 error occured
 
 */
-else if ($action == 'save' && $id) {
+else if ($action == 'save') {
   if ($id > 0) {
-    $result = pg_query("SELECT \"admin_hash\" FROM \"personal_map\" WHERE \"id\" = ".$id);
-    if (pg_num_rows($result) <= 0) {
+    $row = $dbapi->fetchRow("SELECT `admin_hash` FROM `personal_map` WHERE `id` = ?", array($id));
+    if (!$row) {
       header("HTTP/1.0 404 Not found");
     } else {
-      $row = pg_fetch_assoc($result);
       if ($row["admin_hash"] !== $hash) {
         header("HTTP/1.0 403 Authentication required");
       } else {
-        $map_name = html_db_escape(@$_REQUEST['name'], 45);
-        $map_description = html_db_escape(@$_REQUEST['description'], 1024);
+        $map_name = html_escape(@$_REQUEST['name'], 45);
+        $map_description = html_escape(@$_REQUEST['description'], 1024);
         $json_data = json_html_db_escape(@$_REQUEST['data']); //filtering incorrect data?
         
         if ($json_data) {
-          $result2 = pg_query("UPDATE \"personal_map\" SET \"name\"=$map_name, \"description\"=$map_description, \"json\"=$json_data WHERE \"id\"=".$id);
+          $result2 = $dbapi->execute("UPDATE `personal_map` SET `name`=?, `description`=?, `json`=? WHERE `id`=?", array($map_name, $map_description, $json_data, $id));
           if (!$result2) {
             header("HTTP/1.0 500 Internal server error");
             // TODO: logging of such cases...
@@ -100,19 +94,18 @@ else if ($action == 'save' && $id) {
       }
     }
   } else {
-    $map_name = html_db_escape(@$_REQUEST['name'], 45); // change to $_POST in future
-    $map_description = html_db_escape(@$_REQUEST['description'], 1024);
+    $map_name = html_escape(@$_REQUEST['name'], 45); // change to $_POST in future
+    $map_description = html_escape(@$_REQUEST['description'], 1024);
     $json_data = json_html_db_escape(@$_REQUEST['data']);
     if ($json_data) {
-      $query = "INSERT INTO \"personal_map\" (\"name\", \"description\", \"json\") VALUES ($map_name, $map_description, $json_data);";
-      $query.= "SELECT \"id\", \"admin_hash\" FROM \"personal_map\" WHERE \"id\"=pseudo_encrypt(currval('personal_map_id_seq')::int);";
-      $result = pg_query($query);
-      if (!$result) {
+      $id = mt_rand();
+      $hash = md5("$id" . mt_rand());
+      $result = $dbapi->execute("INSERT INTO `personal_map` (`id`, `admin_hash`, `name`, `description`, `json`) VALUES (?, ?, ?, ?, ?)", array($id, $hash, $map_name, $map_description, $json_data));
+      if ($result == false) {
         header("HTTP/1.0 500 Internal server error");
         // TODO: logging
       } else {
-        $row = pg_fetch_assoc($result);
-        $json = array("id"=>$row['id'], "hash"=>$row['admin_hash'], "result"=>"OK");
+        $json = array("id"=>$id, "hash"=>$hash, "result"=>"OK");
         echo json_encode($json);
       }
     } else {
@@ -133,17 +126,15 @@ function color_escape($str) {
   return "#ff0000";*/
   return intval($str);
 }
-function html_db_escape($str, $len) {
-  return "'".pg_escape_string(html_escape($str,$len))."'";
-}
 function json_html_db_escape($str) {
-  $data = json_to_data($str);
-  $str = json_encode($data);
-  return "'".pg_escape_string($str)."'";
+  $data = json_decode($str, true);
+  $str = json_encode($data); //, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+  return $str;
 }
+
 function json_to_data($str) {
   global $PERSMAP_MAX_POINTS, $PERSMAP_MAX_LINE_POINTS;
-//  $data_pre = json_decode($str, true);
+  //$data_pre = json_decode($str, true);
   $data_pre = $str; // already is the data
   // processing and filtering html where needed
   $points_pre = isset($data_pre['points'])?$data_pre['points']:array();
@@ -215,20 +206,21 @@ function generate_gpx_output($row) {
  xmlns="http://www.topografix.com/GPX/1/0"
  xsi:schemaLocation="http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd">
 EOD;
+  setLocale(LC_NUMERIC, "C");
   if ($row) {
     echo "<metadata>";
 //  echo "<time>".$row['...']."</time>";    TODO: fill creation/modified time, map name, map description
     echo "<name>{$row['name']}</name><desc>{$row['description']}</desc>";
     echo "</metadata>";
 
-    $data = json_to_data(json_decode($row['json'], true));
-    foreach($data['points'] as $point) {
-      echo "<wpt lat=\"{$point['lat']}\" lon=\"{$point['lon']}\"><name>{$point['name']}</name><desc><![CDATA[{$point['description']}]]></desc></wpt>";
+    $data = json_decode($row['json']);
+    foreach($data->points as $point) {
+      echo "<wpt lat=\"{$point->lat}\" lon=\"{$point->lon}\"><name>{$point->name}</name><desc><![CDATA[{$point->description}]]></desc></wpt>";
     }
-    foreach($data['lines'] as $line) {
-      echo "<rte><name>{$line['name']}</name><desc><![CDATA[{$line['description']}]]></desc>";
-      foreach($line['points'] as $point) {
-        echo "<rtept lat=\"{$point[0]}\" lon=\"{$point[1]}\"></rtept>";
+    foreach($data->lines as $line) {
+      echo "<rte><name>{$line->name}</name><desc><![CDATA[{$line->description}]]></desc>";
+      foreach($line->points as $point) {
+        echo "<rtept lat=\"{$point[0]}\" lon=\"{$point[1]}\"/>";
       }
       echo "</rte>";
     }
