@@ -52,13 +52,13 @@ $format = @$_REQUEST['format'];
 if (($action == 'load' || empty($action)) && $id) {
   $result_json = array("service"=>array());
   $result = pg_query("SELECT * FROM \"personal_map\" WHERE \"id\" = ".$id);
-  $row = pg_num_rows($result) <= 0;
+  $row = pg_num_rows($result) > 0;
   if ($row)
     $row = pg_fetch_assoc($result);
   pg_free_result($result);
 
   if (empty($format)) {
-    generate_json_output($row);
+    generate_json_output($row, $hash); // only format that needs hash for administration
   } else if ($format === "gpx") {
     generate_gpx_output($row);
   }
@@ -181,7 +181,7 @@ function json_to_data($str) {
   $data = array("points"=>$points, "lines"=>$lines);
 }
 
-function generate_json_output($row) {
+function generate_json_output($row, $hash) {
   $json_data = false;
   if ($row)  {
     $result_json["service"]["existing"] = false;
