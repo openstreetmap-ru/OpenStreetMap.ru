@@ -12,8 +12,11 @@ $page_head = <<<PHP_HEAD
   <script type="text/javascript" src="js/Control.Scale.js"></script>
   <script type="text/javascript" src="js/Layer.TileLayer.Bing.js"></script>
   <script type="text/javascript" src="js/Layer.KML.js"></script>
+  <script type="text/javascript" src="js/osmjs-validators-layer.js"></script>
+  <script type="text/javascript" src="js/osmjs-validators-errors.js"></script>
   <script type="text/javascript" src="js/osb.js"></script>
   <script type="text/javascript" src="js/markers.js"></script>
+  <script type="text/javascript" src="js/validators.js"></script>
   <script type="text/javascript" src="js/wpc.js"></script>
   <link rel="stylesheet" href="css/osb.css" />
 PHP_HEAD;
@@ -67,6 +70,14 @@ $page_content = <<<PHP_CONTENT
             <li class="pm-submenu" id="pm_save" onClick="osm.markers.saveMap()"><img src='img/save.svg' /><span>Сохранить</span></li>
           </ul>
           <div id="pm_status"></div>
+        </div>
+      </div>
+      <div id="lefterrorspan">
+        <div class="header">
+          <h1>Ошибки на карте</h1>
+        </div>
+        <div class="contentpan">
+          <ul id="validationerrors"></ul>
         </div>
       </div>
       <div id="toggler" onClick="osm.leftpan.toggle()"></div>
