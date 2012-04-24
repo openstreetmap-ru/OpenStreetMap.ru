@@ -50,7 +50,6 @@ $hash = @$_REQUEST['hash'];
 $action = @$_REQUEST['action'];
 $format = @$_REQUEST['format'];
 if (($action == 'load' || empty($action)) && $id) {
-  $result_json = array("service"=>array());
   $result = pg_query("SELECT * FROM \"personal_map\" WHERE \"id\" = ".$id);
   $row = pg_num_rows($result) > 0;
   if ($row)
@@ -179,11 +178,12 @@ function json_to_data($str) {
   if (count($points) == 0 && count($lines) == 0)
     return false;
   $data = array("points"=>$points, "lines"=>$lines);
+  return $data;
 }
 
 function generate_json_output($row, $hash) {
   $json_data = false;
-  if ($row)  {
+  if (!$row)  {
     $result_json["service"]["existing"] = false;
   } else {
     $result_json["service"]["existing"] = true;
@@ -205,7 +205,7 @@ function generate_json_output($row, $hash) {
 }
 
 function generate_gpx_output($row) {
-
+  header("Content-type: text/plain");
   echo <<<EOD
 <?xml version="1.0"?>
 <gpx
@@ -221,7 +221,7 @@ EOD;
     echo "<name>{$row['name']}</name><desc>{$row['description']}</desc>";
     echo "</metadata>";
 
-    $data = json_to_data($row['json']);
+    $data = json_to_data(json_decode($row['json'], true));
     foreach($data['points'] as $point) {
       echo "<wpt lat=\"{$point['lat']}\" lon=\"{$point['lon']}\"><name>{$point['name']}</name><desc><![CDATA[{$point['description']}]]></desc></wpt>";
     }
