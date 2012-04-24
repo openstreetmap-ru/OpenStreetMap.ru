@@ -93,9 +93,16 @@ osm.validators = {
     }]
   }],
 
+  i18n: {
+    objects: 'Объекты',
+    params: 'Параметры',
+    edit_in_potlatch: 'Редактировать в Potlatch',
+    edit_in_josm: 'Редактировать в JOSM'
+  },
+
   initialize: function() {
     console.log(this.sources)
-    this.layer = new OsmJs.Validators.LeafletLayer({sources: this.sources});
+    this.layer = new OsmJs.Validators.LeafletLayer({sources: this.sources, i18n: this.i18n});
 
     $('#validationerrors').validatorErrorsControl(this.layer, {errors: this.errors});
   },

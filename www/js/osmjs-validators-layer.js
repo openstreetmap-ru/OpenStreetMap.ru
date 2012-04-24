@@ -11,6 +11,12 @@
       this.sourceLayers = {};
       this.sourceRequests = {};
       this.disabledErrors = [];
+      this.i18n = this.options.i18n || {
+        objects: 'Objects',
+        params: 'Params',
+        edit_in_potlatch: 'Edit in Potlatch',
+        edit_in_josm: 'Edit in JOSM'
+      };
       _ref = this.options.sources || [];
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -134,7 +140,7 @@
       });
     },
     buildResult: function(source, res) {
-      var bounds, center, errorText, ne, obj, popupText, resLayer, sw, _i, _len, _ref;
+      var bounds, center, errorText, key, ne, obj, popupText, resLayer, sw, value, _i, _len, _ref, _ref1;
       bounds = new L.LatLngBounds();
       resLayer = new L.GeoJSON({
         type: 'Feature',
@@ -144,10 +150,16 @@
       center = bounds.getCenter();
       sw = bounds.getSouthWest();
       ne = bounds.getNorthEast();
-      errorText = res.text || source.types[res.type].text;
-      popupText = "<p>" + errorText + "</p>";
+      errorText = L.Util.template(res.text || source.types[res.type].text, res.params);
+      popupText = "<div class=\"map-validation-error\">";
+      popupText += "<p>" + errorText + "</p>";
+      popupText += "<p>";
+      popupText += "<a href=\"http://localhost:8111/load_and_zoom?top=" + ne.lat + "&bottom=" + sw.lat + "&left=" + sw.lng + "&right=" + ne.lng + "\" target=\"josm\">" + this.i18n.edit_in_josm + "</a><br />";
+      popupText += "<a href=\"http://openstreetmap.org/edit?lat=" + center.lat + "&lon=" + center.lng + "&zoom=17\" target=\"_blank\">" + this.i18n.edit_in_potlatch + "</a><br />";
+      popupText += "</p>";
       if (res.objects) {
-        popupText += "<ul>";
+        popupText += "<p>" + this.i18n.objects + "</p>";
+        popupText += "<ul class=\"objects\">";
         _ref = res.objects;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           obj = _ref[_i];
@@ -155,10 +167,17 @@
         }
         popupText += "</ul>";
       }
-      popupText += "<p>";
-      popupText += "<a href=\"http://localhost:8111/load_and_zoom?top=" + ne.lat + "&bottom=" + sw.lat + "&left=" + sw.lng + "&right=" + ne.lng + "\" target=\"josm\">Edit in JOSM</a><br />";
-      popupText += "<a href=\"http://openstreetmap.org/edit?lat=" + center.lat + "&lon=" + center.lng + "&zoom=17\" target=\"_blank\">Edit in Potlatch</a><br />";
-      popupText += "</p>";
+      if (res.params) {
+        popupText += "<p>" + this.i18n.params + "</p>";
+        popupText += "<ul class=\"params\">";
+        _ref1 = res.params;
+        for (key in _ref1) {
+          value = _ref1[key];
+          popupText += "<li>" + key + ": " + value + "</li>";
+        }
+        popupText += "</ul>";
+      }
+      popupText += "</div>";
       resLayer.bindPopup(popupText);
       return resLayer;
     }
