@@ -157,7 +157,36 @@ function init() {
   osm.map.on('layeradd', osm.saveLocation);
   osm.map.on('layerremove', osm.saveLocation);
   osm.map.on('moveend', osm.editUpdate);
+
+
+  $('#mainmenu .current li').removeClass('active');
+  $('#mainmenu .current li.search').addClass('active');
+
+  $('#mainmenu .current li.search a').click(osm.mode.search);
+  $('#mainmenu .current li.persmap a').click(osm.mode.persmap);
+  $('#mainmenu .current li.errors a').click(osm.mode.errors);
 };
+
+osm.mode = {
+  persmap: function() {
+    osm.validators.disable();
+    osm.markers.personalMap();
+    return false;
+  },
+
+  search: function() {
+    osm.validators.disable();
+    osm.leftpan.toggle(1);
+    return false;
+  },
+
+  errors: function() {
+    osm.validators.enable();
+    return false;
+  }
+}
+
+
 
 osm.initLayers = function(){
 
@@ -381,17 +410,13 @@ osm.createTools = function() {
   obListDivA.href='#';
   obListDivA.title='Персональная карта';
   obListDivA.innerHTML='Персональная карта';
-  obListDivA.onclick = function(){
-    osm.markers.personalMap();
-  };
+  obListDivA.onclick = osm.mode.persmap;
 
   var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
   obListDivA.href='#';
   obListDivA.title='Данные валидаторов';
   obListDivA.innerHTML='Данные валидаторов';
-  obListDivA.onclick = function(){
-    osm.validators.enable();
-  };
+  obListDivA.onclick = osm.mode.errors;
 };
 
 osm.setLinkOSB = function() {
@@ -409,14 +434,20 @@ osm.leftpan.toggle = function(on) {
       this.on = 2;
       $_('downpan').className = '';
       $_('leftpan').className = 'leftPersmap';
+      $('#mainmenu .current li').removeClass('active');
+      $('#mainmenu .current li.persmap').addClass('active');
     } else if (on === 3) {
       this.on = 3;
       $_('downpan').className = '';
       $_('leftpan').className = 'leftErrors';
+      $('#mainmenu .current li').removeClass('active');
+      $('#mainmenu .current li.errors').addClass('active');
     } else if (on) {
-      this.on = true;
+      this.on = 1;
       $_('downpan').className = '';
       $_('leftpan').className = 'leftSearch';
+      $('#mainmenu .current li').removeClass('active');
+      $('#mainmenu .current li.search').addClass('active');
       osm.map.addLayer(osm.layers.search_marker);
     } else {
       this.on = false;
@@ -490,7 +521,7 @@ search.search = function(inQuery) {
   if (inQuery.length < 1)
     return false;
   mapCenter=osm.map.getCenter();
-  osm.leftpan.toggle(true);
+  osm.mode.search();
   $.getJSON('/api/search', {q: inQuery, accuracy: 1, lat: mapCenter.lat, lon: mapCenter.lng}, search.processResults)
   .error(search.errorHandler);
 /*  this.request = new XMLHttpRequest();
