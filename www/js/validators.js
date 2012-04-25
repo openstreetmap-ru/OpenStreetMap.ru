@@ -101,7 +101,6 @@ osm.validators = {
   },
 
   initialize: function() {
-    console.log(this.sources)
     this.layer = new OsmJs.Validators.LeafletLayer({sources: this.sources, i18n: this.i18n});
 
     $('#validationerrors').validatorErrorsControl(this.layer, {errors: this.errors});
@@ -113,8 +112,7 @@ osm.validators = {
   },
 
   disable: function() {
-    osm.leftpan.toggle(1);
-    osm.map.addLayer(this.layer);
+    osm.map.removeLayer(this.layer);
   }
 
 }
