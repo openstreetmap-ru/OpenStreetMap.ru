@@ -14,10 +14,12 @@ array("name"=>"cakes","text"=>"Плюшки","color"=>"#f9ba1c"),
 array("name"=>"about","text"=>"О проекте","color"=>"#fad051")
 );
 
-pg_connect("host='".$pg_host."' user='".$pg_user."' password='".$pg_pass."' dbname='".$pg_base."'") or die(Err500());
-//mysql_query('SET CHARACTER SET utf8');
-//mysql_query('SET NAMES utf8');
-//mysql_select_db($mysql_base);
+if (function_exists("pg_connect")) { // чтобы можно было тестировать не поднимая БД
+  pg_connect("host='".$pg_host."' user='".$pg_user."' password='".$pg_pass."' dbname='".$pg_base."'") or die(Err500());
+  //mysql_query('SET CHARACTER SET utf8');
+  //mysql_query('SET NAMES utf8');
+  //mysql_select_db($mysql_base);
+}
 
 session_start();
 ob_start();

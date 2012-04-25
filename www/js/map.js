@@ -38,16 +38,16 @@ osm.saveLocation = function() {
   var z = osm.map.getZoom();
   var currentBaseLayer = osm.map.control_layers.currentBaseLayer();
   var l = currentBaseLayer ? (osm.layerHashes[currentBaseLayer.name]) : '';
-  
+
   var ol = '';
   var curOverlays = osm.map.control_layers.listCurrentOverlays();
   for(var i in curOverlays){
     var hash = osm.layerHashes[curOverlays[i].name] || '';
-    //don't save OSB layer 
+    //don't save OSB layer
     if(hash != 'U'){
         ol += hash;
     }
-  } 
+  }
 
   var d = new Date();
   d.setYear(d.getFullYear()+10);
@@ -98,18 +98,18 @@ function init() {
     zoom = w > 1200 ? 3 : 2;
     layer = "M";
   }
-  
+
   osm.initLayers();
-  
+
   //some pice of paranoia
   baseLayer = osm.layers[osm.layerHash2name[layer]] || osm.layers.layerMapnik;
-  
+
   osm.map = new L.Map('map', {zoomControl: false, center: center, zoom: zoom, layers: [baseLayer]});
 
   osm.map.addLayer(osm.layers.search_marker);
   for(var i = 0; i < overlaysAsString.length; i++){
-        //don't save OSB layer 
-        var hash = overlaysAsString.charAt(i); 
+        //don't save OSB layer
+        var hash = overlaysAsString.charAt(i);
         if(hash != 'U'){
             var over = osm.layers[osm.layerHash2name[hash]];
             if(over){
@@ -142,6 +142,7 @@ function init() {
   osm.map.addControl(new L.Control.Zoom({shiftClick: true}));
   osm.markers.initialize();
   osm.markers.readMap();
+  osm.validators.initialize();
 
   osm.createTools();
   search.inLoad();
@@ -152,9 +153,9 @@ function init() {
 
   osm.editUpdate();
   osm.map.on('moveend', reloadKML);
-  osm.map.on('moveend', osm.saveLocation); 
+  osm.map.on('moveend', osm.saveLocation);
   osm.map.on('layeradd', osm.saveLocation);
-  osm.map.on('layerremove', osm.saveLocation); 
+  osm.map.on('layerremove', osm.saveLocation);
   osm.map.on('moveend', osm.editUpdate);
 };
 
@@ -167,112 +168,112 @@ osm.initLayers = function(){
   osm.overlays = {};
 
   osm.registerLayer(
-    'layerMapnik', 
-    new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors"}), 
+    'layerMapnik',
+    new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors"}),
     'Mapnik',
     'M',
     true
   );
-  
+
   osm.registerLayer(
-    'layerKosmo', 
+    'layerKosmo',
     new L.TileLayer('http://{s}.tile.osmosnimki.ru/kosmo/{z}/{x}/{y}.png', {
-        maxZoom: 18, 
+        maxZoom: 18,
         attribution: "Map data &copy <a href='http://osm.org'>OpenStreetMap</a> contributors, CC-BY-SA; rendering by <a href='http://kosmosnimki.ru'>kosmosnimki.ru</a>"}
-    ), 
+    ),
     'Космоснимки',
     'K',
     true
   );
-  
+
   osm.registerLayer(
-    'layerMQ', 
+    'layerMQ',
     new L.TileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png', {
-      maxZoom: 18, 
-      attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, tiles &copy; " + 
-         "<a href=\"http://www.mapquest.com/\" target=\"_blank\">MapQuest</a> <img src=\"http://developer.mapquest.com/content/osm/mq_logo.png\">", 
-      subdomains: '1234'}), 
+      maxZoom: 18,
+      attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, tiles &copy; " +
+         "<a href=\"http://www.mapquest.com/\" target=\"_blank\">MapQuest</a> <img src=\"http://developer.mapquest.com/content/osm/mq_logo.png\">",
+      subdomains: '1234'}),
     'MapQuest',
     'Q',
     true
   );
 
   osm.registerLayer(
-    'layerCycle', 
-    new L.TileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors (Cycle)"}), 
+    'layerCycle',
+    new L.TileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors (Cycle)"}),
     'Велокарта',
     'C',
     true
   );
-  
+
   osm.registerLayer(
-    'layerMS', 
+    'layerMS',
     new L.TileLayer('http://129.206.74.245:8001/tms_r.ashx?x={x}&y={y}&z={z}', {
-      maxZoom: 18, 
-      attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, rendering <a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ University of Heidelberg</a>"}), 
+      maxZoom: 18,
+      attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, rendering <a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ University of Heidelberg</a>"}),
     'MapSurfer.net',
     'S',
     true
   );
-  
+
   osm.registerLayer(
-    'layerBing', 
-    new L.BingLayer('AjNsLhRbwTu3T2lUw5AuzE7oCERzotoAdzGXnK8-lWKKlc2Ax3d9kzbxbdi3IdKt', {maxZoom: 18}), 
+    'layerBing',
+    new L.BingLayer('AjNsLhRbwTu3T2lUw5AuzE7oCERzotoAdzGXnK8-lWKKlc2Ax3d9kzbxbdi3IdKt', {maxZoom: 18}),
     'Снимки Bing',
     'B',
     true
   );
-  
+
   osm.registerLayer(
-    'layerLatlonBuildings', 
+    'layerLatlonBuildings',
     new L.TileLayer('http://{s}.tile.osmosnimki.ru/buildings/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Трёхмерные здания &copy; <a href='http://latlon.org/pt'>LatLon.org</a>", subdomains: 'abcdef'}),
     'Трёхмерные здания',
     'Z',
     false
   );
-  
+
   osm.registerLayer(
-    'osb', 
+    'osb',
     new L.OpenStreetBugs(),
     'Ошибки на карте',
     'U',
     false
   );
-  
+
   osm.registerLayer(
-    'layerLatlonPt', 
-    new L.TileLayer('http://{s}.tile.osmosnimki.ru/pt/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Маршруты &copy; <a href='http://latlon.org/pt'>LatLon.org</a>", subdomains: 'abcdef'}), 
+    'layerLatlonPt',
+    new L.TileLayer('http://{s}.tile.osmosnimki.ru/pt/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Маршруты &copy; <a href='http://latlon.org/pt'>LatLon.org</a>", subdomains: 'abcdef'}),
     'Общественный транспорт',
     'T',
     false
   );
-  
+
   osm.registerLayer(
-    'layerKosmoHyb', 
+    'layerKosmoHyb',
     new L.TileLayer('http://{s}.tile.osmosnimki.ru/hyb/{z}/{x}/{y}.png', {
-      maxZoom: 18, 
-      attribution: "Map data &copy <a href='http://osm.org'>OpenStreetMap</a> contributors, CC-BY-SA; rendering by <a href='http://kosmosnimki.ru'>kosmosnimki.ru</a>"}), 
+      maxZoom: 18,
+      attribution: "Map data &copy <a href='http://osm.org'>OpenStreetMap</a> contributors, CC-BY-SA; rendering by <a href='http://kosmosnimki.ru'>kosmosnimki.ru</a>"}),
     'Космоснимки (гибрид)',
     'H',
     false
   );
-  
+
   osm.registerLayer(
-    'layerMSHyb', 
+    'layerMSHyb',
     new L.TileLayer('http://129.206.74.245:8003/tms_h.ashx?x={x}&y={y}&z={z}', {
-      maxZoom: 18, 
-      attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, rendering " + 
+      maxZoom: 18,
+      attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, rendering " +
                    "<a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ University of Heidelberg</a>"}),
     'MapSurfer.net (гибрид)',
     'Y',
     false
   );
-  
+
   osm.registerLayer(
-    'search_marker', 
+    'search_marker',
     new L.LayerGroup()
   );
-  
+
   WPCLayer = L.KML.extend({
     visible: false,
     onAdd: function(map) {
@@ -289,33 +290,33 @@ osm.initLayers = function(){
       delete this._map;
     }
   });
-  
+
   wpc.layers = new WPCLayer();
 
   osm.registerLayer(
-    'layerWikiFoto', 
+    'layerWikiFoto',
     wpc.layers,
     'Фото (ВикиСклад) beta',
     'W',
     false
   );
-    
+
 }
 
 osm.registerLayer = function (name, layer, title, hash, isBase){
     osm.layers[name] = layer;
-    
+
     if(title){
         osm.layerHashes[title] = hash;
     }
-    
+
     if(hash){
         osm.layerHash2name[hash] = name;
         if(title){
             osm.layerHash2title[hash] = title;
         }
     }
-    
+
     if(undefined !== isBase){
         if(isBase){
           osm.baseLayers[title] = osm.layers[name];
@@ -340,9 +341,9 @@ osm.createTools = function() {
   var obMap = $_('mappan');
   var obTools = L.DomUtil.create('div', null, obMap);
   obTools.id = 'tools';
-  
+
   osm.obTools = obTools;
-  
+
   function ClosePan() {
     obTools.className='';
   }
@@ -361,7 +362,7 @@ osm.createTools = function() {
   obButDivA.onclick = function(){
     noOff=!noOff
   };
-  
+
   var obListDiv = L.DomUtil.create('div', 'p', obTools);
   var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
   obListDivA.href='#';
@@ -383,6 +384,14 @@ osm.createTools = function() {
   obListDivA.onclick = function(){
     osm.markers.personalMap();
   };
+
+  var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
+  obListDivA.href='#';
+  obListDivA.title='Данные валидаторов';
+  obListDivA.innerHTML='Данные валидаторов';
+  obListDivA.onclick = function(){
+    osm.validators.enable();
+  };
 };
 
 osm.setLinkOSB = function() {
@@ -400,13 +409,16 @@ osm.leftpan.toggle = function(on) {
       this.on = 2;
       $_('downpan').className = '';
       $_('leftpan').className = 'leftPersmap';
-	} else if (on) {
+    } else if (on === 3) {
+      this.on = 3;
+      $_('downpan').className = '';
+      $_('leftpan').className = 'leftErrors';
+    } else if (on) {
       this.on = true;
       $_('downpan').className = '';
       $_('leftpan').className = 'leftSearch';
       osm.map.addLayer(osm.layers.search_marker);
-    }
-    else {
+    } else {
       this.on = false;
       $_('downpan').className = 'left-on';
       osm.map.removeLayer(osm.layers.search_marker);

@@ -78,6 +78,15 @@ table {
     top: 15px;
  }
 
+#leftpan.leftSearch div#leftpersmappan,
+#leftpan.leftSearch div#lefterrorspan,
+#leftpan.leftErrors div#leftpersmappan,
+#leftpan.leftErrors div#leftsearchpan,
+#leftpan.leftPersmap div#leftsearchpan,
+#leftpan.leftPersmap div#lefterrorspan {
+  display: none;
+}
+
 #content_pan {
   bottom: 0;
   left: 0;
