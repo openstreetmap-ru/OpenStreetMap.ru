@@ -444,7 +444,7 @@ a.wheremi:hover div.wheremi {
   color: #ddd;
 }
 
-#mainmenu .current li:hover a {
+#mainmenu .current li a:hover {
   color: #fff;
 }
 
@@ -454,8 +454,8 @@ a.wheremi:hover div.wheremi {
 }
 
 #mainmenu .current ul li.active {
+  text-decoration: underline;
   font-style: italic;
-  font-weight: bold;
 }
 
 #mainmenu .current:hover ul {
