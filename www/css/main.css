@@ -78,12 +78,37 @@ table {
     top: 15px;
 }
 
-#leftpan.leftSearch div#leftpersmappan {
+#leftpan.leftSearch div#leftpersmappan,
+#leftpan.leftSearch div#lefterrorspan,
+#leftpan.leftErrors div#leftpersmappan,
+#leftpan.leftErrors div#leftsearchpan,
+#leftpan.leftPersmap div#leftsearchpan,
+#leftpan.leftPersmap div#lefterrorspan {
   display: none;
 }
 
-#leftpan.leftPersmap div#leftsearchpan {
-  display: none;
+#lefterrorspan ul {
+  margin-left: 10px;
+  list-style: none;
+}
+
+#lefterrorspan li {
+  margin: 5px;
+}
+
+#lefterrorspan span {
+  margin-left: 5px;
+}
+
+.map-validation-error ul {
+  list-style: none;
+  padding-left: 10px;
+  margin: 8px 0px;
+}
+
+.map-validation-error h4,
+.map-validation-error p {
+  margin: 8px 0px !important;
 }
 
 .contentpan {
@@ -808,7 +833,7 @@ ul.pm-options {
 }
 ul.pm-options li {
   height: 37px;
-  width: 180px; 
+  width: 180px;
   padding-left: 20px;
   cursor: pointer;
 }
