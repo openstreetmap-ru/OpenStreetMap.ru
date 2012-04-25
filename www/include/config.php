@@ -9,7 +9,7 @@ $PERSMAP_MAX_POINTS = 30;
 $PERSMAP_MAX_LINE_POINTS = 600;
 
 $pages_menu=array(
-array("name"=>"map","text"=>"Карта","color"=>"#99bd1b"),
+array("name"=>"map","text"=>"Карта","color"=>"#99bd1b","modescolor"=>"#88ad0b","modes"=>array(array("name"=>"search","text"=>"Поиск"), array("name"=>"persmap","text"=>"Персональная"),array("name"=>"errors","text"=>"Валидаторы"))),
 array("name"=>"cakes","text"=>"Плюшки","color"=>"#f9ba1c"),
 array("name"=>"about","text"=>"О проекте","color"=>"#fad051")
 );
