@@ -162,9 +162,9 @@ function init() {
   $('#mainmenu .current li').removeClass('active');
   $('#mainmenu .current li.search').addClass('active');
 
-  $('#mainmenu .current li.search a').click(osm.mode.search);
-  $('#mainmenu .current li.persmap a').click(osm.mode.persmap);
-  $('#mainmenu .current li.errors a').click(osm.mode.errors);
+  $('#mainmenu .current li.search').click(osm.mode.search);
+  $('#mainmenu .current li.persmap').click(osm.mode.persmap);
+  $('#mainmenu .current li.errors').click(osm.mode.errors);
 };
 
 osm.mode = {
