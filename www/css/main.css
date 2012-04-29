@@ -430,6 +430,38 @@ a.wheremi:hover div.wheremi {
   height: 22px;
 }
 
+#mainmenu .current ul {
+  position: absolute;
+  display: none;
+  z-index: 100;
+  background: white;
+  width: 140px;
+  top: 27px;
+  list-style: none;
+}
+
+#mainmenu .current a {
+  color: #ddd;
+}
+
+#mainmenu .current li a:hover {
+  color: #fff;
+}
+
+#mainmenu .current ul li {
+  display: block;
+  padding: 5px;
+}
+
+#mainmenu .current ul li.active {
+  text-decoration: underline;
+  font-style: italic;
+}
+
+#mainmenu .current:hover ul {
+  display: block;
+}
+
 #menupan a {
   color: #aaaaaa;
   text-decoration: none;
