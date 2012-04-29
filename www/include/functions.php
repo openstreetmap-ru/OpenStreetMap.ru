@@ -2,7 +2,7 @@
 
 function build_modes($modes, $bgcolor) {
   if ($modes) {
-    $res = '<ul style="background: '.$bgcolor.'">';
+    $res = '<ul class="submenu" style="background: '.$bgcolor.'">';
 
     foreach ($modes as $mode) {
       $res.= '<li class="'.$mode['name'].'"><a href="#">'.$mode['text'].'</a></li>';
@@ -18,8 +18,15 @@ function show_menu($pages, $current = '') {
   echo '<table id="mainmenu"><tr>';
   $menu = array();
   foreach  ($pages as $page) {
-    $page['name2'] = ($page['name'] == 'map' ? '' : $page['name']);
-    $menu[] = ($current == $page['name'] ? '<td><div class="current">'.$page['text'].build_modes($page['modes'], $page['modescolor']).'</div></td>' : '<td><a href="/'.$page['name2'].'"><div>'.$page['text'].'</div></a></td>');
+    if ($page['name'] == 'map') {
+      $page['name2'] = '';
+      $page['imgmenu'] = '<img src="img/menu_arrow.png" id="menu_arrow_img">';
+    }
+    else {
+      $page['name2'] = $page['name'];
+      $page['imgmenu'] = '';
+    }
+    $menu[] = ($current == $page['name'] ? '<td>'.$page['imgmenu'].'<div class="current">'.$page['text'].build_modes($page['modes'], $page['modescolor']).'</div></td>' : '<td><a href="/'.$page['name2'].'"><div>'.$page['text'].'</div></a></td>');
   }
   echo implode($menu);
   echo '</tr></table>';

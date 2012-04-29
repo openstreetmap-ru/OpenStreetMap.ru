@@ -440,12 +440,8 @@ a.wheremi:hover div.wheremi {
   list-style: none;
 }
 
-#mainmenu .current a {
-  color: #ddd;
-}
-
-#mainmenu .current li a:hover {
-  color: #fff;
+#mainmenu ul.submenu a {
+  color: #e5e5e5;
 }
 
 #mainmenu .current ul li {
@@ -461,6 +457,15 @@ a.wheremi:hover div.wheremi {
 #mainmenu .current:hover ul {
   display: block;
 }
+
+#mainmenu ul.submenu li:hover {
+  background: #588D00;
+  color: #ffffff;
+}
+#mainmenu ul.submenu li:hover a {
+  color: #ffffff;
+}
+
 
 #menupan a {
   color: #aaaaaa;
@@ -494,6 +499,12 @@ a.wheremi:hover div.wheremi {
 
 #menupan #mainmenupage td#mainmenupage-osb div { width: 220px; border-top: 5px solid #c3102e; }
 #menupan #mainmenupage td#mainmenupage-osb div:hover, #menupan #mainmenupage td#mainmenupage-osb a.on div { background: #c3102e; }
+
+#menu_arrow_img {
+    margin-left: 15px;
+    margin-top: 8px;
+    position: fixed;
+}
 
 
 #loginpan {
