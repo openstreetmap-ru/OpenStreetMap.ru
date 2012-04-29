@@ -5,7 +5,7 @@ function build_modes($modes, $bgcolor) {
     $res = '<ul class="submenu" style="background: '.$bgcolor.'">';
 
     foreach ($modes as $mode) {
-      $res.= '<li class="'.$mode['name'].'"><a href="#">'.$mode['text'].'</a></li>';
+      $res.= '<li class="'.$mode['name'].'">'.$mode['text'].'</li>';
     }
 
     $res.= "</ul>";

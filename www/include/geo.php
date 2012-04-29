@@ -163,8 +163,11 @@
   $data = $geo->get_value(false,false);
   
  // print ("var client = {lat:0,lon:0,ip:''};\n");
-  print ("var clientLat = ".$data['lat'].";\n");
-  print ("var clientLon = ".$data['lon'].";\n");
+  if ($data['lat']<>'' OR $data['lon']<>'')
+  {
+    print ("var clientLat = ".$data['lat'].";\n");
+    print ("var clientLon = ".$data['lon'].";\n");
+  }
   print ("var clientIp = '".$geo->get_ip()."';\n");
   
 ?>
