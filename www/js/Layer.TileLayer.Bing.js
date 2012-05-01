@@ -20,7 +20,7 @@ L.BingLayer = L.TileLayer.extend({
 	},
 
     onAdd: function(map){
-        L.TileLayer.prototype.onAdd.apply(this, [map]);
+        L.TileLayer.prototype.onAdd.apply(this, [map, 1]);
         this.loadMetadata();
     },
 
