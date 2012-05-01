@@ -152,7 +152,6 @@ function init() {
   osm.goToOSM.connectToMap(osm.map);
 
   osm.editUpdate();
-  osm.map.on('moveend', reloadKML);
   osm.map.on('moveend', osm.saveLocation);
   osm.map.on('layeradd', osm.saveLocation);
   osm.map.on('layerremove', osm.saveLocation);
@@ -306,17 +305,15 @@ osm.initLayers = function(){
   WPCLayer = L.KML.extend({
     visible: false,
     onAdd: function(map) {
-      this._map = map;
+      L.KML.prototype.onAdd.apply(this, [map]);
       this._map.on('moveend',reloadKML,this);
       this.visible = true;
-      this._iterateLayers(map.addLayer, map);
       reloadKML();
     },
     onRemove: function(map) {
       this._map.off('moveend',reloadKML,this);
-      this._iterateLayers(map.removeLayer, map);
       this.visible = false;
-      delete this._map;
+      L.KML.prototype.onRemove.apply(this, [map]);
     }
   });
 
