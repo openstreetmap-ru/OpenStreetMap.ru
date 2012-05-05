@@ -68,3 +68,4 @@ include_once ($_URL[0].'.php');
 
   <? print($external_bodyend); ?>
 </body>
+</html>

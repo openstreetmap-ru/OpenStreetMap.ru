@@ -158,6 +158,5 @@ $page_content = <<<PHP_CONTENT
     osm.markers._max_markers=$PERSMAP_MAX_POINTS;
     osm.markers._max_line_points=$PERSMAP_MAX_LINE_POINTS;
   </script>
-</body>
 PHP_CONTENT;
 ?>
