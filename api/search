@@ -82,10 +82,10 @@ def main():
   
   if (lat and lon):
     cl.SetGeoAnchor("lat", "lon", lat, lon)
-    cl.SetSortMode ( SPH_SORT_EXTENDED, '@weight desc @geodist ASC' )
+    cl.SetSortMode ( SPH_SORT_EXTENDED, '@weight desc addr_type_id asc @geodist ASC' )
     #cl.SetSortMode ( SPH_SORT_EXPR, '@weight/@geodist' )
   else:
-    cl.SetSortMode ( SPH_SORT_EXTENDED, '@weight desc' )
+    cl.SetSortMode ( SPH_SORT_EXTENDED, '@weight desc addr_type_id asc' )
   
   #cl.SetFilterRange('@relevance', 10, 10000)
   #cl.SetSelect ( "*, @expr AS myweight" )
