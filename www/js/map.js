@@ -164,6 +164,9 @@ function init() {
   $('#mainmenu .current li.search').click(osm.mode.search);
   $('#mainmenu .current li.persmap').click(osm.mode.persmap);
   $('#mainmenu .current li.errors').click(osm.mode.errors);
+  
+  if (get.hidetoppan) osm.ui.togglefs();
+  
 };
 
 osm.mode = {
@@ -544,7 +547,7 @@ function parseGET() {
     tmp = (url.substr(1)).split('&');
     for(var i=0; i < tmp.length; i++) {
       tmp2 = tmp[i].split('=');
-      get[tmp2[0]] = decodeURIComponent(tmp2[1].replace(/\+/g, " "));
+      if (tmp2.length == 2) get[tmp2[0]] = decodeURIComponent(tmp2[1].replace(/\+/g, " "));
     }
   }
 };
