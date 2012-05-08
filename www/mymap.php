@@ -78,7 +78,7 @@ else if ($action == 'save') {
       } else {
         $map_name = html_escape(@$_REQUEST['name'], 45);
         $map_description = html_escape(@$_REQUEST['description'], 1024);
-        $json_data = json_html_db_escape(@$_REQUEST['data']); //filtering incorrect data?
+        $json_data = json_encode(json_to_data(@$_REQUEST['data']));
         
         if ($json_data) {
           $result2 = $dbapi->execute("UPDATE `personal_map` SET `name`=?, `description`=?, `json`=? WHERE `id`=?", array($map_name, $map_description, $json_data, $id));
@@ -96,7 +96,7 @@ else if ($action == 'save') {
   } else {
     $map_name = html_escape(@$_REQUEST['name'], 45); // change to $_POST in future
     $map_description = html_escape(@$_REQUEST['description'], 1024);
-    $json_data = json_html_db_escape(@$_REQUEST['data']);
+    $json_data = json_encode(json_to_data(@$_REQUEST['data']));
     if ($json_data) {
       $id = mt_rand();
       $hash = md5("$id" . mt_rand());
