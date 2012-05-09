@@ -171,8 +171,8 @@ osm.markers.blurDefaultInput = function(el) {
 osm.markers.saveMap = function() {
   osm.markers._removeHandlers();
   var postData = {};
-  var mapName = "default map name";
-  var mapDescription = "default map description";
+  var mapName = "";
+  var mapDescription = "";
   postData.points = [];
   postData.lines = [];
   var mlen = osm.markers._data.points.length;
