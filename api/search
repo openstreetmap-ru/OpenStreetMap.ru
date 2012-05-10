@@ -54,14 +54,15 @@ def main():
       return None
     return regeo[0]
     
-  #print "Content-type: text/javascript; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # debug
-  print "Content-type: application/json; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # production
+  print "Content-type: text/javascript; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # debug
+  #print "Content-type: application/json; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # production
   values=cgi.FieldStorage()
   q = values.getfirst("q","")
   lat = float(values.getfirst("lat","0"))
   lon = float(values.getfirst("lon","0"))
   accuracy = bool(values.getfirst("accuracy",""))
   asis = bool(values.getfirst("asis",""))
+  nolimit = bool(values.getfirst("nolimit",""))
   output['search']=q
   if not asis :
     output['search'] = output['search'].replace('&','&amp;')
@@ -82,15 +83,15 @@ def main():
   
   if (lat and lon):
     cl.SetGeoAnchor("lat", "lon", lat, lon)
-    cl.SetSortMode ( SPH_SORT_EXTENDED, '@weight desc @geodist ASC' )
+    cl.SetSortMode ( SPH_SORT_EXTENDED, '@weight desc addr_type_id asc @geodist ASC' )
     #cl.SetSortMode ( SPH_SORT_EXPR, '@weight/@geodist' )
   else:
-    cl.SetSortMode ( SPH_SORT_EXTENDED, '@weight desc' )
+    cl.SetSortMode ( SPH_SORT_EXTENDED, '@weight desc addr_type_id asc' )
   
   #cl.SetFilterRange('@relevance', 10, 10000)
   #cl.SetSelect ( "*, @expr AS myweight" )
   
-  if limit:
+  if (limit and (not nolimit)):
     cl.SetLimits ( 0, limit, max(limit,1000) )
   
   q = q.replace("-"," \-")

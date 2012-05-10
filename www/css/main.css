@@ -78,12 +78,37 @@ table {
     top: 15px;
 }
 
-#leftpan.leftSearch div#leftpersmappan {
+#leftpan.leftSearch div#leftpersmappan,
+#leftpan.leftSearch div#lefterrorspan,
+#leftpan.leftErrors div#leftpersmappan,
+#leftpan.leftErrors div#leftsearchpan,
+#leftpan.leftPersmap div#leftsearchpan,
+#leftpan.leftPersmap div#lefterrorspan {
   display: none;
 }
 
-#leftpan.leftPersmap div#leftsearchpan {
-  display: none;
+#lefterrorspan ul {
+  margin-left: 10px;
+  list-style: none;
+}
+
+#lefterrorspan li {
+  margin: 5px;
+}
+
+#lefterrorspan span {
+  margin-left: 5px;
+}
+
+.map-validation-error ul {
+  list-style: none;
+  padding-left: 10px;
+  margin: 8px 0px;
+}
+
+.map-validation-error h4,
+.map-validation-error p {
+  margin: 8px 0px !important;
 }
 
 .contentpan {
@@ -405,6 +430,43 @@ a.wheremi:hover div.wheremi {
   height: 22px;
 }
 
+#mainmenu .current ul {
+  position: absolute;
+  display: none;
+  z-index: 100;
+  background: white;
+  width: 140px;
+  top: 27px;
+  list-style: none;
+}
+
+#mainmenu ul.submenu a {
+  color: #e5e5e5;
+}
+
+#mainmenu .current ul li {
+  display: block;
+  padding: 5px;
+}
+
+#mainmenu .current ul li.active {
+  text-decoration: underline;
+  font-style: italic;
+}
+
+#mainmenu .current:hover ul {
+  display: block;
+}
+
+#mainmenu ul.submenu li:hover {
+  background: #588D00;
+  color: #ffffff;
+}
+#mainmenu ul.submenu li:hover a {
+  color: #ffffff;
+}
+
+
 #menupan a {
   color: #aaaaaa;
   text-decoration: none;
@@ -437,6 +499,12 @@ a.wheremi:hover div.wheremi {
 
 #menupan #mainmenupage td#mainmenupage-osb div { width: 220px; border-top: 5px solid #c3102e; }
 #menupan #mainmenupage td#mainmenupage-osb div:hover, #menupan #mainmenupage td#mainmenupage-osb a.on div { background: #c3102e; }
+
+#menu_arrow_img {
+    margin-left: 15px;
+    margin-top: 8px;
+    position: fixed;
+}
 
 
 #loginpan {
@@ -808,7 +876,7 @@ ul.pm-options {
 }
 ul.pm-options li {
   height: 37px;
-  width: 180px; 
+  width: 180px;
   padding-left: 20px;
   cursor: pointer;
 }

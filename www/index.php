@@ -10,13 +10,16 @@ if (preg_match("/^index\.(?:html|php)$/is", $_URL[count($_URL) - 1])) unset($_UR
 
 if (empty($_URL[0]))
   $_URL[0] = 'map';
-$result = pg_query("SELECT * FROM \"pagedata\" WHERE \"name\"='".pg_escape_string($_URL[0])."' AND \"activate\"");
 
-if (pg_num_rows($result) <= 0) Err404();
-$data = pg_fetch_assoc($result);
+if (function_exists("pg_connect")) { // чтобы можно было тестировать не поднимая БД
+  $result = pg_query("SELECT * FROM \"pagedata\" WHERE \"name\"='".pg_escape_string($_URL[0])."' AND \"activate\"");
 
-if (!file_exists($data['name'].'.php'))
-  Err404();
+  if (pg_num_rows($result) <= 0) Err404();
+    $data = pg_fetch_assoc($result);
+
+  if (!file_exists($data['name'].'.php'))
+    Err404();
+}
 
 include_once ('include/external.php');
 include_once ($_URL[0].'.php');
@@ -58,10 +61,11 @@ include_once ($_URL[0].'.php');
     </div>
     <div id="colorline" style="background:<?=$data['color']?>;"></div>
   </div>
-  
+
   <div id="content">
     <? print($page_content); ?>
   </div>
-  
+
   <? print($external_bodyend); ?>
 </body>
+</html>
