@@ -33,7 +33,7 @@ osm.markers.initialize = function() {
   osm.map.addLayer(osm.markers._layerGroup);
 }
 osm.markers.decodehtml = function(s) {
-  return $("<div/>").html(s).text()
+  return $("<div/>").html(String(s)).text()
 }
 osm.markers.addPoint = function () {
   if (osm.markers._removeHandlers() === 1)
