@@ -50,7 +50,7 @@ $hash = @$_REQUEST['hash'];
 $action = @$_REQUEST['action'];
 $format = @$_REQUEST['format'];
 if (($action == 'load' || empty($action)) && $id) {
-  $row = $dbapi->fetchRow("SELECT * FROM `personal_map` WHERE `id` = ?", array($id));
+  $row = $dbapi->fetchRow("SELECT * FROM personal_map WHERE id = ?", array($id));
 
   if ($format === "gpx") {
     generate_gpx_output($row);
@@ -69,7 +69,7 @@ if (($action == 'load' || empty($action)) && $id) {
 */
 else if ($action == 'save') {
   if ($id > 0) {
-    $row = $dbapi->fetchRow("SELECT `admin_hash` FROM `personal_map` WHERE `id` = ?", array($id));
+    $row = $dbapi->fetchRow("SELECT admin_hash FROM personal_map WHERE id = ?", array($id));
     if (!$row) {
       header("HTTP/1.0 404 Not found");
     } else {
@@ -81,7 +81,7 @@ else if ($action == 'save') {
         $json_data = json_encode(json_to_data(@$_REQUEST['data']));
         
         if ($json_data) {
-          $result2 = $dbapi->execute("UPDATE `personal_map` SET `name`=?, `description`=?, `json`=? WHERE `id`=?", array($map_name, $map_description, $json_data, $id));
+          $result2 = $dbapi->execute("UPDATE personal_map SET name=?, description=?, json=? WHERE id=?", array($map_name, $map_description, $json_data, $id));
           if (!$result2) {
             header("HTTP/1.0 500 Internal server error");
             // TODO: logging of such cases...
@@ -100,8 +100,8 @@ else if ($action == 'save') {
     if ($json_data) {
       $id = mt_rand();
       $hash = md5("$id" . mt_rand());
-      $result = $dbapi->execute("INSERT INTO `personal_map` (`id`, `admin_hash`, `name`, `description`, `json`) VALUES (?, ?, ?, ?, ?)", array($id, $hash, $map_name, $map_description, $json_data));
-      if ($result == false) {
+      $result = $dbapi->execute("INSERT INTO personal_map (id, admin_hash, name, description, json) VALUES (?, ?, ?, ?, ?)", array($id, $hash, $map_name, $map_description, $json_data));
+      if ($result == false) { echo "error: ".pg_last_error()."\n";
         header("HTTP/1.0 500 Internal server error");
         // TODO: logging
       } else {
