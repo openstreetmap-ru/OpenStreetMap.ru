@@ -32,6 +32,9 @@ osm.markers.initialize = function() {
   osm.markers._layerGroup = new L.LayerGroup();
   osm.map.addLayer(osm.markers._layerGroup);
 }
+osm.markers.decodehtml = function(s) {
+  return $("<div/>").html(s).text()
+}
 osm.markers.addPoint = function () {
   if (osm.markers._removeHandlers() === 1)
     return;
@@ -347,6 +350,9 @@ PersonalMarkerEditable = PersonalMarker.extend({
     this.setLatLng(coords);
     this.setIcon(osm.markers._icons[0]);
     this.fillDetails(details);
+    // fix html entities for editable markers
+    this._pm_name = osm.markers.decodehtml(this._pm_name);
+    this._pm_description = osm.markers.decodehtml(this._pm_description);
     osm.markers._data.points.push(this);
     this.index = osm.markers._data.points.length - 1;
     this.addToLayerGroup();
@@ -430,6 +436,8 @@ PersonalLineEditable = PersonalLine.extend({
     this.setLatLngs(points);
     this.fillDetails(details);
     this.addToLayerGroup();
+    this._pl_name = osm.markers.decodehtml(this._pl_name);
+    this._pl_description = osm.markers.decodehtml(this._pl_description);
   },
   remove: function() {
     if (this._popup) this._popup._close();
