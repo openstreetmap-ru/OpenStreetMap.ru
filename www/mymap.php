@@ -197,6 +197,7 @@ function generate_json_output($row, $hash) {
 
 function generate_gpx_output($row) {
   header("Content-type: application/gpx+xml");
+  header("Content-Disposition: attachment; filename={$row['id']}.gpx");
   echo <<<EOD
 <?xml version="1.0"?>
 <gpx

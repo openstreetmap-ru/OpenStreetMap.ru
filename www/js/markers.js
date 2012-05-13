@@ -231,7 +231,8 @@ osm.markers.saveMap = function() {
         }
         $_("pm_status").innerHTML = "Сохранено<br>"+
           "<a href='/?mapid="+osm.markers._admin.id+"'>Ссылка на просмотр</a><br>"+
-          "<a href='/?mapid="+osm.markers._admin.id+"&hash="+osm.markers._admin.hash+"'>Ссылка на редактирование</a>";
+          "<a href='/?mapid="+osm.markers._admin.id+"&hash="+osm.markers._admin.hash+"'>Ссылка на редактирование</a><br>"+
+          "<a href='/mymap.php?id="+osm.markers._admin.id+"&format=gpx'>Скачать GPX</a>";
       }
     }).fail(function (jqXHR,textStatus) {
       $_("pm_status").innerHTML = "Ошибка при сохранении!";
