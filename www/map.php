@@ -112,8 +112,8 @@ $page_content = <<<PHP_CONTENT
   <iframe name="hiddenIframe" id="hiddenIframe" style="display: none;"></iframe>
   <div id="pm_edit_popup" style="display: none;">
     <table cellspacing="0" cellpadding="0" border="0" id="marker_popup_###">
-      <tr><td><input id="marker_name_###" type="text" value="Name..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()"/></td></tr>
-      <tr><td><textarea id="marker_description_###" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()">Description...</textarea></td></tr>
+      <tr><td><input id="marker_name_###" type="text" value="Имя..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()"/></td></tr>
+      <tr><td><textarea id="marker_description_###" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()">Описание...</textarea></td></tr>
       <tr><td>
         <div class='colour-picker-button colour-picker-button-blue' onClick="$$$.toggleCheck(0);">&#x2713;</div>
         <div class='colour-picker-button colour-picker-button-red' onClick="$$$.toggleCheck(1);"></div>
@@ -140,8 +140,8 @@ $page_content = <<<PHP_CONTENT
   </div>
   <div id="pl_edit_popup" style="display:none;">
     <table cellspacing="0" cellpadding="0" border="0" id="line_popup_###">
-      <tr><td><input id="line_name_###" type="text" value="Name..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()"/></td></tr>
-      <tr><td><textarea id="line_description_###" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()">Description...</textarea></td></tr>
+      <tr><td><input id="line_name_###" type="text" value="Имя..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()"/></td></tr>
+      <tr><td><textarea id="line_description_###" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()">Описание...</textarea></td></tr>
       <tr><td>
         <div class='colour-picker-button colour-picker-button-blue' onClick="$$$.toggleCheck(0);">&#x2713;</div>
         <div class='colour-picker-button colour-picker-button-red' onClick="$$$.toggleCheck(1);"></div>
