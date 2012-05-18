@@ -164,9 +164,9 @@ function init() {
   $('#mainmenu .current li.search').click(osm.mode.search);
   $('#mainmenu .current li.persmap').click(osm.mode.persmap);
   $('#mainmenu .current li.errors').click(osm.mode.errors);
-  
+
   if (get.hidetoppan) osm.ui.togglefs();
-  
+
 };
 
 osm.mode = {
@@ -329,6 +329,15 @@ osm.initLayers = function(){
     'W',
     false
   );
+
+  osm.registerLayer(
+    'layerWeather',
+     new OsmJs.Weather.LeafletLayer({lang: 'ru'}),
+    'Погода (OpenWeatherMap)',
+    'W',
+    false
+  );
+
 
 }
 
