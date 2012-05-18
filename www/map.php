@@ -14,6 +14,7 @@ $page_head = <<<PHP_HEAD
   <script type="text/javascript" src="js/Layer.KML.js"></script>
   <script type="text/javascript" src="js/osmjs-validators-layer.js"></script>
   <script type="text/javascript" src="js/osmjs-validators-errors.js"></script>
+  <script type="text/javascript" src="js/osmjs-weather-layer.js"></script>
   <script type="text/javascript" src="js/osb.js"></script>
   <script type="text/javascript" src="js/markers.js"></script>
   <script type="text/javascript" src="js/validators.js"></script>
