@@ -334,7 +334,7 @@ osm.initLayers = function(){
     'layerWeather',
      new OsmJs.Weather.LeafletLayer({lang: 'ru'}),
     'Погода (OpenWeatherMap)',
-    'W',
+    'w',
     false
   );
 
