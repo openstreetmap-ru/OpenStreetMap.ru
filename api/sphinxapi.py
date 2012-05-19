@@ -464,7 +464,12 @@ class SphinxClient:
 		"""
 		self._filters = []
 		self._anchor = {}
-
+		
+	def ResetOnlyFilter (self):
+		"""
+		Clear all filters (for multi-queries).
+		"""
+		self._filters = []
 
 	def ResetGroupBy (self):
 		"""

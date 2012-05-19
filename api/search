@@ -12,13 +12,13 @@ import db_config
 host = 'localhost'
 port = 3312
 listAddrType=['city','district','region']
+countlistAddrType=2
 q = ''
 q2 = ''
 
 mode=SPH_MATCH_EXTENDED2
 lat = 0
 lon = 0
-#accuracy = False
 
 output={}
 output['ver']='0.5'
@@ -40,7 +40,7 @@ def main():
     conn = psycopg2.connect(host=db_config.addr_host, database=db_config.addr_database, user=db_config.addr_user, password=db_config.addr_password)
     cur = conn.cursor()
     execute = """
-      SELECT full_name
+      SELECT region_id, district_id, city_id
       FROM ershkus_search_addr
       WHERE
         (geom && (ST_GeomFromText('POINT(%(lon)s %(lat)s)',4326))) AND ST_Covers(geom, (ST_GeomFromText('POINT(%(lon)s %(lat)s)',4326)))
@@ -49,9 +49,7 @@ def main():
     """ % {"lat":lat, "lon":lon, "addrType":addrType}
     cur.execute(execute)
     regeo=cur.fetchone()
-    if regeo == None:
-      return None
-    return regeo[0]
+    return regeo
     
   print "Content-type: text/javascript; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # debug
   #print "Content-type: application/json; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # production
@@ -59,7 +57,6 @@ def main():
   q = values.getfirst("q","")
   lat = float(values.getfirst("lat","0"))
   lon = float(values.getfirst("lon","0"))
-  #accuracy = bool(values.getfirst("accuracy",""))
   asis = bool(values.getfirst("asis",""))
   nolimit = bool(values.getfirst("nolimit",""))
   cnt = int(values.getfirst("cnt","12"))
@@ -103,14 +100,21 @@ def main():
       q2 = regeo(xAddrType)
       if q2 == None:
         continue
-      res = cl.Query(q + " " + q2)
+      i=countlistAddrType
+      cl.ResetOnlyFilter()
+      for n in q2:
+        if n <> None:
+          cl.SetFilter(listAddrType[i]+'_id',[n])
+        i=i-1
+      res = cl.Query(q)
       resQ=ifresult(res)
       if resQ > 10:
         return
       if resQ == 2:
         break
-      
+    
   if resQ == 1:
+    cl.ResetOnlyFilter()
     res = cl.Query(q)
     resQ2 = ifresult(res)
     if resQ2 > 10:
@@ -121,23 +125,21 @@ def main():
   
   if res.has_key('matches'):
     output['find']=True
-    #output['accuracy_find']=0
     outputdata=[]
     weight_min=(res['matches'][0]['weight']-100)
     for match in res['matches']:
       
-      #if (not accuracy) or (accuracy and match['weight']>weight_min) :
-      outputlen=match['attrs']
-      outputlen['id']=match['id']
-      outputlen['weight']=match['weight']
-      if not asis :
-        outputlen['display_name'] = outputlen['display_name'].replace('&','&amp;')
-        outputlen['display_name'] = outputlen['display_name'].replace('\"',"&quot;")
-        outputlen['display_name'] = outputlen['display_name'].replace('\'','&#039;')
-        outputlen['display_name'] = outputlen['display_name'].replace('<','&lt;')
-        outputlen['display_name'] = outputlen['display_name'].replace('>','&gt;')
-      outputdata.append(outputlen)
-        #output['accuracy_find']=1
+      if (match['weight']>weight_min) :
+        outputlen=match['attrs']
+        outputlen['id']=match['id']
+        outputlen['weight']=match['weight']
+        if not asis :
+          outputlen['display_name'] = outputlen['display_name'].replace('&','&amp;')
+          outputlen['display_name'] = outputlen['display_name'].replace('\"',"&quot;")
+          outputlen['display_name'] = outputlen['display_name'].replace('\'','&#039;')
+          outputlen['display_name'] = outputlen['display_name'].replace('<','&lt;')
+          outputlen['display_name'] = outputlen['display_name'].replace('>','&gt;')
+        outputdata.append(outputlen)
       
   output['matches']=outputdata
   
