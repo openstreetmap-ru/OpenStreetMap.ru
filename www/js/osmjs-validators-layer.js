@@ -122,7 +122,7 @@
       bounds = this.map.getBounds();
       sw = bounds.getSouthWest();
       ne = bounds.getNorthEast();
-      url = source.url.replace('{minlat}', sw.lat).replace('{maxlat}', ne.lat).replace('{minlon}', sw.lng).replace('{maxlon}', ne.lng);
+      url = source.url.replace('{minlat}', sw.lat).replace('{maxlat}', ne.lat).replace('{minlon}', sw.lng).replace('{maxlon}', ne.lng).replace('{filtered_types}', this.getErrorTypes(source).join(','));
       return this.sourceRequests[source.url] = Layer.Utils.request(url, source, function(data) {
         var layer, res, _i, _len, _ref;
         delete _this.sourceRequests[source.url];
@@ -138,6 +138,18 @@
         }
         return _this.map.addLayer(layer);
       });
+    },
+    getErrorTypes: function(source) {
+      var desc, type, _ref, _results;
+      _ref = source.types;
+      _results = [];
+      for (type in _ref) {
+        desc = _ref[type];
+        if (this.disabledErrors.indexOf(type) < 0) {
+          _results.push(type);
+        }
+      }
+      return _results;
     },
     buildResult: function(source, res) {
       var bounds, center, errorText, key, ne, obj, popupText, resLayer, sw, value, _i, _len, _ref, _ref1;
