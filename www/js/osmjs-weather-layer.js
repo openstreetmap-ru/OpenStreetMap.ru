@@ -114,8 +114,12 @@
       popupContent += "<p>" + weatherText + "</p>";
       popupContent += "<p>";
       popupContent += "" + this.i18n.currentTemperature + ":&nbsp;" + (this.toCelc(st.temp)) + "&nbsp;°C<br />";
-      popupContent += "" + this.i18n.maximumTemperature + ":&nbsp;" + (this.toCelc(st.temp_max)) + "&nbsp;°C<br />";
-      popupContent += "" + this.i18n.minimumTemperature + ":&nbsp;" + (this.toCelc(st.temp_min)) + "&nbsp;°C<br />";
+      if (st.temp_max) {
+        popupContent += "" + this.i18n.maximumTemperature + ":&nbsp;" + (this.toCelc(st.temp_max)) + "&nbsp;°C<br />";
+      }
+      if (st.temp_min) {
+        popupContent += "" + this.i18n.minimumTemperature + ":&nbsp;" + (this.toCelc(st.temp_min)) + "&nbsp;°C<br />";
+      }
       popupContent += "" + this.i18n.humidity + ":&nbsp;" + st.humidity + "<br />";
       popupContent += "" + this.i18n.wind + ":&nbsp;" + st.wind_ms + "&nbsp;m/s<br />";
       popupContent += "</p>";
@@ -226,11 +230,13 @@
         iconUrl: url,
         iconSize: new L.Point(60, 50),
         iconAnchor: new L.Point(30, 30),
+        shadowSize: new L.Point(0, 0),
         popupAnchor: new L.Point(0, -25),
         options: {
           iconUrl: url,
           iconSize: new L.Point(60, 50),
           iconAnchor: new L.Point(30, 30),
+          shadowSize: new L.Point(0, 0),
           popupAnchor: new L.Point(0, -25)
         }
       });
@@ -245,11 +251,13 @@
         iconUrl: url,
         iconSize: new L.Point(24, 24),
         iconAnchor: new L.Point(12, 12),
+        shadowSize: new L.Point(0, 0),
         popupAnchor: new L.Point(0, -12),
         options: {
           iconUrl: url,
           iconSize: new L.Point(23, 24),
           iconAnchor: new L.Point(12, 12),
+          shadowSize: new L.Point(0, 0),
           popupAnchor: new L.Point(0, -12)
         }
       });
