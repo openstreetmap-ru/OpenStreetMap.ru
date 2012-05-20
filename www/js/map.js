@@ -331,13 +331,20 @@ osm.initLayers = function(){
   );
 
   osm.registerLayer(
-    'layerWeather',
-     new OsmJs.Weather.LeafletLayer({lang: 'ru'}),
-    'Погода (OpenWeatherMap)',
+    'layerWeatherCities',
+     new OsmJs.Weather.LeafletLayer({type: 'city', lang: 'ru'}),
+    'Погода (OpenWeatherMap) - города',
     'w',
     false
   );
 
+  osm.registerLayer(
+    'layerWeatherStations',
+     new OsmJs.Weather.LeafletLayer({type: 'station', lang: 'ru'}),
+    'Погода (OpenWeatherMap) - станции',
+    's',
+    false
+  );
 
 }
 
