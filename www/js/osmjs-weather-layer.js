@@ -43,6 +43,7 @@
       this.sourceRequests = {};
       this.clusterWidth = this.options.clusterWidth || 150;
       this.clusterHeight = this.options.clusterHeight || 150;
+      this.type = this.options.type || 'city';
       this.i18n = this.options.i18n || this.defaultI18n[this.options.lang || 'en'];
       return Layer.Utils.checkSunCal();
     },
@@ -71,7 +72,7 @@
         req.abort();
       }
       this.sourceRequests = {};
-      return this.updateType('city');
+      return this.updateType(this.type);
     },
     updateType: function(type) {
       var bounds, ne, sw, url,
@@ -92,32 +93,41 @@
           ll = new L.LatLng(st.lat, st.lng);
           p = _this.map.latLngToLayerPoint(ll);
           key = "" + (Math.round(p.x / _this.clusterWidth)) + "_" + (Math.round(p.y / _this.clusterHeight));
-          if (!cells[key]) {
-            cells[key] = true;
-            _this.layer.addLayer(_this.buildMarker(type, st, ll));
+          if (!cells[key] || parseInt(cells[key].rang) < parseInt(st.rang)) {
+            cells[key] = st;
           }
+        }
+        for (key in cells) {
+          st = cells[key];
+          _this.layer.addLayer(_this.buildMarker(st, new L.LatLng(st.lat, st.lng)));
         }
         return _this.map.addLayer(_this.layer);
       });
     },
-    buildMarker: function(type, st, ll) {
-      var icon, marker, popupContent, text;
-      text = this.weatherText(st);
-      icon = this.weatherIcon(st);
+    buildMarker: function(st, ll) {
+      var marker, markerIcon, popupContent, typeIcon, weatherIcon, weatherText;
+      weatherText = this.weatherText(st);
+      weatherIcon = this.weatherIcon(st);
       popupContent = "<div class=\"weather-place\">";
-      popupContent += "<img height=\"38\" width=\"45\" style=\"border: none; float: right;\" alt=\"" + text + "\" src=\"" + icon + "\" />";
+      popupContent += "<img height=\"38\" width=\"45\" style=\"border: none; float: right;\" alt=\"" + weatherText + "\" src=\"" + weatherIcon + "\" />";
       popupContent += "<h3>" + st.name + "</h3>";
-      popupContent += "<p>" + text + "</p>";
+      popupContent += "<p>" + weatherText + "</p>";
       popupContent += "<p>";
-      popupContent += "" + this.i18n.currentTemperature + ": " + (this.toCelc(st.temp)) + " °C<br />";
-      popupContent += "" + this.i18n.maximumTemperature + ": " + (this.toCelc(st.temp_min)) + " °C<br />";
-      popupContent += "" + this.i18n.minimumTemperature + ": " + (this.toCelc(st.temp_max)) + " °C<br />";
-      popupContent += "" + this.i18n.humidity + ": " + st.humidity + "<br />";
-      popupContent += "" + this.i18n.wind + ": " + st.wind_ms + " m/s<br />";
+      popupContent += "" + this.i18n.currentTemperature + ":&nbsp;" + (this.toCelc(st.temp)) + "&nbsp;°C<br />";
+      if (st.temp_max) {
+        popupContent += "" + this.i18n.maximumTemperature + ":&nbsp;" + (this.toCelc(st.temp_max)) + "&nbsp;°C<br />";
+      }
+      if (st.temp_min) {
+        popupContent += "" + this.i18n.minimumTemperature + ":&nbsp;" + (this.toCelc(st.temp_min)) + "&nbsp;°C<br />";
+      }
+      popupContent += "" + this.i18n.humidity + ":&nbsp;" + st.humidity + "<br />";
+      popupContent += "" + this.i18n.wind + ":&nbsp;" + st.wind_ms + "&nbsp;m/s<br />";
       popupContent += "</p>";
       popupContent += "</div>";
+      typeIcon = this.typeIcon(st);
+      markerIcon = typeIcon ? Layer.Utils.buildTypeIcon(typeIcon) : Layer.Utils.buildWeatherIcon(weatherIcon);
       marker = new L.Marker(ll, {
-        icon: Layer.Utils.buildIcon(icon)
+        icon: markerIcon
       });
       marker.bindPopup(popupContent);
       return marker;
@@ -154,16 +164,25 @@
       }
       return "http://openweathermap.org/images/icons60/" + img + ".png";
     },
+    typeIcon: function(st) {
+      if (st.datatype === 'station') {
+        if (st.type === '1') {
+          return "http://openweathermap.org/images/list-icon-3.png";
+        } else if (st.type === '2') {
+          return "http://openweathermap.org/images/list-icon-2.png";
+        }
+      }
+    },
     weatherText: function(st) {
       if (st.prsp_type === '1') {
         if (st.prcp !== 0 && st.prcp > 0) {
-          return "" + this.i18n.snow + " ( " + st.prcp + " mm )";
+          return "" + this.i18n.snow + "&nbsp;(" + st.prcp + "&nbsp;mm)";
         } else {
           return this.i18n.snow_possible;
         }
       } else if (st.prsp_type === '2') {
         if (st.prcp !== 0 && st.prcp > 0) {
-          return "" + this.i18n.rime + " ( " + st.prcp + " mm )";
+          return "" + this.i18n.rime + "&nbsp;(" + st.prcp + "&nbsp;mm)";
         } else {
           return this.i18n.rime_possible;
         }
@@ -171,7 +190,7 @@
         return this.i18n.icerain;
       } else if (st.prsp_type === '4') {
         if (st.prcp !== 0 && st.prcp > 0) {
-          return "" + this.i18n.rain + " ( " + st.prcp + " mm )";
+          return "" + this.i18n.rain + "&nbsp;(" + st.prcp + "&nbsp;mm)";
         } else {
           return this.i18n.rain_possible;
         }
@@ -200,25 +219,49 @@
   Layer.Utils = {
     callbacks: {},
     callbackCounter: 0,
-    iconCache: {},
-    buildIcon: function(url) {
+    typeIconCache: {},
+    weatherIconCache: {},
+    buildWeatherIcon: function(url) {
       var iconClass;
-      if (this.iconCache[url]) {
-        return this.iconCache[url];
+      if (this.weatherIconCache[url]) {
+        return this.weatherIconCache[url];
       }
       iconClass = L.Icon.extend({
         iconUrl: url,
         iconSize: new L.Point(60, 50),
         iconAnchor: new L.Point(30, 30),
+        shadowSize: new L.Point(0, 0),
         popupAnchor: new L.Point(0, -25),
         options: {
           iconUrl: url,
-          iconSize: new L.Point(45, 45),
-          iconAnchor: new L.Point(23, 23),
+          iconSize: new L.Point(60, 50),
+          iconAnchor: new L.Point(30, 30),
+          shadowSize: new L.Point(0, 0),
           popupAnchor: new L.Point(0, -25)
         }
       });
-      return this.iconCache[url] = new iconClass();
+      return this.weatherIconCache[url] = new iconClass();
+    },
+    buildTypeIcon: function(url) {
+      var iconClass;
+      if (this.typeIconCache[url]) {
+        return this.typeIconCache[url];
+      }
+      iconClass = L.Icon.extend({
+        iconUrl: url,
+        iconSize: new L.Point(24, 24),
+        iconAnchor: new L.Point(12, 12),
+        shadowSize: new L.Point(0, 0),
+        popupAnchor: new L.Point(0, -12),
+        options: {
+          iconUrl: url,
+          iconSize: new L.Point(23, 24),
+          iconAnchor: new L.Point(12, 12),
+          shadowSize: new L.Point(0, 0),
+          popupAnchor: new L.Point(0, -12)
+        }
+      });
+      return this.typeIconCache[url] = new iconClass();
     },
     checkSunCal: function() {
       var el;
