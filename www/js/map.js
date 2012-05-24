@@ -332,7 +332,7 @@ osm.initLayers = function(){
 
   osm.registerLayer(
     'layerWeatherCities',
-     new OsmJs.Weather.LeafletLayer({type: 'city', lang: 'ru'}),
+     new OsmJs.Weather.LeafletLayer({type: 'city', lang: 'ru', temperatureDigits: 0}),
     'Погода (OpenWeatherMap) - города',
     'w',
     false
