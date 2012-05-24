@@ -140,6 +140,7 @@ function init() {
   osm.map.permalink = new L.Control.Permalink(osm.map.control_layers);
   osm.map.addControl(osm.map.permalink);
   osm.map.addControl(new L.Control.Zoom({shiftClick: true}));
+  osm.map.addControl(new L.Control.Distance());
   osm.markers.initialize();
   osm.markers.readMap();
   osm.validators.initialize();
@@ -332,7 +333,7 @@ osm.initLayers = function(){
 
   osm.registerLayer(
     'layerWeatherCities',
-     new OsmJs.Weather.LeafletLayer({type: 'city', lang: 'ru'}),
+     new OsmJs.Weather.LeafletLayer({type: 'city', lang: 'ru', temperatureDigits: 0}),
     'Погода (OpenWeatherMap) - города',
     'w',
     false
