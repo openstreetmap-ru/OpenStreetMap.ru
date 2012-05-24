@@ -13,13 +13,12 @@
       var div, span;
       div = document.createElement('div');
       div.className = 'leaflet-marker-icon weather-icon';
-      div.style['margin-left'] = '-30px';
-      div.style['margin-top'] = '-30px';
+      div.style['margin'] = '-30px 0px 0px -30px';
       div.style['width'] = '60px';
       div.style['height'] = '20px';
       div.style['padding'] = "" + this.options.textOffset + "px 0px 0px 0px";
       div.style['background'] = "url(" + this.options.image + ") no-repeat center top";
-      div.style['text-align'] = 'center';
+      div.style['textAlign'] = 'center';
       span = document.createElement('span');
       span.innerHTML = this.options.text;
       div.appendChild(span);

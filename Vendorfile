@@ -8,5 +8,3 @@ file 'www/js/osmjs-weather-layer.js', 'https://raw.github.com/alno/osm-js-libs/m
 file 'www/js/suncalc.js', 'https://raw.github.com/mourner/suncalc/master/suncalc-min.js'
 
 file 'www/js/osmjs-control-distance.js', 'https://raw.github.com/alno/osm-js-libs/leaflet-0.3/dist/distance/leaflet-control.js'
-file 'www/css/osmjs-control-distance.css', 'https://raw.github.com/alno/osm-js-libs/master/dist/distance/leaflet-control.css'
-file 'www/css/distance-icon.png', 'https://raw.github.com/alno/osm-js-libs/master/dist/distance/distance-icon.png'
