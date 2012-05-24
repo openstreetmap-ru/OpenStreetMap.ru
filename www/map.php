@@ -22,7 +22,6 @@ $page_head = <<<PHP_HEAD
   <script type="text/javascript" src="js/validators.js"></script>
   <script type="text/javascript" src="js/wpc.js"></script>
   <link rel="stylesheet" href="css/osb.css" />
-  <link rel="stylesheet" href="css/osmjs-control-distance.css" />
 PHP_HEAD;
 
 $page_topmenu = <<<PHP_TOPMENU
