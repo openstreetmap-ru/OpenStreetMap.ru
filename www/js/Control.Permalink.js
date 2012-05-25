@@ -181,6 +181,18 @@ L.Control.Layers.include({
 				return obj;
 		}
 	},
+		listCurrentOverlays: function() {
+        var result = [];
+        for (var i in this._layers) {
+            if (!this._layers.hasOwnProperty(i))
+                continue;
+            var obj = this._layers[i];
+            if (!obj.overlay) continue;
+            if (this._map.hasLayer(obj.layer))
+                result.push(obj);
+        }
+        return result;
+    },
 });
 
 L.UrlUtil = {
