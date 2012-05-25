@@ -708,9 +708,10 @@ div.leaflet-control-layers-expanded .leaflet-control-layers-toggle {
 .leaflet-control-container .leaflet-control-layers.leaflet-control {
   margin-top: 30px;
 }
-.leaflet-control-container .permalink {
+.leaflet-control-container .leaflet-control-permalink {
   top: 1.5em;
   z-index: 8;
+  margin-left: 5px !important;
 }
 
 /*
