@@ -7,19 +7,23 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 		cookieLifetime : 1000,
 		cookiePath : null,
 		permalinkZoom : 14,
+		permalinkUrl: null,
 		opacity : 0.7,
 		showOpen: true,
 		showClosed: true,
-		iconOpen: "img/osb/open_bug_marker.png",
-		iconClosed:"img/osb/closed_bug_marker.png",
-		iconActive:"img/osb/active_bug_marker.png",
-		//iconActive: undefined,
-		editArea: 0.001,
+		iconOpen: "http://openstreetbugs.schokokeks.org/client/open_bug_marker.png",
+		iconClosed:"http://openstreetbugs.schokokeks.org/client/closed_bug_marker.png",
+		iconActive: undefined,
+		editArea: 0.01,
+		popupOptions: {autoPan: false},
 	},
 
 	initialize : function(options)
 	{
-		L.Util.setOptions(this, options);
+		var tmp = L.Util.extend({}, this.options.popupOptions, (options || {}).popupOptions)
+		L.Util.setOptions(this, options)
+		this.options.popupOptions = tmp;
+
 		putAJAXMarker.layers.push(this);
 
 		this.bugs = {};
@@ -42,7 +46,6 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 			map.doubleClickZoom.disable();
 			map.on('dblclick', this.addBug, this);
 		}
-		osm.osbclick($_('mainmenupage-osb').children[0],true);
 	},
 
 	onRemove : function(map)
@@ -54,13 +57,12 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 			map.doubleClickZoom.enable();
 			map.off('dblclick', this.addBug, this);
 		}
-		osm.osbclick($_('mainmenupage-osb').children[0],false);
 	},
 
 	set_cookie : function(name, value)
 	{
 		var expires = (new Date((new Date()).getTime() + 604800000)).toGMTString(); // one week from now
-		document.cookie = name+"="+escape(value)+";expires="+expires+";";
+		document.cookie = name+"="+escape(value)+";";
 	},
 
 	get_cookie : function(name)
@@ -77,6 +79,9 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 
 	loadBugs : function()
 	{
+		//if(!this.getVisibility())
+		//	return true;
+
 		var bounds = this._map.getBounds();
 		if(!bounds) return false;
 		var sw = bounds.getSouthWest(), ne = bounds.getNorthEast();
@@ -124,22 +129,25 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 
 		var icon_url = null;
 		var class_popup = ' osb';
-		if (bug[2]) 
-		{
+		if (bug[2]) {
 			icon_url = this.options.iconClosed;
 			class_popup += ' osbClosed';
 		}
-		else if (bug[1].length == 1)
-		{
+		else if (bug[1].length == 1) {
 			icon_url = this.options.iconOpen;
 			class_popup += ' osbOpen';
 		}
-		else
-		{
-			icon_url = this.options.iconActive || this.options.iconOpen;
-			class_popup += ' osbActive';
+		else {
+		  if (this.options.iconActive) {
+		    icon_url = this.options.iconActive;
+		    class_popup += ' osbActive';
+		  }
+		  else {
+		    icon_url = this.options.iconOpen;
+		    class_popup += ' osbOpen';
+		  }
 		}
-		var feature = new L.Marker(bug[0], {icon:new this.osbIcon(icon_url)});
+		var feature = new L.Marker(bug[0], {icon:new this.osbIcon({iconUrl: icon_url})});
 		feature.osb = {id: id, closed: closed};
 		this.addLayer(feature);
 		this.bugs[id] = feature;
@@ -148,18 +156,27 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 
 		if (this.options.bugid && (parseInt(this.options.bugid) == id))
 			feature.openPopup();
+
+		//this.events.triggerEvent("markerAdded");
 	},
 
 	osbIcon :  L.Icon.extend({
-			iconSize: new L.Point(20, 20),
+		options: {
+			iconUrl: 'http://openstreetbugs.schokokeks.org/client/open_bug_marker.png',
+			iconSize: new L.Point(22, 22),
 			shadowSize: new L.Point(0, 0),
-			iconAnchor: new L.Point(10, 10),
-			popupAnchor: new L.Point(0, -10)
+			iconAnchor: new L.Point(11, 11),
+			popupAnchor: new L.Point(0, -11)
+		}
 	}),
 
 	setPopupContent: function(id) {
 		if(this.bugs[id]._popup_content)
 			return;
+
+		var el1,el2,el3;
+		var layer = this;
+
 		var rawbug = putAJAXMarker.bugs[id];
 		var isclosed = rawbug[2];
 
@@ -227,46 +244,31 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 			var a;
 			a = create_link(ul, "Add comment");
 			a.onclick = function(e) { return showComment("Add comment", true); }
+
 			a = create_link(ul, "Mark as Fixed");
 			a.onclick = function(e) { return showComment("Close bug", false); }
 		}
 		var a = create_link(ul, "JOSM");
-
-		var ydelta = this.options.editArea || 0.01;
-		var xdelta = ydelta * 2;
-		var p = [ 'left='  + (rawbug[0].lng - xdelta), 'bottom=' + (rawbug[0].lat - ydelta)
-			, 'right=' + (rawbug[0].lng + xdelta), 'top=' + (rawbug[0].lat + ydelta)];
-		var url = 'http://localhost:8111/load_and_zoom?' + p.join('&');
-		//var frame = L.DomUtil.create('iframe', null);
-		
-		a.href = url;
-		a.target = 'hiddenIframe';
-		
-		/*frame.style.display = 'none';
-		frame.src = url;
-		document.body.appendChild(frame);
-		frame.onload = function(e) { document.body.removeChild(frame); };*/
-		
-		//a.onclick = function() { _this.remoteEdit(rawbug[0]); };
+		a.onclick = function() { _this.remoteEdit(rawbug[0]); };
 
 		var a = create_link(ul, "Link");
-		a.href = location.protocol + '//' + location.host + location.pathname +
-				L.Util.getParamString({lat:rawbug[0].lat
-						      ,lon:rawbug[0].lng
-						      ,zoom:this.options.permalinkZoom
-						      ,bugid:id
-						      })
+		var vars = {lat:rawbug[0].lat, lon:rawbug[0].lng, zoom:this.options.permalinkZoom, bugid:id}
+		if (this.options.permalinkUrl)
+			a.href = L.Util.template(this.options.permalinkUrl, vars)
+		else
+			a.href = location.protocol + '//' + location.host + location.pathname +
+				L.Util.getParamString(vars)
+
+
 		bug._popup_content = newContent;
-		bug.bindPopup(newContent);
-		bug._popup.options.autoPan = false;
+		bug.bindPopup(newContent, this.options.popupOptions);
 		bug._popup.options.maxWidth=410;
 		bug._popup.options.minWidth=410;
 		bug.on('mouseover', bug.openTempPopup, bug);
 	},
 
-	submitComment: function(form, isClose) {
-		isClose = isClose || false;
-		if (!form.osbcomment.value && !isClose) return;
+	submitComment: function(form) {
+		if (!form.osbcomment.value) return;
 		var nickname = form.osbnickname.value || this.options.username;
 		this.apiRequest("editPOIexec"
 			+ "?id="+encodeURIComponent(form.osbid.value)
@@ -278,9 +280,10 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 	},
 
 	closeBug: function(form) {
-		this.submitComment(form, true);
+		var id = form.osbid.value;
+		this.submitComment(form);
 		this.apiRequest("closePOIexec"
-			+ "?id="+encodeURIComponent(form.osbid.value)
+			+ "?id="+encodeURIComponent(id)
 			+ "&format=js", true
 		);
 	},
@@ -439,21 +442,23 @@ putAJAXMarker.layers = [ ];
 putAJAXMarker.bugs = { };
 
 L.Marker.include({
-  openTempPopup: function() {
-  this.openPopup();
-  this.off('click', this.openPopup, this);
-  function onclick() {
-    this.off('mouseout', onout, this);
-    this.off('click', onclick, this);
-    this.on('click', this.openPopup, this)
-  }
-  function onout() {
-    onclick.call(this);
-    this.closePopup();
-  };
-  this.on("mouseout", onout, this);
-  this.on("click", onclick, this);
-  },
+	openTempPopup: function() {
+		this.openPopup();
+		this.off('click', this.openPopup, this);
+
+		function onclick() {
+			this.off('mouseout', onout, this);
+			this.off('click', onclick, this);
+			this.on('click', this.openPopup, this)
+		}
+
+		function onout() {
+			onclick.call(this);
+			this.closePopup();
+		};
+		this.on("mouseout", onout, this);
+		this.on("click", onclick, this);
+	},
 });
 
 L.i18n = function(s) { return (L.i18n.lang[L.i18n.current] || {})[s] || s; }

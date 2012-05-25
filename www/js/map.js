@@ -137,7 +137,6 @@ function init() {
 
   osm.map.addControl(new L.Control.Scale({width: 100, position: 'bottomleft'}));
 
-
   osm.map.permalink = new L.Control.Permalink(osm.map.control_layers,{markerOptions:L.Icon.Default.imagePath='/img'});
   osm.map.addControl(osm.map.permalink);
   osm.map.addControl(new L.Control.Zoom({shiftClick: true}));
@@ -267,7 +266,7 @@ osm.initLayers = function(){
 
   osm.registerLayer(
     'osb',
-    new L.OpenStreetBugs(),
+    new L.OpenStreetBugs({iconOpen:"img/osb/open_bug_marker.png",iconClosed:"img/osb/closed_bug_marker.png",iconActive:"img/osb/active_bug_marker.png"}),
     'Ошибки на карте',
     'U',
     false
