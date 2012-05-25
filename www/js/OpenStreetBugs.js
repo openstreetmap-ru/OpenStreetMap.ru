@@ -46,6 +46,7 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 			map.doubleClickZoom.disable();
 			map.on('dblclick', this.addBug, this);
 		}
+		osm.osbclick($_('mainmenupage-osb').children[0],true);
 	},
 
 	onRemove : function(map)
@@ -57,6 +58,7 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 			map.doubleClickZoom.enable();
 			map.off('dblclick', this.addBug, this);
 		}
+		osm.osbclick($_('mainmenupage-osb').children[0],false);
 	},
 
 	set_cookie : function(name, value)

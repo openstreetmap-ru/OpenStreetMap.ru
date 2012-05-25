@@ -266,7 +266,7 @@ osm.initLayers = function(){
 
   osm.registerLayer(
     'osb',
-    new L.OpenStreetBugs({iconOpen:"img/osb/open_bug_marker.png",iconClosed:"img/osb/closed_bug_marker.png",iconActive:"img/osb/active_bug_marker.png"}),
+    new L.OpenStreetBugs({iconOpen:"img/osb/open_bug_marker.png", iconClosed:"img/osb/closed_bug_marker.png", iconActive:"img/osb/active_bug_marker.png", editArea:0.001}),
     'Ошибки на карте',
     'U',
     false
