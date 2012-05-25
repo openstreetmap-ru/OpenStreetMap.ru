@@ -7,4 +7,4 @@ file 'www/js/osmjs-validators-sources.js', 'https://raw.github.com/alno/osm-js-l
 file 'www/js/osmjs-weather-layer.js', 'https://raw.github.com/alno/osm-js-libs/master/dist/weather/leaflet-layer.js'
 file 'www/js/suncalc.js', 'https://raw.github.com/mourner/suncalc/master/suncalc-min.js'
 
-file 'www/js/osmjs-control-distance.js', 'https://raw.github.com/alno/osm-js-libs/leaflet-0.3/dist/distance/leaflet-control.js'
+file 'www/js/osmjs-control-distance.js', 'https://raw.github.com/alno/osm-js-libs/leaflet-dev/dist/distance/leaflet-control.js'
