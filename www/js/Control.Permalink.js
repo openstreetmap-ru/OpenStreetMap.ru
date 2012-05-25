@@ -1,9 +1,9 @@
-L.Control.Permalink = L.Class.extend({
+L.Control.Permalink = L.Control.extend({
 	options: {
-		position: L.Control.Position.BOTTOM_LEFT,
+		position: "bottomleft",
 		useAnchor: true,
 		useMarker: true,
-		markerOptions: {}
+		markerOptions: {},
 	},
 
 	initialize: function(layers, options) {
@@ -15,7 +15,7 @@ L.Control.Permalink = L.Class.extend({
 	},
 
 	onAdd: function(map) {
-		this._container = L.DomUtil.create('div', 'leaflet-control-attribution permalink');
+		this._container = L.DomUtil.create('div', 'leaflet-control-attribution leaflet-control-permalink');
 		L.DomEvent.disableClickPropagation(this._container);
 		map.on('moveend', this._update_center, this);
 		map.on('layeradd', this._update_layers, this);
@@ -24,7 +24,7 @@ L.Control.Permalink = L.Class.extend({
 		this._href = L.DomUtil.create('a', null, this._container);
 		this._href.innerHTML = "Permalink";
 		this._set_center(this._params);
-		this._set_marker(this._params, true);
+		this._set_marker(this._params);
 		this._update_layers();
 		this._update_center();
 
@@ -33,64 +33,41 @@ L.Control.Permalink = L.Class.extend({
 			window.onhashchange = function() {
 				_this._set_urlvars();
 				_this._set_center(_this._params, true);
-				_this._set_marker(_this._params, true);
+				_this._set_marker(_this._params);
 				if (fn) return fn();
 			}
 		}
-	},
 
-	getPosition: function() {
-		return this.options.position;
-	},
-
-	getContainer: function() {
 		return this._container;
 	},
 
 	_update_center: function() {
 		if (!this._map) return;
-		this._update_href();
-	},
 
-	_generate_url: function(params) {
-		var link = L.Util.getParamString(params);
-		var sep = '?';
-		if (this.options.useAnchor) sep = '#';
-		return this._url_base + sep + link.slice(1);
-	},
-
-	_update_href: function() {
-		this.get_params();
-		this._href.setAttribute('href', this._generate_url(this._params));
-	},
-
-	_update_layers: function() {
-		if (!this._layers) return;
-		
-		var layer = this._layers.currentBaseLayer();
-		if (layer) this._params['layer'] = (this._layers.options.layerHashes == null) ? layer.name : this._layers.options.layerHashes[layer.name];
-		for(x in osm.map.control_layers._layers) {
-			if (osm.map.control_layers._layers[x].overlay) {
-				if (this._map.hasLayer(osm.map.control_layers._layers[x].layer)) {
-					if (this._layers.options.layerHashes == null)
-						this._params['layer'] += ',' + osm.map.control_layers._layers[x].name;
-					else
-						this._params['layer'] += this._layers.options.layerHashes[osm.map.control_layers._layers[x].name];
-				}
-			}
-		}
-		this._update_href();
-	},
-	
-	get_params: function () {
 		var center = this._map.getCenter();
 		center = this._round_point(center);
 		this._params['zoom'] = this._map.getZoom();
 		this._params['lat'] = center.lat;
 		this._params['lon'] = center.lng;
+		this._update_href();
 	},
 
-	_round_point: function(point) {
+	_update_href: function() {
+		var params = L.Util.getParamString(this._params);
+		var sep = '?';
+		if (this.options.useAnchor) sep = '#';
+		this._href.setAttribute('href', this._url_base + sep + params.slice(1))
+	},
+
+	_update_layers: function() {
+		if (!this._layers) return;
+		var layer = this._layers.currentBaseLayer();
+		if (layer)
+			this._params['layer'] = layer.name;
+		this._update_href();
+	},
+
+	_round_point : function(point) {
 		var bounds = this._map.getBounds(), size = this._map.getSize();
 		var ne = bounds.getNorthEast(), sw = bounds.getSouthWest();
 
@@ -151,80 +128,46 @@ L.Control.Permalink = L.Class.extend({
 	{
 		if (!force && this._centered) return;
 		if (params.zoom == undefined ||
-				params.lat == undefined ||
-				params.lon == undefined) return;
+		    params.lat == undefined ||
+		    params.lon == undefined) return;
 		this._centered = true;
 		this._map.setView(new L.LatLng(params.lat, params.lon), params.zoom);
 		if (params.layer && this._layers)
 			this._layers.chooseBaseLayer(params.layer);
 	},
 
-	_set_marker: function(params, center)
+	_set_marker: function(params)
 	{
 		if (this._marker)
 			this._map.removeLayer(this._marker);
 		this._marker = null;
-		if ((params.marker != '1' || !this._centered || !this.options.useMarker) && center) return;
+		if (params.marker != '1' || !this._centered || !this.options.useMarker) return;
 		this._marker = new L.Marker(new L.LatLng(params.lat, params.lon), this.options.markerOptions);
 		this._map.addLayer(this._marker);
-		var popup = this._marker.bindPopup('<a href="'+this._generate_url(params)+'">Ссылка на маркер</a>');
-		if (!center)
-			popup.openPopup();
-	},
-
-	_popup_marker: function(latlng) {
-		latlng = this._round_point(latlng);
-		//copy simple obj
-		this.get_params();
-		var params = {};
-		for (i in this._params)
-			params[i] = this._params[i];
-
-		params.lat = latlng.lat;
-		params.lon = latlng.lng;
-		params.marker = 1;
-
-		this._set_marker(params, false);
 	}
 });
 
 L.Control.Layers.include({
 	chooseBaseLayer: function(name) {
-		var obj;
-		var layers = new Array();
-		var names = [];
-
-		if (this.options.layerHashes == null || name.indexOf(',') != -1)
-			names = name.split(',');
-		else {
-			var layerName;
-			for(var i = 0; i < name.length; i++)
-				if (layerName = this._get_layername_by_hash(name.charAt(i)))
-					names.push(layerName);
+		var layer, obj;
+		for (var i in this._layers) {
+			if (!this._layers.hasOwnProperty(i))
+				continue;
+			obj = this._layers[i];
+			if (!obj.overlay && obj.name == name)
+				layer = obj.layer;
 		}
-
-		for (var n in names) {
-			for (var i in this._layers) {
-				if (!this._layers.hasOwnProperty(i))
-					continue;
-				obj = this._layers[i];
-				if (obj.name == names[n])
-					layers.push(obj.layer);
-			}
-		}
-		if (!layers || !layers.length)
+		if (!layer || this._map.hasLayer(layer))
 			return;
 
 		for (var i in this._layers) {
 			if (!this._layers.hasOwnProperty(i))
 				continue;
 			obj = this._layers[i];
-			if (layers.indexOf(obj.layer) === -1 ) //remove only unneeded layers
-				this._map.removeLayer(obj.layer);
+			if (!obj.overlay && this._map.hasLayer(obj.layer))
+				this._map.removeLayer(obj.layer)
 		}
-		for (l in layers) {
-			this._map.addLayer(layers[l]); // map control does not add existing layers itself
-		}
+		this._map.addLayer(layer)
 		this._update();
 	},
 
@@ -238,37 +181,16 @@ L.Control.Layers.include({
 				return obj;
 		}
 	},
-	
-	listCurrentOverlays: function() {
-        var result = [];
-        for (var i in this._layers) {
-            if (!this._layers.hasOwnProperty(i))
-                continue;
-            var obj = this._layers[i];
-            if (!obj.overlay) continue;
-            if (this._map.hasLayer(obj.layer))
-                result.push(obj);
-        }
-        return result;
-    },
-
-	_get_layername_by_hash: function(hash) {
-		if (this.options.layerHashes != null)
-			for (h in this.options.layerHashes)
-				if (this.options.layerHashes[h] == hash)
-					return h;
-		return false;
-	}
 });
 
 L.UrlUtil = {
 	queryParse: function(s) {
 		var p = {};
-    var sep = "&";
-    if (s.search("&amp;") != -1)
-        sep = "&amp;";
-    var params = s.split(sep);
-    for(var i = 0; i < params.length; i++) {
+		var sep = "&";
+		if (s.search("&amp;") != -1)
+			sep = "&amp;";
+		var params = s.split(sep);
+		for(var i = 0; i < params.length; i++) {
 			var tmp = params[i].split('=');
 			if (tmp.length != 2) continue;
 			p[tmp[0]] = tmp[1];
