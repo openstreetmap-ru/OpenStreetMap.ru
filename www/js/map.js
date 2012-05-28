@@ -264,9 +264,11 @@ osm.initLayers = function(){
     false
   );
 
+  fnOnAdd = function(){osm.osbclick($_('mainmenupage-osb').children[0],true);};
+  fnOnRemove = function(){osm.osbclick($_('mainmenupage-osb').children[0],false);};
   osm.registerLayer(
     'osb',
-    new L.OpenStreetBugs({iconOpen:"img/osb/open_bug_marker.png", iconClosed:"img/osb/closed_bug_marker.png", iconActive:"img/osb/active_bug_marker.png", editArea:0.001}),
+    new L.OpenStreetBugs({fnOnAdd: fnOnAdd, fnOnRemove: fnOnRemove, iconOpen:"img/osb/open_bug_marker.png", iconClosed:"img/osb/closed_bug_marker.png", iconActive:"img/osb/active_bug_marker.png", editArea:0.001}),
     'Ошибки на карте',
     'U',
     false
