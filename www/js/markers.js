@@ -148,6 +148,7 @@ osm.markers.createPath = function(e) { // todo: move it to PersonalLine?
       osm.markers._removeHandlers();
     }
   }
+  osm.markers._newPath.refreshPath();
 }
 osm.markers.mouseMovePath = function(event){
   var points = osm.markers._newPath.getLatLngs();
@@ -440,6 +441,10 @@ PersonalLineEditable = PersonalLine.extend({
 
     this._pl_name = osm.markers.decodehtml(this._pl_name);
     this._pl_description = osm.markers.decodehtml(this._pl_description);
+  },
+  refreshPath: function() {
+    osm.markers._layerGroup.removeLayer(this);
+    osm.markers._layerGroup.addLayer(this);
   },
   remove: function() {
     if (this._popup) this._popup._close();
