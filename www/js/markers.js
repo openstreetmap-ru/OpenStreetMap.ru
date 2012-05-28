@@ -1,3 +1,11 @@
+MarkerIcon = L.Icon.Default.extend({
+  createIcon: function() {
+    var img = this._createIcon(this.options.markerColor);
+    this._setIconStyles(img, 'icon');
+    return img;
+  }
+});
+
 osm.markers = {
   _drawingMode: 0,// 0 - nothing, 1 - marker (single, permalink), 2 - multimarker, 3 - line
   _layerGroup: 0,
@@ -7,12 +15,12 @@ osm.markers = {
     lines: []
   },
   _icons: [
-    new L.Icon('/img/marker.png'),
-    new L.Icon('/img/marker-red.png'),
-    new L.Icon('/img/marker-green.png'),
-    new L.Icon('/img/marker-yellow.png'),
-    new L.Icon('/img/marker-violet.png'),
-    new L.Icon('/img/marker-orange.png')
+    new MarkerIcon({markerColor:'icon'}),
+    new MarkerIcon({markerColor:'red'}),
+    new MarkerIcon({markerColor:'green'}),
+    new MarkerIcon({markerColor:'yellow'}),
+    new MarkerIcon({markerColor:'violet'}),
+    new MarkerIcon({markerColor:'orange'})
   ],
   _line_color: [
     '#0033FF',
@@ -138,7 +146,6 @@ osm.markers.createPath = function(e) { // todo: move it to PersonalLine?
     osm.markers._newPath.addLatLng(e.latlng);
 //    osm.map.doubleClickZoom.disable();
     $('#map').mousemove(osm.markers.mouseMovePath);
-    // TODO: add enable editing after moving to Leaflet 0.4
   }
   if (osm.markers._newPath.getLatLngs().length > 2) {
     var points = osm.markers._newPath.getLatLngs();
@@ -149,12 +156,13 @@ osm.markers.createPath = function(e) { // todo: move it to PersonalLine?
       osm.markers._removeHandlers();
     }
   }
+  osm.markers._newPath.refreshPath();
 }
 osm.markers.mouseMovePath = function(event){
   var points = osm.markers._newPath.getLatLngs();
   var coord = osm.map.mouseEventToLatLng(event);
   points[points.length-1] = coord;
-  osm.markers._newPath._redraw(); //TODO: change _redraw to redraw after moving to Leaflet 0.4
+  osm.markers._newPath.redraw();
 }
 
 // TODO: when IE whould support placeholder attribute for input elements - remove that
@@ -305,7 +313,7 @@ osm.markers.readMap = function() {
             p.loadEditableMarker();
         }
       }
-    } // TODO: add failure handler
+    }
   }).fail(function (jqXHR, textStatus) {
     alert("Произошла ошибка при чтении карты");
   });
@@ -400,7 +408,8 @@ PersonalMarkerEditable = PersonalMarker.extend({
 
 PersonalLine = L.Polyline.extend({
   initialize: function(points, details) {
-    this.setLatLngs(points);
+    L.Polyline.prototype.initialize.call(this, points, details);
+    //this.setLatLngs(points);
     this.addToLayerGroup();
     this.fillDetails(details);
     if (this._pl_name || this._pl_description) {
@@ -434,11 +443,16 @@ PersonalLine = L.Polyline.extend({
 });
 PersonalLineEditable = PersonalLine.extend({
   initialize: function(points, details) {
-    this.setLatLngs(points);
-    this.fillDetails(details);
-    this.addToLayerGroup();
+    PersonalLine.prototype.initialize.call(this, points, details);
+    
+    this.editing.enable();
+
     this._pl_name = osm.markers.decodehtml(this._pl_name);
     this._pl_description = osm.markers.decodehtml(this._pl_description);
+  },
+  refreshPath: function() {
+    osm.markers._layerGroup.removeLayer(this);
+    osm.markers._layerGroup.addLayer(this);
   },
   remove: function() {
     if (this._popup) this._popup._close();
@@ -450,7 +464,7 @@ PersonalLineEditable = PersonalLine.extend({
     var points = this.getLatLngs();
     if (truncate) {
       points.pop();
-      this._redraw();//->redraw in Leaflet 0.4
+      this.redraw();
     }
     if (points.length < 2) {
       this.remove();
