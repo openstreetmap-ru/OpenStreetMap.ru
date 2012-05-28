@@ -50,9 +50,9 @@ L.Control.Distance = L.Control.extend({
 	onRemove: function(map) {
 		this._calc_disable();
 	},
-
+	
 	_calc_enable: function() {
-		this._map.on('click', this._add_point, this);
+		map.on('click', this._add_point, this);
 
 		this._map.getContainer().style.cursor = 'crosshair';
 		this._map.addLayer(this._line);
