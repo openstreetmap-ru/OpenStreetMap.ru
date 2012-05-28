@@ -1,3 +1,11 @@
+MarkerIcon = L.Icon.Default.extend({
+  createIcon: function() {
+    var img = this._createIcon(this.options.markerColor);
+    this._setIconStyles(img, 'icon');
+    return img;
+  }
+});
+
 osm.markers = {
   _drawingMode: 0,// 0 - nothing, 1 - marker (single, permalink), 2 - multimarker, 3 - line
   _layerGroup: 0,
@@ -7,12 +15,12 @@ osm.markers = {
     lines: []
   },
   _icons: [
-    new L.Icon(L.Icon.Default.extend({iconUrl:'/img/marker-icon.png'})),
-    new L.Icon(L.Icon.Default.extend({iconUrl:'/img/marker-red.png'})),
-    new L.Icon('/img/marker-green.png'),
-    new L.Icon('/img/marker-yellow.png'),
-    new L.Icon('/img/marker-violet.png'),
-    new L.Icon('/img/marker-orange.png')
+    new MarkerIcon({markerColor:'icon'}),
+    new MarkerIcon({markerColor:'red'}),
+    new MarkerIcon({markerColor:'green'}),
+    new MarkerIcon({markerColor:'yellow'}),
+    new MarkerIcon({markerColor:'violet'}),
+    new MarkerIcon({markerColor:'orange'})
   ],
   _line_color: [
     '#0033FF',
@@ -341,7 +349,7 @@ PersonalMarker = L.Marker.extend({ // simple marker without editable functions
     if (isNaN(parseFloat(colorIndex)) || !isFinite(colorIndex) ||
       colorIndex < 0 || colorIndex >= osm.markers._icons.length )
       colorIndex = 0;
-    //this.setIcon(osm.markers._icons[colorIndex]);
+    this.setIcon(osm.markers._icons[colorIndex]);
     this._pm_icon_color = colorIndex;
   }
 });
@@ -349,7 +357,7 @@ PersonalMarker = L.Marker.extend({ // simple marker without editable functions
 PersonalMarkerEditable = PersonalMarker.extend({
   initialize: function(coords, details) {
     this.setLatLng(coords);
-    //this.setIcon(osm.markers._icons[0]);
+    this.setIcon(osm.markers._icons[0]);
     this.fillDetails(details);
     // fix html entities for editable markers
     this._pm_name = osm.markers.decodehtml(this._pm_name);
