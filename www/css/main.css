@@ -944,7 +944,7 @@ background-color: rgba(255, 255, 255, 0.75);
 .leaflet-control-distance a {
 width: 16px;
 height: 16px;
-display: inline-block;
+display: block;
 margin: 0px;
 }
 
