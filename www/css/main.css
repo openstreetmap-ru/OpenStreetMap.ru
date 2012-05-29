@@ -944,8 +944,7 @@ background-color: rgba(255, 255, 255, 0.75);
 .leaflet-control-distance a {
 width: 16px;
 height: 16px;
-display: block; /* for browesers not supporting inline-block */
-display: inline-block;
+display: block;
 }
 
 .leaflet-control-distance div {
@@ -957,11 +956,13 @@ white-space: nowrap;
 
 .leaflet-control-distance-edit {
 background-image: url('/img/distance-icon.png');
+float: left;
 }
 
-.leaflet-control-distance-delete {
+a.leaflet-control-distance-delete {
 margin-left: 5px;
 background-image: url('/img/cross.png'); /* http://www.famfamfam.com/ */
+display: inline-block;
 }
 
 a.leaflet-control-distance-active {
