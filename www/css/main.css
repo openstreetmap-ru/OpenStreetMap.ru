@@ -944,14 +944,15 @@ background-color: rgba(255, 255, 255, 0.75);
 .leaflet-control-distance a {
 width: 16px;
 height: 16px;
-display: block;
-margin: 0px;
+display: block; /* for browesers not supporting inline-block */
+display: inline-block;
 }
 
 .leaflet-control-distance div {
 color: #333;
 height: 16px;
 margin-top: 5px;
+white-space: nowrap;
 }
 
 .leaflet-control-distance-edit {
