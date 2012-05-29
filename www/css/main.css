@@ -794,30 +794,8 @@ div.page-about .center .footnote{
   padding: 0px;
   margin: 3px;
   line-height: 13px;
-  color: white;
   float: left;
   cursor: pointer;
-}
-.colour-picker-button-blue {
-  background: #0033FF;
-}
-.colour-picker-button-green {
-  background: #22dd44;
-  color: #000000;
-}
-.colour-picker-button-red {
-  background: #F21D53;
-}
-.colour-picker-button-yellow {
-  background: #F1E415;
-  color: #000000;
-}
-.colour-picker-button-violet {
-  background: #9B5BA0;
-}
-.colour-picker-button-orange {
-  background: #E48530;
-  color: #000000;
 }
 .default-input, .default-input-focused {
   font-size: 14px;

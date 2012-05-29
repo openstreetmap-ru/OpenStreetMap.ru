@@ -14,22 +14,16 @@ osm.markers = {
     points: [],
     lines: []
   },
-  _icons: [
-    new MarkerIcon({markerColor:'icon'}),
-    new MarkerIcon({markerColor:'red'}),
-    new MarkerIcon({markerColor:'green'}),
-    new MarkerIcon({markerColor:'yellow'}),
-    new MarkerIcon({markerColor:'violet'}),
-    new MarkerIcon({markerColor:'orange'})
+  _color_array: [
+    {image:'icon',   color:'#0033FF', text:'white'},
+    {image:'red',    color:'#F21D53', text:'white'},
+    {image:'green',  color:'#22DD44', text:'black'},
+    {image:'yellow', color:'#F1E415', text:'black'},
+    {image:'violet', color:'#9B5BA0', text:'white'},
+    {image:'orange', color:'#E48530', text:'black'}
   ],
-  _line_color: [
-    '#0033FF',
-    '#F21D53',
-    '#22dd44',
-    '#F1E415',
-    '#9B5BA0',
-    '#E48530'
-  ],
+  _icons: [],
+  _line_color: [],
   _admin: {
     hash: '',
     id: -1,
@@ -39,6 +33,22 @@ osm.markers = {
 osm.markers.initialize = function() {
   osm.markers._layerGroup = new L.LayerGroup();
   osm.map.addLayer(osm.markers._layerGroup);
+  // color generation enhanced
+  var icons = [];
+  var lines = [];
+  var buttons="";
+  var replacable = "<div class='colour-picker-button' style='background:{{bg}};color:{{text}}' onClick='$$$.toggleCheck({{i}});'>&#x2713;</div>";
+  for (var i=0;i<osm.markers._color_array.length;i++) {
+    var c = osm.markers._color_array[i];
+    icons.push(new MarkerIcon({markerColor:c.image}));
+    lines.push(c.color);
+    var str = replacable.replace(/{{bg}}/, c.color).replace(/{{text}}/,c.text).replace(/{{i}}/,i);
+    if (i!=0) str = str.replace("&#x2713;","");
+    buttons+=str;
+  }
+  osm.markers._icons = icons;
+  osm.markers._line_color = lines;
+  $(".colour-picker").each(function(){$(this).html(buttons)});
 }
 osm.markers.decodehtml = function(s) {
   if(s) return $("<div/>").html(s).text(); else return s;

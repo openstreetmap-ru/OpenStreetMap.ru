@@ -117,13 +117,8 @@ $page_content = <<<PHP_CONTENT
     <table cellspacing="0" cellpadding="0" border="0" id="marker_popup_###">
       <tr><td><input id="marker_name_###" type="text" value="Имя..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()"/></td></tr>
       <tr><td><textarea id="marker_description_###" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()">Описание...</textarea></td></tr>
-      <tr><td>
-        <div class='colour-picker-button colour-picker-button-blue' onClick="$$$.toggleCheck(0);">&#x2713;</div>
-        <div class='colour-picker-button colour-picker-button-red' onClick="$$$.toggleCheck(1);"></div>
-        <div class='colour-picker-button colour-picker-button-green' onClick="$$$.toggleCheck(2);"></div>
-        <div class='colour-picker-button colour-picker-button-yellow' onClick="$$$.toggleCheck(3);"></div>
-        <div class='colour-picker-button colour-picker-button-violet' onClick="$$$.toggleCheck(4);"></div>
-        <div class='colour-picker-button colour-picker-button-orange' onClick="$$$.toggleCheck(5);"></div>
+      <tr><td class='colour-picker'>
+        <!-- <div class='colour-picker-button' style='background:{{bg}};color:{{text}}' onClick='$$$.toggleCheck({{i}});'>&#x2713;</div> - see markers.js for replacement -->
       </td></tr>
       <tr><td><a href="#" class="button" onClick="$$$.remove();return false">Delete</a>
       </td></tr>
@@ -145,13 +140,7 @@ $page_content = <<<PHP_CONTENT
     <table cellspacing="0" cellpadding="0" border="0" id="line_popup_###">
       <tr><td><input id="line_name_###" type="text" value="Имя..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()"/></td></tr>
       <tr><td><textarea id="line_description_###" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()">Описание...</textarea></td></tr>
-      <tr><td>
-        <div class='colour-picker-button colour-picker-button-blue' onClick="$$$.toggleCheck(0);">&#x2713;</div>
-        <div class='colour-picker-button colour-picker-button-red' onClick="$$$.toggleCheck(1);"></div>
-        <div class='colour-picker-button colour-picker-button-green' onClick="$$$.toggleCheck(2);"></div>
-        <div class='colour-picker-button colour-picker-button-yellow' onClick="$$$.toggleCheck(3);"></div>
-        <div class='colour-picker-button colour-picker-button-violet' onClick="$$$.toggleCheck(4);"></div>
-        <div class='colour-picker-button colour-picker-button-orange' onClick="$$$.toggleCheck(5);"></div>
+      <tr><td class='colour-picker'>
       </td></tr>
       <tr><td><a href="#" class="button" onClick="$$$.remove();return false">Delete</a>
       </td></tr>
