@@ -147,7 +147,6 @@ function init() {
 
   osm.createTools();
   search.inLoad();
-  osm.setLinkOSB();
 
   osm.goToOSM = new L.Control.GoToOSM(osm.obTools);
   osm.goToOSM.connectToMap(osm.map);
@@ -158,6 +157,9 @@ function init() {
   osm.map.on('layerremove', osm.saveLocation);
   osm.map.on('moveend', osm.editUpdate);
 
+  osm.layers.osb.on('add', function(){osm.osbclick($_('mainmenupage-osb').children[0],true,this);});
+  osm.layers.osb.on('remove', function(){osm.osbclick($_('mainmenupage-osb').children[0],false,this);});
+  osm.setLinkOSB();
 
   $('#mainmenu .current li').removeClass('active');
   $('#mainmenu .current li.search').addClass('active');
@@ -264,11 +266,9 @@ osm.initLayers = function(){
     false
   );
 
-  fnOnAdd = function(){osm.osbclick($_('mainmenupage-osb').children[0],true);};
-  fnOnRemove = function(){osm.osbclick($_('mainmenupage-osb').children[0],false);};
   osm.registerLayer(
     'osb',
-    new L.OpenStreetBugs({OneClick: true, fnOnAdd: fnOnAdd, fnOnRemove: fnOnRemove, iconOpen:"img/osb/open_bug_marker.png", iconClosed:"img/osb/closed_bug_marker.png", iconActive:"img/osb/active_bug_marker.png", editArea:0.001}),
+    new L.OpenStreetBugs({dblClick: false, iconOpen:"img/osb/open_bug_marker.png", iconClosed:"img/osb/closed_bug_marker.png", iconActive:"img/osb/active_bug_marker.png", editArea:0.001}),
     'Ошибки на карте',
     'U',
     false
