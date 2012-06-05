@@ -28,7 +28,7 @@ $page_content = <<<PHP_CONTENT
 		    
 			<ul class="programms">
 				<li class="p1"><a href="http://gis-lab.info/data/mp"><img width="88" height="24" alt="Карты для навигаторов Garmin" src="img/v1/logo_garmin.gif"></a></li>
-				<li class="p2"><a href="http://peirce.gis-lab.info/daily.php"><img src="img/v1/logo_cityguide.gif" alt="Карты для программы СитиГид" width="88" height="31" /></a></li>
+				<li class="p2"><a href="http://peirce.gis-lab.info/daily"><img src="img/v1/logo_cityguide.gif" alt="Карты для программы СитиГид" width="88" height="31" /></a></li>
 				<li class="p3"><a href="http://navitel.osm.rambler.ru/"><img src="img/v1/logo_navitel.png" alt="Карты для программы Navitel" width="88" height="23" /></a></li>
 				<li class="p4"><a href="http://probki77.ru/pgs/russia.php"><img src="img/v1/logo_pocketgis.png" alt="Карты для программы PocketGIS" width="65" height="31" /></a></li>
 				<li class="p5"><a href="http://osm-russa.narod.ru/"><img src="img/v1/logo_gisrussa.gif" alt="Карты для программы ГИС Русса" width="88" height="31" /></a></li>
