@@ -945,7 +945,7 @@ float: left;
 
 a.leaflet-control-distance-delete {
 margin-left: 5px;
-background-image: url('/img/cross.png'); /* http://www.famfamfam.com/ */
+background-image: url('/img/edit-clear.png'); /* gpl, Alexander Moore */
 display: inline-block;
 }
 
