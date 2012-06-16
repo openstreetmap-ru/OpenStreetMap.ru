@@ -21,7 +21,7 @@ lat = 0
 lon = 0
 
 output={}
-output['ver']='0.5'
+output['ver']='0.6'
 
 def main():
   def ifresult(res):
