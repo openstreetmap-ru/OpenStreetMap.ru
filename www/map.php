@@ -12,7 +12,7 @@ $page_head = <<<PHP_HEAD
   <script type="text/javascript" src="js/Control.Scale.js"></script>
   <script type="text/javascript" src="js/Control.Distance.js"></script>
   <script type="text/javascript" src="js/Layer.TileLayer.Bing.js"></script>
-  <script type="text/javascript" src="js/Layer.KML.js"></script>
+  <script type="text/javascript" src="js/KML.js"></script>
   <script type="text/javascript" src="js/suncalc.js"></script>
   <script type="text/javascript" src="js/osmjs-validators-layer.js"></script>
   <script type="text/javascript" src="js/osmjs-validators-errors.js"></script>
