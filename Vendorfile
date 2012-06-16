@@ -9,6 +9,7 @@ file 'www/js/suncalc.js', 'https://raw.github.com/mourner/suncalc/master/suncalc
 
 file 'www/js/Control.Scale.js', 'https://raw.github.com/shramov/leaflet-plugins/master/control/Scale.js'
 file 'www/js/Control.Distance.js', 'https://raw.github.com/shramov/leaflet-plugins/master/control/Distance.js'
+file 'www/js/KML.js', 'https://raw.github.com/shramov/leaflet-plugins/master/layer/vector/KML.js'
 
 file 'www/include/dbFacile/dbFacile.php', 'https://raw.github.com/alanszlosek/dbFacile/master/src/dbFacile.php'
 file 'www/include/dbFacile/dbFacile_mssql.php', 'https://raw.github.com/alanszlosek/dbFacile/master/src/dbFacile_mssql.php'
