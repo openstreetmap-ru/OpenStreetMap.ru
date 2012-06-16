@@ -878,6 +878,12 @@ ul.pm-options span {
 .pm-pressed {
   background-color: #ff9;
 }
+td.colour-picker {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
 
 .leaflet-container a.button, a.button  {
 	border: 1px solid transparent;
