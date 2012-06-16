@@ -348,6 +348,16 @@ osm.initLayers = function(){
     's',
     false
   );
+  
+  osm.registerLayer(
+    'layerHillshading',
+    new L.TileLayer('http://toolserver.org/~cmarqu/hill/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: "Hillshading &copy; <a href='http://toolserver.org/~cmarqu/'>toolserver.org</a>"}),
+    'Рельеф',
+    'h',
+    false
+  );
 
 }
 
