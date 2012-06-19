@@ -138,7 +138,7 @@ function init() {
 
   osm.map.addControl(new L.Control.Scale({width: 100, position: 'bottomleft'}));
 
-  osm.map.permalink = new L.Control.Permalink(osm.map.control_layers,{markerOptions:L.Icon.Default.imagePath='/img'});
+  osm.map.permalink = new L.Control.Permalink(osm.map.control_layers);
   osm.map.addControl(osm.map.permalink);
   osm.map.addControl(new L.Control.Zoom({shiftClick: true}));
   osm.map.addControl(new L.Control.Distance());
