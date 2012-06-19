@@ -508,21 +508,12 @@ search.processResults = function(results) {
     else {
       var content = '<ul id="ol-search_result">';
       osm.layers.search_marker.clearLayers();
-      var MyIcon = L.Icon.extend({
-      iconUrl: '../img/marker.png',
-      shadowUrl: '../img/marker-shadow.png',
-      iconSize: new L.Point(18, 29),
-      shadowSize: new L.Point(29, 29),
-      iconAnchor: new L.Point(8, 29),
-      popupAnchor: new L.Point(-8, -50)
-      });
-      var icon = new MyIcon();
       var matches=results.matches;
       for (var i in matches) {
-      content += ('<li><a href="" onClick="osm.map.setView(new L.LatLng(' + matches[i].lat + ',' + matches[i].lon + '), 16); return false;" info="id='+matches[i].id+'  weight='+matches[i].weight+'">' + matches[i].display_name + '</a></li>');
-      marker = new L.Marker(new L.LatLng(matches[i].lat, matches[i].lon),{icon: icon});
-      marker.bindPopup("<b>Адрес:</b><br /> " + matches[i].display_name);
-      osm.layers.search_marker.addLayer(marker);
+        content += ('<li><a href="" onClick="osm.map.setView(new L.LatLng(' + matches[i].lat + ',' + matches[i].lon + '), 16); return false;" info="id='+matches[i].id+'  weight='+matches[i].weight+'">' + matches[i].display_name + '</a></li>');
+        marker = new L.Marker(new L.LatLng(matches[i].lat, matches[i].lon));
+        marker.bindPopup("<b>Адрес:</b><br /> " + matches[i].display_name);
+        osm.layers.search_marker.addLayer(marker);
       }
       osm.map.setView(new L.LatLng(matches[0].lat, matches[0].lon), 11);
       content += '</ul>';
