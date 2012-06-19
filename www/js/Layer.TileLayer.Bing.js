@@ -9,20 +9,9 @@ L.BingLayer = L.TileLayer.extend({
 
 		this._key = key;
 		this._url = null;
-		this._providers = [];
 		this.meta = {};
-		this._update_tile = this._update;
-		this._update = function() {
-			if (this._url == null) return;
-			this._update_attribution();
-			this._update_tile();
-		};		
+		this.loadMetadata();
 	},
-
-    onAdd: function(map){
-        L.TileLayer.prototype.onAdd.apply(this, [map, 1]);
-        this.loadMetadata();
-    },
 
 	tile2quad: function(x, y, z) {
 		var quad = '';
@@ -88,13 +77,19 @@ L.BingLayer = L.TileLayer.extend({
 		this._update();
 	},
 
+	_update: function() {
+		if (this._url == null || !this._map) return;
+		this._update_attribution();
+		L.TileLayer.prototype._update.apply(this, []);
+	},
+
 	_update_attribution: function() {
 		var bounds = this._map.getBounds();
 		var zoom = this._map.getZoom();
 		for (var i = 0; i < this._providers.length; i++) {
 			var p = this._providers[i];
 			if ((zoom <= p.zoomMax && zoom >= p.zoomMin) &&
-				this._intersects(bounds, p.bounds)) {
+					bounds.intersects(p.bounds)) {
 				if (!p.active)
 					this._map.attributionControl.addAttribution(p.attrib);
 				p.active = true;
@@ -106,28 +101,7 @@ L.BingLayer = L.TileLayer.extend({
 		}
 	},
 
-	_intersects: function(obj1, obj2) /*-> Boolean*/ {
-		var sw = obj1.getSouthWest(),
-			ne = obj1.getNorthEast(),
-			sw2 = obj2.getSouthWest(),
-			ne2 = obj2.getNorthEast();
-
-		return (sw2.lat <= ne.lat) && (sw2.lng <= ne.lng) &&
-				(sw.lat <= ne2.lat) && (sw.lng <= ne2.lng);
-	},
-
 	onRemove: function(map) {
-		this._map.getPanes().tilePane.removeChild(this._container);
-		this._container = null;
-
-		this._map.off('viewreset', this._resetCallback, this);
-
-		if (this.options.updateWhenIdle) {
-			this._map.off('moveend', this._update, this);
-		} else {
-			this._map.off('move', this._limitedUpdate, this);
-		}
-
 		for (var i = 0; i < this._providers.length; i++) {
 			var p = this._providers[i];
 			if (p.active) {
@@ -135,5 +109,6 @@ L.BingLayer = L.TileLayer.extend({
 				p.active = false;
 			}
 		}
+        	L.TileLayer.prototype.onRemove.apply(this, [map]);
 	}
 });
