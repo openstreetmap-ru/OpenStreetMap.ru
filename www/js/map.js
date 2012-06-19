@@ -131,6 +131,7 @@ function init() {
   osm.leftpan.content = $_('content_pan');
   osm.mappan.panel = $_('mappan');
   osm.input = $_('qsearch');
+  L.Icon.Default.imagePath='/img';
   osm.input.focus();
   osm.search_marker = new L.LayerGroup();
   osm.map.addLayer(osm.search_marker);
