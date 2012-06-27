@@ -1004,6 +1004,3 @@ for leaflet
 .leaflet-control-zoom-out {
   background-image: url("../img/zoom-out.png") !important;
 }
-.leaflet-popup-close-button {
-  background: url("../img/popup-close.png") repeat scroll 0 0 white !important;
-}
