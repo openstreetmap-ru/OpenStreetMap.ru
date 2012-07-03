@@ -2,7 +2,7 @@ osm.validators = {
 
   sources: [{
     "name": "Адресный и роутинговый валидатор Zkir",
-    "url": "http://osm.alno.name/validators/zkir?minlat={minlat}&minlon={minlon}&maxlat={maxlat}&maxlon={maxlon}",
+    "url": "http://osm.alno.name/validators/zkir?minlat={minlat}&minlon={minlon}&maxlat={maxlat}&maxlon={maxlon}&types={filtered_types}",
     "types": {
       "city_without_population": {"text": "Город без населения"},
       "city_without_place_polygon": {"text": "Город без полигональной границы"},
