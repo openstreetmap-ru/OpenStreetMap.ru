@@ -132,7 +132,7 @@
         _ref = data.results;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           res = _ref[_i];
-          if (_this.disabledErrors.indexOf(res.type) < 0) {
+          if (source.types[res.type] && _this.disabledErrors.indexOf(res.type) < 0) {
             layer.addLayer(_this.buildResult(source, res));
           }
         }
@@ -152,7 +152,7 @@
       return _results;
     },
     buildResult: function(source, res) {
-      var bounds, center, errorData, errorTemplate, errorText, key, ne, obj, popupText, resLayer, sw, value, _i, _len, _ref, _ref1, _ref2;
+      var bounds, center, key, ne, obj, popupText, resLayer, sw, value, _i, _len, _ref, _ref1;
       bounds = new L.LatLngBounds();
       resLayer = new L.GeoJSON({
         type: 'Feature',
@@ -163,14 +163,7 @@
       sw = bounds.getSouthWest();
       ne = bounds.getNorthEast();
       popupText = "<div class=\"map-validation-error\">";
-      if (res.text || res.type) {
-        errorTemplate = res.text || ((_ref = source.types[res.type]) != null ? _ref.text : void 0) || res.type;
-        errorData = res.params || {};
-        errorText = errorTemplate.replace(/\{ *([\w_]+) *\}/g, function(str, key) {
-          return errorData[key];
-        });
-        popupText += "<p>" + errorText + "</p>";
-      }
+      popupText += "<p>" + (this.buildErrorText(source, res)) + "</p>";
       popupText += "<p>";
       popupText += "<a href=\"http://localhost:8111/load_and_zoom?top=" + ne.lat + "&bottom=" + sw.lat + "&left=" + sw.lng + "&right=" + ne.lng + "\" target=\"josm\">" + this.i18n.edit_in_josm + "</a><br />";
       popupText += "<a href=\"http://openstreetmap.org/edit?lat=" + center.lat + "&lon=" + center.lng + "&zoom=17\" target=\"_blank\">" + this.i18n.edit_in_potlatch + "</a><br />";
@@ -178,9 +171,9 @@
       if (res.objects) {
         popupText += "<p>" + this.i18n.objects + "</p>";
         popupText += "<ul class=\"objects\">";
-        _ref1 = res.objects;
-        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-          obj = _ref1[_i];
+        _ref = res.objects;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          obj = _ref[_i];
           popupText += "<li><a href=\"http://www.openstreetmap.org/browse/" + obj[0] + "/" + obj[1] + "\" target=\"_blank\">" + (obj.join('-')) + "</a></li>";
         }
         popupText += "</ul>";
@@ -188,9 +181,9 @@
       if (res.params) {
         popupText += "<p>" + this.i18n.params + "</p>";
         popupText += "<ul class=\"params\">";
-        _ref2 = res.params;
-        for (key in _ref2) {
-          value = _ref2[key];
+        _ref1 = res.params;
+        for (key in _ref1) {
+          value = _ref1[key];
           popupText += "<li>" + key + ": " + value + "</li>";
         }
         popupText += "</ul>";
@@ -198,6 +191,14 @@
       popupText += "</div>";
       resLayer.bindPopup(popupText);
       return resLayer;
+    },
+    buildErrorText: function(source, res) {
+      var errorData, errorTemplate, _ref;
+      errorTemplate = res.text || ((_ref = source.types[res.type]) != null ? _ref.text : void 0) || res.type;
+      errorData = res.params || {};
+      return errorTemplate.replace(/\{ *([\w_]+) *\}/g, function(str, key) {
+        return errorData[key];
+      });
     }
   });
 

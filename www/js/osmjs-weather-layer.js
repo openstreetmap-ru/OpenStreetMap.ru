@@ -44,7 +44,8 @@
         icerain: "Ice rain",
         rime: "Rime",
         rime_possible: "Rime",
-        clear: "Clear"
+        clear: "Clear",
+        updateDate: "Updated at"
       },
       ru: {
         currentTemperature: "Температура",
@@ -59,7 +60,8 @@
         icerain: "Ледяной дождь",
         rime: "Гололед",
         rime_possible: "Возможен гололед",
-        clear: "Ясно"
+        clear: "Ясно",
+        updateDate: "Дата обновления"
       }
     },
     includes: L.Mixin.Events,
@@ -141,7 +143,7 @@
       weatherIcon = this.weatherIcon(st);
       popupContent = "<div class=\"weather-place\">";
       popupContent += "<img height=\"38\" width=\"45\" style=\"border: none; float: right;\" alt=\"" + weatherText + "\" src=\"" + weatherIcon + "\" />";
-      popupContent += "<h3>" + st.name + "</h3>";
+      popupContent += "<h3><a href=\"" + (this.buildUrl(st)) + "\" target=\"_blank\">" + st.name + "</a></h3>";
       popupContent += "<p>" + weatherText + "</p>";
       popupContent += "<p>";
       popupContent += "" + this.i18n.currentTemperature + ":&nbsp;" + (this.toCelc(st.temp)) + "&nbsp;°C<br />";
@@ -151,8 +153,13 @@
       if (st.temp_min) {
         popupContent += "" + this.i18n.minimumTemperature + ":&nbsp;" + (this.toCelc(st.temp_min)) + "&nbsp;°C<br />";
       }
-      popupContent += "" + this.i18n.humidity + ":&nbsp;" + st.humidity + "<br />";
+      if (st.humidity) {
+        popupContent += "" + this.i18n.humidity + ":&nbsp;" + st.humidity + "<br />";
+      }
       popupContent += "" + this.i18n.wind + ":&nbsp;" + st.wind_ms + "&nbsp;m/s<br />";
+      if (st.dt) {
+        popupContent += "" + this.i18n.updateDate + ":&nbsp;" + (this.formatTimestamp(st.dt)) + "<br />";
+      }
       popupContent += "</p>";
       popupContent += "</div>";
       typeIcon = this.typeIcon(st);
@@ -170,6 +177,31 @@
       });
       marker.bindPopup(popupContent);
       return marker;
+    },
+    formatTimestamp: function(ts) {
+      var d, date, hh, m, mm;
+      date = new Date(ts * 1000);
+      m = date.getMonth() + 1;
+      if (m < 10) {
+        m = '0' + m;
+      }
+      d = date.getDate();
+      if (d < 10) {
+        d = '0' + d;
+      }
+      hh = date.getHours();
+      mm = date.getMinutes();
+      if (mm < 10) {
+        mm = '0' + mm;
+      }
+      return "" + (date.getFullYear()) + "-" + m + "-" + d + " " + hh + ":" + mm;
+    },
+    buildUrl: function(st) {
+      if (st.datatype === 'station') {
+        return "http://openweathermap.org/station/" + st.id;
+      } else {
+        return "http://openweathermap.org/city/" + st.id;
+      }
     },
     weatherIcon: function(st) {
       var cl, day, i, img, _i, _len, _ref;
