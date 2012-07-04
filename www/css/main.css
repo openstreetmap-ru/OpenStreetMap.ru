@@ -765,9 +765,11 @@ div.page-about .center .head {
   font-size: 14pt;
   padding-bottom: 0.5em;
 }
+div.page-about .center .next {
+  padding-top: 1.3em;
+}
 div.page-about .center .text {
   font-size: 10pt;
-  padding-bottom: 3em;
   text-align: justify;
 }
 div.page-about .center .asterisk{
