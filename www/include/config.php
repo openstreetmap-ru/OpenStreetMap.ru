@@ -6,7 +6,7 @@ include_once ('passwd.php');
 include_once ('functions.php');
 include_once ('db.php');
 
-$PERSMAP_MAX_POINTS = 30;
+$PERSMAP_MAX_POINTS = 150;
 $PERSMAP_MAX_LINE_POINTS = 600;
 
 $pages_menu=array(
