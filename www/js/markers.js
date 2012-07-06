@@ -28,7 +28,8 @@ osm.markers = {
     hash: '',
     id: -1,
     editable: false
-  }
+  },
+  _300_alert: false
 }
 osm.markers.initialize = function() {
   osm.markers._layerGroup = new L.LayerGroup();
@@ -117,6 +118,10 @@ osm.markers.createPoints = function(e) {
   for(var i=0; i < mlen; i++) {
     if (osm.markers._data.points[i])
       count++;
+  }
+  if (count >= 300 && !osm.markers._300_alert) {
+    alert("Большое количество маркеров может тормозить работу браузера!");
+    osm.markers._300_alert = true;
   }
   if (count >= osm.markers._max_markers) {
     alert("Маркеров не может быть больше " + osm.markers._max_markers);
