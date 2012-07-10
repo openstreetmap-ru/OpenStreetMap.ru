@@ -59,7 +59,7 @@ include_once ($_URL[0].'.php');
     <div id="topbar">
       <? print($page_topbar); ?>
     </div>
-    <div id="colorline" style="background:<?=$data['color']?>;"></div>
+    <div id="colorline" style="background:black<?//=$data['color']?>;"></div>
   </div>
 
   <div id="content">

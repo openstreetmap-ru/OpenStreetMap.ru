@@ -1,5 +1,5 @@
 <?
-$page_logo = "/img/logo-about.png";
+$page_logo = "/img/logo-censorship.png";
 
 $page_head = <<<PHP_HEAD
 PHP_HEAD;
