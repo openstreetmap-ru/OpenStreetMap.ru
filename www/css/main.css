@@ -168,8 +168,7 @@ table {
 }
 
 .map-feature-button {
-  /*background: #99BD1B;*/
-  background: black;
+  background: #99BD1B;
   color: #ffffff;
   cursor: pointer;
   height: 20px;

@@ -1,5 +1,5 @@
 <?
-$page_logo = "/img/logo-censorship.png";
+$page_logo = "/img/logo.png";
 
 $page_head = <<<PHP_HEAD
   <link rel="stylesheet" href="css/leaflet.css" />
