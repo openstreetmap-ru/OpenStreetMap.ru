@@ -199,7 +199,7 @@ function generate_gpx_output($row) {
   header("Content-type: application/gpx+xml");
   header("Content-Disposition: attachment; filename={$row['id']}.gpx");
   echo <<<EOD
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <gpx
  version="1.0"
  creator="OpenStreetMap.ru PersonalMap"
