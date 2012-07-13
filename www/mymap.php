@@ -202,7 +202,7 @@ function generate_gpx_output($row) {
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <gpx
  version="1.0"
- creator="OpenStreetMap.ru PersonalMap"
+ creator="OpenStreetMap.ru PersonalMap: http://openstreetmap.ru/?mapid={$row['id']}"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xmlns="http://www.topografix.com/GPX/1/0"
  xsi:schemaLocation="http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd">
@@ -216,10 +216,12 @@ EOD;
 
     $data = json_decode($row['json']);
     foreach($data->points as $point) {
-      echo "<wpt lat=\"{$point->lat}\" lon=\"{$point->lon}\"><name>{$point->name}</name><desc><![CDATA[{$point->description}]]></desc></wpt>";
+      $point->name = strtr($point->name, array("&lt;"=>"-", "&gt;"=>"-", "&quot;"=>"^"));
+      $point->description = strtr($point->description, array("&lt;"=>"-", "&gt;"=>"-", "&quot;"=>"^"));
+      echo "<wpt lat=\"{$point->lat}\" lon=\"{$point->lon}\"><name>{$point->name}</name><cmt>{$point->description}</cmt></wpt>";
     }
     foreach($data->lines as $line) {
-      echo "<rte><name>{$line->name}</name><desc><![CDATA[{$line->description}]]></desc>";
+      echo "<rte><name>{$line->name}</name><cmt>{$line->description}</cmt>";
       foreach($line->points as $point) {
         echo "<rtept lat=\"{$point[0]}\" lon=\"{$point[1]}\"/>";
       }
