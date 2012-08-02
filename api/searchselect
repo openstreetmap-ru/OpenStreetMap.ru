@@ -1,0 +1,113 @@
+#!/usr/local/bin/python
+# -*- coding: utf8 -*-
+
+# search osm
+# ErshKUS
+
+import cgi, sys, json, re
+import psycopg2
+import psycopg2.extras
+import db_config
+
+output={}
+output['ver']='0.2'
+
+
+def addrselect():
+  getval={}
+  getval['city'] = unicode(getvalues.getfirst('city',''),'utf8')
+  getval['street'] = unicode(getvalues.getfirst('street',''),'utf8') 
+  getval['get'] = getvalues.getfirst('get','')
+  if (getval['get']==''):
+    output['error']='incorrect variables'
+    print json.dumps(output)
+    return
+
+  where = ''
+  asname = ''    
+  if (getval['get']=='city'):
+    asname = ' city '
+    where = ' addr_type_id = 4 '
+  elif (getval['get']=='street'):
+    asname = ' street '
+    where = ' addr_type_id = 6 AND city = %(city)s '
+  elif (getval['get']=='house'):
+    asname = ' housenumber '
+    where = ' addr_type_id = 7 AND city = %(city)s AND street =  %(street)s'
+    
+  if (where == '' or asname==''):
+    output['error']='incorrect variables #2'
+    print json.dumps(output)
+    return   
+
+  cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+  cur.execute("""
+    SELECT """+asname+""" as name
+      FROM ershkus_search_addr
+      WHERE """+where+"""
+      ORDER BY """+asname+""" ASC
+  ;""", {'city': getval['city'], 'street':getval['street']})
+  data=[]
+  for record in cur:
+    data.append(record)
+  #data['rows']=rows
+  output['data']=data
+  #print json.dumps(data)
+
+
+def centroid():
+  getval={}
+  getval['city'] = getvalues.getfirst('city','')
+  getval['street'] = getvalues.getfirst('street','')
+  getval['house'] = getvalues.getfirst('house','')
+  for name in ['city','street','house']:
+    if (getval[name] == ''):
+      output['error']=("%(name)s is not null"%{'name':name})
+      return
+
+  cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+  cur.execute("""
+    SELECT ST_Y(c_geom) as lat, ST_X(c_geom) as lon
+      FROM ershkus_search_addr
+      WHERE
+        city = %(city)s
+        AND street =  %(street)s
+        AND housenumber =  %(house)s
+      
+  ;""", {'city': getval['city'], 'street':getval['street'], 'house':getval['house']})
+  data=[]
+  for record in cur:
+    data.append(record)
+  #data['rows']=rows
+  output['data']=data
+  #print json.dumps(data['rows'])
+
+  
+#send = "Content-type: text/javascript;" # debug
+send = "Content-type: application/json;" # production
+send = send + " Charset=Utf-8\nAccess-Control-Allow-Origin: *\nAccess-Control-Request-Headers: X-Requested-With, X-Prototype-Version\nAccess-Control-Request-Method: GET\n"
+send = send + "Access-Control-Allow-Credentials: true\nAccess-Control-Allow-Methods: OPTIONS, GET, POST\n"
+send = send + "Access-Control-Allow-Headers: Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control\n"  
+  
+print send # production
+
+conn = psycopg2.connect(host=db_config.addr_host, database=db_config.addr_database, user=db_config.addr_user, password=db_config.addr_password)
+#psycopg2.extras.register_hstore(conn)
+
+getvalues=cgi.FieldStorage()
+output['action'] = getvalues.getfirst('action','')
+outCallback = getvalues.getfirst('callback','')
+#output['type'] = getvalues.getfirst('type','')
+if output['action'] == 'addrselect':
+  addrselect()
+elif output['action'] == 'centroid':
+  centroid()
+else:
+  output['error']='wrong action'
+
+#if (output['action'] <> 'addrselect'):
+  #if (output['type'] == 'callback'):
+if (outCallback == ""):
+  print json.dumps(output)
+else:
+  print outCallback + "('" + json.dumps(output) + "');"
