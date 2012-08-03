@@ -1,0 +1,89 @@
+#!/usr/local/bin/python
+# -*- coding: utf8 -*-
+
+# search osm
+# ErshKUS
+
+# until:
+# 2-region
+# 3-district
+# 4-city
+# 5-village
+# 6-street
+# 7-housenumber, house
+
+
+import cgi, sys, json, re
+import psycopg2
+import psycopg2.extras
+import db_config
+
+output={}
+output['ver']='0.1'
+
+def ingeo():
+  
+  getval={}
+  getval['lat'] = float(getvalues.getfirst('lat','0'))
+  getval['lon'] = float(getvalues.getfirst('lon','0'))  
+  getval['until'] = int(getvalues.getfirst('until','0'))
+  output['param'] = getval
+  if (getval['lat']==0 and getval['lon']==0 and getval['until']==0):
+    output['error']='incorrect variables'
+    print json.dumps(output)
+    return
+    
+
+  cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+  cur.execute("""
+    SELECT id, id_link_n, id_link_w, id_link_r, full_name, region, region_id, 
+           district, district_id, city, city_id, village, village_id, street, 
+           housenumber, addr_type, ST_Y(c_geom) as lat, ST_X(c_geom) as lon, 
+           addr_type_id
+    FROM ershkus_search_addr
+    WHERE
+      ST_Within(ST_GeomFromText('POINT(%(lon)s %(lat)s)',4326),geom)
+      AND addr_type_id<=%(until)s
+    ORDER BY
+      addr_type_id ASC
+  ;""", getval)
+  data=[]
+  for record in cur:
+    data.append(record)
+  #data['rows']=rows
+  output['data']=data
+  #print json.dumps(data)
+  
+
+
+  
+
+
+
+send = "Content-type: text/javascript;" # debug
+#send = "Content-type: application/json;" # production
+send = send + " Charset=Utf-8\nAccess-Control-Allow-Origin: *\nAccess-Control-Request-Headers: X-Requested-With, X-Prototype-Version\nAccess-Control-Request-Method: GET\n"
+send = send + "Access-Control-Allow-Credentials: true\nAccess-Control-Allow-Methods: OPTIONS, GET, POST\n"
+send = send + "Access-Control-Allow-Headers: Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control\n"  
+  
+print send
+
+conn = psycopg2.connect(host=db_config.addr_host, database=db_config.addr_database, user=db_config.addr_user, password=db_config.addr_password)
+
+getvalues=cgi.FieldStorage()
+output['action'] = getvalues.getfirst('action','')
+outCallback = getvalues.getfirst('callback','')
+#output['type'] = getvalues.getfirst('type','')
+if output['action'] == 'in':
+  ingeo()
+#elif output['action'] == 'centroid':
+#  centroid()
+else:
+  output['error']='wrong action'
+
+#if (output['action'] <> 'addrselect'):
+  #if (output['type'] == 'callback'):
+if (outCallback == ""):
+  print json.dumps(output)
+else:
+  print outCallback + "('" + json.dumps(output) + "');"
