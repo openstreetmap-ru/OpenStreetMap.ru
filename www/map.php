@@ -51,7 +51,7 @@ $page_content = <<<PHP_CONTENT
       <div class="close" onClick="osm.leftpan.toggle(false);"></div>
       <div id="leftsearchpan">
         <div class="header">
-          <h1>Результаты поиска:</h1>
+          <h1>Результаты поиска:<span class="loader"></span></h1>
         </div>
         <div id="content_pan" class="contentpan">
           <p>Для поиска введите в строку искомый адрес и нажмите "Найти"</p>

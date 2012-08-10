@@ -490,6 +490,7 @@ osm.leftpan.toggle = function(on) {
 
 search.processResults = function(results) {
   try {
+    $("#leftsearchpan .loader").removeClass('on');
     if (results.error) {
       osm.leftpan.content.innerHTML='Произошла ошибка: ' + (results.error);
     } else if (results.find==0) {
@@ -533,6 +534,7 @@ search.reportError = function() {
 }
 
 search.errorHandler = function(jqXHR, textStatus, errorThrown) {
+  $("#leftsearchpan .loader").removeClass('on');
   osm.leftpan.content.innerHTML = 'Ошибка: ' + textStatus + '<br />' + errorThrown.message;
 };
 
@@ -541,6 +543,7 @@ search.search = function(inQuery) {
   osm.input.value = inQuery;
   if (inQuery.length < 1)
     return false;
+  $("#leftsearchpan .loader").addClass('on');
   mapCenter=osm.map.getCenter();
   osm.mode.search();
   $.getJSON('/api/search', {q: inQuery, accuracy: 1, lat: mapCenter.lat, lon: mapCenter.lng}, search.processResults)

@@ -77,6 +77,13 @@ table {
     position: absolute;
     top: 15px;
 }
+.loader.on {
+  background-image: url("/img/loader.gif");
+  height: 32px;
+  position: absolute;
+  width: 32px;
+}
+
 
 #leftpan.leftSearch div#leftpersmappan,
 #leftpan.leftSearch div#lefterrorspan,
