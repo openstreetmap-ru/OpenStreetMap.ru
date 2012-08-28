@@ -30,7 +30,7 @@ PHP_TOPMENU;
 
 $page_topbar = <<<PHP_TOPBAR
       <div id="newstop">
-        <a href="http://gisconf.ru/ru/">
+        <a href="http://gisconf.ru/ru/" title="Открытые ГИС!">
           <img src="/img/news/OpenGISavatar5eof.png" style="height: 100%;">
         </a>
       </div>
