@@ -331,14 +331,22 @@ input[type="submit"]:active, button:active {
   padding: 0 25px 0 325px;
 }
 
+#newstop {
+  float: right;
+  height: 35px;
+  margin-top: -6px;
+  width: 208px;
+}
+
 #searchpan {
   border-color: #AAAAAA #CCCCCC #DDDDDD;
   border-style: solid;
   border-width: 1px;
   position: relative;
-  width: 100%;
-  max-width: 700px;
+/*  width: 100%;*/
+/*  max-width: 700px;*/
   min-width: 300px;
+  margin-right: 228px;
 }
 
 #searchpan table {
