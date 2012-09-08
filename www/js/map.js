@@ -583,7 +583,8 @@ osm.onPermalink = function () {
 };
 
 osm.ui.whereima = function() {
-  navigator.geolocation.getCurrentPosition(osm.ui.whereima_r);
+  osm.map.setView(new L.LatLng(clientLat, clientLon), 12);
+//  navigator.geolocation.getCurrentPosition(osm.ui.whereima_r);
 };
 osm.ui.whereima_r = function (position) {
   osm.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 10);
