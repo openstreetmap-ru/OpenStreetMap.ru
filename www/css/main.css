@@ -30,7 +30,7 @@ table {
   transition: all 0.1s ease;
 }
 
-.fs #toppan { top: -90px; }
+.htp #toppan { top: -90px; }
 
 #content {
   bottom: 0;
@@ -44,7 +44,7 @@ table {
   transition: all 0.1s ease;
 }
 
-.fs #content { top: 9px; }
+.htp #content { top: 9px; }
 
 #leftpan {
   bottom: 0;
@@ -186,7 +186,7 @@ table {
   z-index: 5;
 }
 
-#fsbutton {
+#htpbutton {
   right: 20px;
 }
 
@@ -413,7 +413,7 @@ a.wheremi:hover div.wheremi {
   transition: all 0.1s ease;
 }
 
-.fs #menupan #menuback {
+.htp #menupan #menuback {
   height: 9px;
 }
 
@@ -436,12 +436,12 @@ a.wheremi:hover div.wheremi {
   overflow: hidden;
 }
 
-.fs #menupan #mainmenu div,.fs #menupan #mainmenupage div {
+.htp #menupan #mainmenu div,.htp #menupan #mainmenupage div {
   border-bottom: 0 none;
   height: 4px;
 }
 
-.fs #menupan #mainmenu div:hover, .fs #menupan #mainmenupage div:hover {
+.htp #menupan #mainmenu div:hover, .htp #menupan #mainmenupage div:hover {
   height: 22px;
 }
 

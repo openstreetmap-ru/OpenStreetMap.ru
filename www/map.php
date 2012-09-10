@@ -102,7 +102,7 @@ $page_content = <<<PHP_CONTENT
           <p><a href="#" title="Персональная карта" onClick="osm.markers.personalMap()">Персональная карта</a></p>
         </div>
       </div>-->
-      <div id="fsbutton" class="map-feature-button" onClick="osm.ui.togglefs()">&uarr;</div>
+      <div id="htpbutton" class="map-feature-button">&uarr;</div>
       <!--<div id="cpan">
         <img id="cpanglo" src="img/glow.png" />
         <img id="cpanarr" src="img/arrows.png" />

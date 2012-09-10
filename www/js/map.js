@@ -1,4 +1,4 @@
-var osm = {cpan: {}, leftpan: {on: false}, mappan: {}, ui: {fs: false}, layers:{}, markers:{}};
+var osm = {cpan: {}, leftpan: {on: false}, mappan: {}, ui:{}, layers:{}, markers:{}};
 var search = {};
 var wpc = {
   layers: null,
@@ -169,7 +169,8 @@ function init() {
   $('#mainmenu .current li.persmap').click(osm.mode.persmap);
   $('#mainmenu .current li.errors').click(osm.mode.errors);
 
-  if (get.hidetoppan) osm.ui.togglefs();
+  $("#mappan #htpbutton").bind("click", function(){osm.ui.togglehtp()})
+  if (get.hidetoppan) osm.ui.togglehtp();
 
 };
 
@@ -584,22 +585,11 @@ osm.onPermalink = function () {
 
 osm.ui.whereima = function() {
   osm.map.setView(new L.LatLng(clientLat, clientLon), 12);
-//  navigator.geolocation.getCurrentPosition(osm.ui.whereima_r);
 };
-osm.ui.whereima_r = function (position) {
-  osm.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 10);
-}
 
-osm.ui.togglefs = function() {
-  if (osm.ui.fs) {
-    document.body.className = '';
-    $_('fsbutton').innerHTML = '&uarr;';
-  }
-  else {
-    document.body.className = 'fs';
-    $_('fsbutton').innerHTML = '&darr;';
-  }
-  osm.ui.fs = !osm.ui.fs;
+osm.ui.togglehtp = function() {
+  $('body').hasClass('htp') ? $('#htpbutton').html("&uarr;") : $('#htpbutton').html("&darr;");
+  $('body').toggleClass('htp');
 };
 
 osm.ui.searchsubmit = function() {
