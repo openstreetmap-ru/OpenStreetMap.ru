@@ -77,10 +77,6 @@ osm.getCookie = function(name) {
 
 function init() {
   parseGET();
-  var w;
-  if (self.innerHeight) w = self.innerWidth;
-  else if (document.documentElement && document.documentElement.clientHeight) w = document.documentElement.clientWidth;
-  else if (document.body) w = document.body.clientWidth;
 
   var loc = osm.getCookie('_osm_location');
   var center;
@@ -93,9 +89,14 @@ function init() {
     zoom = locs[2];
     layer = locs[3] || 'M';
     overlaysAsString = locs[4] || '';
-  } else {
+  } else if(clientLat || clientLon) {
+    center = new L.LatLng(clientLat, clientLon);
+    zoom = 12;
+    layer = "M";
+  }
+  else {
     center = new L.LatLng(62.0, 88.0);
-    zoom = w > 1200 ? 3 : 2;
+    zoom = $(window).width() > 1200 ? 3 : 2;
     layer = "M";
   }
 

@@ -168,6 +168,11 @@
     print ("var clientLat = ".$data['lat'].";\n");
     print ("var clientLon = ".$data['lon'].";\n");
   }
+  else
+  {
+    print ("var clientLat = 0;\n");
+    print ("var clientLon = 0;\n");
+  }
   print ("var clientIp = '".$geo->get_ip()."';\n");
   
 ?>
