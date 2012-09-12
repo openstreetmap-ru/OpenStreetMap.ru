@@ -365,7 +365,7 @@ osm.initLayers = function(){
   osm.registerLayer(
     'layerGPSPoint',
     new L.TileLayer('http://zverik.osm.rambler.ru/gps/tiles/{z}/{x}/{y}.png', {
-      maxZoom: 18}),
+      maxZoom: 14}),
     'GPS точки',
     'g',
     false
