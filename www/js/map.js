@@ -362,6 +362,14 @@ osm.initLayers = function(){
     false
   );
 
+  osm.registerLayer(
+    'layerGPS',
+    new L.TileLayer('http://zverik.osm.rambler.ru/gps/tiles/{z}/{x}/{y}.png', {
+      maxZoom: 18}),
+    'GPS',
+    'g',
+    false
+  );
 }
 
 osm.registerLayer = function (name, layer, title, hash, isBase){
