@@ -1021,3 +1021,6 @@ for leaflet
 .leaflet-control-zoom-out {
   background-image: url("../img/zoom-out.png") !important;
 }
+.left-on #content_pan { /* removes horizontal scroll in collapsed left pan */
+  overflow: hidden;
+}
