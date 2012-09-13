@@ -26,7 +26,8 @@ function show_menu($pages, $current = '') {
       $page['name2'] = $page['name'];
       $page['imgmenu'] = '';
     }
-    $menu[] = ($current == $page['name'] ? '<td>'.$page['imgmenu'].'<div class="current">'.$page['text'].build_modes($page['modes'], $page['modescolor']).'</div></td>' : '<td><a href="/'.$page['name2'].'"><div>'.$page['text'].'</div></a></td>');
+    $line_modes=(isset($page['modes']) ? build_modes($page['modes'], $page['modescolor']):'');
+    $menu[] = ($current == $page['name'] ? '<td>'.$page['imgmenu'].'<div class="current">'.$page['text'].$line_modes.'</div></td>' : '<td><a href="/'.$page['name2'].'"><div>'.$page['text'].'</div></a></td>');
   }
   echo implode($menu);
   echo '</tr></table>';
