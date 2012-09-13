@@ -5,6 +5,9 @@ $page_head = <<<PHP_HEAD
 	<link href="css/v1/styles.css" type="text/css" rel="stylesheet">
 PHP_HEAD;
 
+$page_topmenu = <<<PHP_TOPMENU
+PHP_TOPMENU;
+
 $page_topbar = <<<PHP_TOPBAR
 PHP_TOPBAR;
 

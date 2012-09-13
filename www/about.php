@@ -4,6 +4,9 @@ $page_logo = "/img/logo-about.png";
 $page_head = <<<PHP_HEAD
 PHP_HEAD;
 
+$page_topmenu = <<<PHP_TOPMENU
+PHP_TOPMENU;
+
 $page_topbar = <<<PHP_TOPBAR
   <!--<div class="top-about">Отдельное спасибо компании <a target="_blank" href="http://rambler.ru">Рамблер</a> за всестороннюю помощь проекту!
   </div>-->
