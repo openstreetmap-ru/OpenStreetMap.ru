@@ -37,6 +37,7 @@ $page_content = <<<PHP_CONTENT
 				<li class="p5"><a href="http://osm-russa.narod.ru/"><img src="img/v1/logo_gisrussa.gif" alt="Карты для программы ГИС Русса" width="88" height="31" /></a></li>
 				<li class="p6"><a href="http://osmand.net/"><img src="img/v1/logo_osmand.gif" alt="Карты для программы OsmAnd" width="88" height="23" /></a></li>
 				<li class="p7"><a href="http://openstreetmaps.ru/"><img src="img/v1/logo_autosputnik.gif" alt="Карты для программы Автоспутник" width="88" height="18" /></a></li>
+				<li class="p8"><a href="http://www.megamaps.org/"><img src="img/v1/logo_7ways.gif" alt="Карты для программы Семь Дорог" width="89" height="36" /></a></li>
 			</ul>
 		</li>
 
