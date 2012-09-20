@@ -15,6 +15,7 @@ output['ver']='0.2'
 
 def addrselect():
   getval={}
+  getval['region'] = unicode(getvalues.getfirst('region',''),'utf8')
   getval['city'] = unicode(getvalues.getfirst('city',''),'utf8')
   getval['street'] = unicode(getvalues.getfirst('street',''),'utf8') 
   getval['get'] = getvalues.getfirst('get','')
@@ -25,9 +26,12 @@ def addrselect():
 
   where = ''
   asname = ''    
-  if (getval['get']=='city'):
+  if (getval['get']=='region'):
+    asname = ' region '
+    where = ' addr_type_id = 2 '
+  elif (getval['get']=='city'):
     asname = ' city '
-    where = ' addr_type_id = 4 '
+    where = ' addr_type_id = 4 AND region = %(region)s '
   elif (getval['get']=='street'):
     asname = ' street '
     where = ' addr_type_id = 6 AND city = %(city)s '
@@ -46,7 +50,7 @@ def addrselect():
       FROM ershkus_search_addr
       WHERE """+where+"""
       ORDER BY """+asname+""" ASC
-  ;""", {'city': getval['city'], 'street':getval['street']})
+  ;""", getval)
   data=[]
   for record in cur:
     data.append(record)
