@@ -11,6 +11,9 @@ import db_config
 
 host = 'localhost'
 port = 3312
+#sphinxindex = 'ershkus_search_addr, ershkus_poi'
+#sphinxindex = 'ershkus_poi'
+sphinxindex = 'ershkus_search_addr'
 listAddrType=['city','district','region']
 countlistAddrType=2
 q = ''
@@ -80,10 +83,10 @@ def main():
   
   if (lat and lon):
     cl.SetGeoAnchor("lat", "lon", lat, lon)
-    cl.SetSortMode ( SPH_SORT_EXTENDED, '@weight desc addr_type_id asc @geodist ASC' )
+    cl.SetSortMode ( SPH_SORT_EXTENDED, 'addr_type_id asc @weight desc @geodist ASC' )
     #cl.SetSortMode ( SPH_SORT_EXPR, '@weight/@geodist' )
   else:
-    cl.SetSortMode ( SPH_SORT_EXTENDED, '@weight desc addr_type_id asc' )
+    cl.SetSortMode ( SPH_SORT_EXTENDED, 'addr_type_id asc @weight desc' )
   
   #cl.SetFilterRange('@relevance', 10, 10000)
   #cl.SetSelect ( "*, @expr AS myweight" )
@@ -106,7 +109,7 @@ def main():
         if n <> None:
           cl.SetFilter(listAddrType[i]+'_id',[n])
         i=i-1
-      res = cl.Query(q)
+      res = cl.Query(q, sphinxindex)
       resQ=ifresult(res)
       if resQ > 10:
         return
@@ -115,7 +118,7 @@ def main():
     
   if resQ == 1:
     cl.ResetOnlyFilter()
-    res = cl.Query(q)
+    res = cl.Query(q, sphinxindex)
     resQ2 = ifresult(res)
     if resQ2 > 10:
       return

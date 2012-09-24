@@ -34,10 +34,10 @@ def addrselect():
     where = ' addr_type_id = 4 AND region = %(region)s '
   elif (getval['get']=='street'):
     asname = ' street '
-    where = ' addr_type_id = 6 AND city = %(city)s '
+    where = ' addr_type_id = 6 AND region = %(region)s AND city = %(city)s '
   elif (getval['get']=='house'):
     asname = ' housenumber '
-    where = ' addr_type_id = 7 AND city = %(city)s AND street =  %(street)s'
+    where = ' addr_type_id = 7 AND region = %(region)s AND city = %(city)s AND street =  %(street)s'
     
   if (where == '' or asname==''):
     output['error']='incorrect variables #2'
@@ -46,7 +46,9 @@ def addrselect():
 
   cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
   cur.execute("""
-    SELECT """+asname+""" as name
+    SELECT """+asname+""" as name,
+      id_link_R,id_link_W,id_link_N,
+      ST_Y(c_geom) as lat, ST_X(c_geom) as lon
       FROM ershkus_search_addr
       WHERE """+where+"""
       ORDER BY """+asname+""" ASC
@@ -61,10 +63,11 @@ def addrselect():
 
 def centroid():
   getval={}
+  getval['region'] = unicode(getvalues.getfirst('region',''),'utf8')
   getval['city'] = getvalues.getfirst('city','')
   getval['street'] = getvalues.getfirst('street','')
   getval['house'] = getvalues.getfirst('house','')
-  for name in ['city','street','house']:
+  for name in ['region','city','street','house']:
     if (getval[name] == ''):
       output['error']=("%(name)s is not null"%{'name':name})
       return
@@ -74,11 +77,12 @@ def centroid():
     SELECT ST_Y(c_geom) as lat, ST_X(c_geom) as lon
       FROM ershkus_search_addr
       WHERE
-        city = %(city)s
+        region = %(region)s
+        AND city =  %(city)s
         AND street =  %(street)s
         AND housenumber =  %(house)s
       
-  ;""", {'city': getval['city'], 'street':getval['street'], 'house':getval['house']})
+  ;""", getval)
   data=[]
   for record in cur:
     data.append(record)
