@@ -54,7 +54,7 @@ $page_content = <<<PHP_CONTENT
   <div id="downpan" class="left-on">
     <div id="leftpan" class="leftSearch">
       <div class="close" onClick="osm.leftpan.toggle(false);"></div>
-      <div id="leftsearchpan">
+      <div id="leftsearchpan" class="leftpantab">
         <div class="header">
           <h1>Результаты поиска:<span class="loader"></span></h1>
         </div>
@@ -62,7 +62,7 @@ $page_content = <<<PHP_CONTENT
           <p>Для поиска введите в строку искомый адрес и нажмите "Найти"</p>
         </div>
       </div>
-      <div id="leftpersmappan">
+      <div id="leftpersmappan" class="leftpantab">
         <div class="header">
           <h1>Персональная карта</h1>
         </div>
@@ -80,7 +80,7 @@ $page_content = <<<PHP_CONTENT
           <div id="pm_status"></div>
         </div>
       </div>
-      <div id="lefterrorspan">
+      <div id="lefterrorspan" class="leftpantab">
         <div class="header">
           <h1>Ошибки на карте</h1>
         </div>

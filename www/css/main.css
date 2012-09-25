@@ -84,14 +84,11 @@ table {
   width: 32px;
 }
 
-
-#leftpan.leftSearch div#leftpersmappan,
-#leftpan.leftSearch div#lefterrorspan,
-#leftpan.leftErrors div#leftpersmappan,
-#leftpan.leftErrors div#leftsearchpan,
-#leftpan.leftPersmap div#leftsearchpan,
-#leftpan.leftPersmap div#lefterrorspan {
+#leftpan .leftpantab {
   display: none;
+}
+#leftpan .leftpantab.on {
+  display: block;
 }
 
 #lefterrorspan ul {

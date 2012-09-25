@@ -107,7 +107,6 @@ osm.validators = {
   },
 
   enable: function() {
-    osm.leftpan.toggle(3);
     osm.map.addLayer(this.layer);
   },
 

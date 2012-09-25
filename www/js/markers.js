@@ -68,7 +68,6 @@ osm.markers.createPoint = function(e) {
 	$_('map').style.cursor='';
 }
 osm.markers.personalMap = function() {
-  osm.leftpan.toggle(2);
   osm.markers._admin.editable = true;
 }
 

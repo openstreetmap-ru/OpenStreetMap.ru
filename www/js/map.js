@@ -166,35 +166,14 @@ function init() {
   $('#mainmenu .current li').removeClass('active');
   $('#mainmenu .current li.search').addClass('active');
 
-  $('#mainmenu .current li.search').click(osm.mode.search);
-  $('#mainmenu .current li.persmap').click(osm.mode.persmap);
-  $('#mainmenu .current li.errors').click(osm.mode.errors);
+  $('#mainmenu .current li.search').click(function(){osm.leftpan.toggle(1)});
+  $('#mainmenu .current li.persmap').click(function(){osm.leftpan.toggle(2)});
+  $('#mainmenu .current li.errors').click(function(){osm.leftpan.toggle(3)});
 
   $("#mappan #htpbutton").bind("click", function(){osm.ui.togglehtp()})
   if (get.hidetoppan) osm.ui.togglehtp();
 
 };
-
-osm.mode = {
-  persmap: function() {
-    osm.validators.disable();
-    osm.markers.personalMap();
-    return false;
-  },
-
-  search: function() {
-    osm.validators.disable();
-    osm.leftpan.toggle(1);
-    return false;
-  },
-
-  errors: function() {
-    osm.validators.enable();
-    return false;
-  }
-}
-
-
 
 osm.initLayers = function(){
 
@@ -450,13 +429,13 @@ osm.createTools = function() {
   obListDivA.href='#';
   obListDivA.title='Персональная карта';
   obListDivA.innerHTML='Персональная карта';
-  obListDivA.onclick = osm.mode.persmap;
+  obListDivA.onclick = function(){osm.leftpan.toggle(2)};
 
   var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
   obListDivA.href='#';
   obListDivA.title='Данные валидаторов';
   obListDivA.innerHTML='Данные валидаторов';
-  obListDivA.onclick = osm.mode.errors;
+  obListDivA.onclick = function(){osm.leftpan.toggle(3)};
 };
 
 osm.setLinkOSB = function() {
@@ -470,28 +449,27 @@ osm.leftpan.toggle = function(on) {
   if (typeof on == "undefined") on = !this.on;
   var center = osm.map.getCenter();
   if (on != this.on) {
-    if (on === 2) {
-      this.on = 2;
-      $_('downpan').className = '';
-      $_('leftpan').className = 'leftPersmap';
+	this.on = on;
+  osm.validators.disable();
+    if (on) {
+      $('#downpan').removeClass('left-on');
+      $('#leftpan div.leftpantab').removeClass('on');
       $('#mainmenu .current li').removeClass('active');
-      $('#mainmenu .current li.persmap').addClass('active');
-    } else if (on === 3) {
-      this.on = 3;
-      $_('downpan').className = '';
-      $_('leftpan').className = 'leftErrors';
-      $('#mainmenu .current li').removeClass('active');
-      $('#mainmenu .current li.errors').addClass('active');
-    } else if (on) {
-      this.on = 1;
-      $_('downpan').className = '';
-      $_('leftpan').className = 'leftSearch';
-      $('#mainmenu .current li').removeClass('active');
-      $('#mainmenu .current li.search').addClass('active');
-      osm.map.addLayer(osm.layers.search_marker);
+      if (on === 2) {
+        $('#leftpersmappan').addClass('on');
+        $('#mainmenu .current li.persmap').addClass('active');
+        osm.markers.personalMap();
+      } else if (on === 3) {
+        $('#lefterrorspan').addClass('on');
+        $('#mainmenu .current li.errors').addClass('active');
+        osm.validators.enable();
+      } else if (on) {
+        $('#leftsearchpan').addClass('on');
+        $('#mainmenu .current li.search').addClass('active');
+        osm.map.addLayer(osm.layers.search_marker);
+      }
     } else {
-      this.on = false;
-      $_('downpan').className = 'left-on';
+      $('#downpan').addClass('left-on');
       osm.map.removeLayer(osm.layers.search_marker);
     }
     osm.map.invalidateSize();
@@ -556,7 +534,7 @@ search.search = function(inQuery) {
     return false;
   $("#leftsearchpan .loader").addClass('on');
   mapCenter=osm.map.getCenter();
-  osm.mode.search();
+  osm.leftpan.toggle(1);
   $.getJSON('/api/search', {q: inQuery, accuracy: 1, lat: mapCenter.lat, lon: mapCenter.lng}, search.processResults)
   .error(search.errorHandler);
 /*  this.request = new XMLHttpRequest();
