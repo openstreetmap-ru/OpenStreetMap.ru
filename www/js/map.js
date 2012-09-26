@@ -162,18 +162,28 @@ function init() {
   osm.layers.osb.on('add', function(){osm.osbclick($_('mainmenupage-osb').children[0],true,this);});
   osm.layers.osb.on('remove', function(){osm.osbclick($_('mainmenupage-osb').children[0],false,this);});
   osm.setLinkOSB();
-
-  $('#mainmenu .current li').removeClass('active');
-  $('#mainmenu .current li.search').addClass('active');
-
-  $('#mainmenu .current li.search').click(function(){osm.leftpan.toggle(1)});
-  $('#mainmenu .current li.persmap').click(function(){osm.leftpan.toggle(2)});
-  $('#mainmenu .current li.errors').click(function(){osm.leftpan.toggle(3)});
+  
+  osm.initModes();
 
   $("#mappan #htpbutton").bind("click", function(){osm.ui.togglehtp()})
   if (get.hidetoppan) osm.ui.togglehtp();
 
 };
+
+osm.initModes = function(){
+  curmenu = $("#mainmenu .current");
+  curmenu.before('<img src="img/menu_arrow.png" id="menu_arrow_img">');
+  submenu = $('<ul class="submenu" style="background: #88ad0b">');
+  submenu.append('<li class="search">Поиск</li>');
+  submenu.append('<li class="persmap">Персональная</li>');
+  submenu.append('<li class="errors">Валидаторы</li>');
+  curmenu.append(submenu);
+  
+  $('#mainmenu .current li.search').addClass('active');
+  $('#mainmenu .current li.search').click(function(){osm.leftpan.toggle(1)});
+  $('#mainmenu .current li.persmap').click(function(){osm.leftpan.toggle(2)});
+  $('#mainmenu .current li.errors').click(function(){osm.leftpan.toggle(3)});
+}
 
 osm.initLayers = function(){
 
