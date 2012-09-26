@@ -460,11 +460,11 @@ osm.leftpan.toggle = function(on) {
   var center = osm.map.getCenter();
   if (on != this.on) {
 	this.on = on;
-  osm.validators.disable();
     if (on) {
       $('#downpan').removeClass('left-on');
       $('#leftpan div.leftpantab').removeClass('on');
       $('#mainmenu .current li').removeClass('active');
+      osm.validators.disable();
       if (on === 2) {
         $('#leftpersmappan').addClass('on');
         $('#mainmenu .current li.persmap').addClass('active');
