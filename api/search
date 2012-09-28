@@ -153,4 +153,4 @@ main()
 if (outCallback == ""):
   print json.dumps(output)
 else:
-  print outCallback + "('" + json.dumps(output) + "');"
+  print outCallback + "(" + json.dumps(output) + ");"
