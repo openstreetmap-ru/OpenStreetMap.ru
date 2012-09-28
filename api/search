@@ -56,13 +56,12 @@ def main():
     
   print "Content-type: text/javascript; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # debug
   #print "Content-type: application/json; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # production
-  values=cgi.FieldStorage()
-  q = values.getfirst("q","")
-  lat = float(values.getfirst("lat","0"))
-  lon = float(values.getfirst("lon","0"))
-  asis = bool(values.getfirst("asis",""))
-  nolimit = bool(values.getfirst("nolimit",""))
-  cnt = int(values.getfirst("cnt","12"))
+  q = getvalues.getfirst("q","")
+  lat = float(getvalues.getfirst("lat","0"))
+  lon = float(getvalues.getfirst("lon","0"))
+  asis = bool(getvalues.getfirst("asis",""))
+  nolimit = bool(getvalues.getfirst("nolimit",""))
+  cnt = int(getvalues.getfirst("cnt","12"))
   output['search']=q
   if not asis :
     output['search'] = output['search'].replace('&','&amp;')
@@ -145,6 +144,13 @@ def main():
         outputdata.append(outputlen)
       
   output['matches']=outputdata
-  
+
+getvalues=cgi.FieldStorage()
+outCallback = getvalues.getfirst('callback','')
+
 main()
-print json.dumps(output)
+
+if (outCallback == ""):
+  print json.dumps(output)
+else:
+  print outCallback + "('" + json.dumps(output) + "');"
