@@ -29,4 +29,6 @@
     sudo apt-get install postgresql-8.4 postgresql-client-8.4 postgresql-contrib-8.4 postgresql-doc-8.4 postgresql-8.4-postgis
     sudo apt-get install sphinxsearch
 
+    easy_install psycopg2
+
 ...
