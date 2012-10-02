@@ -61,7 +61,7 @@
 </VirtualHost>
 ```
 
-Кладем этот конфиг по адресу `/etc/apache2/osmru`
+Кладем этот конфиг по адресу `/etc/apache2/sites-available/osmru`
 
 Включаем сайт osmru
 
