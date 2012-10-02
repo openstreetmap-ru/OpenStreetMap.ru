@@ -6,17 +6,74 @@
  * https://groups.google.com/group/openstreetmap-ru
 
 
-## Development
+## Local development
 
 ### www
 
-Ставим зависимости
+Ставим следующие зависимости
 
-    sudo apt-get install apache2 php5 libapache2-mod-php5 php5-curl
+    apache2 php5 libapache2-mod-php5 php5-curl
 
-Прописываем сайт в конфиге апача
+Создаем конфиг апача примерно следующего содержания, где `/path/to/repo/osmru` --- это путь до скачанного репозитория.
 
-    TODO
+```
+#Listen 8011
+<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+	ServerName osmru
+
+	DocumentRoot /path/to/repo/osmru/www
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride All
+	</Directory>
+	<Directory /path/to/repo/osmru/www>
+		Options Indexes FollowSymLinks -MultiViews
+		AllowOverride All
+		Order allow,deny
+		allow from all
+	</Directory>
+
+	ScriptAlias /api/ /path/to/repo/osmru/api/
+	<Directory "/path/to/repo/osmru/api">
+		AllowOverride All
+		Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+		Order allow,deny
+		Allow from all
+	</Directory>
+
+	ErrorLog /var/log/apache2/osm.ru-error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel warn
+
+	CustomLog /var/log/apache2/osm.ru-access.log combined
+
+    Alias /doc/ "/usr/share/doc/"
+    <Directory "/usr/share/doc/">
+        Options Indexes -MultiViews FollowSymLinks
+        AllowOverride All
+        Order deny,allow
+        Deny from all
+        Allow from 127.0.0.0/255.0.0.0 ::1/128
+    </Directory>
+</VirtualHost>
+```
+
+Кладем этот конфиг по адресу `/etc/apache2/osmru`
+
+Включаем сайт osmru
+
+	sudo a2ensite osmru
+
+Включаем mod_rewrite
+
+	sudo a2enmod rewrite
+
+Добавляем в `/etc/hosts` строчку
+
+	127.0.0.1 	osmru
 
 Перезагружаем apache
     
@@ -24,11 +81,37 @@
 
 ### db & search
 
-Ставим зависимости
+Ставим следующие пакеты
 
-    sudo apt-get install postgresql-8.4 postgresql-client-8.4 postgresql-contrib-8.4 postgresql-doc-8.4 postgresql-8.4-postgis
-    sudo apt-get install sphinxsearch
+    postgresql-8.4 postgresql-client-8.4 postgresql-contrib-8.4 postgresql-doc-8.4 postgresql-8.4-postgis postgis
 
-    easy_install psycopg2
+Создаем пользователя базы данных
 
-...
+
+Создаем базу данных с именем, например, `postgistemplate`. Прикручиваем PostGIS к PostgreSQL
+
+	createdb postgistemplate
+	createlang plpgsql postgistemplate
+
+	psql -d postgistemplate -f /usr/share/postgresql/8.4/contrib/postgis-2.0/postgis.sql	psql -d postgistemplate -f /usr/share/postgresql/8.4/contrib/postgis-2.0/spatial_ref_sys.sql
+	psql -d postgistemplate -f /usr/share/postgresql/8.4/contrib/postgis_comments.sql
+
+Заливаем данные в базу
+
+
+Ставим сфинкса отсюда http://sphinxsearch.com/downloads/release/
+Кладем конфиг сфинкса по адресу `/etc/sphinxsearch/sphinx.conf` // TODO: описать конфиг
+
+Создаем папку /var/cache/sphinx
+
+Запускаем индексацию
+
+	indexer --all
+
+Запускаем демона сфинкса
+
+	searchd
+
+
+C помощью easy_install ставим питоновский пакет `psycopg2` // TODO: добавить ссылку на описание easy_install
+
