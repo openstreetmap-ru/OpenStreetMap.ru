@@ -93,16 +93,18 @@
 	createdb postgistemplate
 	createlang plpgsql postgistemplate
 
-	psql -d postgistemplate -f /usr/share/postgresql/8.4/contrib/postgis-2.0/postgis.sql	psql -d postgistemplate -f /usr/share/postgresql/8.4/contrib/postgis-2.0/spatial_ref_sys.sql
+	psql -d postgistemplate -f /usr/share/postgresql/8.4/contrib/postgis-2.0/postgis.sql	
+	psql -d postgistemplate -f /usr/share/postgresql/8.4/contrib/postgis-2.0/spatial_ref_sys.sql
 	psql -d postgistemplate -f /usr/share/postgresql/8.4/contrib/postgis_comments.sql
 
 Заливаем данные в базу
 
 
-Ставим сфинкса отсюда http://sphinxsearch.com/downloads/release/
+Ставим сфинкса отсюда http://sphinxsearch.com/downloads/release/.
+
 Кладем конфиг сфинкса по адресу `/etc/sphinxsearch/sphinx.conf` // TODO: описать конфиг
 
-Создаем папку /var/cache/sphinx
+Создаем папку /var/cache/sphinx.
 
 Запускаем индексацию
 
