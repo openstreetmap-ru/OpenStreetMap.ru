@@ -85,7 +85,7 @@ def main():
   #cl.SetFilterRange('@relevance', 10, 10000)
   #cl.SetSelect ( "*, @expr AS myweight" )
   
-  cnt = 7
+  cnt = 20
   if (cnt and (not nolimit)):
     cl.SetLimits ( 0, cnt, max(cnt,1000) )
   
@@ -120,6 +120,8 @@ def main():
     output['find']=True
     outputdata=[]
     # weight_min=(res['matches'][0]['weight']-100)
+    was_before = set()
+
     for match in res['matches']:
       # if (match['weight']>weight_min) :
         outputlen=match['attrs']
@@ -129,6 +131,8 @@ def main():
         #   outputlen['display_name'] = clean_str(outputlen['display_name'])
         # outputlen = {}
         index_name = match['attrs']['index_name'].decode('utf8')
+        if index_name in was_before:continue
+        was_before.add(index_name)
         if not index_name: continue
 
         ind = index_name.find(',')
@@ -142,7 +146,7 @@ def main():
         outputlen['other_name'] = other_name.encode('utf8')
         outputdata.append(outputlen)
       
-  output['matches']=outputdata
+  output['matches']=outputdata[:10]
 
 getvalues=cgi.FieldStorage()
 outCallback = getvalues.getfirst('callback','')
