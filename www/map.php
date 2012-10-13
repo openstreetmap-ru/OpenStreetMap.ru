@@ -21,6 +21,8 @@ $page_head = <<<PHP_HEAD
   <script type="text/javascript" src="js/markers.js"></script>
   <script type="text/javascript" src="js/validators.js"></script>
   <script type="text/javascript" src="js/wpc.js"></script>
+  <script type="text/javascript" src="http://yui.yahooapis.com/3.7.2/build/yui/yui-min.js"></script>
+
   <link rel="stylesheet" href="css/osb.css" />
 PHP_HEAD;
 
@@ -34,7 +36,7 @@ $page_topbar = <<<PHP_TOPBAR
           <img src="/img/news/OpenGISavatar5eof.png" style="height: 100%;">
         </a>
       </div>
-      <div id="searchpan">
+      <div id="searchpan" class="yui3-skin-sam">
         <form id="search" method="get" action="/" onsubmit="return osm.ui.searchsubmit();"><table style="width:100%;"><tr>
           <td style="width:1px;">
             <a href="#" onClick="osm.ui.whereima(); return false;" class="wheremi" title="Где я?"><div class="wheremi">&nbsp;</div></a>
@@ -47,6 +49,21 @@ $page_topbar = <<<PHP_TOPBAR
           </td>
         </tr></table></form>
       </div>
+
+      <script>
+      YUI().use('autocomplete', 'autocomplete-highlighters', 'datasource-get', function (Y) {
+        var inputNode = Y.one('#qsearch')
+
+        inputNode.plug(Y.Plugin.AutoComplete, {
+          maxResults: 7,
+          resultHighlighter: 'subWordMatch',
+          resultTextLocator: 'name',
+          source: 'api/autocomplete?q={query}',
+          resultListLocator: 'matches'
+        });
+      });
+      </script>
+      </body>
 PHP_TOPBAR;
 
 $page_content = <<<PHP_CONTENT

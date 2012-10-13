@@ -73,7 +73,6 @@ def main():
     output['error']="no query words, 'q' is empty"
     return
   
-  
   cl = SphinxClient()
   cl.SetServer ( host, port )
   cl.SetMatchMode ( mode )
@@ -130,7 +129,8 @@ def main():
         # if not asis :
         #   outputlen['display_name'] = clean_str(outputlen['display_name'])
         # outputlen = {}
-        index_name = match['attrs']['index_name'].decode('utf8')
+        name = match['attrs']['index_name']
+        index_name = name.decode('utf8')
         if index_name in was_before:continue
         was_before.add(index_name)
         if not index_name: continue
@@ -144,9 +144,10 @@ def main():
           other_name = ""
         outputlen['short_name'] = short_name.encode('utf8')
         outputlen['other_name'] = other_name.encode('utf8')
+        outputlen['name'] = name
         outputdata.append(outputlen)
       
-  output['matches']=outputdata[:10]
+  output['matches']=outputdata[:7]
 
 getvalues=cgi.FieldStorage()
 outCallback = getvalues.getfirst('callback','')
@@ -154,6 +155,8 @@ outCallback = getvalues.getfirst('callback','')
 main()
 
 if (outCallback == ""):
+  # print >> sys.stderr, "returning ", dd
   print json.dumps(output)
 else:
+  # print >> sys.stderr, 'here', res
   print outCallback + "(" + json.dumps(output) + ");"
