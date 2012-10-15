@@ -20,7 +20,7 @@ table {
 #toppan {
   background: #efefef;
   height: 90px;
-  overflow: hidden;
+  /*overflow: hidden;*/
   position: absolute;
   top: 0;
   width: 100%;
