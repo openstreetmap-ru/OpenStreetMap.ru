@@ -13,7 +13,7 @@ host = 'localhost'
 port = 3312
 #sphinxindex = 'ershkus_search_addr, ershkus_poi'
 #sphinxindex = 'ershkus_poi'
-sphinxindex = 'ershkus_search_addr'
+sphinxindex = 'ershkus_search_auto'
 listAddrType=['city','district','region']
 countlistAddrType=2
 q = ''
@@ -38,21 +38,21 @@ def main():
       return 1
     return 2
     
-  def regeo(addrType):
+  # def regeo(addrType):
   
-    conn = psycopg2.connect(host=db_config.addr_host, database=db_config.addr_database, user=db_config.addr_user, password=db_config.addr_password)
-    cur = conn.cursor()
-    execute = """
-      SELECT region_id, district_id, city_id
-      FROM ershkus_search_addr
-      WHERE
-        (geom && (ST_GeomFromText('POINT(%(lon)s %(lat)s)',4326))) AND ST_Covers(geom, (ST_GeomFromText('POINT(%(lon)s %(lat)s)',4326)))
-        AND (full_name is not null AND full_name <> '')
-        AND addr_type='%(addrType)s'
-    """ % {"lat":lat, "lon":lon, "addrType":addrType}
-    cur.execute(execute)
-    regeo=cur.fetchone()
-    return regeo
+  #   conn = psycopg2.connect(host=db_config.addr_host, database=db_config.addr_database, user=db_config.addr_user, password=db_config.addr_password)
+  #   cur = conn.cursor()
+  #   execute = """
+  #     SELECT region_id, district_id, city_id
+  #     FROM ershkus_search_addr
+  #     WHERE
+  #       (geom && (ST_GeomFromText('POINT(%(lon)s %(lat)s)',4326))) AND ST_Covers(geom, (ST_GeomFromText('POINT(%(lon)s %(lat)s)',4326)))
+  #       AND (full_name is not null AND full_name <> '')
+  #       AND addr_type='%(addrType)s'
+  #   """ % {"lat":lat, "lon":lon, "addrType":addrType}
+  #   cur.execute(execute)
+  #   regeo=cur.fetchone()
+  #   return regeo
     
   print "Content-type: text/javascript; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # debug
   #print "Content-type: application/json; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # production
@@ -73,77 +73,81 @@ def main():
     output['error']="no query words, 'q' is empty"
     return
   
-  
   cl = SphinxClient()
   cl.SetServer ( host, port )
   cl.SetMatchMode ( mode )
   
-  cl.SetRankingMode(SPH_RANK_SPH04)
+  #cl.SetRankingMode(SPH_RANK_SPH04)
   
-  if (lat and lon):
-    cl.SetGeoAnchor("lat", "lon", lat, lon)
-    cl.SetSortMode ( SPH_SORT_EXTENDED, 'addr_type_id asc @weight desc @geodist ASC' )
-    #cl.SetSortMode ( SPH_SORT_EXPR, '@weight/@geodist' )
-  else:
-    cl.SetSortMode ( SPH_SORT_EXTENDED, 'addr_type_id asc @weight desc' )
+  cl.SetSortMode ( SPH_SORT_EXTENDED, 'addr_type_id asc @weight desc' )
   
   #cl.SetFilterRange('@relevance', 10, 10000)
   #cl.SetSelect ( "*, @expr AS myweight" )
   
+  cnt = 20
   if (cnt and (not nolimit)):
     cl.SetLimits ( 0, cnt, max(cnt,1000) )
   
   q = q.replace("-"," \-")
   q = q.replace("/","\/")
 
-  resQ=1
-  if (lat and lon):
-    for xAddrType in listAddrType:
-      q2 = regeo(xAddrType)
-      if q2 == None:
-        continue
-      i=countlistAddrType
-      cl.ResetOnlyFilter()
-      for n in q2:
-        if n <> None:
-          cl.SetFilter(listAddrType[i]+'_id',[n])
-        i=i-1
-      res = cl.Query(q, sphinxindex)
-      resQ=ifresult(res)
-      if resQ > 10:
-        return
-      if resQ == 2:
-        break
-    
-  if resQ == 1:
-    cl.ResetOnlyFilter()
-    res = cl.Query(q, sphinxindex)
-    resQ2 = ifresult(res)
-    if resQ2 > 10:
-      return
-    if resQ2 == 1:
-      output['find']=False
-      return
+  def prepare_query(q):
+    words = q.split()
+    words[-1] = words[-1] + '*'
+    in_name = " | ".join(words)
+    other = " ".join(words)
+    return other + ' @name ' + in_name
+ 
+  cl.ResetOnlyFilter()
+  res = cl.Query(prepare_query(q), sphinxindex)
+  resQ2 = ifresult(res)
+  if resQ2 > 10:
+    return
+  if resQ2 == 1:
+    output['find']=False
+    return
   
+  def clean_str(s):
+    s = s.replace('&','&amp;')
+    s = s.replace('\"',"&quot;")
+    s = s.replace('\'','&#039;')
+    s = s.replace('<','&lt;')
+    s = s.replace('>','&gt;')
+    return s
+
   if res.has_key('matches'):
     output['find']=True
     outputdata=[]
-    weight_min=(res['matches'][0]['weight']-100)
+    # weight_min=(res['matches'][0]['weight']-100)
+    was_before = set()
+
     for match in res['matches']:
-      
-      if (match['weight']>weight_min) :
+      # if (match['weight']>weight_min) :
         outputlen=match['attrs']
         outputlen['id']=match['id']
         outputlen['weight']=match['weight']
-        if not asis :
-          outputlen['display_name'] = outputlen['display_name'].replace('&','&amp;')
-          outputlen['display_name'] = outputlen['display_name'].replace('\"',"&quot;")
-          outputlen['display_name'] = outputlen['display_name'].replace('\'','&#039;')
-          outputlen['display_name'] = outputlen['display_name'].replace('<','&lt;')
-          outputlen['display_name'] = outputlen['display_name'].replace('>','&gt;')
+        # if not asis :
+        #   outputlen['display_name'] = clean_str(outputlen['display_name'])
+        # outputlen = {}
+        name = match['attrs']['index_name']
+        index_name = name.decode('utf8')
+        if index_name in was_before:continue
+        was_before.add(index_name)
+        if not index_name: continue
+
+        ind = index_name.find(',')
+        if ind != -1:
+          short_name = index_name[:ind]
+          other_name = index_name[ind+1:]
+        else:
+          short_name = index_name
+          other_name = ""
+        outputlen['short_name'] = short_name.encode('utf8')
+        outputlen['other_name'] = other_name.encode('utf8')
+        outputlen['name'] = name
         outputdata.append(outputlen)
       
-  output['matches']=outputdata
+  output['matches']=outputdata[:7]
 
 getvalues=cgi.FieldStorage()
 outCallback = getvalues.getfirst('callback','')
@@ -151,6 +155,8 @@ outCallback = getvalues.getfirst('callback','')
 main()
 
 if (outCallback == ""):
+  # print >> sys.stderr, "returning ", dd
   print json.dumps(output)
 else:
+  # print >> sys.stderr, 'here', res
   print outCallback + "(" + json.dumps(output) + ");"
