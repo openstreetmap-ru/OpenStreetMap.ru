@@ -341,7 +341,7 @@ PersonalMarker = L.Marker.extend({ // simple marker without editable functions
     if (this._pm_name || this._pm_description) {
       var popupHTML = $_('pm_show_popup').innerHTML;
       popupHTML = popupHTML.replace(/\#name/g, this._pm_name);
-      popupHTML = popupHTML.replace(/\#description/g, this._pm_description);
+      popupHTML = popupHTML.replace(/\#description/g, this._pm_description.replace(/\n/, "<br>"));
       this.bindPopup(popupHTML);
     }
   },
@@ -429,7 +429,7 @@ PersonalLine = L.Polyline.extend({
     if (this._pl_name || this._pl_description) {
       var popupHTML = $_('pl_show_popup').innerHTML;
       popupHTML = popupHTML.replace(/\#name/g, this._pl_name);
-      popupHTML = popupHTML.replace(/\#description/g, this._pl_description);
+      popupHTML = popupHTML.replace(/\#description/g, this._pl_description.replace(/\n/, "<br>"));
       this.bindPopup(popupHTML);
     }
   },
