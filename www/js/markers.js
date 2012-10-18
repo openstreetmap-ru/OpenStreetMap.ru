@@ -341,7 +341,7 @@ PersonalMarker = L.Marker.extend({ // simple marker without editable functions
     if (this._pm_name || this._pm_description) {
       var popupHTML = $_('pm_show_popup').innerHTML;
       popupHTML = popupHTML.replace(/\#name/g, this._pm_name);
-      popupHTML = popupHTML.replace(/\#description/g, this._pm_description.replace(/\n/, "<br>"));
+      popupHTML = popupHTML.replace(/\#description/g, this._pm_description.replace(/\n/g, "<br>"));
       this.bindPopup(popupHTML);
     }
   },
