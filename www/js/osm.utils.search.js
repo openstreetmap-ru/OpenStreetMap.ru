@@ -2,12 +2,12 @@ search.processResults = function(results) {
   try {
     $("#leftsearchpan .loader").removeClass('on');
     if (results.error) {
-      osm.leftpan.content.innerHTML='Произошла ошибка: ' + (results.error);
+      osm.leftpan.content.innerHTML='РџСЂРѕРёР·РѕС€Р»Р° РѕС€РёР±РєР°: ' + (results.error);
     } else if (results.find==0) {
       search.q=results.search;
-      osm.leftpan.content.innerHTML='<p>Ничего не найдено по запросу "' + (results.search)  + '"</p><br /><br />\
-          <p>Оставьте заявку об отсутствующем у нас адресе или неправильной работе поиска<br><br>\
-          Комментарий (запрос указывать не надо):\
+      osm.leftpan.content.innerHTML='<p>РќРёС‡РµРіРѕ РЅРµ РЅР°Р№РґРµРЅРѕ РїРѕ Р·Р°РїСЂРѕСЃСѓ "' + (results.search)  + '"</p><br /><br />\
+          <p>РћСЃС‚Р°РІСЊС‚Рµ Р·Р°СЏРІРєСѓ РѕР± РѕС‚СЃСѓС‚СЃС‚РІСѓСЋС‰РµРј Сѓ РЅР°СЃ Р°РґСЂРµСЃРµ РёР»Рё РЅРµРїСЂР°РІРёР»СЊРЅРѕР№ СЂР°Р±РѕС‚Рµ РїРѕРёСЃРєР°<br><br>\
+          РљРѕРјРјРµРЅС‚Р°СЂРёР№ (Р·Р°РїСЂРѕСЃ СѓРєР°Р·С‹РІР°С‚СЊ РЅРµ РЅР°РґРѕ):\
           </p>\
           <form onsubmit="return search.reportError();">\
           <p><textarea id="rsearch" style="width: 100%;"></textarea></p>\
@@ -15,7 +15,7 @@ search.processResults = function(results) {
           </form>';
     }
     else if (results.find==1 && results.accuracy_find==0) {
-      osm.leftpan.content.innerHTML='Пожалуйста, уточните запрос "' + (results.search) + '"';
+      osm.leftpan.content.innerHTML='РџРѕР¶Р°Р»СѓР№СЃС‚Р°, СѓС‚РѕС‡РЅРёС‚Рµ Р·Р°РїСЂРѕСЃ "' + (results.search) + '"';
     }
     else {
       var content = '<ul id="ol-search_result">';
@@ -25,7 +25,7 @@ search.processResults = function(results) {
         zoom=matches[i].addr_type_id*2+4;
         content += ('<li><a href="" onClick="osm.map.setView(new L.LatLng(' + matches[i].lat + ',' + matches[i].lon + '), '+zoom+'); return false;" info="id='+matches[i].id+'  weight='+matches[i].weight+'">' + matches[i].display_name + '</a></li>');
         marker = new L.Marker(new L.LatLng(matches[i].lat, matches[i].lon));
-        marker.bindPopup("<b>Адрес:</b><br /> " + matches[i].display_name);
+        marker.bindPopup("<b>РђРґСЂРµСЃ:</b><br /> " + matches[i].display_name);
         osm.layers.search_marker.addLayer(marker);
       }
       osm.map.setView(new L.LatLng(matches[0].lat, matches[0].lon), matches[0].addr_type_id*2+4);
@@ -33,20 +33,20 @@ search.processResults = function(results) {
       osm.leftpan.content.innerHTML = content;
     }
   } catch(e) {
-    osm.leftpan.content.innerHTML = 'Ошибка: ' + e.description + '<br /> Ответ поиск.серв.: '+results.error;
+    osm.leftpan.content.innerHTML = 'РћС€РёР±РєР°: ' + e.description + '<br /> РћС‚РІРµС‚ РїРѕРёСЃРє.СЃРµСЂРІ.: '+results.error;
   }
 };
 
 search.reportError = function() {
   comment=$_('rsearch').value;
   $.get("/api/search_report_add", {search: search.q, comment: comment.replace("\n", " ")} );
-  osm.leftpan.content.innerHTML='Спасибо за помощь в улучшении OpenStreetMap';
+  osm.leftpan.content.innerHTML='РЎРїР°СЃРёР±Рѕ Р·Р° РїРѕРјРѕС‰СЊ РІ СѓР»СѓС‡С€РµРЅРёРё OpenStreetMap';
   return false;
 }
 
 search.errorHandler = function(jqXHR, textStatus, errorThrown) {
   $("#leftsearchpan .loader").removeClass('on');
-  osm.leftpan.content.innerHTML = 'Ошибка: ' + textStatus + '<br />' + errorThrown.message;
+  osm.leftpan.content.innerHTML = 'РћС€РёР±РєР°: ' + textStatus + '<br />' + errorThrown.message;
 };
 
 search.search = function(inQuery) {
