@@ -45,8 +45,9 @@
     </table>
   </div>
 <? if (!isset($_GET['noscreenshot'])) { ?> <!-- add &noscreenshot to the URL to hide this overlay -->
-  <a href="/?<?=$_SERVER['QUERY_STRING']?>">
+  <a href="/?<?=$_SERVER['QUERY_STRING']?>" target="_blank">
   <div style="position:absolute;top:0;left:0;width:100%;height:100%;"></div>
   </a>
 <? } ?>
+  <div id="loader-overlay" style="z-index:1000;display:none;position:absolute;top:0;left:0;width:100%;height:100%;background-color:white;background-position: center center;background-image:url(img/loader.gif);background-repeat:no-repeat;"></div>
 </body>
