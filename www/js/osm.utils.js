@@ -48,9 +48,9 @@ osm.initModes = function(){
   curmenu = $("#mainmenu .current");
   curmenu.before('<img src="img/menu_arrow.png" id="menu_arrow_img">');
   submenu = $('<ul class="submenu" style="background: #88ad0b">');
-  submenu.append('<li class="search">Поиск</li>');
-  submenu.append('<li class="persmap">Персональная</li>');
-  submenu.append('<li class="errors">Валидаторы</li>');
+  submenu.append('<li class="search">РџРѕРёСЃРє</li>');
+  submenu.append('<li class="persmap">РџРµСЂСЃРѕРЅР°Р»СЊРЅР°СЏ</li>');
+  submenu.append('<li class="errors">Р’Р°Р»РёРґР°С‚РѕСЂС‹</li>');
   curmenu.append(submenu);
   
   $('#mainmenu .current li.search').addClass('active');
@@ -90,7 +90,7 @@ osm.createTools = function() {
   var obButDiv = L.DomUtil.create('div', 'a', obTools);
   var obButDivA = L.DomUtil.create('a', null, obButDiv);
   obButDivA.href = '#';
-  obButDivA.title = 'Инструменты';
+  obButDivA.title = 'РРЅСЃС‚СЂСѓРјРµРЅС‚С‹';
   obButDivA.onclick = function(){
     noOff=!noOff
   };
@@ -98,27 +98,27 @@ osm.createTools = function() {
   var obListDiv = L.DomUtil.create('div', 'p', obTools);
   var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
   obListDivA.href='#';
-  obListDivA.title='Маркер';
+  obListDivA.title='РњР°СЂРєРµСЂ';
   obListDivA.onclick = function(){
     osm.markers.addPoint();
   };
-  obListDivA.innerHTML='Маркер';
+  obListDivA.innerHTML='РњР°СЂРєРµСЂ';
   var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
   obListDivA.id='EditJOSM'
   obListDivA.href='#';
-  obListDivA.title='Редактировать (в JOSM)';
-  obListDivA.innerHTML='Редактировать (в JOSM)';
+  obListDivA.title='Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ (РІ JOSM)';
+  obListDivA.innerHTML='Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ (РІ JOSM)';
 
   var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
   obListDivA.href='#';
-  obListDivA.title='Персональная карта';
-  obListDivA.innerHTML='Персональная карта';
+  obListDivA.title='РџРµСЂСЃРѕРЅР°Р»СЊРЅР°СЏ РєР°СЂС‚Р°';
+  obListDivA.innerHTML='РџРµСЂСЃРѕРЅР°Р»СЊРЅР°СЏ РєР°СЂС‚Р°';
   obListDivA.onclick = function(){osm.leftpan.toggle(2)};
 
   var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
   obListDivA.href='#';
-  obListDivA.title='Данные валидаторов';
-  obListDivA.innerHTML='Данные валидаторов';
+  obListDivA.title='Р”Р°РЅРЅС‹Рµ РІР°Р»РёРґР°С‚РѕСЂРѕРІ';
+  obListDivA.innerHTML='Р”Р°РЅРЅС‹Рµ РІР°Р»РёРґР°С‚РѕСЂРѕРІ';
   obListDivA.onclick = function(){osm.leftpan.toggle(3)};
 };
 
