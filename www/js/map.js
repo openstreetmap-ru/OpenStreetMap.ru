@@ -1,82 +1,6 @@
-var osm = {cpan: {}, leftpan: {on: false}, mappan: {}, ui:{}, layers:{}, markers:{}};
-var search = {};
-var wpc = {
-  layers: null,
-  rq: null,
-  bbox: null,
-  zoom: null
-};
-
-function $_(id) { return document.getElementById(id); }
-
-function reloadKML() {
-  var algo = 1;
-  if (!wpc.layers.visible) return;
-  if(osm.map.getZoom()<8) algo = 2;
-  var zoom = osm.map.getZoom();
-  var bounds = osm.map.getBounds();
-  var minll = bounds.getSouthWest();
-  var maxll = bounds.getNorthEast();
-  if(wpc.zoom && wpc.bbox)
-    if(wpc.zoom == zoom && minll.lng >= wpc.bbox[0] && minll.lat >= wpc.bbox[1] && maxll.lng <= wpc.bbox[2] && maxll.lat <= wpc.bbox[3])
-      return;
-  var w = maxll.lng - minll.lng;
-  var h = maxll.lat - minll.lat;
-  wpc.bbox = []
-  wpc.bbox[0] = minll.lng - w/2;
-  wpc.bbox[1] = minll.lat - h/2;
-  wpc.bbox[2] = maxll.lng + w/2;
-  wpc.bbox[3] = maxll.lat + h/2;
-  wpc.zoom = zoom;
-  wpc.layers.clearLayers();
-  var url = 'wpc.php?bbox=' + wpc.bbox[0] + ',' + wpc.bbox[1] + ',' + wpc.bbox[2] + ',' + wpc.bbox[3] + '&algo=' + algo;
-  wpc.layers.addKML(url);
-}
-
-osm.saveLocation = function() {
-  var ll = osm.map.getCenter();
-  var z = osm.map.getZoom();
-  var currentBaseLayer = osm.map.control_layers.currentBaseLayer();
-  var l = currentBaseLayer ? (osm.layerHashes[currentBaseLayer.name]) : '';
-
-  var ol = '';
-  var curOverlays = osm.map.control_layers.listCurrentOverlays();
-  for(var i in curOverlays){
-    var hash = osm.layerHashes[curOverlays[i].name] || '';
-    //don't save OSB layer
-    if(hash != 'U'){
-        ol += hash;
-    }
-  }
-
-  var d = new Date();
-  d.setYear(d.getFullYear()+10);
-
-  document.cookie = "_osm_location=" + ll.lng + "|" + ll.lat + "|" + z + "|" + l + "|" + ol + "; expires=" + d.toGMTString();
-}
-
-osm.getCookie = function(name) {
-  var cookie = " " + document.cookie;
-  var search = " " + name + "=";
-  var setStr = null;
-  var offset = 0;
-  var end = 0;
-  if (cookie.length > 0) {
-    offset = cookie.indexOf(search);
-    if (offset != -1) {
-      offset += search.length;
-      end = cookie.indexOf(";", offset)
-  if (end == -1) {
-    end = cookie.length;
-  }
-      setStr = unescape(cookie.substring(offset, end));
-    }
-  }
-  return(setStr);
-}
-
 function init() {
   parseGET();
+  if (typeof frame_map === "undefined") frame_map = false; // in frame_map mode we have limited controls and map abilities
 
   var loc = osm.getCookie('_osm_location');
   var center;
@@ -107,7 +31,8 @@ function init() {
 
   osm.map = new L.Map('map', {zoomControl: false, center: center, zoom: zoom, layers: [baseLayer]});
 
-  osm.map.addLayer(osm.layers.search_marker);
+  if (!frame_map)
+    osm.map.addLayer(osm.layers.search_marker);
   for(var i = 0; i < overlaysAsString.length; i++){
         //don't save OSB layer
         var hash = overlaysAsString.charAt(i);
@@ -119,6 +44,11 @@ function init() {
         }
   }
 
+  L.Icon.Default.imagePath='/img';
+  osm.markers.initialize();
+  osm.markers.readMap();
+
+ if (!frame_map) {
   osm.map.control_layers = new L.Control.Layers(
     osm.baseLayers,
     osm.overlays,
@@ -132,7 +62,6 @@ function init() {
   osm.leftpan.content = $_('content_pan');
   osm.mappan.panel = $_('mappan');
   osm.input = $_('qsearch');
-  L.Icon.Default.imagePath='/img';
   osm.input.focus();
   osm.search_marker = new L.LayerGroup();
   osm.map.addLayer(osm.search_marker);
@@ -143,8 +72,6 @@ function init() {
   osm.map.addControl(osm.map.permalink);
   osm.map.addControl(new L.Control.Zoom({shiftClick: true}));
   osm.map.addControl(new L.Control.Distance());
-  osm.markers.initialize();
-  osm.markers.readMap();
   osm.validators.initialize();
 
   osm.createTools();
@@ -165,25 +92,10 @@ function init() {
   
   osm.initModes();
 
-  $("#mappan #htpbutton").bind("click", function(){osm.ui.togglehtp()})
+  $("#mappan #htpbutton").bind("click", function(){osm.ui.togglehtp()});
   if (get.hidetoppan) osm.ui.togglehtp();
-
+ }
 };
-
-osm.initModes = function(){
-  curmenu = $("#mainmenu .current");
-  curmenu.before('<img src="img/menu_arrow.png" id="menu_arrow_img">');
-  submenu = $('<ul class="submenu" style="background: #88ad0b">');
-  submenu.append('<li class="search">Поиск</li>');
-  submenu.append('<li class="persmap">Персональная</li>');
-  submenu.append('<li class="errors">Валидаторы</li>');
-  curmenu.append(submenu);
-  
-  $('#mainmenu .current li.search').addClass('active');
-  $('#mainmenu .current li.search').click(function(){osm.leftpan.toggle(1)});
-  $('#mainmenu .current li.persmap').click(function(){osm.leftpan.toggle(2)});
-  $('#mainmenu .current li.errors').click(function(){osm.leftpan.toggle(3)});
-}
 
 osm.initLayers = function(){
 
@@ -258,6 +170,7 @@ osm.initLayers = function(){
     false
   );
 
+  if (!frame_map)
   osm.registerLayer(
     'osb',
     new L.OpenStreetBugs({dblClick: false, iconOpen:"img/osb/open_bug_marker.png", iconClosed:"img/osb/closed_bug_marker.png", iconActive:"img/osb/active_bug_marker.png", editArea:0.001}),
@@ -295,6 +208,7 @@ osm.initLayers = function(){
     false
   );
 
+  if (!frame_map) {
   osm.registerLayer(
     'search_marker',
     new L.LayerGroup()
@@ -340,6 +254,7 @@ osm.initLayers = function(){
     's',
     false
   );
+  }
   
   osm.registerLayer(
     'layerHillshading',
@@ -385,182 +300,6 @@ osm.registerLayer = function (name, layer, title, hash, isBase){
     }
 }
 
-osm.editUpdate = function() {
-  var pos = osm.map.getBounds();
-  var url="http://127.0.0.1:8111/load_and_zoom?left=" + pos._southWest.lng + "&top=" + pos._northEast.lat + "&right=" + pos._northEast.lng + "&bottom=" + pos._southWest.lat;
-  var edit = $_('EditJOSM');
-  edit.target = 'hiddenIframe';
-  edit.href = url;
-}
-
-osm.createTools = function() {
-  var timeoutId = null;
-  var noOff = false;
-  var obMap = $_('mappan');
-  var obTools = L.DomUtil.create('div', null, obMap);
-  obTools.id = 'tools';
-
-  osm.obTools = obTools;
-
-  function ClosePan() {
-    obTools.className='';
-  }
-  obTools.onmouseover = function() {
-    clearTimeout(timeoutId);
-    obTools.className='on';
-  }
-  obTools.onmouseout = function() {
-    if (!noOff)
-      timeoutId = setTimeout(ClosePan, 300);
-  }
-  var obButDiv = L.DomUtil.create('div', 'a', obTools);
-  var obButDivA = L.DomUtil.create('a', null, obButDiv);
-  obButDivA.href = '#';
-  obButDivA.title = 'Инструменты';
-  obButDivA.onclick = function(){
-    noOff=!noOff
-  };
-
-  var obListDiv = L.DomUtil.create('div', 'p', obTools);
-  var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
-  obListDivA.href='#';
-  obListDivA.title='Маркер';
-  obListDivA.onclick = function(){
-    osm.markers.addPoint();
-  };
-  obListDivA.innerHTML='Маркер';
-  var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
-  obListDivA.id='EditJOSM'
-  obListDivA.href='#';
-  obListDivA.title='Редактировать (в JOSM)';
-  obListDivA.innerHTML='Редактировать (в JOSM)';
-
-  var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
-  obListDivA.href='#';
-  obListDivA.title='Персональная карта';
-  obListDivA.innerHTML='Персональная карта';
-  obListDivA.onclick = function(){osm.leftpan.toggle(2)};
-
-  var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
-  obListDivA.href='#';
-  obListDivA.title='Данные валидаторов';
-  obListDivA.innerHTML='Данные валидаторов';
-  obListDivA.onclick = function(){osm.leftpan.toggle(3)};
-};
-
-osm.setLinkOSB = function() {
-  if (parseInt(get['bugid'])) {
-    osm.map.addLayer(osm.layers.osb);
-    osm.map.control_layers._update();
-  }
-};
-
-osm.leftpan.toggle = function(on) {
-  if (typeof on == "undefined") on = !this.on;
-  var center = osm.map.getCenter();
-  if (on != this.on) {
-	this.on = on;
-    if (on) {
-      $('#downpan').removeClass('left-on');
-      $('#leftpan div.leftpantab').removeClass('on');
-      $('#mainmenu .current li').removeClass('active');
-      osm.validators.disable();
-      if (on === 2) {
-        $('#leftpersmappan').addClass('on');
-        $('#mainmenu .current li.persmap').addClass('active');
-        osm.markers.personalMap();
-      } else if (on === 3) {
-        $('#lefterrorspan').addClass('on');
-        $('#mainmenu .current li.errors').addClass('active');
-        osm.validators.enable();
-      } else if (on) {
-        $('#leftsearchpan').addClass('on');
-        $('#mainmenu .current li.search').addClass('active');
-        osm.map.addLayer(osm.layers.search_marker);
-      }
-    } else {
-      $('#downpan').addClass('left-on');
-      osm.map.removeLayer(osm.layers.search_marker);
-    }
-    osm.map.invalidateSize();
-  }
-};
-
-search.processResults = function(results) {
-  try {
-    $("#leftsearchpan .loader").removeClass('on');
-    if (results.error) {
-      osm.leftpan.content.innerHTML='Произошла ошибка: ' + (results.error);
-    } else if (results.find==0) {
-      search.q=results.search;
-      osm.leftpan.content.innerHTML='<p>Ничего не найдено по запросу "' + (results.search)  + '"</p><br /><br />\
-          <p>Оставьте заявку об отсутствующем у нас адресе или неправильной работе поиска<br><br>\
-          Комментарий (запрос указывать не надо):\
-          </p>\
-          <form onsubmit="return search.reportError();">\
-          <p><textarea id="rsearch" style="width: 100%;"></textarea></p>\
-          <p style="text-align: center;"><input type="submit" style=""></p>\
-          </form>';
-    }
-    else if (results.find==1 && results.accuracy_find==0) {
-      osm.leftpan.content.innerHTML='Пожалуйста, уточните запрос "' + (results.search) + '"';
-    }
-    else {
-      var content = '<ul id="ol-search_result">';
-      osm.layers.search_marker.clearLayers();
-      var matches=results.matches;
-      for (var i in matches) {
-        zoom=matches[i].addr_type_id*2+4;
-        content += ('<li><a href="" onClick="osm.map.setView(new L.LatLng(' + matches[i].lat + ',' + matches[i].lon + '), '+zoom+'); return false;" info="id='+matches[i].id+'  weight='+matches[i].weight+'">' + matches[i].display_name + '</a></li>');
-        marker = new L.Marker(new L.LatLng(matches[i].lat, matches[i].lon));
-        marker.bindPopup("<b>Адрес:</b><br /> " + matches[i].display_name);
-        osm.layers.search_marker.addLayer(marker);
-      }
-      osm.map.setView(new L.LatLng(matches[0].lat, matches[0].lon), matches[0].addr_type_id*2+4);
-      content += '</ul>';
-      osm.leftpan.content.innerHTML = content;
-    }
-  } catch(e) {
-    osm.leftpan.content.innerHTML = 'Ошибка: ' + e.description + '<br /> Ответ поиск.серв.: '+results.error;
-  }
-};
-
-search.reportError = function() {
-  comment=$_('rsearch').value;
-  $.get("/api/search_report_add", {search: search.q, comment: comment.replace("\n", " ")} );
-  osm.leftpan.content.innerHTML='Спасибо за помощь в улучшении OpenStreetMap';
-  return false;
-}
-
-search.errorHandler = function(jqXHR, textStatus, errorThrown) {
-  $("#leftsearchpan .loader").removeClass('on');
-  osm.leftpan.content.innerHTML = 'Ошибка: ' + textStatus + '<br />' + errorThrown.message;
-};
-
-search.search = function(inQuery) {
-  inQuery = inQuery || osm.input.value;
-  osm.input.value = inQuery;
-  if (inQuery.length < 1)
-    return false;
-  $("#leftsearchpan .loader").addClass('on');
-  mapCenter=osm.map.getCenter();
-  osm.leftpan.toggle(1);
-  $.getJSON('/api/search', {q: inQuery, accuracy: 1, lat: mapCenter.lat, lon: mapCenter.lng}, search.processResults)
-  .error(search.errorHandler);
-/*  this.request = new XMLHttpRequest();
-  //this.request.open('GET', 'http://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(osm.input.value) + '&format=json');
-  this.request.open('GET', '/api/search?q=' + encodeURIComponent(inQuery) + '&accuracy=1' + '&lat=' + mapCenter.lat + '&lon=' + mapCenter.lng);
-  this.request.onreadystatechange = function(){search.processResults(this)};
-  this.request.send(null);*/
-  return false;
-};
-
-search.inLoad = function() {
-  var query = get['q'] || '';
-  if (query != '')
-    search.search(query);
-};
-
 function parseGET() {
   var tmp = new Array();
   var tmp2 = new Array();
@@ -574,43 +313,3 @@ function parseGET() {
     }
   }
 };
-
-osm.onPermalink = function () {
-  mapCenter=osm.map.getCenter();
-  osm.permalink.href = 'http://' + location.host + '?lat=' + mapCenter.lat + '&lon=' + mapCenter.lng + '&zoom=' + osm.map._zoom;
-};
-
-osm.ui.whereima = function() {
-  osm.map.setView(new L.LatLng(clientLat, clientLon), 12);
-};
-
-osm.ui.togglehtp = function() {
-  $('body').hasClass('htp') ? $('#htpbutton').html("&uarr;") : $('#htpbutton').html("&darr;");
-  $('body').toggleClass('htp');
-};
-
-osm.ui.searchsubmit = function() {
-  return search.search($_('qsearch').value);
-}
-
-osm.osbclickon = function(e) {
-  if (e.className!="on") {
-    osm.map.addLayer(osm.layers.osb);
-  }
-  else {
-    osm.map.removeLayer(osm.layers.osb);
-  }
-  osm.map.control_layers._update();
-}
-
-osm.osbclick = function(e,on) {
-  if (on==null) on=e.className!="on"
-  if (on) {
-    e.className="on";
-    osm.map._mapPane.style.cursor="crosshair"
-  }
-  else {
-    e.className="";
-    osm.map._mapPane.style.cursor=""
-  }
-}

@@ -253,6 +253,8 @@ osm.markers.saveMap = function() {
         }
         $_("pm_status").innerHTML = "Сохранено<br>"+
           "<a href='/?mapid="+osm.markers._admin.id+"'>Ссылка на просмотр</a><br>"+
+          "IFrame-встраивание карты на сайт:<br>"+
+          "<textarea><iframe width=\"500px\" height=\"400px\" src=\"http://openstreetmap.ru/frame.php?mapid="+osm.markers._admin.id+"\"></iframe></textarea>"+
           "<a href='/?mapid="+osm.markers._admin.id+"&hash="+osm.markers._admin.hash+"'>Ссылка на редактирование</a><br>"+
           "<a href='/mymap.php?id="+osm.markers._admin.id+"&format=gpx'>Скачать GPX</a>";
       }
