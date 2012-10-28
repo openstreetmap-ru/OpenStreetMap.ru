@@ -27,15 +27,15 @@ osm.validators = {
     "name": "Проверка параметров городов по Википедии",
     "url": "http://osm.alno.name/validators/cupivan_places?minlat={minlat}&minlon={minlon}&maxlat={maxlat}&maxlon={maxlon}&types={filtered_types}",
     "types": {
-      "place":      { "text": "Неверно указан тип населенного пункта {city}" },
-      "wikipedia":  { "text": "Неверно указана ссылка на википедию {city}" },
-      "population": { "text": "Неверно указано население {city}" },
-      "province":   { "text": "Неверно указана область/край/республика {city}" },
-      "district":   { "text": "Неверно указан район города {city}" },
-      "official_status": { "text": "Неверно указан статус населенного пункта {city}" },
-      "name":       { "text": "Неверно указано название населенного пункта {city}" },
-      "old_name":   { "text": "Неверно указано прежнее название населенного пункта {city}" },
-      "website":    { "text": "Неверно указан вебсайт {city}" }
+      "place":      { "text": "Тип населенного пункта" },
+      "wikipedia":  { "text": "Ссылка на википедию" },
+      "population": { "text": "Население" },
+      "province":   { "text": "Область/край/республика" },
+      "district":   { "text": "Район" },
+      "official_status": { "text": "Статус населенного пункта" },
+      "name":       { "text": "Название населенного пункта" },
+      "old_name":   { "text": "Прежнее название населенного пункта" },
+      "website":    { "text": "Вебсайт" }
     },
     "jsonp": true,
     "offset_limit": true
@@ -140,8 +140,10 @@ osm.validators = {
   }],
 
   i18n: {
+    errors: 'Ошибки',
     objects: 'Объекты',
     params: 'Параметры',
+    error_info: 'Информация об ошибке',
     edit_in_potlatch: 'Редактировать в Potlatch',
     edit_in_josm: 'Редактировать в JOSM'
   },
