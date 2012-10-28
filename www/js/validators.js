@@ -23,6 +23,22 @@ osm.validators = {
     },
     "jsonp": true,
     "offset_limit": true
+  },{
+    "name": "Проверка параметров городов по Википедии",
+    "url": "http://osm.alno.name/validators/cupivan_places?minlat={minlat}&minlon={minlon}&maxlat={maxlat}&maxlon={maxlon}&types={filtered_types}",
+    "types": {
+      "place":      { "text": "Неверно указан тип населенного пункта {city}" },
+      "wikipedia":  { "text": "Неверно указана ссылка на википедию {city}" },
+      "population": { "text": "Неверно указано население {city}" },
+      "province":   { "text": "Неверно указана область/край/республика {city}" },
+      "district":   { "text": "Неверно указан район города {city}" },
+      "official_status": { "text": "Неверно указан статус населенного пункта {city}" },
+      "name":       { "text": "Неверно указано название населенного пункта {city}" },
+      "old_name":   { "text": "Неверно указано прежнее название населенного пункта {city}" },
+      "website":    { "text": "Неверно указан вебсайт {city}" }
+    },
+    "jsonp": true,
+    "offset_limit": true
   }],
 
   errors: [{
@@ -90,6 +106,36 @@ osm.validators = {
         name: "Точка-дубликат",
         type: "duplicate_point"
       }]
+    }]
+  },{
+    name: "Населенные пункты",
+    children: [{
+      name: "Тип",
+      type: "place"
+    },{
+      name: "Статус",
+      type: "official_status"
+    },{
+      name: "Название",
+      type: "name"
+    },{
+      name: "Старое название",
+      type: "old_name"
+    },{
+      name: "Регион",
+      type: "region"
+    },{
+      name: "Район",
+      type: "district"
+    },{
+      name: "Население",
+      type: "population"
+    },{
+      name: "Вебсайт",
+      type: "website"
+    },{
+      name: "Ссылка на википедию",
+      type: "wikipedia"
     }]
   }],
 
