@@ -49,12 +49,14 @@ osm.initModes = function(){
   curmenu.before('<img src="img/menu_arrow.png" id="menu_arrow_img">');
   submenu = $('<ul class="submenu" style="background: #88ad0b">');
   submenu.append('<li class="search">Поиск</li>');
+  submenu.append('<li class="poi">Точки интреса</li>');
   submenu.append('<li class="persmap">Персональная</li>');
   submenu.append('<li class="errors">Валидаторы</li>');
   curmenu.append(submenu);
   
   $('#mainmenu .current li.search').addClass('active');
   $('#mainmenu .current li.search').click(function(){osm.leftpan.toggle(1)});
+  $('#mainmenu .current li.poi').click(function(){osm.leftpan.toggle(4)});
   $('#mainmenu .current li.persmap').click(function(){osm.leftpan.toggle(2)});
   $('#mainmenu .current li.errors').click(function(){osm.leftpan.toggle(3)});
 }
@@ -139,6 +141,7 @@ osm.leftpan.toggle = function(on) {
       $('#leftpan div.leftpantab').removeClass('on');
       $('#mainmenu .current li').removeClass('active');
       osm.validators.disable();
+      osm.poi.disable();
       if (on === 2) {
         $('#leftpersmappan').addClass('on');
         $('#mainmenu .current li.persmap').addClass('active');
@@ -147,6 +150,10 @@ osm.leftpan.toggle = function(on) {
         $('#lefterrorspan').addClass('on');
         $('#mainmenu .current li.errors').addClass('active');
         osm.validators.enable();
+      } else if (on === 4) {
+        $('#leftpoispan').addClass('on');
+        $('#mainmenu .current li.poi').addClass('active');
+        osm.poi.enable();
       } else if (on) {
         $('#leftsearchpan').addClass('on');
         $('#mainmenu .current li.search').addClass('active');

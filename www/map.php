@@ -25,8 +25,11 @@ $page_head = <<<PHP_HEAD
   <script type="text/javascript" src="js/validators.js"></script>
   <script type="text/javascript" src="js/wpc.js"></script>
   <script type="text/javascript" src="http://yui.yahooapis.com/3.7.2/build/yui/yui-min.js"></script>
+  <script type="text/javascript" src="js/jquery.jstree.js"></script>
+  <script type="text/javascript" src="js/poi.js"></script>
 
   <link rel="stylesheet" href="css/osb.css" />
+  <link rel="stylesheet" href="css/jstree/jstree.css" />
 PHP_HEAD;
 
 $page_topmenu = <<<PHP_TOPMENU
@@ -106,6 +109,13 @@ $page_content = <<<PHP_CONTENT
         </div>
         <div class="contentpan">
           <ul id="validationerrors"></ul>
+        </div>
+      </div>
+      <div id="leftpoispan" class="leftpantab">
+        <div class="header">
+          <h1>Объекты OSM</h1>
+        </div>
+        <div class="contentpan">
         </div>
       </div>
       <div id="toggler" onClick="osm.leftpan.toggle()"></div>
