@@ -16,6 +16,13 @@
   <script type="text/javascript">frame_map = 1;</script>
 </head>
 <body onload="init()">
+<? if (isset($_GET['noscreenshot'])) { ?>
+  <div id="logoframe">
+    <a href="/">
+      <img id="logo" alt="OpenStreetMap.ru" src="/img/logo.png">
+    </a>  
+  </div>
+<? } ?>
   <div id="downpan" class="left-on">
     <div id="leftpan" class="leftSearch">
       <div class="close" onClick="osm.leftpan.toggle(false);"></div>

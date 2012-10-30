@@ -292,11 +292,17 @@ input[type="submit"]:active, button:active {
   left: 22px;
   top: 30px;
   position: absolute;
-/*  background: url("/img/logo.png") no-repeat;*/
   width: 288px;
   height: 49px;
   z-index: 1;
   border: medium none;
+}
+
+#logoframe img#logo {
+  left: 0;
+  top: 0;
+  background-color: #EFEFEF;
+  opacity: 0.8;
 }
 
 #line {
