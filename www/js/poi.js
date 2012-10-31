@@ -9,7 +9,7 @@ osm.poi = {
 
   initialize: function() {
     osm.poi.layer = new L.LayerGroup();
-    osm.map.addLayer(osm.poi.layer);
+    //osm.map.addLayer(osm.poi.layer);
     osm.poi.tree=$('#leftpoispan div.contentpan')
       .jstree({
         "plugins" : ["json_data", "checkbox","ui"],
@@ -24,12 +24,12 @@ osm.poi = {
         }
       })
       .bind("change_state.check_box.jstree", function (event, data) {
-        osm.poi.updateMarkerTree(false);
+        osm.poi.updateMarkerTree(event, data);
       })
   },
 
   enable: function() {
-    //osm.map.addLayer(this.layer);
+    osm.map.addLayer(osm.poi.layer);
     this.opt.on=true;
     osm.map.on('moveend', osm.poi.updateMarkerTree);
     // osm.map.on('popupopen', osm.poi.bindOpenPopup);
@@ -38,7 +38,7 @@ osm.poi = {
 
   disable: function() {
     this.opt.on=false;
-    //osm.map.removeLayer(this.layer);
+    osm.map.removeLayer(osm.poi.layer);
     osm.map.off('moveend',this.updateMarkerTree);
     // osm.map.off('popupopen', osm.poi.bindOpenPopup);
     // osm.map.off('popupclose', osm.poi.bindClosePopup);
@@ -47,6 +47,20 @@ osm.poi = {
   updateMarkerTree: function(){
     var move = false;
     if (arguments[0].type=="moveend"){move=true}
+    if (!move && arguments[1].args[1] && false) {
+      incheck = arguments[1].args[0].parentNode.parentNode;
+      isleaf=false;
+      for (var i=0;i<incheck.classList.length;i++) {
+        if (incheck.classList[i]=="jstree-leaf") {isleaf=true;}
+      }
+      if (isleaf) {
+        for (item in osm.poi.layer._layers){
+          a=1;
+        }
+      }
+    
+      arguments[1].args[0].parentNode.parentNode.attributes['nclass'].nodeValue
+    }
     var checked=$('.jstree-checked.jstree-leaf', osm.poi.tree );
     var nclass=[];
     for (i=0;i<checked.length;i++) {
@@ -68,7 +82,7 @@ osm.poi = {
           }
           else{
             icon_url = 'img/poi_marker/'+results.data[item2].nclass+'.png';
-            _marker = new L.Marker(new L.LatLng(results.data[item2].lat, results.data[item2].lon), {icon:new osm.poi.osbIcon({iconUrl: icon_url})});
+            _marker = new L.Marker(new L.LatLng(results.data[item2].lat, results.data[item2].lon), {icon:new osm.poi.poiIcon({iconUrl: icon_url})});
             _marker.bindPopup(osm.poi.createPopupText(results.data[item2]));
             osm.poi.layer.addLayer(_marker);
           }
@@ -84,9 +98,9 @@ osm.poi = {
         console.log('Ошибка: ' + textStatus + '<br />' + errorThrown.message);
       });
   },
-  osbIcon :  L.Icon.extend({
+  poiIcon :  L.Icon.extend({
 		options: {
-			iconUrl: 'img/marker-icon.png',
+			//iconUrl: 'img/marker-icon.png',
 			iconSize: new L.Point(31, 31),
 			shadowSize: new L.Point(0, 0),
 			iconAnchor: new L.Point(16, 30),
@@ -171,6 +185,8 @@ osm.poi = {
         isopen=osm.map.hasLayer(marker._popup);
         if (isopen) {marker.closePopup();}
         marker.bindPopup(textP,{maxWidth:400});
+        icon_url = 'img/poi_marker/'+json.data.nclass+'.png';
+        marker.setIcon(new osm.poi.poiIcon({iconUrl: icon_url}));
         if (isopen) {marker.openPopup();}
       }
     })

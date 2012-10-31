@@ -88,7 +88,8 @@ def getpoiinfo():
     SELECT
       *,
       ST_Y(c_geom) as lat,
-      ST_X(c_geom) as lon
+      ST_X(c_geom) as lon,
+      "class" as nclass
     FROM
       ershkus_poi
     WHERE
