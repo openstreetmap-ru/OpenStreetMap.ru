@@ -49,7 +49,7 @@ osm.initModes = function(){
   curmenu.before('<img src="img/menu_arrow.png" id="menu_arrow_img">');
   submenu = $('<ul class="submenu" style="background: #88ad0b">');
   submenu.append('<li class="search">Поиск</li>');
-  submenu.append('<li class="poi">Точки интреса</li>');
+  submenu.append('<li class="poi">Точки интереса</li>');
   submenu.append('<li class="persmap">Персональная</li>');
   submenu.append('<li class="errors">Валидаторы</li>');
   curmenu.append(submenu);
@@ -110,6 +110,12 @@ osm.createTools = function() {
   obListDivA.href='#';
   obListDivA.title='Редактировать (в JOSM)';
   obListDivA.innerHTML='Редактировать (в JOSM)';
+
+  var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
+  obListDivA.href='#';
+  obListDivA.title='Точки интереса';
+  obListDivA.innerHTML='Точки интереса';
+  obListDivA.onclick = function(){osm.leftpan.toggle(4)};
 
   var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
   obListDivA.href='#';
