@@ -1,4 +1,4 @@
-function init() {
+$(function() {
   parseGET();
   if (typeof frame_map === "undefined") frame_map = false; // in frame_map mode we have limited controls and map abilities
 
@@ -48,6 +48,11 @@ function init() {
   osm.markers.initialize();
   osm.markers.readMap();
 
+  $("#leftpan div h1").bind('click',function(){
+    osm.leftpan.toggle(this.parentNode.id);
+  });
+  osm.leftpan.on=true;
+
  if (!frame_map) {
   osm.map.control_layers = new L.Control.Layers(
     osm.baseLayers,
@@ -90,13 +95,14 @@ function init() {
   osm.layers.osb.on('add', function(){osm.osbclick($_('mainmenupage-osb').children[0],true,this);});
   osm.layers.osb.on('remove', function(){osm.osbclick($_('mainmenupage-osb').children[0],false,this);});
   osm.setLinkOSB();
-  
-  osm.initModes();
 
   $("#mappan #htpbutton").bind("click", function(){osm.ui.togglehtp()});
   if (get.hidetoppan) osm.ui.togglehtp();
+
+  osm.dyk.load();
+  $(window).resize(osm.leftpan.refsizetab);
  }
-};
+});
 
 osm.initLayers = function(){
 
@@ -256,7 +262,7 @@ osm.initLayers = function(){
     false
   );
   }
-  
+
   osm.registerLayer(
     'layerHillshading',
     new L.TileLayer('http://toolserver.org/~cmarqu/hill/{z}/{x}/{y}.png', {
@@ -300,17 +306,3 @@ osm.registerLayer = function (name, layer, title, hash, isBase){
         }
     }
 }
-
-function parseGET() {
-  var tmp = new Array();
-  var tmp2 = new Array();
-  get = new Array();
-  var url = location.search;
-  if(url != '') {
-    tmp = (url.substr(1)).split('&');
-    for(var i=0; i < tmp.length; i++) {
-      tmp2 = tmp[i].split('=');
-      if (tmp2.length == 2) get[tmp2[0]] = decodeURIComponent(tmp2[1].replace(/\+/g, " "));
-    }
-  }
-};

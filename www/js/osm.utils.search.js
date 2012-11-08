@@ -1,11 +1,23 @@
+$(function() {
+  search.content=$('#leftpantab #leftsearch .leftcontent')[0];
+});
+
+search.enable = function(){
+  osm.map.addLayer(osm.layers.search_marker);
+};
+search.disable = function(){
+  osm.map.removeLayer(osm.layers.search_marker);
+};
+
+
 search.processResults = function(results) {
   try {
     $("#leftsearchpan .loader").removeClass('on');
     if (results.error) {
-      osm.leftpan.content.innerHTML='Произошла ошибка: ' + (results.error);
+      search.content.innerHTML='Произошла ошибка: ' + (results.error);
     } else if (results.find==0) {
       search.q=results.search;
-      osm.leftpan.content.innerHTML='<p>Ничего не найдено по запросу "' + (results.search)  + '"</p><br /><br />\
+      search.content.innerHTML='<p>Ничего не найдено по запросу "' + (results.search)  + '"</p><br /><br />\
           <p>Оставьте заявку об отсутствующем у нас адресе или неправильной работе поиска<br><br>\
           Комментарий (запрос указывать не надо):\
           </p>\
@@ -15,7 +27,7 @@ search.processResults = function(results) {
           </form>';
     }
     else if (results.find==1 && results.accuracy_find==0) {
-      osm.leftpan.content.innerHTML='Пожалуйста, уточните запрос "' + (results.search) + '"';
+      search.content.innerHTML='Пожалуйста, уточните запрос "' + (results.search) + '"';
     }
     else {
       var content = '<ul id="ol-search_result">';
@@ -36,23 +48,23 @@ search.processResults = function(results) {
       zoom = matches[0].this_poi?14:matches[0].addr_type_id*2+4
       osm.map.setView(new L.LatLng(matches[0].lat, matches[0].lon), zoom);
       content += '</ul>';
-      osm.leftpan.content.innerHTML = content;
+      search.content.innerHTML = content;
     }
   } catch(e) {
-    osm.leftpan.content.innerHTML = 'Ошибка: ' + e.description + '<br /> Ответ поиск.серв.: '+results.error;
+    search.content.innerHTML = 'Ошибка: ' + e.description + '<br /> Ответ поиск.серв.: '+results.error;
   }
 };
 
 search.reportError = function() {
   comment=$_('rsearch').value;
   $.get("/api/search_report_add", {search: search.q, comment: comment.replace("\n", " ")} );
-  osm.leftpan.content.innerHTML='Спасибо за помощь в улучшении OpenStreetMap';
+  search.content.innerHTML='Спасибо за помощь в улучшении OpenStreetMap';
   return false;
 }
 
 search.errorHandler = function(jqXHR, textStatus, errorThrown) {
   $("#leftsearchpan .loader").removeClass('on');
-  osm.leftpan.content.innerHTML = 'Ошибка: ' + textStatus + '<br />' + errorThrown.message;
+  search.content.innerHTML = 'Ошибка: ' + textStatus + '<br />' + errorThrown.message;
 };
 
 search.search = function(inQuery) {
@@ -62,14 +74,9 @@ search.search = function(inQuery) {
     return false;
   $("#leftsearchpan .loader").addClass('on');
   mapCenter=osm.map.getCenter();
-  osm.leftpan.toggle(1);
+  osm.leftpan.toggle('leftsearch');
   $.getJSON('/api/search', {q: inQuery, accuracy: 1, lat: mapCenter.lat, lon: mapCenter.lng}, search.processResults)
   .error(search.errorHandler);
-/*  this.request = new XMLHttpRequest();
-  //this.request.open('GET', 'http://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(osm.input.value) + '&format=json');
-  this.request.open('GET', '/api/search?q=' + encodeURIComponent(inQuery) + '&accuracy=1' + '&lat=' + mapCenter.lat + '&lon=' + mapCenter.lng);
-  this.request.onreadystatechange = function(){search.processResults(this)};
-  this.request.send(null);*/
   return false;
 };
 

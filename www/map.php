@@ -8,6 +8,7 @@ $page_head = <<<PHP_HEAD
   <script type="text/javascript" src="js/osm.common.js"></script>
   <script type="text/javascript" src="js/osm.utils.js"></script>
   <script type="text/javascript" src="js/osm.utils.search.js"></script>
+  <script type="text/javascript" src="js/osm.dyk.js"></script>
   <script type="text/javascript" src="js/map.js"></script>
   <script type="text/javascript" src="geo.php"></script>
   <script type="text/javascript" src="js/Control.Permalink.js"></script>
@@ -73,78 +74,70 @@ $page_topbar = <<<PHP_TOPBAR
 PHP_TOPBAR;
 
 $page_content = <<<PHP_CONTENT
-<body onload="init()">
-  <div id="downpan" class="left-on">
-    <div id="leftpan" class="leftSearch">
-      <div class="close" onClick="osm.leftpan.toggle(false);"></div>
-      <div id="leftsearchpan" class="leftpantab">
-        <div class="header">
-          <h1>Результаты поиска:<span class="loader"></span></h1>
+  <div id="downpan">
+    <div id="leftpan">
+      <div id="leftpantab">
+        <div id="leftsearch" class="leftgroup">
+          <h1>Поиск</h1>
+          <div class="leftcontent" style="display: none;">
+            <p>Для поиска введите в строку искомый адрес и нажмите "Найти"</p>
+          </div>
         </div>
-        <div id="content_pan" class="contentpan">
-          <p>Для поиска введите в строку искомый адрес и нажмите "Найти"</p>
+        <div id="leftpoi" class="leftgroup">
+          <h1>Точки интереса (POI)</h1>
+          <div class="leftcontent" style="display: none;">
+          </div>
         </div>
-      </div>
-      <div id="leftpersmappan" class="leftpantab">
-        <div class="header">
+        <div id="leftpersmap" class="leftgroup">
           <h1>Персональная карта</h1>
+          <div class="leftcontent" style="display: none;">
+            <div id="pm-control">
+              <p class="pm-button">
+                <a id="pm-button-marker" class="pm-button-a" onclick="osm.markers.addMultiMarker()">
+                  Поставить маркер
+                </a>
+              </p>
+              <p class="pm-button">
+                <a id="pm-button-path" class="pm-button-a" onclick="osm.markers.addPath()">
+                  Нарисовать путь
+                </a>
+              </p>
+              <p class="pm-button pm-save">
+                <a onclick="osm.markers.saveMap();" style="cursor: pointer;">
+                  Сохранить
+                </a>
+              </p>
+            </div>
+            <div id="pm-status"></div>
+          </div>
         </div>
-        <div class="contentpan">
-          <ul class="pm-menu">
-            <li class="pm-submenu"><img src='img/pencil.svg' /><span>Нарисовать</span></li>
-            <li>
-              <ul class="pm-options">
-                <li id="multimarkerbutton" onClick="osm.markers.addMultiMarker()"><img src='img/marker.svg' /><span>Маркер</span></li>
-                <li id="pathbutton" onClick='osm.markers.addPath();'><img src='img/path.svg' /><span>Путь</span></li>
-              </ul>
-            </li>
-            <li class="pm-submenu" id="pm_save" onClick="osm.markers.saveMap()"><img src='img/save.svg' /><span>Сохранить</span></li>
-          </ul>
-          <div id="pm_status"></div>
+        <div id="leftvalidator" class="leftgroup">
+          <h1>Данные валидаторов</h1>
+          <div class="leftcontent" style="display: none;">
+            <ul id="validationerrors"></ul>
+          </div>
         </div>
-      </div>
-      <div id="lefterrorspan" class="leftpantab">
-        <div class="header">
-          <h1>Ошибки на карте</h1>
+        <div id="leftothers" class="leftgroup">
+          <h1>Другие инструменты</h1>
+          <div class="leftcontent" style="display: none;">
+            <ul>
+              <li><a onclick="osm.markers.addPoint();" href='#'>Поставить маркер</a></li>
+              <li><a id="EditJOSM" href='#'>Редактировать (в JOSM)</a></li>
+            </ul>
+          </div>
         </div>
-        <div class="contentpan">
-          <ul id="validationerrors"></ul>
-        </div>
-      </div>
-      <div id="leftpoispan" class="leftpantab">
-        <div class="header">
-          <h1>Объекты OSM</h1>
-        </div>
-        <div class="contentpan">
+
+        <div id="DidYouKnow" style="display: none;">
+          <div class="head">Полезно знать?</div>
+          <div class="close"></div>
+          <p></p>
         </div>
       </div>
       <div id="toggler" onClick="osm.leftpan.toggle()"></div>
     </div>
     <div id="mappan">
       <div id="map"></div>
-      <!--<div id="tools" onmouseover="this.className='on';" onmouseout="this.className='';">
-        <div class="a">
-          <a id="tools-button" href="#" title="Инструменты"></a>
-        </div>
-        <div class="p">
-          <p><a href="#" title="Маркер" onClick="osm.markers.addPoint()">Маркер</a></p>
-          <p><a id="EditJOSM" href="#" title="Редактировать">Редактировать (в JOSM)</a></p>
-          <p><a href="#" title="Персональная карта" onClick="osm.markers.personalMap()">Персональная карта</a></p>
-        </div>
-      </div>-->
       <div id="htpbutton" class="map-feature-button">&uarr;</div>
-      <!--<div id="cpan">
-        <img id="cpanglo" src="img/glow.png" />
-        <img id="cpanarr" src="img/arrows.png" />
-        <img id="cpanjoy" src="img/joy.png" />
-        <div id="cpanact" onmousedown="osm.cpan.startPan(event)" onmousemove="osm.cpan.dragPan(event)" onmouseup="osm.cpan.endPan(event)" onmouseout="osm.cpan.endPan(event)"></div>
-      </div>-->
-      <!--<div class="vshadow">
-        <div class="w1"></div><div class="w2"></div><div class="w3"></div><div class="w4"></div><div class="w5"></div>
-      </div>
-      <div class="hshadow">
-        <div class="h1"></div><div class="h2"></div><div class="h3"></div><div class="h4"></div><div class="h5"></div>
-      </div>-->
     </div>
   </div>
   <iframe name="hiddenIframe" id="hiddenIframe" style="display: none;"></iframe>
