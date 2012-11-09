@@ -9,15 +9,18 @@ $(function()
 	var prepareRequest = function(x)
 	{
 		x = x.replace(/([\.,])(\S)/, '$1 $2'); // отделяем сокращения от слова
+		x = x.replace(/([кдс])(\d)/g, '$1 $2').replace(/(\d)([кдс])/g, '$1 $2'); // 4к4 -> 4 к 4
 		return x;
 	}
 
 	/** сокращатель полной формы адреса в читаемый вариант */
 	var toShortName = function(x)
 	{
-		x = x.replace('дом ', 'д. ');
-		x = x.replace('улица ', 'ул. ');
-		x = x.replace('город ', 'г. ');
+		x = x.replace('дом ',      'д. ');
+		x = x.replace('корпус ',   'к. ');
+		x = x.replace('строение ', 'с. ');
+		x = x.replace('улица ',    'ул. ');
+		x = x.replace('город ',    'г. ');
 		x = x.replace(/\S+ область, /, '');
 		x = x.replace(/\S+ край, /, '');
 		return x;
@@ -27,10 +30,10 @@ $(function()
 	var highlight = function(x, q)
 	{
 		var i;
-		q = q.replace(/[^а-яa-z0-9]/ig, ' ').replace(/\s+/, ' ');
+		q = prepareRequest(q.replace(/[^а-яa-z0-9]/ig, ' ').replace(/\s+/, ' '));
 		q = q.split(' ');
 		for (i in q) if (q[i])
-			x = x.replace(new RegExp('('+q[i]+')', 'ig'), '<strong>$1</strong>');
+			x = x.replace(new RegExp('(\\s|^)('+q[i]+')', 'ig'), '$1<strong>$2</strong>');
 		return x;
 	}
 
@@ -50,7 +53,7 @@ $(function()
 					response($.map(data.matches, function(item)
 					{
 						item.label = highlight(item.name, request.term);
-						item.value = toShortName(item.name);
+						item.value = toShortName(item.display_name);
 						return item;
 					}));
 					else $('#qsearch').autocomplete('close'); // ничего не найдено, закрываем подсказку
@@ -73,5 +76,6 @@ $(function()
 			.append("<a>" + item.label + "</a>")
 			.appendTo(ul);
 	}
-
+	// ставим шрифт в поисковой строке, такой же как у подсказок
+	$('#qsearch').addClass('ui-widget');
 });
