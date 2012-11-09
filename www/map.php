@@ -24,16 +24,16 @@ $page_head = <<<PHP_HEAD
   <script type="text/javascript" src="js/markers.js"></script>
   <script type="text/javascript" src="js/validators.js"></script>
   <script type="text/javascript" src="js/wpc.js"></script>
-  <script type="text/javascript" src="http://yui.yahooapis.com/3.7.2/build/yui/yui-min.js"></script>
   <script type="text/javascript" src="js/jquery.jstree.js"></script>
   <script type="text/javascript" src="js/poi.js"></script>
+  <script type="text/javascript" src="js/autocomplete.js"></script>
 
   <link rel="stylesheet" href="css/osb.css" />
   <link rel="stylesheet" href="css/jstree/jstree.css" />
 PHP_HEAD;
 
 $page_topmenu = <<<PHP_TOPMENU
-          <td id="mainmenupage-osb"><a href="/" title="Достаточно двойного клика мышью по месту и указать неточность" onclick="osm.osbclickon(this); return false;"><div>Указать неточность на карте</div></a></td>
+	<td id="mainmenupage-osb"><a href="/" title="Достаточно двойного клика мышью по месту и указать неточность" onclick="osm.osbclickon(this); return false;"><div>Указать неточность на карте</div></a></td>
 PHP_TOPMENU;
 
 $page_topbar = <<<PHP_TOPBAR
@@ -55,25 +55,9 @@ $page_topbar = <<<PHP_TOPBAR
           </td>
         </tr></table></form>
       </div>
-
-      <script>
-      YUI().use('autocomplete', 'autocomplete-highlighters', 'datasource-get', function (Y) {
-        var inputNode = Y.one('#qsearch')
-
-        inputNode.plug(Y.Plugin.AutoComplete, {
-          maxResults: 7,
-          resultHighlighter: 'subWordMatch',
-          resultTextLocator: 'name',
-          source: 'api/autocomplete?q={query}',
-          resultListLocator: 'matches'
-        });
-      });
-      </script>
-      </body>
 PHP_TOPBAR;
 
 $page_content = <<<PHP_CONTENT
-<body onload="init()">
   <div id="downpan" class="left-on">
     <div id="leftpan" class="leftSearch">
       <div class="close" onClick="osm.leftpan.toggle(false);"></div>
