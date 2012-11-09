@@ -8,7 +8,7 @@ $(function()
 	/** подготовка запроса к серверу */
 	var prepareRequest = function(x)
 	{
-		x = x.replace(/([\.,])(\S)/, '$1 $2'); // отделяем сокращения от слова
+		x = x.replace(/([\.,])(\S)/,  '$1 $2'); // отделяем сокращения от слова
 		x = x.replace(/([кдс])(\d)/g, '$1 $2').replace(/(\d)([кдс])/g, '$1 $2'); // 4к4 -> 4 к 4
 		return x;
 	}
@@ -21,8 +21,7 @@ $(function()
 		x = x.replace('строение ', 'с. ');
 		x = x.replace('улица ',    'ул. ');
 		x = x.replace('город ',    'г. ');
-		x = x.replace(/\S+ область, /, '');
-		x = x.replace(/\S+ край, /, '');
+		x = x.replace(/[^,]*?(край|область|Башкортостан|Татарстан), /, '');
 		return x;
 	}
 
@@ -46,7 +45,10 @@ $(function()
 				url: '/api/autocomplete',
 				dataType: 'json',
 				minLength: 3,
-				data: { q: prepareRequest(request.term) },
+				data: {
+					q: prepareRequest(request.term),
+					bbox: osm.map.getBounds().toBBoxString()
+				},
 				success: function(data)
 				{
 					if (data && data.find)
