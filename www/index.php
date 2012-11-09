@@ -27,18 +27,20 @@ include_once ($_URL[0].'.php');
 <!doctype html>
 <html>
 <head>
-  <title>OpenStreetMap Россия — <?=$data['text'] ?></title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <link rel="stylesheet" href="css/main.css" type="text/css" media="screen, projection" />
-  <link rel="stylesheet" href="css/main_small.css" type="text/css" media="handheld, only screen and (max-device-width:800px)" />
-  <link rel="search" href="/search.xml" type="application/opensearchdescription+xml" title="OpenStreetMap.Ru" />
-  <script type="text/javascript" src="js/main.js"></script>
-  <link rel="icon" type="image/png" href="/favicon.png" />
-  <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-  <? print($external_head); ?>
-  <? print($page_head); ?>
+	<title>OpenStreetMap Россия — <?=$data['text'] ?></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="css/main.css" type="text/css" media="screen, projection" />
+	<link rel="stylesheet" href="css/main_small.css" type="text/css" media="handheld, only screen and (max-device-width:800px)" />
+	<link rel="search" href="/search.xml" type="application/opensearchdescription+xml" title="OpenStreetMap.Ru" />
+	<script type="text/javascript" src="js/main.js"></script>
+	<link rel="icon" type="image/png" href="/favicon.png" />
+	<link rel="stylesheet" href="http://yandex.st/jquery-ui/1.9.0/themes/base/jquery-ui.min.css" />
+	<script src="http://yandex.st/jquery/1.8.2/jquery.min.js"></script>
+	<script src="http://yandex.st/jquery-ui/1.9.0/jquery-ui.min.js"></script>
+	<? print($external_head); ?>
+	<? print($page_head); ?>
 </head>
-<body>
+<body onload="init()">
   <div id="menupan">
     <div id="menuback"></div>
     <table id="tablemenu"><tr>
