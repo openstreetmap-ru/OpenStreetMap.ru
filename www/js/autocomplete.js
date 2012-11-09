@@ -49,8 +49,8 @@ $(function()
 					if (data && data.find)
 					response($.map(data.matches, function(item)
 					{
-						item.label = highlight(item.display_name, request.term);
-						item.value = toShortName(item.display_name);
+						item.label = highlight(item.name, request.term);
+						item.value = toShortName(item.name);
 						return item;
 					}));
 					else $('#qsearch').autocomplete('close'); // ничего не найдено, закрываем подсказку

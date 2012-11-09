@@ -5,15 +5,15 @@
 # ErshKUS
 
 from sphinxapi import *
-import cgi, sys, json
+import cgi, sys, json, re
 import psycopg2
 import db_config
 
 host = 'localhost'
 port = 3312
-#sphinxindex = 'ershkus_search_addr, ershkus_poi'
+sphinxindex = 'ershkus_search_addr, ershkus_poi'
 #sphinxindex = 'ershkus_poi'
-sphinxindex = 'ershkus_search_addr'
+#sphinxindex = 'ershkus_search_addr'
 listAddrType=['city','district','region']
 countlistAddrType=2
 q = ''
@@ -56,7 +56,7 @@ def main():
     
   print "Content-type: text/javascript; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # debug
   #print "Content-type: application/json; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # production
-  q = getvalues.getfirst("q","")
+  q = unicode(getvalues.getfirst("q",""),'utf8')
   lat = float(getvalues.getfirst("lat","0"))
   lon = float(getvalues.getfirst("lon","0"))
   asis = bool(getvalues.getfirst("asis",""))
@@ -78,7 +78,7 @@ def main():
   cl.SetServer ( host, port )
   cl.SetMatchMode ( mode )
   
-  cl.SetRankingMode(SPH_RANK_SPH04)
+  #cl.SetRankingMode(SPH_RANK_SPH04)
   
   if (lat and lon):
     cl.SetGeoAnchor("lat", "lon", lat, lon)
@@ -96,42 +96,63 @@ def main():
   q = q.replace("-"," \-")
   q = q.replace("/","\/")
 
-  resQ=1
-  if (lat and lon):
-    for xAddrType in listAddrType:
-      q2 = regeo(xAddrType)
-      if q2 == None:
-        continue
-      i=countlistAddrType
-      cl.ResetOnlyFilter()
-      for n in q2:
-        if n <> None:
-          cl.SetFilter(listAddrType[i]+'_id',[n])
-        i=i-1
-      res = cl.Query(q, sphinxindex)
-      resQ=ifresult(res)
-      if resQ > 10:
-        return
-      if resQ == 2:
-        break
+  def search():
+    resQ=1
+    if (lat and lon):
+      for xAddrType in listAddrType:
+        q2 = regeo(xAddrType)
+        if q2 == None:
+          continue
+        i=countlistAddrType
+        cl.ResetOnlyFilter()
+        for n in q2:
+          if n <> None:
+            cl.SetFilter(listAddrType[i]+'_id',[n])
+          i=i-1
+        res = cl.Query(q, sphinxindex)
+        resQ=ifresult(res)
+        if resQ > 10:
+          return {'ret':False, 'res':res, 'error':True}
+        if resQ == 2:
+          break
     
-  if resQ == 1:
-    cl.ResetOnlyFilter()
-    res = cl.Query(q, sphinxindex)
-    resQ2 = ifresult(res)
-    if resQ2 > 10:
+    if resQ == 1:
+      cl.ResetOnlyFilter()
+      res = cl.Query(q, sphinxindex)
+      resQ2 = ifresult(res)
+      if resQ2 > 10:
+        output['find']=False
+        return {'ret':False, 'res':res, 'error':True}
+      if resQ2 == 1:
+        output['find']=False
+        return {'ret':False, 'res':res, 'error':False}
+    
+    return {'ret':True,'res':res, 'error':False}
+
+    
+  output['find']=False
+  retdata = search()
+  if retdata['ret']:
+    res=retdata['res']
+  else:
+    if retdata['error']:
       return
-    if resQ2 == 1:
-      output['find']=False
-      return
+    else:
+      q=re.sub(u'(\d+)[ ]+([А-Яа-я][\s,.])', r'\1\2', q)
+      retdata = search()
+      if retdata['ret']:
+        res=retdata['res']
+      else:
+        return
+  
   
   if res.has_key('matches'):
     output['find']=True
     outputdata=[]
-    weight_min=(res['matches'][0]['weight']-100)
+    #weight_min=(res['matches'][0]['weight']-100)
+    addr_type_min = output['deb']=res['matches'][0]['attrs']['addr_type_id']
     for match in res['matches']:
-      
-      if (match['weight']>weight_min) :
+      if (match['attrs']['addr_type_id']<=addr_type_min):
         outputlen=match['attrs']
         outputlen['id']=match['id']
         outputlen['weight']=match['weight']

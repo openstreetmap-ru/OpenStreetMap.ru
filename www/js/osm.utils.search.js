@@ -22,13 +22,19 @@ search.processResults = function(results) {
       osm.layers.search_marker.clearLayers();
       var matches=results.matches;
       for (var i in matches) {
-        zoom=matches[i].addr_type_id*2+4;
+        zoom = matches[i].this_poi?16:matches[i].addr_type_id*2+4;
         content += ('<li><a href="" onClick="osm.map.setView(new L.LatLng(' + matches[i].lat + ',' + matches[i].lon + '), '+zoom+'); return false;" info="id='+matches[i].id+'  weight='+matches[i].weight+'">' + matches[i].display_name + '</a></li>');
-        marker = new L.Marker(new L.LatLng(matches[i].lat, matches[i].lon));
-        marker.bindPopup("<b>Адрес:</b><br /> " + matches[i].display_name);
+        marker = new L.Marker(new L.LatLng(matches[i].lat, matches[i].lon), {icon: new search.Icon()});
+        if (matches[i].this_poi) {
+          osm.poi.createPopup(matches[i].id, marker);
+        }
+        else {
+          marker.bindPopup("<b>Адрес:</b><br /> " + matches[i].display_name);
+        }
         osm.layers.search_marker.addLayer(marker);
       }
-      osm.map.setView(new L.LatLng(matches[0].lat, matches[0].lon), matches[0].addr_type_id*2+4);
+      zoom = matches[0].this_poi?14:matches[0].addr_type_id*2+4
+      osm.map.setView(new L.LatLng(matches[0].lat, matches[0].lon), zoom);
       content += '</ul>';
       osm.leftpan.content.innerHTML = content;
     }
@@ -72,4 +78,14 @@ search.inLoad = function() {
   if (query != '')
     search.search(query);
 };
+
+search.Icon =  L.Icon.extend({
+  options: {
+    iconUrl: 'img/marker-addr.png',
+    iconSize: new L.Point(31, 31),
+    shadowSize: new L.Point(0, 0),
+    iconAnchor: new L.Point(16, 30),
+    popupAnchor: new L.Point(0, -11)
+  }
+});
 

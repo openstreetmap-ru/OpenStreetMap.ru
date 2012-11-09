@@ -292,11 +292,17 @@ input[type="submit"]:active, button:active {
   left: 22px;
   top: 30px;
   position: absolute;
-/*  background: url("/img/logo.png") no-repeat;*/
   width: 288px;
   height: 49px;
   z-index: 1;
   border: medium none;
+}
+
+#logoframe img#logo {
+  left: 0;
+  top: 0;
+  background-color: #EFEFEF;
+  opacity: 0.8;
 }
 
 #line {
@@ -1020,4 +1026,26 @@ for leaflet
 }
 .left-on #content_pan { /* removes horizontal scroll in collapsed left pan */
   overflow: hidden;
+}
+
+/*
+  POI
+*/
+div.poi_popup p {
+  margin: 0;
+}
+div.poi_popup table td{
+  padding: 0.3em;
+}
+div.poi_popup .poi_header  .poi_value{
+  font-weight: bolder;
+}
+div.poi_popup p.poi_header{
+  padding-bottom: 1em;
+}
+div.poi_popup p.poi_header .poi_name{
+  margin-right: 1em;
+}
+div.poi_popup p.poi_header .poi_value{
+  font-size: 1.2em;
 }

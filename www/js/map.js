@@ -73,6 +73,7 @@ function init() {
   osm.map.addControl(new L.Control.Zoom({shiftClick: true}));
   osm.map.addControl(new L.Control.Distance());
   osm.validators.initialize();
+  osm.poi.initialize();
 
   osm.createTools();
   search.inLoad();

@@ -1,0 +1,126 @@
+#!/usr/bin/env python
+# -*- coding: utf8 -*-
+
+# poi osm
+# ErshKUS
+
+import cgi, sys, json
+import psycopg2
+import psycopg2.extras
+import db_config
+
+
+output={}
+output['ver']='0.1'
+
+
+def getcatalog():
+  getval={}
+  getval['parent'] = unicode(getvalues.getfirst('parent',''),'utf8')
+  getval['lang'] = unicode(getvalues.getfirst('lang','ru'),'utf8')
+
+  # if (getval['parent']==''):
+    # where = ' poi_catalog.parent is null '
+  # else:
+  where = ' %(parent)s = any(poi_catalog.parent) '
+
+  cur = connsite.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+  cur.execute("""
+    SELECT
+      poi_catalog.name as nclass,
+      poi_dict.name as langname
+    FROM
+      poi_catalog
+      LEFT JOIN poi_dict
+      ON poi_catalog.name=poi_dict.item
+        AND poi_dict.type = 'o'
+        AND poi_dict.lang = %(lang)s
+    WHERE """+where+"""
+    ORDER BY
+      poi_dict.name
+    ;""", getval)
+  data = []
+  for record in cur:
+    data.append(record)
+  output['data']=data
+
+def getpoibbox():
+  getval={}
+  getval['nclass'] = unicode(getvalues.getfirst('nclass',''),'utf8').split(',')
+  getval['t'] = float(getvalues.getfirst("t","0"))
+  getval['r'] = float(getvalues.getfirst("r","0"))
+  getval['b'] = float(getvalues.getfirst("b","0"))
+  getval['l'] = float(getvalues.getfirst("l","0"))
+  for name in getval:
+    if (getval[name] == 0 or getval[name] == ''):
+      output['error']=("'%(name)s' is not null"%{'name':name})
+      return
+
+  psycopg2.extras.register_hstore(connaddr)
+  cur = connaddr.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+  cur.execute("""
+    SELECT
+      *,
+      ST_Y(c_geom) as lat, ST_X(c_geom) as lon,
+      "class" as nclass
+    FROM ershkus_poi
+    WHERE
+      ST_Intersects(ST_PolygonFromText('POLYGON((%(l)s %(t)s,%(r)s %(t)s,%(r)s %(b)s,%(l)s %(b)s,%(l)s %(t)s))', 4326), c_geom)
+      AND "class"=any(%(nclass)s)
+    LIMIT 100
+    ;""", getval)
+  data = []
+  for record in cur:
+    data.append(record)
+  output['data']=data
+
+def getpoiinfo():
+  getval={}
+  getval['id'] = int(getvalues.getfirst("id","0"))
+  for name in getval:
+    if (getval[name] == 0 or getval[name] == ''):
+      output['error']=("'%(name)s' is not null"%{'name':name})
+      return
+
+  psycopg2.extras.register_hstore(connaddr)
+  cur = connaddr.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+  cur.execute("""
+    SELECT
+      *,
+      ST_Y(c_geom) as lat,
+      ST_X(c_geom) as lon,
+      "class" as nclass
+    FROM
+      ershkus_poi
+    WHERE
+      id=%(id)s
+  ;""", getval)
+  output['data']=cur.fetchone()
+
+
+
+print "Content-type: text/javascript; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # debug
+#print "Content-type: application/json; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # production
+
+connsite = psycopg2.connect(host=db_config.site_host, database=db_config.site_database, user=db_config.site_user, password=db_config.site_password)
+connaddr = psycopg2.connect(host=db_config.addr_host, database=db_config.addr_database, user=db_config.addr_user, password=db_config.addr_password)
+
+getvalues=cgi.FieldStorage()
+output['action'] = getvalues.getfirst('action','')
+outCallback = getvalues.getfirst('callback','')
+if output['action'] == 'getcatalog':
+  getcatalog()
+elif output['action'] == 'getpoibbox':
+  getpoibbox()
+elif output['action'] == 'getpoiinfo':
+  getpoiinfo()
+else:
+  output['error']='wrong action'
+
+
+
+if (outCallback == ""):
+  print json.dumps(output)
+else:
+  print outCallback + "(" + json.dumps(output) + ");"
+

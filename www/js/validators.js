@@ -23,6 +23,22 @@ osm.validators = {
     },
     "jsonp": true,
     "offset_limit": true
+  },{
+    "name": "Проверка параметров городов по Википедии",
+    "url": "http://osm.alno.name/validators/cupivan_places?minlat={minlat}&minlon={minlon}&maxlat={maxlat}&maxlon={maxlon}&types={filtered_types}",
+    "types": {
+      "place":      { "text": "Тип населенного пункта" },
+      "wikipedia":  { "text": "Ссылка на википедию" },
+      "population": { "text": "Население" },
+      "province":   { "text": "Область/край/республика" },
+      "district":   { "text": "Район" },
+      "official_status": { "text": "Статус населенного пункта" },
+      "name":       { "text": "Название населенного пункта" },
+      "old_name":   { "text": "Прежнее название населенного пункта" },
+      "website":    { "text": "Вебсайт" }
+    },
+    "jsonp": true,
+    "offset_limit": true
   }],
 
   errors: [{
@@ -91,11 +107,43 @@ osm.validators = {
         type: "duplicate_point"
       }]
     }]
+  },{
+    name: "Населенные пункты",
+    children: [{
+      name: "Тип",
+      type: "place"
+    },{
+      name: "Статус",
+      type: "official_status"
+    },{
+      name: "Название",
+      type: "name"
+    },{
+      name: "Старое название",
+      type: "old_name"
+    },{
+      name: "Регион",
+      type: "region"
+    },{
+      name: "Район",
+      type: "district"
+    },{
+      name: "Население",
+      type: "population"
+    },{
+      name: "Вебсайт",
+      type: "website"
+    },{
+      name: "Ссылка на википедию",
+      type: "wikipedia"
+    }]
   }],
 
   i18n: {
+    errors: 'Ошибки',
     objects: 'Объекты',
     params: 'Параметры',
+    error_info: 'Информация об ошибке',
     edit_in_potlatch: 'Редактировать в Potlatch',
     edit_in_josm: 'Редактировать в JOSM'
   },

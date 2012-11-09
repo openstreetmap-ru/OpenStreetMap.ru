@@ -34,6 +34,8 @@
       this.sourceRequests = {};
       this.disabledErrors = [];
       this.i18n = this.options.i18n || {
+        error_info: 'More error info',
+        errors: 'Errors',
         objects: 'Objects',
         params: 'Params',
         edit_in_potlatch: 'Edit in Potlatch',
@@ -181,7 +183,7 @@
       return _results;
     },
     buildResult: function(source, res) {
-      var bounds, center, key, ne, obj, popupText, resLayer, sw, value, _i, _len, _ref, _ref1;
+      var bounds, center, errorData, errorTemplate, key, ne, obj, popupText, resLayer, sw, type, value, _i, _j, _len, _len1, _ref, _ref1, _ref2, _ref3;
       bounds = new L.LatLngBounds();
       resLayer = new L.GeoJSON({
         type: 'Feature',
@@ -192,17 +194,36 @@
       sw = bounds.getSouthWest();
       ne = bounds.getNorthEast();
       popupText = "<div class=\"map-validation-error\">";
-      popupText += "<p>" + (this.buildErrorText(source, res)) + "</p>";
+      popupText += "<p>" + this.i18n.errors + "</p>";
+      popupText += "<ul class=\"errors\">";
+      _ref = res.types;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        type = _ref[_i];
+        if (!((_ref1 = source.types[type]) != null ? _ref1.text : void 0)) {
+          continue;
+        }
+        errorTemplate = source.types[type].text;
+        errorData = res.params || {};
+        popupText += "<li>";
+        popupText += errorTemplate.replace(/\{ *([\w_]+) *\}/g, function(str, key) {
+          return errorData[key];
+        });
+        popupText += "</li>";
+      }
+      popupText += "</ul>";
       popupText += "<p>";
+      if (res.url) {
+        popupText += "<a href=\"" + res.url + "\" target=\"_blank\">" + this.i18n.error_info + "</a><br />";
+      }
       popupText += "<a href=\"http://localhost:8111/load_and_zoom?top=" + ne.lat + "&bottom=" + sw.lat + "&left=" + sw.lng + "&right=" + ne.lng + "\" target=\"josm\">" + this.i18n.edit_in_josm + "</a><br />";
       popupText += "<a href=\"http://openstreetmap.org/edit?lat=" + center.lat + "&lon=" + center.lng + "&zoom=17\" target=\"_blank\">" + this.i18n.edit_in_potlatch + "</a><br />";
       popupText += "</p>";
       if (res.objects) {
         popupText += "<p>" + this.i18n.objects + "</p>";
         popupText += "<ul class=\"objects\">";
-        _ref = res.objects;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          obj = _ref[_i];
+        _ref2 = res.objects;
+        for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
+          obj = _ref2[_j];
           popupText += "<li><a href=\"http://www.openstreetmap.org/browse/" + obj[0] + "/" + obj[1] + "\" target=\"_blank\">" + (obj.join('-')) + "</a></li>";
         }
         popupText += "</ul>";
@@ -210,9 +231,9 @@
       if (res.params) {
         popupText += "<p>" + this.i18n.params + "</p>";
         popupText += "<ul class=\"params\">";
-        _ref1 = res.params;
-        for (key in _ref1) {
-          value = _ref1[key];
+        _ref3 = res.params;
+        for (key in _ref3) {
+          value = _ref3[key];
           popupText += "<li>" + key + ": " + value + "</li>";
         }
         popupText += "</ul>";
@@ -220,26 +241,6 @@
       popupText += "</div>";
       resLayer.bindPopup(popupText);
       return resLayer;
-    },
-    buildErrorText: function(source, res) {
-      var errorData, errorTemplate;
-      errorTemplate = res.text || this.buildErrorTemplate(source, res);
-      errorData = res.params || {};
-      return errorTemplate.replace(/\{ *([\w_]+) *\}/g, function(str, key) {
-        return errorData[key];
-      });
-    },
-    buildErrorTemplate: function(source, res) {
-      var elems, type, _i, _len, _ref, _ref1;
-      elems = [];
-      _ref = res.types;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        type = _ref[_i];
-        if ((_ref1 = source.types[type]) != null ? _ref1.text : void 0) {
-          elems.push(source.types[type].text);
-        }
-      }
-      return elems.join();
     }
   });
 
