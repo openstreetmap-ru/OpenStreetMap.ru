@@ -126,6 +126,9 @@
     },
     update: function() {
       var req, source, url, _ref, _ref1, _results;
+      if (!this.map) {
+        return;
+      }
       _ref = this.sourceRequests;
       for (url in _ref) {
         req = _ref[url];
