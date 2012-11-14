@@ -51,9 +51,9 @@ def find_matches(query, lat=0, lon=0, bBox=None):
 
     cl.SetLimits(0, 2*SEARCH_RESULTS_LIMIT, 4*SEARCH_RESULTS_LIMIT)
 
-    query = query.replace("-"," \-")
     query = query.replace("/","\/")
     query = query.replace(",", " ") # ignore comas
+    query = query.replace(".", ". ") # split connected by . words
 
     sphinx_results = []
     sphinx_query = prepare_query(query)
