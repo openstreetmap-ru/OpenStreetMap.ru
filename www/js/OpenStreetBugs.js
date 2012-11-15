@@ -225,6 +225,17 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 				return '<a href="'+url+'" target="_blank">'+st+'</a>';
 			});
 
+			// добавляем ссылки на описание тегов в OSM
+			text = text.replace(/(^|\W)([a-z_]+[:=][a-z_]+)(\W|$)/g, function(_, a, st, b){
+				var key = st = st.replace('hw=', 'highway='); // сокращенная запись
+				if (st.indexOf('highway') != -1)
+					key = 'Tag:'+key.replace('=', '%3D'); // ссылка на тег со значением
+				else
+					key = 'Key:'+key.replace(/=.+/, ''); // ссылка на тег
+				return a+'<a href="http://wiki.openstreetmap.org/wiki/RU:'+
+					key+'" target="_blank">'+st+'</a>'+b;
+			});
+
 			td.innerHTML = text;
 		}
 
