@@ -195,7 +195,7 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 
 		var newContent = L.DomUtil.create('div', 'osb-popup');
 		var h1 = L.DomUtil.create('h1', null, newContent);
-		if (rawbug[2]) 
+		if (rawbug[2])
 			h1.textContent = L.i18n("Fixed Error");
 		else if (rawbug[1].length == 1)
 			h1.textContent = L.i18n("Unresolved Error");
@@ -203,19 +203,29 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 			h1.textContent = L.i18n("Active Error");
 
 		var divinfo = L.DomUtil.create('div', 'osb-info', newContent);
-		var table = L.DomUtil.create('table', 'osb-table', divinfo);
-		for(var i=0; i<rawbug[1].length; i++)
+		var table   = L.DomUtil.create('table', 'osb-table', divinfo);
+		var text    = '', i, tr, td;
+		for (i=0; i<rawbug[1].length; i++)
 		{
-			var tr = L.DomUtil.create('tr', "osb-tr-info", table);
+			tr = L.DomUtil.create('tr', "osb-tr-info", table);
 			tr.setAttribute("valign","top")
-			var td = L.DomUtil.create('td', "osb-td-nickname", tr);
+			td = L.DomUtil.create('td', "osb-td-nickname", tr);
 			td.textContent = rawbug[5][i] + ':';
-			var td = L.DomUtil.create('td', "osb-td-datetime", tr);
+			td = L.DomUtil.create('td', "osb-td-datetime", tr);
 			td.textContent = rawbug[6][i];
-			var td = L.DomUtil.create('td', "osb-td-comment", L.DomUtil.create('tr', "osb-tr-comment", table));
+			td = L.DomUtil.create('td', "osb-td-comment", L.DomUtil.create('tr', "osb-tr-comment", table));
 			td.setAttribute("colspan","2");
 			td.setAttribute("charoff","2");
-			td.textContent = rawbug[4][i];
+
+			text = rawbug[4][i];
+
+			// выделяем ссылки в тексте
+			text = text.replace(/(http[:\/a-z#A-Z\.а-я?А-Я_0-9=&%-]+)/g, function(_, url){
+				var st = url.replace(new RegExp('(//.+?)/.+'), '$1'); // убираем путь после домена
+				return '<a href="'+url+'" target="_blank">'+st+'</a>';
+			});
+
+			td.innerHTML = text;
 		}
 
 		function create_link(ul, text) {
