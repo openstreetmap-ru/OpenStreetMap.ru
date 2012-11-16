@@ -1,17 +1,17 @@
 L.OpenStreetBugs = L.FeatureGroup.extend({
 	options : {
-		serverURL : "http://openstreetbugs.schokokeks.org/api/0.1/",
-		readonly : false,
-		setCookie : true,
-		username : "NoName",
+		serverURL: "http://openstreetbugs.schokokeks.org/api/0.1/",
+		readonly:  false,
+		setCookie: true,
+		username: "NoName",
 		cookieLifetime : 1000,
-		cookiePath : null,
-		permalinkZoom : 14,
+		cookiePath:   null,
 		permalinkUrl: null,
-		opacity : 0.7,
-		showOpen: true,
+		permalinkZoom : 14,
+		opacity: 0.7,
+		showOpen:   true,
 		showClosed: true,
-		iconOpen: "http://openstreetbugs.schokokeks.org/client/open_bug_marker.png",
+		iconOpen:  "http://openstreetbugs.schokokeks.org/client/open_bug_marker.png",
 		iconClosed:"http://openstreetbugs.schokokeks.org/client/closed_bug_marker.png",
 		iconActive: undefined,
 		editArea: 0.01,
@@ -286,7 +286,8 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 		a.onclick = function() { _this.remoteEdit(rawbug[0]); };
 
 		var a = create_link(ul, "Link");
-		var vars = {lat:rawbug[0].lat, lon:rawbug[0].lng, zoom:this.options.permalinkZoom, bugid:id}
+		var offset = 0.005; // смещение карты немного вниз, чтобы окошко бага было открыто примерно по центру
+		var vars = {lat:rawbug[0].lat+offset, lon:rawbug[0].lng, zoom:this.options.permalinkZoom, bugid:id}
 		if (this.options.permalinkUrl)
 			a.href = L.Util.template(this.options.permalinkUrl, vars)
 		else
