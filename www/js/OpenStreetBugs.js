@@ -227,8 +227,8 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 
 			// добавляем ссылки на описание тегов в OSM
 			text = text.replace(/(^|\W)([a-z_]+[:=][a-z_]+)(\W|$)/g, function(_, a, st, b){
-				var key = st = st.replace('hw=', 'highway='); // сокращенная запись
-				if (st.indexOf('highway') != -1)
+				var key = st;
+				if (key.indexOf('highway') != -1)
 					key = 'Tag:'+key.replace('=', '%3D'); // ссылка на тег со значением
 				else
 					key = 'Key:'+key.replace(/=.+/, ''); // ссылка на тег
