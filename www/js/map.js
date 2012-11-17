@@ -1,4 +1,4 @@
-function init() {
+$(function() {
   parseGET();
   if (typeof frame_map === "undefined") frame_map = false; // in frame_map mode we have limited controls and map abilities
 
@@ -96,7 +96,7 @@ function init() {
   $("#mappan #htpbutton").bind("click", function(){osm.ui.togglehtp()});
   if (get.hidetoppan) osm.ui.togglehtp();
  }
-};
+});
 
 osm.initLayers = function(){
 
