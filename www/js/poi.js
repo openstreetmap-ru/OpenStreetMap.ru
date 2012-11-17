@@ -10,7 +10,7 @@ osm.poi = {
   initialize: function() {
     osm.poi.layer = new L.LayerGroup();
     //osm.map.addLayer(osm.poi.layer);
-    osm.poi.tree=$('#leftpoispan div.contentpan')
+    osm.poi.tree=$('#leftpoi div.leftcontent')
       .jstree({
         "plugins" : ["json_data", "checkbox","ui"],
         "json_data" : {

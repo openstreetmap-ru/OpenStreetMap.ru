@@ -5,7 +5,7 @@
  */
 
 .jstree li, 
-.jstree ins { background-image:url("d.png"); background-repeat:no-repeat; background-color:transparent; }
+.jstree ins { background-image:url("e.png"); background-repeat:no-repeat; background-color:transparent; }
 .jstree li { background-position:-90px 0; background-repeat:repeat-y;  }
 .jstree li.jstree-last { background:transparent; }
 .jstree .jstree-open > ins { background-position:-72px 0; }
@@ -40,9 +40,9 @@
 .jstree .jstree-undetermined > a > .jstree-checkbox:hover { background-position:-20px -37px; }
 
 #vakata-dragged.jstree ins { background:transparent !important; }
-#vakata-dragged.jstree .jstree-ok { background:url("d.png") -2px -53px no-repeat !important; }
-#vakata-dragged.jstree .jstree-invalid { background:url("d.png") -18px -53px no-repeat !important; }
-#jstree-marker.jstree { background:url("d.png") -41px -57px no-repeat !important; text-indent:-100px; }
+#vakata-dragged.jstree .jstree-ok { background:url("e.png") -2px -53px no-repeat !important; }
+#vakata-dragged.jstree .jstree-invalid { background:url("e.png") -18px -53px no-repeat !important; }
+#jstree-marker.jstree { background:url("e.png") -41px -57px no-repeat !important; text-indent:-100px; }
 
 .jstree a.jstree-search { color:aqua; }
 .jstree .jstree-locked a { color:silver; cursor:default; }

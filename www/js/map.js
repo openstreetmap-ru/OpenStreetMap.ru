@@ -1,4 +1,4 @@
-function init() {
+$(function() {
   parseGET();
   if (typeof frame_map === "undefined") frame_map = false; // in frame_map mode we have limited controls and map abilities
 
@@ -48,6 +48,11 @@ function init() {
   osm.markers.initialize();
   osm.markers.readMap();
 
+  $("#leftpan div h1").bind('click',function(){
+    osm.leftpan.toggle(this.parentNode.id);
+  });
+  osm.leftpan.on=true;
+
  if (!frame_map) {
   osm.map.control_layers = new L.Control.Layers(
     osm.baseLayers,
@@ -91,12 +96,13 @@ function init() {
   osm.layers.osb.on('remove', function(){osm.osbclick($_('mainmenupage-osb').children[0],false,this);});
   osm.setLinkOSB();
 
-  osm.initModes();
-
   $("#mappan #htpbutton").bind("click", function(){osm.ui.togglehtp()});
   if (get.hidetoppan) osm.ui.togglehtp();
+
+  osm.dyk.load();
+  $(window).resize(osm.leftpan.refsizetab);
  }
-};
+});
 
 osm.initLayers = function(){
 
@@ -300,21 +306,3 @@ osm.registerLayer = function (name, layer, title, hash, isBase){
         }
     }
 }
-
-/** Преобразуем GET парамеры в хеш get */
-function parseGET()
-{
-	var i, a, params;
-
-	window.get = {};
-	if (params = location.search.substr(1))
-	{
-		a = params.split('&');
-		for (i in a)
-		{
-			a[i] = a[i].split('=');
-			if (a[i].length == 2)
-				window.get[a[i][0]] = decodeURIComponent(a[i][1].replace(/\+/g, " "));
-		}
-	}
-};

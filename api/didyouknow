@@ -1,0 +1,44 @@
+#!/usr/bin/env python
+# -*- coding: utf8 -*-
+
+# Did You Know
+# ErshKUS
+
+import cgi, sys, json
+import psycopg2
+import psycopg2.extras
+import db_config
+
+output={}
+output['ver']='0.1'
+
+def main():
+  print "Content-type: text/javascript; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # debug
+  #print "Content-type: application/json; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # production
+
+  connsite = psycopg2.connect(host=db_config.site_host, database=db_config.site_database, user=db_config.site_user, password=db_config.site_password)
+
+  getvalues=cgi.FieldStorage()
+  getval={}
+  getval['ex'] = [int(x) for x in getvalues.getfirst('ex','0').split(',')]
+
+  cur = connsite.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+  cur.execute("""
+    SELECT
+      id,
+      head,
+      "text"
+    FROM
+      did_you_know
+    WHERE
+      NOT id=any(%(ex)s)
+    ORDER BY RANDOM()
+    LIMIT 1
+    ;""", getval)
+  output['data']=cur.fetchone()
+
+  print json.dumps(output)
+
+
+if __name__ == '__main__':
+  main()
