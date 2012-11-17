@@ -44,23 +44,6 @@ osm.saveLocation = function() {
   document.cookie = "_osm_location=" + ll.lng + "|" + ll.lat + "|" + z + "|" + l + "|" + ol + "; expires=" + d.toGMTString();
 }
 
-osm.initModes = function(){
-  curmenu = $("#mainmenu .current");
-  curmenu.before('<img src="img/menu_arrow.png" id="menu_arrow_img">');
-  submenu = $('<ul class="submenu" style="background: #88ad0b">');
-  submenu.append('<li class="search">Поиск</li>');
-  submenu.append('<li class="poi">Точки интереса</li>');
-  submenu.append('<li class="persmap">Персональная</li>');
-  submenu.append('<li class="errors">Валидаторы</li>');
-  curmenu.append(submenu);
-  
-  $('#mainmenu .current li.search').addClass('active');
-  $('#mainmenu .current li.search').click(function(){osm.leftpan.toggle(1)});
-  $('#mainmenu .current li.poi').click(function(){osm.leftpan.toggle(4)});
-  $('#mainmenu .current li.persmap').click(function(){osm.leftpan.toggle(2)});
-  $('#mainmenu .current li.errors').click(function(){osm.leftpan.toggle(3)});
-}
-
 osm.editUpdate = function() {
   var pos = osm.map.getBounds();
   var url="http://127.0.0.1:8111/load_and_zoom?left=" + pos._southWest.lng + "&top=" + pos._northEast.lat + "&right=" + pos._northEast.lng + "&bottom=" + pos._southWest.lat;
@@ -106,7 +89,7 @@ osm.createTools = function() {
   };
   obListDivA.innerHTML='Маркер';
   var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
-  obListDivA.id='EditJOSM'
+  obListDivA.id='EditJOSM_'
   obListDivA.href='#';
   obListDivA.title='Редактировать (в JOSM)';
   obListDivA.innerHTML='Редактировать (в JOSM)';
@@ -137,37 +120,50 @@ osm.setLinkOSB = function() {
   }
 };
 
+osm.leftpan.refsizetab = function() {
+  mi=$("#leftpantab .leftgroup");
+  dykH=$("#leftpantab #DidYouKnow")[0].offsetHeight;
+  if (dykH)
+    dykH += 34;
+  height=$("#leftpantab")[0].offsetHeight-((mi[1].offsetTop-mi[0].offsetTop)*mi.length+dykH);
+  $('#leftpan .leftgroup .leftcontent').css('height', height+'px');
+}
+
 osm.leftpan.toggle = function(on) {
+  fntoggle = function(id) {
+    elhead=$('#leftpantab #'+id+' h1');
+    if (!$(':visible',elhead).length) {
+      $("#leftpan .leftcontent").hide("normal");
+      osm.leftpan.refsizetab();
+      $(elhead[0].nextElementSibling).show("normal");
+    }
+  };
   if (typeof on == "undefined") on = !this.on;
-  var center = osm.map.getCenter();
   if (on != this.on) {
 	this.on = on;
-    if (on) {
-      $('#downpan').removeClass('left-on');
-      $('#leftpan div.leftpantab').removeClass('on');
-      $('#mainmenu .current li').removeClass('active');
+    if (on && on !== true) {
+      $('#downpan').removeClass('left-off');
+      search.disable();
       osm.validators.disable();
       osm.poi.disable();
-      if (on === 2) {
-        $('#leftpersmappan').addClass('on');
-        $('#mainmenu .current li.persmap').addClass('active');
+      if (on === 'leftpersmap') {
         osm.markers.personalMap();
       } else if (on === 3) {
         $('#lefterrorspan').addClass('on');
         $('#mainmenu .current li.errors').addClass('active');
         osm.validators.enable();
-      } else if (on === 4) {
-        $('#leftpoispan').addClass('on');
-        $('#mainmenu .current li.poi').addClass('active');
+      } else if (on === 'leftpoi') {
         osm.poi.enable();
+      } else if (on === 'leftsearch') {
+        search.enable();
       } else if (on) {
-        $('#leftsearchpan').addClass('on');
-        $('#mainmenu .current li.search').addClass('active');
-        osm.map.addLayer(osm.layers.search_marker);
       }
+      if (on != 1) fntoggle(on)
     } else {
-      $('#downpan').addClass('left-on');
-      osm.map.removeLayer(osm.layers.search_marker);
+      if (on)
+        $('#downpan').removeClass('left-off');
+      else
+        $('#downpan').addClass('left-off');
     }
     osm.map.invalidateSize();
   }
@@ -185,6 +181,7 @@ osm.ui.whereima = function() {
 osm.ui.togglehtp = function() {
   $('body').hasClass('htp') ? $('#htpbutton').html("&uarr;") : $('#htpbutton').html("&darr;");
   $('body').toggleClass('htp');
+  setTimeout("osm.leftpan.refsizetab()", 100);
 };
 
 osm.ui.searchsubmit = function() {
@@ -211,4 +208,5 @@ osm.osbclick = function(e,on) {
     e.className="";
     osm.map._mapPane.style.cursor=""
   }
-}
+};
+

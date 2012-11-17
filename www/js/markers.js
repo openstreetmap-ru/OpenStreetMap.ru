@@ -81,11 +81,11 @@ osm.markers._removeHandlers = function() {
       break;
   case 2:
       func = osm.markers.createPoints;
-      elementId = 'multimarkerbutton';
+      elementId = '#pm-button-marker';
       break;
   case 3:
       func = osm.markers.createPath;
-      elementId = 'pathbutton';
+      elementId = '#pm-button-path';
       // remove mousemove event if any
       $("#map").unbind("mousemove", osm.markers.mouseMovePath);
 //      osm.map.doubleClickZoom.enable();
@@ -96,7 +96,7 @@ osm.markers._removeHandlers = function() {
   }
   osm.map.off('click', func);
   if (elementId)
-    $_(elementId).className = '';
+    $(elementId).removeClass('pm-button-pressed');
   $_('map').style.cursor='';
   osm.markers._drawingMode = 0;
   return oldDrawingMode;
@@ -107,7 +107,7 @@ osm.markers.addMultiMarker = function() {
     return;
 
   osm.map.on('click', osm.markers.createPoints);
-  $_('multimarkerbutton').className = 'pm-pressed';
+  $('#pm-button-marker').addClass('pm-button-pressed');
   $_('map').style.cursor = 'crosshair';
   osm.markers._drawingMode = 2;
 }
@@ -136,7 +136,7 @@ osm.markers.addPath = function() {
     return;
 
   osm.map.on('click', osm.markers.createPath);
-  $_('pathbutton').className = 'pm-pressed';
+  $('#pm-button-path').addClass('pm-button-pressed');
   $_('map').style.cursor = 'crosshair';
   osm.markers._drawingMode = 3;
   osm.markers._newPath = new PersonalLineEditable([]);
@@ -231,9 +231,9 @@ osm.markers.saveMap = function() {
     postData.lines.push(lineData);
   }
   if (postData.points.length == 0 && postData.lines.length == 0) {
-    $_("pm_status").innerHTML = "Нет данных для сохранения!"
+    $_("pm-status").innerHTML = "<p>Нет данных для сохранения!</p>"
   } else {
-    $_("pm_status").innerHTML = "Сохранение...";
+    $_("pm-status").innerHTML = "<p>Сохранение...</p>";
     $.ajax({
       url: "mymap.php",
       type: "POST",
@@ -251,15 +251,14 @@ osm.markers.saveMap = function() {
           osm.markers._admin.id = json.id;
           osm.markers._admin.hash = json.hash;
         }
-        $_("pm_status").innerHTML = "Сохранено<br>"+
-          "<a href='/?mapid="+osm.markers._admin.id+"'>Ссылка на просмотр</a><br>"+
-          "IFrame-встраивание карты на сайт:<br>"+
-          "<textarea cols=30 rows=4><iframe width=\"500px\" height=\"400px\" src=\"http://openstreetmap.ru/frame.php?mapid="+osm.markers._admin.id+"\"></iframe></textarea>"+
-          "<a href='/?mapid="+osm.markers._admin.id+"&hash="+osm.markers._admin.hash+"'>Ссылка на редактирование</a><br>"+
-          "<a href='/mymap.php?id="+osm.markers._admin.id+"&format=gpx'>Скачать GPX</a>";
+        $_("pm-status").innerHTML = "<p><a href='/?mapid="+osm.markers._admin.id+"'>Ссылка на просмотр</a></p>"+
+          "<p><a href='/?mapid="+osm.markers._admin.id+"&hash="+osm.markers._admin.hash+"'>Ссылка на редактирование</a></p>"+
+          "<p>IFrame-встраивание карты на сайт:<br>"+
+          "<textarea cols=28 rows=4><iframe width=\"500px\" height=\"400px\" src=\"http://openstreetmap.ru/frame.php?mapid="+osm.markers._admin.id+"\"></iframe></textarea></p>"+
+          "<p><a href='/mymap.php?id="+osm.markers._admin.id+"&format=gpx'>Скачать GPX</a></p>";
       }
     }).fail(function (jqXHR,textStatus) {
-      $_("pm_status").innerHTML = "Ошибка при сохранении!";
+      $_("pm-status").innerHTML = "Ошибка при сохранении!";
     });
   }
 }
