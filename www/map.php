@@ -102,7 +102,21 @@ $page_content = <<<PHP_CONTENT
             <ul id="validationerrors"></ul>
           </div>
         </div>
-        <div id="leftothers" class="leftgroup">
+        <div id="leftothersmaps" class="leftgroup leftlink">
+          <h1>Это место на другой карте</h1>
+          <div class="leftcontent" style="display: none;">
+            <ul>
+              <li><a id="opento-osmorg" href='#' target="_blank">OpenStreetMap.org</a></li>
+              <li><a id="opento-google" href='#' target="_blank">Google карты</a></li>
+              <li><a id="opento-yandex" href='#' target="_blank">Яндекс карты</a></li>
+              <li><a id="opento-rambler" href='#' target="_blank">Рамблер карты</a></li>
+              <li><a id="opento-wikimapia" href='#' target="_blank">Wikimapia</a></li>
+              <li><a id="opento-bing" href='#' target="_blank">Карты Bing</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <div id="leftothers" class="leftgroup leftlink">
           <h1>Другие инструменты</h1>
           <div class="leftcontent" style="display: none;">
             <ul>

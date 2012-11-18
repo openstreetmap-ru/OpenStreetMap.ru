@@ -101,6 +101,9 @@ $(function() {
 
   osm.dyk.load();
   $(window).resize(osm.leftpan.refsizetab);
+  
+  osm.map.on('moveend', osm.opento);
+  
  }
 });
 
