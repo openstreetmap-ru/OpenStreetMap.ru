@@ -1,17 +1,17 @@
 L.OpenStreetBugs = L.FeatureGroup.extend({
 	options : {
-		serverURL : "http://openstreetbugs.schokokeks.org/api/0.1/",
-		readonly : false,
-		setCookie : true,
-		username : "NoName",
+		serverURL: "http://openstreetbugs.schokokeks.org/api/0.1/",
+		readonly:  false,
+		setCookie: true,
+		username: "NoName",
 		cookieLifetime : 1000,
-		cookiePath : null,
-		permalinkZoom : 14,
+		cookiePath:   null,
 		permalinkUrl: null,
-		opacity : 0.7,
-		showOpen: true,
+		permalinkZoom : 14,
+		opacity: 0.7,
+		showOpen:   true,
 		showClosed: true,
-		iconOpen: "http://openstreetbugs.schokokeks.org/client/open_bug_marker.png",
+		iconOpen:  "http://openstreetbugs.schokokeks.org/client/open_bug_marker.png",
 		iconClosed:"http://openstreetbugs.schokokeks.org/client/closed_bug_marker.png",
 		iconActive: undefined,
 		editArea: 0.01,
@@ -195,7 +195,7 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 
 		var newContent = L.DomUtil.create('div', 'osb-popup');
 		var h1 = L.DomUtil.create('h1', null, newContent);
-		if (rawbug[2]) 
+		if (rawbug[2])
 			h1.textContent = L.i18n("Fixed Error");
 		else if (rawbug[1].length == 1)
 			h1.textContent = L.i18n("Unresolved Error");
@@ -203,19 +203,40 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 			h1.textContent = L.i18n("Active Error");
 
 		var divinfo = L.DomUtil.create('div', 'osb-info', newContent);
-		var table = L.DomUtil.create('table', 'osb-table', divinfo);
-		for(var i=0; i<rawbug[1].length; i++)
+		var table   = L.DomUtil.create('table', 'osb-table', divinfo);
+		var text    = '', i, tr, td;
+		for (i=0; i<rawbug[1].length; i++)
 		{
-			var tr = L.DomUtil.create('tr', "osb-tr-info", table);
+			tr = L.DomUtil.create('tr', "osb-tr-info", table);
 			tr.setAttribute("valign","top")
-			var td = L.DomUtil.create('td', "osb-td-nickname", tr);
+			td = L.DomUtil.create('td', "osb-td-nickname", tr);
 			td.textContent = rawbug[5][i] + ':';
-			var td = L.DomUtil.create('td', "osb-td-datetime", tr);
+			td = L.DomUtil.create('td', "osb-td-datetime", tr);
 			td.textContent = rawbug[6][i];
-			var td = L.DomUtil.create('td', "osb-td-comment", L.DomUtil.create('tr', "osb-tr-comment", table));
+			td = L.DomUtil.create('td', "osb-td-comment", L.DomUtil.create('tr', "osb-tr-comment", table));
 			td.setAttribute("colspan","2");
 			td.setAttribute("charoff","2");
-			td.textContent = rawbug[4][i];
+
+			text = rawbug[4][i];
+
+			// выделяем ссылки в тексте
+			text = text.replace(/(http[:\/a-z#A-Z\.а-я?А-Я_0-9=&%-]+)/g, function(_, url){
+				var st = url.replace(new RegExp('(//.+?)/.+'), '$1'); // убираем путь после домена
+				return '<a href="'+url+'" target="_blank">'+st+'</a>';
+			});
+
+			// добавляем ссылки на описание тегов в OSM
+			text = text.replace(/(^|\W)([a-z_]+[:=][a-z_]+)(\W|$)/g, function(_, a, st, b){
+				var key = st;
+				if (key.indexOf('highway') != -1)
+					key = 'Tag:'+key.replace('=', '%3D'); // ссылка на тег со значением
+				else
+					key = 'Key:'+key.replace(/=.+/, ''); // ссылка на тег
+				return a+'<a href="http://wiki.openstreetmap.org/wiki/RU:'+
+					key+'" target="_blank">'+st+'</a>'+b;
+			});
+
+			td.innerHTML = text;
 		}
 
 		function create_link(ul, text) {
@@ -265,7 +286,8 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 		a.onclick = function() { _this.remoteEdit(rawbug[0]); };
 
 		var a = create_link(ul, "Link");
-		var vars = {lat:rawbug[0].lat, lon:rawbug[0].lng, zoom:this.options.permalinkZoom, bugid:id}
+		var offset = 0.005; // смещение карты немного вниз, чтобы окошко бага было открыто примерно по центру
+		var vars = {lat:rawbug[0].lat+offset, lon:rawbug[0].lng, zoom:this.options.permalinkZoom, bugid:id}
 		if (this.options.permalinkUrl)
 			a.href = L.Util.template(this.options.permalinkUrl, vars)
 		else

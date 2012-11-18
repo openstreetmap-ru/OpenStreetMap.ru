@@ -95,6 +95,7 @@ $(function() {
   osm.layers.osb.on('add', function(){osm.osbclick($_('mainmenupage-osb').children[0],true,this);});
   osm.layers.osb.on('remove', function(){osm.osbclick($_('mainmenupage-osb').children[0],false,this);});
   osm.setLinkOSB();
+  // osm.initModes();
 
   $("#mappan #htpbutton").bind("click", function(){osm.ui.togglehtp()});
   if (get.hidetoppan) osm.ui.togglehtp();
@@ -183,7 +184,7 @@ osm.initLayers = function(){
   if (!frame_map)
   osm.registerLayer(
     'osb',
-    new L.OpenStreetBugs({dblClick: false, iconOpen:"img/osb/open_bug_marker.png", iconClosed:"img/osb/closed_bug_marker.png", iconActive:"img/osb/active_bug_marker.png", editArea:0.001}),
+    new L.OpenStreetBugs({dblClick: false, iconOpen:"img/osb/open_bug_marker.png", iconClosed:"img/osb/closed_bug_marker.png", iconActive:"img/osb/active_bug_marker.png", editArea:0.001, bugid: get.bugid}),
     'Ошибки на карте',
     'U',
     false

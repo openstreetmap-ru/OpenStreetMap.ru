@@ -29,16 +29,20 @@ osm.getCookie = function(name) {
   return(setStr);
 }
 
-function parseGET() {
-  var tmp = new Array();
-  var tmp2 = new Array();
-  get = new Array();
-  var url = location.search;
-  if(url != '') {
-    tmp = (url.substr(1)).split('&');
-    for(var i=0; i < tmp.length; i++) {
-      tmp2 = tmp[i].split('=');
-      if (tmp2.length == 2) get[tmp2[0]] = decodeURIComponent(tmp2[1].replace(/\+/g, " "));
+/** Преобразуем GET парамеры в хеш get */
+function parseGET()
+{
+  var i, a, params;
+
+  window.get = {};
+  if (params = location.search.substr(1))
+  {
+    a = params.split('&');
+    for (i in a)
+    {
+      a[i] = a[i].split('=');
+      if (a[i].length == 2)
+        window.get[a[i][0]] = decodeURIComponent(a[i][1].replace(/\+/g, " "));
     }
   }
 };
