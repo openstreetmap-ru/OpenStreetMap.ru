@@ -220,7 +220,7 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 			text = rawbug[4][i];
 
 			// выделяем ссылки в тексте
-			text = text.replace(/(http[:\/a-z#A-Z\.а-я?А-Я_0-9=&%-]+)/g, function(_, url){
+			text = text.replace(/(http[:\/a-z#A-Z\.а-яё?А-ЯЁ_0-9=&%-]+)/g, function(_, url){
 				var st = url.replace(new RegExp('(//.+?)/.+'), '$1'); // убираем путь после домена
 				return '<a href="'+url+'" target="_blank">'+st+'</a>';
 			});
