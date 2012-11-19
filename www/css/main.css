@@ -79,11 +79,14 @@ table {
     position: absolute;
     top: 15px;
 }
-.loader.on {
-  background-image: url("/img/loader.gif");
-  height: 32px;
+img.loader{
+  display: none;
+  margin-top: -5px;
   position: absolute;
-  width: 32px;
+  right: 10px;
+}
+img.loader.on{
+  display: inline;
 }
 #leftpan .leftgroup  h1 {
   color: #187BA0;

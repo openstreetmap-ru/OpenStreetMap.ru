@@ -12,7 +12,7 @@ search.disable = function(){
 
 search.processResults = function(results) {
   try {
-    $("#leftsearchpan .loader").removeClass('on');
+    $("#leftsearch .loader").removeClass('on');
     if (results.error) {
       search.content.innerHTML='Произошла ошибка: ' + (results.error);
     } else if (results.find==0) {
@@ -63,7 +63,7 @@ search.reportError = function() {
 }
 
 search.errorHandler = function(jqXHR, textStatus, errorThrown) {
-  $("#leftsearchpan .loader").removeClass('on');
+  $("#leftsearch .loader").removeClass('on');
   search.content.innerHTML = 'Ошибка: ' + textStatus + '<br />' + errorThrown.message;
 };
 
@@ -72,7 +72,7 @@ search.search = function(inQuery) {
   osm.input.value = inQuery;
   if (inQuery.length < 1)
     return false;
-  $("#leftsearchpan .loader").addClass('on');
+  $("#leftsearch .loader").addClass('on');
   mapCenter=osm.map.getCenter();
   osm.leftpan.toggle('leftsearch');
   $.getJSON('/api/search', {q: inQuery, accuracy: 1, lat: mapCenter.lat, lon: mapCenter.lng}, search.processResults)
