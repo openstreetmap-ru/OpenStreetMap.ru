@@ -22,7 +22,7 @@ search.processResults = function(results) {
           Комментарий (запрос указывать не надо):\
           </p>\
           <form onsubmit="return search.reportError();">\
-          <p><textarea id="rsearch" style="width: 100%;"></textarea></p>\
+          <p><textarea id="rsearch" style="width: 95%;"></textarea></p>\
           <p style="text-align: center;"><input type="submit" style=""></p>\
           </form>';
     }
