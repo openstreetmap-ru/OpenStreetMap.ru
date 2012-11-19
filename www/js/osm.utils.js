@@ -210,3 +210,15 @@ osm.osbclick = function(e,on) {
   }
 };
 
+
+osm.opento = function() {
+  var center = osm.map.getCenter();
+  var zoom = osm.map.getZoom();
+  $('#opento-osmorg')[0].href = 'http://openstreetmap.org/?' + 'lat=' + center.lat + '&lon=' + center.lng + '&zoom=' + zoom;
+  $('#opento-google')[0].href = 'https://maps.google.ru/?' + 'll=' + center.lat + ',' + center.lng + '&z=' + zoom;
+  $('#opento-yandex')[0].href = 'http://maps.yandex.ru/?' + 'll=' + center.lng + ',' + center.lat + '&z=' + zoom;
+  $('#opento-rambler')[0].href = 'http://maps.rambler.ru?' + 'll=' + center.lng + ',' + center.lat + '&z=' + zoom;
+  $('#opento-wikimapia')[0].href = 'http://wikimapia.org/#' + 'lat=' + center.lat + '&lon=' + center.lng + '&z=' + zoom;
+  $('#opento-bing')[0].href = 'http://www.bing.com/maps/?' + 'cp=' + center.lat + '~' + center.lng + '&lvl=' + zoom;
+}
+

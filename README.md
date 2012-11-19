@@ -5,6 +5,10 @@
  * http://forum.openstreetmap.org/viewtopic.php?id=14295
  * https://groups.google.com/group/openstreetmap-ru
 
+Обратная связь без регистрации http://osmru.reformal.ru/
+
+Каталог объектов (сейчас только POI) https://github.com/ErshKUS/osmCatalog
+
 
 ## Local development
 

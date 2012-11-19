@@ -158,10 +158,10 @@ table {
   margin: 8px 0px !important;
 }
 
-#leftothers li{
+#leftpantab .leftlink li{
 padding-bottom: 4px;
 }
-#leftothers a{
+#leftpantab .leftlink a{
   font-size: 12pt;
   text-decoration: none;
 }
