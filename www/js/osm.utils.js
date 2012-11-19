@@ -121,11 +121,12 @@ osm.setLinkOSB = function() {
 };
 
 osm.leftpan.refsizetab = function() {
-  mi=$("#leftpantab .leftgroup");
-  dykH=$("#leftpantab #DidYouKnow")[0].offsetHeight;
+  var mi=$("#leftpantab .leftgroup");
+  var dykH=$("#leftpantab #DidYouKnow")[0].offsetHeight;
   if (dykH)
     dykH += 34;
-  height=$("#leftpantab")[0].offsetHeight-((mi[1].offsetTop-mi[0].offsetTop)*mi.length+dykH);
+  var miHeight = +$("#leftpantab .leftgroup h1")[0].offsetHeight + parseFloat(mi.css('margin-bottom'))
+  height=$("#leftpantab")[0].offsetHeight-(miHeight*mi.length+dykH);
   $('#leftpan .leftgroup .leftcontent').css('height', height+'px');
 }
 
