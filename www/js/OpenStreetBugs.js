@@ -124,21 +124,14 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 		document.body.appendChild(script);
 	},
 
-	createMarker: function(id, force)
+	createMarker: function(id)
 	{
 		var bug = putAJAXMarker.bugs[id];
-		if(this.bugs[id])
-		{
-			if (force || this.bugs[id].osb.closed != bug[2])
-				this.removeLayer(this.bugs[id]);
-			else
-				return;
-		}
 
 		var closed = bug[2];
 
-		if (closed && !this.options.showClosed) return;
-		if (!closed && !this.options.showOpen) return;
+		if ( closed && !this.options.showClosed) return;
+		if (!closed && !this.options.showOpen)   return;
 
 		var icon_url = null;
 		var class_popup = ' osb';
@@ -151,24 +144,28 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 			class_popup += ' osbOpen';
 		}
 		else {
-		  if (this.options.iconActive) {
-		    icon_url = this.options.iconActive;
-		    class_popup += ' osbActive';
-		  }
-		  else {
-		    icon_url = this.options.iconOpen;
-		    class_popup += ' osbOpen';
-		  }
+			if (this.options.iconActive) {
+				icon_url = this.options.iconActive;
+				class_popup += ' osbActive';
+			}
+			else {
+				icon_url = this.options.iconOpen;
+				class_popup += ' osbOpen';
+			}
 		}
-		var feature = new L.Marker(bug[0], {icon:new this.osbIcon({iconUrl: icon_url})});
-		feature.osb = {id: id, closed: closed};
-		this.addLayer(feature);
-		this.bugs[id] = feature;
+		if (!this.bugs[id])
+		{
+			var feature = new L.Marker(bug[0], {icon:new this.osbIcon({iconUrl: icon_url})});
+			feature.osb = {id: id, closed: closed};
+			this.addLayer(feature);
+			this.bugs[id] = feature;
+		}
 		this.setPopupContent(id);
+		if (feature._popup)
 		feature._popup.options.className += class_popup;
 
 		if (this.options.bugid && (parseInt(this.options.bugid) == id))
-			feature.openPopup();
+			this.bugs[id].openPopup();
 
 		//this.events.triggerEvent("markerAdded");
 	},
@@ -176,17 +173,15 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 	osbIcon :  L.Icon.extend({
 		options: {
 			iconUrl: 'http://openstreetbugs.schokokeks.org/client/open_bug_marker.png',
-			iconSize: new L.Point(22, 22),
-			shadowSize: new L.Point(0, 0),
-			iconAnchor: new L.Point(11, 11),
+			iconSize:    new L.Point(22, 22),
+			shadowSize:  new L.Point(0,   0),
+			iconAnchor:  new L.Point(11, 11),
 			popupAnchor: new L.Point(0, -11)
 		}
 	}),
 
-	setPopupContent: function(id) {
-		if(this.bugs[id]._popup_content)
-			return;
-
+	setPopupContent: function(id)
+	{
 		var el1,el2,el3;
 		var layer = this;
 
@@ -311,7 +306,7 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 			+ "&format=js", true
 		);
 		this.set_cookie("osbUsername",nickname);
-		this.options.username=nickname;
+		this.options.username = nickname;
 	},
 
 	closeBug: function(form) {
@@ -424,31 +419,39 @@ L.OpenStreetBugs.setCSS = function() {
 	addRule(".osb-popup h3", 'font-size:1.2em; margin:.2em 0 .7em 0;');
 };
 
+// функция вызывается в ответе от OSB API
 function putAJAXMarker(id, lon, lat, text, closed)
 {
+	var old = putAJAXMarker.bugs[id];
+	if (old)    // маркер уже есть
+	if (old[3] == text && old[2] == closed) // обновляем только в случае изменения текста или статуса
+		return; // не перерисоздаем существующие
+
 	var comments = text.split(/<hr \/>/);
 	var comments_only = []
 	var nickname = [];
 	var datetime = [];
 	var info = null;
-	var isplit = 0;
-	for(var i=0; i<comments.length; i++) {
+	var i, isplit = 0;
+
+	for (i=0; i<comments.length; i++)
+	{
 		info = null;
 		isplit = 0;
 		comments[i] = comments[i].replace(/&quot;/g, "\"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
 		isplit = comments[i].lastIndexOf("[");
-		if (isplit > 0) {
-		  comments_only[i] = comments[i].substr(0,isplit-1);
-		  info = comments[i].substr(isplit+1);
-		  nickname[i] = info.substr(0,info.lastIndexOf(","));
-		  datetime[i] = info.substr(info.lastIndexOf(",")+2);
-		  datetime[i] = datetime[i].substr(0,datetime[i].lastIndexOf("]"));
+		if (isplit > 0)
+		{
+			comments_only[i] = comments[i].substr(0,isplit-1);
+			info = comments[i].substr(isplit+1);
+			nickname[i] = info.substr(0,info.lastIndexOf(","));
+			datetime[i] = info.substr(info.lastIndexOf(",")+2);
+			datetime[i] = datetime[i].substr(0,datetime[i].lastIndexOf("]"));
 		}
-		else {
-		  comments_only[i] = comments[i];
-		}
+		else
+			comments_only[i] = comments[i];
 	}
-	var old = putAJAXMarker.bugs[id];
+
 	putAJAXMarker.bugs[id] = [
 		new L.LatLng(lat, lon),
 		comments,
@@ -458,19 +461,15 @@ function putAJAXMarker(id, lon, lat, text, closed)
 		nickname,
 		datetime
 	];
-	var force = (old && old[3]) != text;
-	for(var i=0; i<putAJAXMarker.layers.length; i++)
-		putAJAXMarker.layers[i].createMarker(id, force);
+
+	for (i=0; i<putAJAXMarker.layers.length; i++)
+		putAJAXMarker.layers[i].createMarker(id);
 }
 
 function osbResponse(error)
 {
-	if(error)
+	if (error)
 		alert("Error: "+error);
-
-	return;
-	for(var i=0; i<putAJAXMarker.layers.length; i++)
-		putAJAXMarker.layers[i].loadBugs();
 }
 
 putAJAXMarker.layers = [ ];
