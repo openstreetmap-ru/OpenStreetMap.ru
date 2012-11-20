@@ -44,7 +44,7 @@ def main():
     cur = conn.cursor()
     execute = """
       SELECT region_id, district_id, city_id
-      FROM ershkus_search_addr
+      FROM ershkus_search_addr_p
       WHERE
         (geom && (ST_GeomFromText('POINT(%(lon)s %(lat)s)',4326))) AND ST_Covers(geom, (ST_GeomFromText('POINT(%(lon)s %(lat)s)',4326)))
         AND (full_name is not null AND full_name <> '')
