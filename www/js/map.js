@@ -49,9 +49,10 @@ $(function() {
   osm.markers.readMap();
 
   $("#leftpan div h1").bind('click',function(){
-    osm.leftpan.toggle(this.parentNode.id);
+    osm.leftpan.toggle(this.parentNode.id, true);
   });
   osm.leftpan.on=true;
+  osm.leftpan.refsizetab();
 
  if (!frame_map) {
   osm.map.control_layers = new L.Control.Layers(

@@ -63,7 +63,7 @@ $page_content = <<<PHP_CONTENT
     <div id="leftpan">
       <div id="leftpantab">
         <div id="leftsearch" class="leftgroup">
-          <h1>Поиск</h1>
+          <h1>Поиск <img class="loader" src="/img/loader.gif"></h1>
           <div class="leftcontent" style="display: none;">
             <p>Для поиска введите в строку искомый адрес и нажмите "Найти"</p>
           </div>
