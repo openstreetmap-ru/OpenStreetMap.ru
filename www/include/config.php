@@ -10,9 +10,9 @@ $PERSMAP_MAX_POINTS = 1500;
 $PERSMAP_MAX_LINE_POINTS = 600;
 
 $pages_menu=array(
-array("name"=>"map","text"=>"Карта","color"=>"#99bd1b"),
-array("name"=>"cakes","text"=>"Плюшки","color"=>"#f9ba1c"),
-array("name"=>"about","text"=>"О проекте","color"=>"#fad051")
+"map" => array("name"=>"map","text"=>"Карта","color"=>"#99bd1b"),
+"cakes" => array("name"=>"cakes","text"=>"Плюшки","color"=>"#f9ba1c"),
+"about" => array("name"=>"about","text"=>"О проекте","color"=>"#fad051")
 );
 
 $db_type = "postgresql";

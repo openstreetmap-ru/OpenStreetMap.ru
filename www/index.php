@@ -11,15 +11,13 @@ if (preg_match("/^index\.(?:html|php)$/is", $_URL[count($_URL) - 1])) unset($_UR
 if (empty($_URL[0]))
   $_URL[0] = 'map';
 
-if (function_exists("pg_connect")) { // чтобы можно было тестировать не поднимая БД
-  $result = pg_query("SELECT * FROM \"pagedata\" WHERE \"name\"='".pg_escape_string($_URL[0])."' AND \"activate\"");
+if (empty($pages_menu[$_URL[0]]))
+  Err404();
 
-  if (pg_num_rows($result) <= 0) Err404();
-    $data = pg_fetch_assoc($result);
+$current_menu = $pages_menu[$_URL[0]];
 
-  if (!file_exists($data['name'].'.php'))
-    Err404();
-}
+if (!file_exists($current_menu["name"].'.php'))
+  Err404();
 
 include_once ('include/external.php');
 include_once ($_URL[0].'.php');
@@ -27,7 +25,7 @@ include_once ($_URL[0].'.php');
 <!doctype html>
 <html>
 <head>
-  <title>OpenStreetMap Россия — <?=$data['text'] ?></title>
+  <title>OpenStreetMap Россия — <?=$current_menu['text'] ?></title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" href="css/main.css" type="text/css" media="screen, projection" />
   <link rel="stylesheet" href="css/main_small.css" type="text/css" media="handheld, only screen and (max-device-width:800px)" />
@@ -61,7 +59,7 @@ include_once ($_URL[0].'.php');
     <div id="topbar">
       <? print($page_topbar); ?>
     </div>
-    <div id="colorline" style="background:<?=$data['color']?>;"></div>
+    <div id="colorline" style="background:<?=$current_menu['color']?>;"></div>
   </div>
 
   <div id="content">
