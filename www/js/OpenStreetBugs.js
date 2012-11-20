@@ -15,7 +15,7 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 		iconClosed:"http://openstreetbugs.schokokeks.org/client/closed_bug_marker.png",
 		iconActive: undefined,
 		editArea: 0.01,
-		popupOptions: {autoPan: false},
+		popupOptions: {autoPan: false, minWidth: 410, maxWidth: 410},
 		dblClick: true
 	},
 
@@ -289,11 +289,7 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 			a.href = location.protocol + '//' + location.host + location.pathname +
 				L.Util.getParamString(vars)
 
-
-		bug._popup_content = newContent;
 		bug.bindPopup(newContent, this.options.popupOptions);
-		bug._popup.options.maxWidth=410;
-		bug._popup.options.minWidth=410;
 		bug.on('mouseover', bug.openTempPopup, bug);
 	},
 
