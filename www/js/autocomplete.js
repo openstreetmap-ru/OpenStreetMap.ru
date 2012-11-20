@@ -71,7 +71,11 @@ $(function()
 			osm.leftpan.toggle(1); // открываем левую панельку поиска
 			search.processResults({find: true, matches: [ui.item]}); // имитируем результат поиска с сервера
 		}
-	});
+	}).keyup(function(e){
+		// закрываем подсказку по Enter
+		if (e.keyCode == 13)
+			$('#qsearch').autocomplete('close')
+	})
 	// рендерим строки подсказки с учетом тегов
 	$('#qsearch').data("autocomplete")._renderItem = function(ul, item)
 	{
