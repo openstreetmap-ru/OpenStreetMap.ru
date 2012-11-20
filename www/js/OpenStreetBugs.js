@@ -290,7 +290,18 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 				L.Util.getParamString(vars)
 
 		bug.bindPopup(newContent, this.options.popupOptions);
-		bug.on('mouseover', bug.openTempPopup, bug);
+
+		// события балуна
+		bug.on('mouseover', function() // наведение мыши
+		{
+			if (!osm.map._popup) // открываем, только если на карте ничего не открыто
+			{
+				bug.openPopup();
+				bug.on("mouseout", function(){ bug.closePopup(); });// мышь убрали - скрываем
+			}
+		});
+		bug.off("click"); // снимаем стандартный обработчик, чтобы не моргал при клике
+		bug.on("click", function(){ bug.off('mouseout'); }); // при клике снимаем событие "скрытия" балуна
 	},
 
 	submitComment: function(form) {
@@ -470,26 +481,6 @@ function osbResponse(error)
 
 putAJAXMarker.layers = [ ];
 putAJAXMarker.bugs = { };
-
-L.Marker.include({
-	openTempPopup: function() {
-		this.openPopup();
-		this.off('click', this.openPopup, this);
-
-		function onclick() {
-			this.off('mouseout', onout, this);
-			this.off('click', onclick, this);
-			this.on('click', this.openPopup, this)
-		}
-
-		function onout() {
-			onclick.call(this);
-			this.closePopup();
-		};
-		this.on("mouseout", onout, this);
-		this.on("click", onclick, this);
-	},
-});
 
 L.i18n = function(s) { return (L.i18n.lang[L.i18n.current] || {})[s] || s; }
 L.i18n.current = 'ru';
