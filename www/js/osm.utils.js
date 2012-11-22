@@ -53,64 +53,63 @@ osm.editUpdate = function() {
 }
 
 osm.createTools = function() {
-  var timeoutId = null;
-  var noOff = false;
-  var obMap = $_('mappan');
-  var obTools = L.DomUtil.create('div', null, obMap);
-  obTools.id = 'tools';
+	var timeoutId = null;
+	var noOff = 0;
+	var obMap = $_('mappan');
+	var obTools = L.DomUtil.create('div', null, obMap);
+	obTools.id = 'tools';
 
-  osm.obTools = obTools;
+	osm.obTools = obTools;
 
-  function ClosePan() {
-    obTools.className='';
-  }
-  obTools.onmouseover = function() {
-    clearTimeout(timeoutId);
-    obTools.className='on';
-  }
-  obTools.onmouseout = function() {
-    if (!noOff)
-      timeoutId = setTimeout(ClosePan, 300);
-  }
-  var obButDiv = L.DomUtil.create('div', 'a', obTools);
-  var obButDivA = L.DomUtil.create('a', null, obButDiv);
-  obButDivA.href = '#';
-  obButDivA.title = 'Инструменты';
-  obButDivA.onclick = function(){
-    noOff=!noOff
-  };
+	function ClosePan() { obTools.className=''; }
+	obTools.onmouseover = function()
+	{
+		clearTimeout(timeoutId);
+		obTools.className='on';
+	}
+	obTools.onmouseout = function()
+	{
+		if (!noOff)
+			timeoutId = setTimeout(ClosePan, 300);
+	}
 
-  var obListDiv = L.DomUtil.create('div', 'p', obTools);
-  var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
-  obListDivA.href='#';
-  obListDivA.title='Маркер';
-  obListDivA.onclick = function(){
-    osm.markers.addPoint();
-  };
-  obListDivA.innerHTML='Маркер';
-  var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
-  obListDivA.id='EditJOSM_'
-  obListDivA.href='#';
-  obListDivA.title='Редактировать (в JOSM)';
-  obListDivA.innerHTML='Редактировать (в JOSM)';
+	var obButDiv = L.DomUtil.create('div', 'a', obTools);
+	var obButDivA = L.DomUtil.create('a', null, obButDiv);
+	obButDivA.href = '#';
+	obButDivA.title = 'Инструменты';
+	obButDivA.onclick = function(){ noOff ^= 1; };
 
-  var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
-  obListDivA.href='#';
-  obListDivA.title='Точки интереса';
-  obListDivA.innerHTML='Точки интереса';
-  obListDivA.onclick = function(){osm.leftpan.toggle(4)};
+	var obListDivA, obListDiv  = L.DomUtil.create('div', 'p', obTools);
 
-  var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
-  obListDivA.href='#';
-  obListDivA.title='Персональная карта';
-  obListDivA.innerHTML='Персональная карта';
-  obListDivA.onclick = function(){osm.leftpan.toggle(2)};
+	obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
+	obListDivA.href='#addMarker';
+	obListDivA.title='Маркер';
+	obListDivA.onclick = function(){ osm.markers.addPoint(); ClosePan(); return false; };
+	obListDivA.innerHTML='Маркер';
 
-  var obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
-  obListDivA.href='#';
-  obListDivA.title='Данные валидаторов';
-  obListDivA.innerHTML='Данные валидаторов';
-  obListDivA.onclick = function(){osm.leftpan.toggle(3)};
+	obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
+	obListDivA.id='EditJOSM_'
+	obListDivA.href='#';
+	obListDivA.title='Редактировать (в JOSM)';
+	obListDivA.innerHTML='Редактировать (в JOSM)';
+
+	obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
+	obListDivA.href='#poi';
+	obListDivA.title='Точки интереса';
+	obListDivA.innerHTML='Точки интереса';
+	obListDivA.onclick = function(){ osm.leftpan.toggle(4); ClosePan(); return false; };
+
+	obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
+	obListDivA.href='#personalMap';
+	obListDivA.title='Персональная карта';
+	obListDivA.innerHTML='Персональная карта';
+	obListDivA.onclick = function(){ osm.leftpan.toggle(2); ClosePan(); return false; };
+
+	obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
+	obListDivA.href='#validators';
+	obListDivA.title='Данные валидаторов';
+	obListDivA.innerHTML='Данные валидаторов';
+	obListDivA.onclick = function(){ osm.leftpan.toggle(3); ClosePan(); return false; };
 };
 
 osm.setLinkOSB = function() {
