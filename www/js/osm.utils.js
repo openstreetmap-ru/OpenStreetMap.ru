@@ -54,7 +54,7 @@ osm.editUpdate = function() {
 
 osm.createTools = function() {
 	var timeoutId = null;
-	var noOff = 0;
+	var noOff = false;
 	var obMap = $_('mappan');
 	var obTools = L.DomUtil.create('div', null, obMap);
 	obTools.id = 'tools';
@@ -77,7 +77,7 @@ osm.createTools = function() {
 	var obButDivA = L.DomUtil.create('a', null, obButDiv);
 	obButDivA.href = '#';
 	obButDivA.title = 'Инструменты';
-	obButDivA.onclick = function(){ noOff ^= 1; };
+	obButDivA.onclick = function(){ noOff ^= true; };
 
 	var obListDivA, obListDiv  = L.DomUtil.create('div', 'p', obTools);
 
