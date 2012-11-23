@@ -17,8 +17,8 @@ L.Control.Permalink = L.Control.extend({
 	onAdd: function(map) {
 		this._container = L.DomUtil.create('div', 'leaflet-control-attribution leaflet-control-permalink');
 		L.DomEvent.disableClickPropagation(this._container);
-		map.on('moveend', this._update_center, this);
-		map.on('layeradd', this._update_layers, this);
+		map.on('moveend',     this._update_center, this);
+		map.on('layeradd',    this._update_layers, this);
 		map.on('layerremove', this._update_layers, this);
 		this._map = map;
 		this._href = L.DomUtil.create('a', null, this._container);
@@ -234,17 +234,17 @@ L.Control.Layers.include({
 	},
 
 	listCurrentOverlays: function() {
-        var result = [];
-        for (var i in this._layers) {
-            if (!this._layers.hasOwnProperty(i))
-                continue;
-            var obj = this._layers[i];
-            if (!obj.overlay) continue;
-            if (this._map.hasLayer(obj.layer))
-                result.push(obj);
-        }
-        return result;
-    },
+		var result = [];
+		for (var i in this._layers) {
+			if (!this._layers.hasOwnProperty(i))
+				continue;
+			var obj = this._layers[i];
+			if (!obj.overlay) continue;
+			if (this._map.hasLayer(obj.layer))
+				result.push(obj);
+		}
+		return result;
+	},
 
 	_get_layername_by_hash: function(hash) {
 		if (this.options.layerHashes != null)
