@@ -15,7 +15,7 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 		iconClosed:"http://openstreetbugs.schokokeks.org/client/closed_bug_marker.png",
 		iconActive: undefined,
 		editArea: 0.01,
-		popupOptions: {autoPan: false},
+		popupOptions: {autoPan: false, minWidth: 410, maxWidth: 410},
 		dblClick: true
 	},
 
@@ -165,7 +165,10 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 		feature._popup.options.className += class_popup;
 
 		if (this.options.bugid && (parseInt(this.options.bugid) == id))
+		{
+			this.bugs[id].alwaysOpen = true;
 			this.bugs[id].openPopup();
+		}
 
 		//this.events.triggerEvent("markerAdded");
 	},
@@ -289,12 +292,24 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 			a.href = location.protocol + '//' + location.host + location.pathname +
 				L.Util.getParamString(vars)
 
-
-		bug._popup_content = newContent;
 		bug.bindPopup(newContent, this.options.popupOptions);
-		bug._popup.options.maxWidth=410;
-		bug._popup.options.minWidth=410;
-		bug.on('mouseover', bug.openTempPopup, bug);
+
+		bug.alwaysOpen = false;
+
+		// события балуна
+		bug.on('mouseover', function() // наведение мыши
+		{
+			if (!osm.map._popup) // открываем, только если на карте ничего не открыто
+				bug.openPopup();
+		});
+		bug.on("mouseout", function(){ if (!bug.alwaysOpen) bug.closePopup(); });
+		bug.off("click"); // снимаем стандартный обработчик, чтобы не моргал при клике
+		bug.on("click", function(){
+			bug.alwaysOpen ^= true;
+			if (!bug.alwaysOpen) bug.closePopup();
+			else
+			if (!osm.map._popup) bug.openPopup();
+		});
 	},
 
 	submitComment: function(form) {
@@ -474,26 +489,6 @@ function osbResponse(error)
 
 putAJAXMarker.layers = [ ];
 putAJAXMarker.bugs = { };
-
-L.Marker.include({
-	openTempPopup: function() {
-		this.openPopup();
-		this.off('click', this.openPopup, this);
-
-		function onclick() {
-			this.off('mouseout', onout, this);
-			this.off('click', onclick, this);
-			this.on('click', this.openPopup, this)
-		}
-
-		function onout() {
-			onclick.call(this);
-			this.closePopup();
-		};
-		this.on("mouseout", onout, this);
-		this.on("click", onclick, this);
-	},
-});
 
 L.i18n = function(s) { return (L.i18n.lang[L.i18n.current] || {})[s] || s; }
 L.i18n.current = 'ru';
