@@ -165,7 +165,10 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 		feature._popup.options.className += class_popup;
 
 		if (this.options.bugid && (parseInt(this.options.bugid) == id))
+		{
+			this.bugs[id].alwaysOpen = true;
 			this.bugs[id].openPopup();
+		}
 
 		//this.events.triggerEvent("markerAdded");
 	},
@@ -291,17 +294,22 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 
 		bug.bindPopup(newContent, this.options.popupOptions);
 
+		bug.alwaysOpen = false;
+
 		// события балуна
 		bug.on('mouseover', function() // наведение мыши
 		{
 			if (!osm.map._popup) // открываем, только если на карте ничего не открыто
-			{
 				bug.openPopup();
-				bug.on("mouseout", function(){ bug.closePopup(); });// мышь убрали - скрываем
-			}
 		});
+		bug.on("mouseout", function(){ if (!bug.alwaysOpen) bug.closePopup(); });
 		bug.off("click"); // снимаем стандартный обработчик, чтобы не моргал при клике
-		bug.on("click", function(){ bug.off('mouseout'); }); // при клике снимаем событие "скрытия" балуна
+		bug.on("click", function(){
+			bug.alwaysOpen ^= true;
+			if (!bug.alwaysOpen) bug.closePopup();
+			else
+			if (!osm.map._popup) bug.openPopup();
+		});
 	},
 
 	submitComment: function(form) {
