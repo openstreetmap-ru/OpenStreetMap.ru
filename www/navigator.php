@@ -1,5 +1,5 @@
 <?
-$page_logo = "/img/logo-cakes.png";
+$page_logo = "/img/logo-navigator.png";
 
 $page_head = <<<PHP_HEAD
   <link rel="stylesheet" href="css/page.navigator.css" />
