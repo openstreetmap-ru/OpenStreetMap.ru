@@ -15,7 +15,7 @@
   <script type="text/javascript" src="js/Layer.TileLayer.Bing.js"></script>
   <script type="text/javascript">frame_map = 1;</script>
 </head>
-<body onload="init()">
+<body>
 <? if (isset($_GET['noscreenshot'])) { ?>
   <div id="logoframe">
     <a href="/">
@@ -24,6 +24,7 @@
   </div>
 <? } ?>
   <div id="downpan" class="left-on">
+    <!--
     <div id="leftpan" class="leftSearch">
       <div class="close" onClick="osm.leftpan.toggle(false);"></div>
       <div id="leftpersmappan" class="leftpantab">
@@ -35,6 +36,7 @@
         </div>
       </div>
     </div>
+    -->
     <div id="mappan" style="left:0">
       <div id="map"></div>
     </div>
