@@ -144,9 +144,11 @@ osm.poi = {
 
       var moretags=$('');
       for (xName in getdata.tags_ru) {
-        moretags.after($('<tr>').addClass('poi_moretags')
-          .append($('<td>').text(xName+': '))
-          .append($('<td>').text(getdata.tags_ru[xName])))
+        if (getdata.tags_ru[xName]!="неизвестно") {
+          moretags.after($('<tr>').addClass('poi_moretags')
+            .append($('<td>').text(xName+': '))
+            .append($('<td>').text(getdata.tags_ru[xName])))
+        }
       }
 
       ret = $('<div>').addClass('poi_popup').attr('id',getdata.id)
