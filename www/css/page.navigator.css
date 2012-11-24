@@ -1,0 +1,9 @@
+#ncontent {
+  left: 50%;
+  margin-left: -357px;
+  position: absolute;
+  width: 715px;
+}
+#navigators area {
+  cursor: pointer;
+}

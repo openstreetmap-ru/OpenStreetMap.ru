@@ -16,6 +16,10 @@ body {
 table {
   border-spacing: 0;
 }
+img {
+  border: none;
+}
+
 
 #toppan {
   background: #efefef;
