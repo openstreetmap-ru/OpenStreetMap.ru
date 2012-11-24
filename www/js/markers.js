@@ -9,7 +9,7 @@ MarkerIcon = L.Icon.Default.extend({
 osm.markers = {
   _drawingMode: 0,// 0 - nothing, 1 - marker (single, permalink), 2 - multimarker, 3 - line
   _layerGroup: 0,
-  _newPath: 0, 
+  _newPath: 0,
   _data: {
     points: [],
     lines: []
@@ -54,13 +54,13 @@ osm.markers.initialize = function() {
 osm.markers.decodehtml = function(s) {
   if(s) return $("<div/>").html(s).text(); else return s;
 }
-osm.markers.addPoint = function () {
-  if (osm.markers._removeHandlers() === 1)
-    return;
+osm.markers.addPoint = function ()
+{
+	if (osm.markers._drawingMode != 1) osm.markers._removeHandlers();
 
-  osm.map.on('click', osm.markers.createPoint);
-  $_('map').style.cursor = 'crosshair';
-  osm.markers._drawingMode = 1;
+	osm.map.on('click', osm.markers.createPoint);
+	$_('map').style.cursor = 'crosshair';
+	osm.markers._drawingMode = 1;
 }
 osm.markers.createPoint = function(e) {
 	osm.map.permalink._popup_marker(e.latlng);
@@ -72,34 +72,37 @@ osm.markers.personalMap = function() {
 }
 
 osm.markers._removeHandlers = function() {
-  var oldDrawingMode = osm.markers._drawingMode;
-  var func, elementId;
-  switch(osm.markers._drawingMode){
-  case 1:
-      func = osm.markers.createPoint;
-      elementId = '';
-      break;
-  case 2:
-      func = osm.markers.createPoints;
-      elementId = '#pm-button-marker';
-      break;
-  case 3:
-      func = osm.markers.createPath;
-      elementId = '#pm-button-path';
-      // remove mousemove event if any
-      $("#map").unbind("mousemove", osm.markers.mouseMovePath);
-//      osm.map.doubleClickZoom.enable();
-      osm.markers._newPath.finishEditing(true);
-      break;
-  default:
-    return 0;
-  }
-  osm.map.off('click', func);
-  if (elementId)
-    $(elementId).removeClass('pm-button-pressed');
-  $_('map').style.cursor='';
-  osm.markers._drawingMode = 0;
-  return oldDrawingMode;
+	var oldDrawingMode = osm.markers._drawingMode;
+	var func, elementId;
+
+	switch (oldDrawingMode)
+	{
+		case 1:
+			func = osm.markers.createPoint;
+			elementId = '';
+			break;
+		case 2:
+			func = osm.markers.createPoints;
+			elementId = '#pm-button-marker';
+			break;
+		case 3:
+			func = osm.markers.createPath;
+			elementId = '#pm-button-path';
+			// remove mousemove event if any
+			$("#map").unbind("mousemove", osm.markers.mouseMovePath);
+//			osm.map.doubleClickZoom.enable();
+			osm.markers._newPath.finishEditing(true);
+			break;
+		default: return 0;
+	}
+	osm.map.off('click', func);
+
+	if (elementId)
+		$(elementId).removeClass('pm-button-pressed');
+	$_('map').style.cursor='';
+	osm.markers._drawingMode = 0;
+
+	return oldDrawingMode;
 }
 
 osm.markers.addMultiMarker = function() {
@@ -462,7 +465,7 @@ PersonalLine = L.Polyline.extend({
 PersonalLineEditable = PersonalLine.extend({
   initialize: function(points, details) {
     PersonalLine.prototype.initialize.call(this, points, details);
-    
+
     this.editing.enable();
 
     this._pl_name = osm.markers.decodehtml(this._pl_name);
