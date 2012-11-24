@@ -11,8 +11,8 @@ $PERSMAP_MAX_LINE_POINTS = 600;
 
 $pages_menu=array(
 "map" => array("name"=>"map","text"=>"Карта Online","color"=>"#99bd1b"),
-"navigator" => array("name"=>"navigator","text"=>"Для навигаторов","color"=>"#f9ba1c"),
-"about" => array("name"=>"about","text"=>"О проекте","color"=>"#fad051")
+"navigator" => array("name"=>"navigator","text"=>"Для навигаторов","color"=>"#f58720"),
+"about" => array("name"=>"about","text"=>"О проекте","color"=>"#db4c39")
 );
 
 $db_type = "postgresql";

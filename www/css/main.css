@@ -451,22 +451,22 @@ a.wheremi:hover div.wheremi {
 }
 
 #menupan td:nth-child(1) div { border-top: 5px solid #99bd1b; }
-#menupan td:nth-child(2) div { border-top: 5px solid #f9ba1c; }
-#menupan td:nth-child(3) div { border-top: 5px solid #fad051; }
+#menupan td:nth-child(2) div { border-top: 5px solid #f58720; }
+#menupan td:nth-child(3) div { border-top: 5px solid #db4c39; }
 #menupan td:nth-child(4) div { border-top: 5px solid #db4c39; }
 #menupan td:nth-child(5) div { border-top: 5px solid #db4c39; }
 #menupan td:nth-child(6) div { border-top: 5px solid #faaa87; }
 #menupan td:nth-child(7) div { border-top: 5px solid #4a8af5; }
 #menupan td:nth-child(1) div:hover, #menupan td:nth-child(1) div.current { background: #99bd1b; }
-#menupan td:nth-child(2) div:hover, #menupan td:nth-child(2) div.current { background: #f9ba1c; }
-#menupan td:nth-child(3) div:hover, #menupan td:nth-child(3) div.current { background: #fad051; }
+#menupan td:nth-child(2) div:hover, #menupan td:nth-child(2) div.current { background: #f58720; }
+#menupan td:nth-child(3) div:hover, #menupan td:nth-child(3) div.current { background: #db4c39; }
 #menupan td:nth-child(4) div:hover, #menupan td:nth-child(4) div.current { background: #db4c39; }
 #menupan td:nth-child(5) div:hover, #menupan td:nth-child(5) div.current { background: #db4c39; }
 #menupan td:nth-child(6) div:hover, #menupan td:nth-child(6) div.current { background: #faaa87; }
 #menupan td:nth-child(7) div:hover, #menupan td:nth-child(7) div.current { background: #4a8af5; }
 
-#menupan #mainmenupage td#mainmenupage-osb div { width: 220px; border-top: 5px solid #c3102e; }
-#menupan #mainmenupage td#mainmenupage-osb div:hover, #menupan #mainmenupage td#mainmenupage-osb a.on div { background: #c3102e; }
+#menupan #mainmenupage td#mainmenupage-osb div { width: 220px; border-top: 5px solid #b6253b; }
+#menupan #mainmenupage td#mainmenupage-osb div:hover, #menupan #mainmenupage td#mainmenupage-osb a.on div { background: #b6253b; }
 
 #menu_arrow_img {
     margin-left: 15px;
