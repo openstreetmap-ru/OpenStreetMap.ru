@@ -671,8 +671,7 @@ div.leaflet-control-layers-expanded .leaflet-control-layers-toggle {
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
   -o-box-shadow: none !important;
-  box-shadow: none !important;
-  background-color: inherit !important
+  box-shadow: none !important
 }
 .leaflet-control-container .leaflet-control-layers.leaflet-control {
   margin-top: 30px;
