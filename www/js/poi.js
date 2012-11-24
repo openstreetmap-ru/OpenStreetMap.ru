@@ -142,11 +142,11 @@ osm.poi = {
           .append($('<td>').text(getdata.website).addClass('poi_value'))
       }
 
-      var moretags;
+      var moretags=$('');
       for (xName in getdata.tags_ru) {
-        moretags=$('<tr>').addClass('poi_moretags')
+        moretags.after($('<tr>').addClass('poi_moretags')
           .append($('<td>').text(xName+': '))
-          .append($('<td>').text(getdata.tags_ru[xName]))
+          .append($('<td>').text(getdata.tags_ru[xName])))
       }
 
       ret = $('<div>').addClass('poi_popup').attr('id',getdata.id)
