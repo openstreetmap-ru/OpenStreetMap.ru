@@ -714,14 +714,17 @@ div.leaflet-control-layers-expanded .leaflet-control-layers-toggle {
   font-size: 14pt;
 }
 #page-about #menu ul li {
-  color: #187BA0;
-  cursor: pointer;
-  font-size: 12pt;
   list-style-type: none;
   margin-bottom: 0.7em;
 }
 #page-about #menu ul li.active {
   font-weight: bold;
+}
+#page-about #menu ul li a {
+  color: #187BA0;
+  cursor: pointer;
+  font-size: 12pt;
+  text-decoration: none;
 }
 #page-about .content {
   display: none;

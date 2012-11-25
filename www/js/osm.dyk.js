@@ -54,7 +54,7 @@ osm.dyk.load = function(){
         id=+$('#leftpantab #DidYouKnow p a')[0].hash.substr(3);
         osm.dyk.updateval(id,2);
       })
-      $('#leftpantab #DidYouKnow p')[0].innerHTML=results.data.head+' <a href="/about#id'+results.data.id+'">Подробнее...</a>';
+      $('#leftpantab #DidYouKnow p')[0].innerHTML=results.data.head+' <a href="/about/dyk#id'+results.data.id+'">Подробнее...</a>';
       $('#leftpantab #DidYouKnow p a').bind('click', function(){
         osm.dyk.updateval(+this.hash.substr(3),7);
       })

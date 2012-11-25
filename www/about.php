@@ -2,9 +2,9 @@
 $page_logo = "/img/logo-about.png";
 
 $page_head = <<<PHP_HEAD
-  <script type="text/javascript" src="js/page.about.js"></script>
-  <script type="text/javascript" src="js/osm.common.js"></script>
-  <script type="text/javascript" src="js/osm.dyk.js"></script>
+  <script type="text/javascript" src="/js/page.about.js"></script>
+  <script type="text/javascript" src="/js/osm.common.js"></script>
+  <script type="text/javascript" src="/js/osm.dyk.js"></script>
 PHP_HEAD;
 
 $page_topmenu = <<<PHP_TOPMENU
@@ -25,10 +25,10 @@ $page_content = <<<PHP_CONTENT
     <img id="img-osm-dyk" class="menu-img" src='/img/osm-dyk.png' />
     <div id='menu'>
       <ul>
-        <li id="menu-osm-ru">Об этом сайте</li>
-        <li id="menu-osm-org">OpenStreetMap</li>
-        <li id="menu-osm-dev">Принять участие</li>
-        <li id="menu-osm-dyk">Подсказки и советы</li>
+        <li id="menu-osm-ru"><a href="/about/ru">Об этом сайте</a></li>
+        <li id="menu-osm-org"><a href="/about/org">OpenStreetMap</a></li>
+        <li id="menu-osm-dev"><a href="/about/dev">Принять участие</a></li>
+        <li id="menu-osm-dyk"><a href="/about/dyk">Подсказки и советы</a></li>
       </ul>
     </div>
   </div>

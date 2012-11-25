@@ -2,35 +2,35 @@
 $page_logo = "/img/logo.png";
 
 $page_head = <<<PHP_HEAD
-  <link rel="stylesheet" href="css/leaflet.css" />
-  <script src="js/leaflet.js"></script>
-  <!--[if lte IE 8]><link rel="stylesheet" href="css/leaflet.ie.css" /><![endif]-->
-  <script type="text/javascript" src="js/osm.common.js"></script>
-  <script type="text/javascript" src="js/osm.utils.js"></script>
-  <script type="text/javascript" src="js/osm.utils.search.js"></script>
-  <script type="text/javascript" src="js/osm.dyk.js"></script>
-  <script type="text/javascript" src="js/map.js"></script>
-  <script type="text/javascript" src="geo.php"></script>
-  <script type="text/javascript" src="js/Control.Permalink.js"></script>
-  <script type="text/javascript" src="js/Control.GoToOSM.js"></script>
-  <script type="text/javascript" src="js/Control.Scale.js"></script>
-  <script type="text/javascript" src="js/Control.Distance.js"></script>
-  <script type="text/javascript" src="js/Layer.TileLayer.Bing.js"></script>
-  <script type="text/javascript" src="js/KML.js"></script>
-  <script type="text/javascript" src="js/suncalc.js"></script>
-  <script type="text/javascript" src="js/osmjs-validators-layer.js"></script>
-  <script type="text/javascript" src="js/osmjs-validators-errors.js"></script>
-  <script type="text/javascript" src="js/osmjs-weather-layer.js"></script>
-  <script type="text/javascript" src="js/OpenStreetBugs.js"></script>
-  <script type="text/javascript" src="js/markers.js"></script>
-  <script type="text/javascript" src="js/validators.js"></script>
-  <script type="text/javascript" src="js/wpc.js"></script>
-  <script type="text/javascript" src="js/jquery.jstree.js"></script>
-  <script type="text/javascript" src="js/poi.js"></script>
-  <script type="text/javascript" src="js/autocomplete.js"></script>
+  <link rel="stylesheet" href="/css/leaflet.css" />
+  <script src="/js/leaflet.js"></script>
+  <!--[if lte IE 8]><link rel="stylesheet" href="/css/leaflet.ie.css" /><![endif]-->
+  <script type="text/javascript" src="/js/osm.common.js"></script>
+  <script type="text/javascript" src="/js/osm.utils.js"></script>
+  <script type="text/javascript" src="/js/osm.utils.search.js"></script>
+  <script type="text/javascript" src="/js/osm.dyk.js"></script>
+  <script type="text/javascript" src="/js/map.js"></script>
+  <script type="text/javascript" src="/geo.php"></script>
+  <script type="text/javascript" src="/js/Control.Permalink.js"></script>
+  <script type="text/javascript" src="/js/Control.GoToOSM.js"></script>
+  <script type="text/javascript" src="/js/Control.Scale.js"></script>
+  <script type="text/javascript" src="/js/Control.Distance.js"></script>
+  <script type="text/javascript" src="/js/Layer.TileLayer.Bing.js"></script>
+  <script type="text/javascript" src="/js/KML.js"></script>
+  <script type="text/javascript" src="/js/suncalc.js"></script>
+  <script type="text/javascript" src="/js/osmjs-validators-layer.js"></script>
+  <script type="text/javascript" src="/js/osmjs-validators-errors.js"></script>
+  <script type="text/javascript" src="/js/osmjs-weather-layer.js"></script>
+  <script type="text/javascript" src="/js/OpenStreetBugs.js"></script>
+  <script type="text/javascript" src="/js/markers.js"></script>
+  <script type="text/javascript" src="/js/validators.js"></script>
+  <script type="text/javascript" src="/js/wpc.js"></script>
+  <script type="text/javascript" src="/js/jquery.jstree.js"></script>
+  <script type="text/javascript" src="/js/poi.js"></script>
+  <script type="text/javascript" src="/js/autocomplete.js"></script>
 
-  <link rel="stylesheet" href="css/osb.css" />
-  <link rel="stylesheet" href="css/jstree/jstree.css" />
+  <link rel="stylesheet" href="/css/osb.css" />
+  <link rel="stylesheet" href="/css/jstree/jstree.css" />
 PHP_HEAD;
 
 $page_topmenu = <<<PHP_TOPMENU

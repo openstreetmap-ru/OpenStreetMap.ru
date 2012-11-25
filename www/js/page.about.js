@@ -1,11 +1,11 @@
 about={};
 
 $(function(){  //init
-  $('#page-about #menu li').bind('click', function(){
-    about.toggle(this.id.substr(5));
-  });
-  about.toggle('osm-ru');
-
+  if (srv.url[1])
+    about.toggle('osm-'+srv.url[1]);
+  else
+    about.toggle('osm-ru');
+  
   $('#page-about .content .head-link a').bind('click', function(){
     if ($('.text:visible',this.parentNode.parentNode).length==0) {
       $('#page-about .content .section-link .text').hide('fast');
