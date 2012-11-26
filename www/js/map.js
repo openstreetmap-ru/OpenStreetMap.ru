@@ -177,6 +177,15 @@ osm.initLayers = function(){
   );
 
   osm.registerLayer(
+    'layerEmpty',
+    new L.TileLayer('img/blank.png', {maxZoom: 18}),
+    'Пустой фоновый слой',
+    'E',
+    true
+  );
+
+
+  osm.registerLayer(
     'layerLatlonBuildings',
     new L.TileLayer('http://{s}.tile.osmosnimki.ru/buildings/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Трёхмерные здания &copy; <a href='http://latlon.org/pt'>LatLon.org</a>", subdomains: 'abcdef'}),
     'Трёхмерные здания',
