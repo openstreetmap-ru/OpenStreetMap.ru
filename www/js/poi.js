@@ -25,7 +25,12 @@ osm.poi = {
       })
       .bind("change_state.check_box.jstree", function (event, data) {
         osm.poi.updateMarkerTree(event, data);
-      })
+      });
+    $.getJSON('data/poimarker.json',
+      function(results){
+        osm.poi._markers=results;
+      }
+    )
   },
 
   enable: function() {
@@ -80,8 +85,11 @@ osm.poi = {
           if (markers[results.data[item2].id]){
             delete markers[results.data[item2].id];
           }
-          else{
-            icon_url = 'img/poi_marker/'+results.data[item2].nclass+'.png';
+          else {
+            if (osm.poi._markers.indexOf(results.data[item2].nclass) == -1)
+              icon_url = 'img/poi_marker/default.png';
+            else
+              icon_url = 'img/poi_marker/'+results.data[item2].nclass+'.png';
             _marker = new L.Marker(new L.LatLng(results.data[item2].lat, results.data[item2].lon), {icon:new osm.poi.poiIcon({iconUrl: icon_url})});
             _marker.bindPopup(osm.poi.createPopupText(results.data[item2]));
             osm.poi.layer.addLayer(_marker);
