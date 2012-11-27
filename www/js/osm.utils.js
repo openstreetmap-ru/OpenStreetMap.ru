@@ -126,6 +126,8 @@ osm.leftpan.refsizetab = function() {
     dykH += 34;
   var miHeight = +$("#leftpantab .leftgroup h1")[0].offsetHeight + parseFloat(mi.css('margin-bottom'))
   height=$("#leftpantab")[0].offsetHeight-(miHeight*mi.length+dykH);
+  if (height < 100)
+    height = 100;
   $('#leftpan .leftgroup .leftcontent').css('height', height+'px');
 }
 

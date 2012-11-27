@@ -103,7 +103,8 @@ $(function() {
   $("#mappan #htpbutton").bind("click", function(){osm.ui.togglehtp()});
   if (get.hidetoppan) osm.ui.togglehtp();
 
-  osm.dyk.load();
+  if ($('#leftpantab').height()>300)
+    osm.dyk.load();
   $(window).resize(osm.leftpan.refsizetab);
 
   osm.map.on('moveend', osm.opento);
