@@ -596,63 +596,6 @@ a.wheremi:hover div.wheremi {
   position: absolute;
   z-index: 3;
 }
-/* tools */
-#tools {
-  position: absolute;
-  right: 10px;
-  top: 80px;
-	z-index: 8;
-}
-#tools div, .leaflet-control-layers a, .leaflet-control-layers-expanded .leaflet-control-layers-list {
-	-moz-border-radius: 7px;
-	-webkit-border-radius: 7px;
-	border-radius: 7px;
-	-moz-box-shadow: 0 0 7px #999;
-	-webkit-box-shadow: 0 0 7px #999;
-	box-shadow: 0 0 7px #999;
-	background: #f8f8f9;
-}
-#tools div.a, .leaflet-control-layers a {
-	float: right;
-	width: 36px;
-}
-#tools div.a a {
-  background-image: url("../img/tools.png");
-	background-position: 50% 50%;
-	background-repeat: no-repeat;
-	display: block;
-  height: 36px;
-  outline: none;
-}
-#tools div.a a:hover, #tools div.a a:active {
-  outline: none;
-}
-#tools div.p {
-	display: none;
-}
-#tools div.p a {
-  color: #0078A8;
-}
-#tools div.p p {
-  margin-bottom: 0.7em;
-}
-#tools.on div.p, .leaflet-control-layers-expanded .leaflet-control-layers-list {
-	display: block;
-	padding: 16px 40px 6px 10px;
-	margin-right: 36px;
-}
-
-div.leaflet-control-layers {
-  background: none;
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
-	box-shadow: none;
-  padding: 0;
-}
-div.leaflet-control-layers-expanded .leaflet-control-layers-toggle {
-  display: block;
-}
-
 
 /*
  * Toolbar

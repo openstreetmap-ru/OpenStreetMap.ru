@@ -83,11 +83,7 @@ $(function() {
   osm.validators.initialize();
   osm.poi.initialize();
 
-  osm.createTools();
   search.inLoad();
-
-  osm.goToOSM = new L.Control.GoToOSM(osm.obTools);
-  osm.goToOSM.connectToMap(osm.map);
 
   osm.editUpdate();
   osm.map.on('moveend', osm.saveLocation);

@@ -52,66 +52,6 @@ osm.editUpdate = function() {
   edit.href = url;
 }
 
-osm.createTools = function() {
-	var timeoutId = null;
-	var noOff = false;
-	var obMap = $_('mappan');
-	var obTools = L.DomUtil.create('div', null, obMap);
-	obTools.id = 'tools';
-
-	osm.obTools = obTools;
-
-	function ClosePan() { obTools.className=''; }
-	obTools.onmouseover = function()
-	{
-		clearTimeout(timeoutId);
-		obTools.className='on';
-	}
-	obTools.onmouseout = function()
-	{
-		if (!noOff)
-			timeoutId = setTimeout(ClosePan, 300);
-	}
-
-	var obButDiv = L.DomUtil.create('div', 'a', obTools);
-	var obButDivA = L.DomUtil.create('a', null, obButDiv);
-	obButDivA.href = '#';
-	obButDivA.title = 'Инструменты';
-	obButDivA.onclick = function(){ noOff ^= true; };
-
-	var obListDivA, obListDiv  = L.DomUtil.create('div', 'p', obTools);
-
-	obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
-	obListDivA.href='#addMarker';
-	obListDivA.title='Маркер';
-	obListDivA.onclick = function(){ osm.markers.addPoint(); ClosePan(); return false; };
-	obListDivA.innerHTML='Маркер';
-
-	obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
-	obListDivA.id='EditJOSM_'
-	obListDivA.href='#';
-	obListDivA.title='Редактировать (в JOSM)';
-	obListDivA.innerHTML='Редактировать (в JOSM)';
-
-	obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
-	obListDivA.href='#poi';
-	obListDivA.title='Точки интереса';
-	obListDivA.innerHTML='Точки интереса';
-	obListDivA.onclick = function(){ osm.leftpan.toggle(4); ClosePan(); return false; };
-
-	obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
-	obListDivA.href='#personalMap';
-	obListDivA.title='Персональная карта';
-	obListDivA.innerHTML='Персональная карта';
-	obListDivA.onclick = function(){ osm.leftpan.toggle(2); ClosePan(); return false; };
-
-	obListDivA = L.DomUtil.create('a', null, L.DomUtil.create('p', null, obListDiv));
-	obListDivA.href='#validators';
-	obListDivA.title='Данные валидаторов';
-	obListDivA.innerHTML='Данные валидаторов';
-	obListDivA.onclick = function(){ osm.leftpan.toggle(3); ClosePan(); return false; };
-};
-
 osm.setLinkOSB = function() {
   if (parseInt(get['bugid'])) {
     osm.map.addLayer(osm.layers.osb);
@@ -128,7 +68,7 @@ osm.leftpan.refsizetab = function() {
   height=$("#leftpantab")[0].offsetHeight-(miHeight*mi.length+dykH);
   if (height < 100)
     height = 100;
-  $('#leftpan .leftgroup .leftcontent').css('height', height+'px');
+  $('#leftpan .leftgroup .leftcontent').css('height', height-12+'px');
 }
 
 osm.leftpan.toggle = function(on, isClick) {
@@ -137,9 +77,13 @@ osm.leftpan.toggle = function(on, isClick) {
     if (el.is(':visible'))
       $("#leftpan .leftcontent").hide("normal");
     else {
-      $("#leftpan .leftcontent").hide("normal");
-      // osm.leftpan.refsizetab();
-      el.show("normal");
+      all = $("#leftpan .leftcontent:visible");
+      delay = 0;
+      if (all.length){
+        all.hide("normal");
+        delay = 300;
+      }
+      el.stop().delay(delay).show("normal");
     }
   };
   if (typeof on == "undefined") on = !this.on;
