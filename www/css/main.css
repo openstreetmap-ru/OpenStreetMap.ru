@@ -20,7 +20,6 @@ img {
   border: none;
 }
 
-
 #toppan {
   background: #efefef;
   height: 90px;
@@ -50,182 +49,6 @@ img {
 
 .htp #content { top: 9px; }
 
-#leftpan {
-  bottom: 0;
-  border-top: 1px solid #ddd;
-  left: 0;
-  overflow: auto;
-  position: absolute;
-  top: 0;
-  width: 327px;
-  z-index: 3;
-}
-.left-off #leftpan {
-  width: 12px;
-}
-#leftpantab {
-  bottom: 21px;
-  display: block;
-  left: 21px;
-  overflow: auto;
-  position: absolute;
-  right: 21px;
-  top: 21px;
-}
-.left-off #leftpantab {
-  display: none;
-}
-#leftpantab .leftgroup {
-  margin-bottom: 0.5em;
-}
-#leftpan div.header h1 {
-    font-weight: normal;
-    left: 15px;
-    position: absolute;
-    top: 15px;
-}
-img.loader{
-  display: none;
-  margin-top: -5px;
-  position: absolute;
-  right: 10px;
-}
-img.loader.on{
-  display: inline;
-}
-#leftpan .leftgroup  h1 {
-  color: #187BA0;
-  cursor: pointer;
-  font-size: 12pt;
-  font-weight: bold;
-}
-#leftpan .leftgroup  .leftcontent {
-  color: #808080;
-  margin-left: 10px;
-  overflow: auto;
-  padding-bottom: 6px;
-  padding-top: 6px;
-}
-#leftpan .leftgroup  .leftcontent a {
-  color: #808080;
-}
-#leftpan .leftgroup  .leftcontent ul {
-  list-style: none;
-}
-
-#leftpan #DidYouKnow {
-  border: 1px solid #808080;
-  bottom: 0;
-  left: 0;
-  padding: 0.6em;
-  position: absolute;
-  right: 0;
-}
-#leftpan #DidYouKnow .head {
-  background: none repeat scroll 0 0 white;
-  left: 7px;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  position: absolute;
-  top: -0.8em;
-  color: #808080;
-}
-#leftpan #DidYouKnow a {
-  color: #187BA0;
-}
-#leftpan #DidYouKnow p {
-  padding-top: 12px;
-}
-#leftpan #DidYouKnow .close {
-  background-image: url("/img/dyk-close.png");
-  height: 12px;
-  position: absolute;
-  right: 5px;
-  top: 5px;
-  width: 12px;
-  z-index: 1;
-  cursor: pointer;
-}
-
-#validationerrors ul {
-  margin-left: 10px;
-}
-#validationerrors li {
-  margin: 5px;
-}
-#validationerrors span {
-  margin-left: 5px;
-}
-.map-validation-error ul {
-  list-style: none;
-  padding-left: 10px;
-  margin: 8px 0px;
-}
-.map-validation-error h4,
-.map-validation-error p {
-  margin: 8px 0px !important;
-}
-
-#leftpantab .leftlink li{
-padding-bottom: 4px;
-}
-#leftpantab .leftlink a{
-  font-size: 12pt;
-  text-decoration: none;
-}
-
-#toggler {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  width: 12px;
-  background: url("../img/arrow.png") no-repeat 0 center;
-  cursor: pointer;
-  border-right: 1px solid #CCCCCC;
-}
-.left-off #toggler {
-  background: url("../img/arrow.png") no-repeat -12px center;
-}
-
-#mappan {
-  top: 0;
-  bottom: 0;
-  left: 327px;
-  right: 0;
-  position: absolute;
-/*  -webkit-user-select: none;
-  -moz-user-select: none;
-  -o-user-select: none;
-  user-select: none;*/
-}
-.left-off #mappan {
-  left: 12px;
-}
-
-.map-feature-button {
-  background: #99BD1B;
-  color: #ffffff;
-  cursor: pointer;
-  height: 20px;
-  position: absolute;
-  text-align: center;
-  top: 0;
-  width: 50px;
-  z-index: 5;
-}
-
-#htpbutton {
-  right: 20px;
-}
-
-#map {
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  position: absolute;
-}
 
 /*
  * Style definitions
@@ -291,27 +114,6 @@ input[type="submit"]:active, button:active {
   opacity: 0.8;
 }
 
-#line {
-  border-top: 1px solid lightgray;
-  height: 0;
-  left: 110px;
-  position: absolute;
-  right: 0;
-  top: 62px;
-}
-
-#header {
-  -moz-user-select: none;
-  cursor: default;
-  font-family: Arial, sans-serif;
-  font-size: 20px;
-  color: #444444;
-  left: 110px;
-  position: absolute;
-  top: 42px;
-  text-shadow: 1px 1px 2px #DADADA, 0 0 15px #DDDDDD;
-}
-
 #topbar {
   top: 44px;
   left: 0;
@@ -319,6 +121,8 @@ input[type="submit"]:active, button:active {
   position: absolute;
   padding: 0 25px 0 325px;
 }
+
+
 
 #newstop {
   float: right;
@@ -630,112 +434,6 @@ a.wheremi:hover div.wheremi {
   margin-left: 5px !important;
 }
 
-/* for page about */
-#page-about #left {
-  max-width: 200px;
-  left: 60px;
-  position: absolute;
-  top: 20px;
-}
-#page-about #center {
-  max-width: 571px;
-  left: 350px;
-  position: absolute;
-  top: 15px;
-}
-#page-about .menu-img {
-  display: none;
-}
-#page-about .menu-img.on {
-  display: inline-block;
-}
-#page-about #menu {
-  padding-left: 10px;
-  padding-top: 20px;
-}
-#page-about #menu p {
-  color: #4A8AF5;
-  font-size: 14pt;
-}
-#page-about #menu ul li {
-  list-style-type: none;
-  margin-bottom: 0.7em;
-}
-#page-about #menu ul li.active {
-  font-weight: bold;
-}
-#page-about #menu ul li a {
-  color: #187BA0;
-  cursor: pointer;
-  font-size: 12pt;
-  text-decoration: none;
-}
-#page-about .content {
-  display: none;
-}
-#page-about .content.on {
-  display: block;
-}
-#page-about .content .section{
-  margin-bottom: 3em;
-}
-#page-about .content .head {
-  color: #4A8AF5;
-  font-size: 14pt;
-  padding-bottom: 0.5em;
-}
-#page-about .content .text {
-  font-size: 10pt;
-  margin-bottom: 1em;
-  text-align: justify;
-}
-#page-about .content .section-link{
-  margin-bottom: 1.5em;
-  margin-left: 1.7em;
-}
-#page-about .content .head-link {
-  color: #187BA0;
-  font-size: 14pt;
-  margin-bottom: 0.5em;
-}
-#page-about .content .head-link  a {
-  border-bottom: 1px dashed #187BA0;
-  cursor: pointer;
-}
-#page-about #dyk-tools {
-  border: 1px solid #808080;
-  bottom: 0;
-  left: 0;
-  margin-top: 4em;
-  padding: 1.5em;
-  right: 0;
-}
-#page-about #dyk-tools .tools-head {
-  background-color: white;
-  color: #000000;
-  display: inline;
-  font-size: 12pt;
-  left: -0.5em;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  position: relative;
-  top: -1.8em;
-}
-#page-about #dyk-tools .tools-null {
-  margin-bottom: -1em;
-}
-#page-about #dyk-tools .tools-space {
-  margin-bottom: 2em;
-}
-#page-about #dyk-tools .tools-button {
-  color: #187BA0;
-  cursor: pointer;
-  font-size: 12pt;
-  margin-bottom: 0.3em;
-}
-#page-about #dyk-tools .tools-text {
-  font-style: italic;
-}
 
 /* personal map */
 .colour-picker-button {

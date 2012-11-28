@@ -1,0 +1,175 @@
+#leftpan {
+  bottom: 0;
+  border-top: 1px solid #ddd;
+  left: 0;
+  overflow: auto;
+  position: absolute;
+  top: 0;
+  width: 327px;
+  z-index: 3;
+}
+.left-off #leftpan {
+  width: 12px;
+}
+#leftpantab {
+  bottom: 21px;
+  display: block;
+  left: 21px;
+  overflow: auto;
+  position: absolute;
+  right: 21px;
+  top: 21px;
+}
+.left-off #leftpantab {
+  display: none;
+}
+#leftpantab .leftgroup {
+  margin-bottom: 0.5em;
+}
+#leftpan div.header h1 {
+    font-weight: normal;
+    left: 15px;
+    position: absolute;
+    top: 15px;
+}
+img.loader{
+  display: none;
+  margin-top: -5px;
+  position: absolute;
+  right: 10px;
+}
+img.loader.on{
+  display: inline;
+}
+#leftpan .leftgroup  h1 {
+  color: #187BA0;
+  cursor: pointer;
+  font-size: 12pt;
+  font-weight: bold;
+}
+#leftpan .leftgroup  .leftcontent {
+  color: #808080;
+  margin-left: 10px;
+  overflow: auto;
+  padding-bottom: 6px;
+  padding-top: 6px;
+}
+#leftpan .leftgroup  .leftcontent a {
+  color: #808080;
+}
+#leftpan .leftgroup  .leftcontent ul {
+  list-style: none;
+}
+
+#leftpan #DidYouKnow {
+  border: 1px solid #808080;
+  bottom: 0;
+  left: 0;
+  padding: 0.6em;
+  position: absolute;
+  right: 0;
+}
+#leftpan #DidYouKnow .head {
+  background: none repeat scroll 0 0 white;
+  left: 7px;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  position: absolute;
+  top: -0.8em;
+  color: #808080;
+}
+#leftpan #DidYouKnow a {
+  color: #187BA0;
+}
+#leftpan #DidYouKnow p {
+  padding-top: 12px;
+}
+#leftpan #DidYouKnow .close {
+  background-image: url("/img/dyk-close.png");
+  height: 12px;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 12px;
+  z-index: 1;
+  cursor: pointer;
+}
+
+#validationerrors ul {
+  margin-left: 10px;
+}
+#validationerrors li {
+  margin: 5px;
+}
+#validationerrors span {
+  margin-left: 5px;
+}
+.map-validation-error ul {
+  list-style: none;
+  padding-left: 10px;
+  margin: 8px 0px;
+}
+.map-validation-error h4,
+.map-validation-error p {
+  margin: 8px 0px !important;
+}
+
+#leftpantab .leftlink li{
+padding-bottom: 4px;
+}
+#leftpantab .leftlink a{
+  font-size: 12pt;
+  text-decoration: none;
+}
+#toggler {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  background: url("../img/arrow.png") no-repeat 0 center;
+  cursor: pointer;
+  border-right: 1px solid #CCCCCC;
+}
+.left-off #toggler {
+  background: url("../img/arrow.png") no-repeat -12px center;
+}
+
+#mappan {
+  top: 0;
+  bottom: 0;
+  left: 327px;
+  right: 0;
+  position: absolute;
+/*  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;*/
+}
+.left-off #mappan {
+  left: 12px;
+}
+
+.map-feature-button {
+  background: #99BD1B;
+  color: #ffffff;
+  cursor: pointer;
+  height: 20px;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 50px;
+  z-index: 5;
+}
+
+#htpbutton {
+  right: 20px;
+}
+
+#map {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+}

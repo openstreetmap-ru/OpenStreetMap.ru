@@ -28,6 +28,7 @@ $page_head = <<<PHP_HEAD
   <script type="text/javascript" src="/js/poi.js"></script>
   <script type="text/javascript" src="/js/autocomplete.js"></script>
 
+  <link rel="stylesheet" href="css/page.map.css" />
   <link rel="stylesheet" href="/css/osb.css" />
   <link rel="stylesheet" href="/css/jstree/jstree.css" />
 PHP_HEAD;

@@ -1,0 +1,105 @@
+#page-about #left {
+  max-width: 200px;
+  left: 60px;
+  position: absolute;
+  top: 20px;
+}
+#page-about #center {
+  max-width: 571px;
+  left: 350px;
+  position: absolute;
+  top: 15px;
+}
+#page-about .menu-img {
+  display: none;
+}
+#page-about .menu-img.on {
+  display: inline-block;
+}
+#page-about #menu {
+  padding-left: 10px;
+  padding-top: 20px;
+}
+#page-about #menu p {
+  color: #4A8AF5;
+  font-size: 14pt;
+}
+#page-about #menu ul li {
+  list-style-type: none;
+  margin-bottom: 0.7em;
+}
+#page-about #menu ul li.active {
+  font-weight: bold;
+}
+#page-about #menu ul li a {
+  color: #187BA0;
+  cursor: pointer;
+  font-size: 12pt;
+  text-decoration: none;
+}
+#page-about .content {
+  display: none;
+}
+#page-about .content.on {
+  display: block;
+}
+#page-about .content .section{
+  margin-bottom: 3em;
+}
+#page-about .content .head {
+  color: #4A8AF5;
+  font-size: 14pt;
+  padding-bottom: 0.5em;
+}
+#page-about .content .text {
+  font-size: 10pt;
+  margin-bottom: 1em;
+  text-align: justify;
+}
+#page-about .content .section-link{
+  margin-bottom: 1.5em;
+  margin-left: 1.7em;
+}
+#page-about .content .head-link {
+  color: #187BA0;
+  font-size: 14pt;
+  margin-bottom: 0.5em;
+}
+#page-about .content .head-link  a {
+  border-bottom: 1px dashed #187BA0;
+  cursor: pointer;
+}
+#page-about #dyk-tools {
+  border: 1px solid #808080;
+  bottom: 0;
+  left: 0;
+  margin-top: 4em;
+  padding: 1.5em;
+  right: 0;
+}
+#page-about #dyk-tools .tools-head {
+  background-color: white;
+  color: #000000;
+  display: inline;
+  font-size: 12pt;
+  left: -0.5em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  position: relative;
+  top: -1.8em;
+}
+#page-about #dyk-tools .tools-null {
+  margin-bottom: -1em;
+}
+#page-about #dyk-tools .tools-space {
+  margin-bottom: 2em;
+}
+#page-about #dyk-tools .tools-button {
+  color: #187BA0;
+  cursor: pointer;
+  font-size: 12pt;
+  margin-bottom: 0.3em;
+}
+#page-about #dyk-tools .tools-text {
+  font-style: italic;
+}
