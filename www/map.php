@@ -127,7 +127,7 @@ $page_content = <<<PHP_CONTENT
         </div>
 
         <div id="DidYouKnow" style="display: none;">
-          <div class="head">Полезно знать?</div>
+          <div class="head">Полезно знать</div>
           <div class="close"></div>
           <p></p>
         </div>

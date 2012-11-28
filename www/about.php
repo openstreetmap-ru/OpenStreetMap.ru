@@ -5,7 +5,7 @@ $page_head = <<<PHP_HEAD
   <script type="text/javascript" src="/js/page.about.js"></script>
   <script type="text/javascript" src="/js/osm.common.js"></script>
   <script type="text/javascript" src="/js/osm.dyk.js"></script>
-  <link rel="stylesheet" href="css/page.about.css" />
+  <link rel="stylesheet" href="/css/page.about.css" />
 PHP_HEAD;
 
 $page_topmenu = <<<PHP_TOPMENU
