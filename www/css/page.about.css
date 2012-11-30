@@ -69,6 +69,31 @@
   border-bottom: 1px dashed #187BA0;
   cursor: pointer;
 }
+
+.section {
+  font-size: 10pt;
+}
+.section  p, .section  li {
+  padding-bottom: 0.5em;
+}
+.content ul {
+  list-style: none;
+}
+.content ul>li:before {
+  content: "—";
+  left: -5px;
+  margin-left: 7px;
+  position: relative;
+}
+.section a {
+  color: #1D8EB7;
+  text-decoration: none;
+}
+.section a:hover {
+  text-decoration: underline;
+}
+
+
 #page-about #dyk-tools {
   border: 1px solid #808080;
   bottom: 0;

@@ -43,6 +43,10 @@ $page_content = <<<PHP_CONTENT
         <p class="head">Для чего этот сайт?</p>
         <p class="text">Русскоговорящее сообщество OpenStreetMap быстро растёт. Мы задумали этот сайт, чтобы быстрее доносить последние новости и помогать новичкам сделать первые шаги в рисовании окружающего мира. Главное, у нас карта на русском языке, продвинутый поисковик и громадьё планов!</p>
       </div>
+      <div class="section">
+        <p class="head">Обратная связь</p>
+        <p class="text">Если у вас есть предложения по улучшению сайта, можете написать нам на <a href="mailto:osm.ershkus@gmail.com">osm.ershkus@gmail.com</a> или сделать пометку на <a target="_blank" href="http://osmru.reformal.ru/">Reformal</a>, или вот мы ещё на <a target="_blank" href="https://github.com/ErshKUS/OpenStreetMap.ru">гитхабе</a> если у вас руки правильно заточены. Любые предложения приветствуются! <a target="_blank" href="http://forum.openstreetmap.org/viewtopic.php?id=18358">Ссылка на форум</a> (трэба регистрация OpenStreetMap).</p>
+      </div>
     </div>
     <div id="osm-org" class="content">
       <div class="section">
@@ -63,6 +67,36 @@ $page_content = <<<PHP_CONTENT
       </div>
     </div>
     <div id="osm-dev" class="content">
+      <div class="section">
+        <p class="head">Хотите присоединиться?</p>
+        <p>Это просто:</p>
+        <ul>
+          <li><a target="_blank" href="http://www.openstreetmap.org/user/new">Зарегистрируйтесь на главном сайте</a> проекта OpenStreetMap.org</li>
+          <li><a target="_blank" href="http://wiki.openstreetmap.org/wiki/RU:FAQ">Ознакомьтесь с руководством для новичков</a>.</li>
+          <li>И вперёд!</li>
+        </ul>
+      </div>
+      <div class="section">
+        <p class="head">Если появятся какие-нибудь вопросы</p>
+        <p>Заходите на <a target="_blank" href="http://forum.openstreetmap.org/viewforum.php?id=21">наш форум</a> или <a>IRC канал</a></p>
+      </div>
+      <div class="section">
+        <p class="head">Полезные ссылки</p>
+        <p><a target="_blank" href="http://wiki.openstreetmap.org/wiki/RU:Main_Page">Документация по проекту - в формате Wiki</a></p>
+        <ul>
+          <li><a target="_blank" href="http://wiki.openstreetmap.org/wiki/RU:Map_Making_Overview">Краткая вводная</a> - как мы рисуем карту</li>
+          <li><a target="_blank" href="http://wiki.openstreetmap.org/wiki/RU:%D0%9A%D0%B0%D0%BA_%D0%BE%D0%B1%D0%BE%D0%B7%D0%BD%D0%B0%D1%87%D0%B8%D1%82%D1%8C">Как обозначать объекты</a> - наиболее полный список</li>
+          <li><a target="_blank" href="http://wiki.openstreetmap.org/wiki/RU:Map_Features">Каталог объектов</a>  - развёрнутое описание</li>
+        </ul>
+        <p><a target="_blank" href="http://forum.openstreetmap.org/viewtopic.php?id=15209">Каталог форума</a> OpenStreetMap</p>
+        <ul>
+          <li><a target="_blank" href="http://forum.openstreetmap.org/viewtopic.php?id=10206">Вопросы новичков</a> </li>
+          <li><a target="_blank" href="http://forum.openstreetmap.org/viewtopic.php?id=18124">С чего начинать</a> - Советы бывалых</li>
+          <li><a target="_blank" href="http://forum.openstreetmap.org/viewtopic.php?id=2094">Как обозначать</a> - Если не нашли ответ в документации</li>
+          <li><a target="_blank" href="http://forum.openstreetmap.org/viewtopic.php?id=6577">Отдельные темы по городам России</a>.</li>
+        </ul>
+        <p><a target="_blank" href="http://josm.ru/">Русскоязычный сайт о JOSM</a> - хорошей программе для редактирования</p>
+      </div>
     </div>
     <div id="osm-dyk" class="content">
 PHP_CONTENT;
