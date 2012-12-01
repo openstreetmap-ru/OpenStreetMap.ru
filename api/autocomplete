@@ -14,7 +14,8 @@ import db_config
 import psycopg2
 
 
-SEARCH_RESULTS_LIMIT = 7
+MAX_SEARCH_RESULTS_LIMIT = 100
+DEFAULT_SEARCH_RESULTS_LIMIT = 7
 
 # sphinx params
 class Sphinx:
@@ -35,7 +36,7 @@ def reverse_parts(s):
     return ", ".join(reversed(s.split(", ")))
 
 
-def find_matches(query, lat=0, lon=0, bBox=None):
+def find_matches(query, lat=0, lon=0, bBox=None, limit=DEFAULT_SEARCH_RESULTS_LIMIT):
     if not query:
         raise Exception("ERROR: no query words, 'q' is empty")
 
@@ -49,7 +50,8 @@ def find_matches(query, lat=0, lon=0, bBox=None):
     else:
         cl.SetSortMode(Sphinx.SORT_MODE, 'addr_type_id ASC @weight DESC' )
 
-    cl.SetLimits(0, 2*SEARCH_RESULTS_LIMIT, 4*SEARCH_RESULTS_LIMIT)
+    real_limit = min(limit, MAX_SEARCH_RESULTS_LIMIT)
+    cl.SetLimits(0, 2*real_limit, 4*real_limit)
 
     query = query.replace("/","\/")
     query = query.replace(",", " ") # ignore comas
@@ -59,6 +61,7 @@ def find_matches(query, lat=0, lon=0, bBox=None):
     sphinx_query = prepare_query(query)
 
     if bBox:
+        # add results within current bbox
         lon_min = bBox[0]
         lat_min = bBox[1]
         lon_max = bBox[2]
@@ -93,7 +96,7 @@ def find_matches(query, lat=0, lon=0, bBox=None):
 
         matches.append(full_result)
 
-    return matches[:SEARCH_RESULTS_LIMIT]
+    return matches[:real_limit]
 
 
 def main():
@@ -107,6 +110,7 @@ def main():
 
         lat = float(inputValues.getfirst("lat","0"))
         lon = float(inputValues.getfirst("lon","0"))
+        limit = int(inputValues.getfirst("limit", DEFAULT_SEARCH_RESULTS_LIMIT))
         # nolimit = bool(inputValues.getfirst("nolimit",""))
         # cnt = int(inputValues.getfirst("cnt", "20"))
         bBoxValues = inputValues.getfirst("bbox", None)
@@ -115,7 +119,7 @@ def main():
         if bBoxValues:
             bBox = map(float, bBoxValues.split(','))
 
-        matches = find_matches(q, lat=lat, lon=lon, bBox=bBox)
+        matches = find_matches(q, lat=lat, lon=lon, bBox=bBox, limit=limit)
         if matches:
             output['find'] = True
             output['matches'] = matches
