@@ -32,6 +32,7 @@ $(function()
 		var i;
 		q = prepareRequest(q);
 		q = q.replace(/[^а-яёa-z0-9]/ig, ' ').replace(/\s+/, ' ');
+		q = q.replace(/[её]/g, '[её]'); // в запросе считаем е и ё одной буквой
 		q = q.split(' ');
 		for (i in q) if (q[i])
 			x = x.replace(new RegExp('(\\s|^)('+q[i]+')', 'ig'), '$1<strong>$2</strong>');
