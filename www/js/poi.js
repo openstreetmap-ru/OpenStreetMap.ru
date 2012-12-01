@@ -159,6 +159,16 @@ osm.poi = {
         }
       }
 
+      if (getdata.opening_hours) {
+        getdata.opening_hours = getdata.opening_hours
+          .replace('Mo', 'Пн')
+          .replace('Tu', 'Вт')
+          .replace('We', 'Ср')
+          .replace('Th', 'Чт')
+          .replace('Fr', 'Пт')
+          .replace('Sa', 'Сб')
+          .replace('Su', 'Вс');
+      }
       ret = $('<div>').addClass('poi_popup').attr('id',getdata.id)
         .append($('<p>').addClass('poi_header')
           .append($('<span>').text(getdata.class_ru).addClass('poi_name'))
