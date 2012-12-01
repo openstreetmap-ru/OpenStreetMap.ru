@@ -36,7 +36,7 @@ search.processResults = function(results) {
       for (var i in matches) {
         zoom = matches[i].this_poi?16:matches[i].addr_type_id*2+4;
         content += ('<li><a href="" onClick="osm.map.setView(new L.LatLng(' + matches[i].lat + ',' + matches[i].lon + '), '+zoom+'); return false;" info="id='+matches[i].id+'  weight='+matches[i].weight+'">' + matches[i].display_name + '</a></li>');
-        marker = new L.Marker(new L.LatLng(matches[i].lat, matches[i].lon), {icon: new search.Icon()});
+        var marker = new L.Marker(new L.LatLng(matches[i].lat, matches[i].lon), {icon: new search.Icon()});
         if (matches[i].this_poi) {
           osm.poi.createPopup(matches[i].id, marker);
         }
