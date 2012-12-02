@@ -143,12 +143,22 @@ osm.poi = {
           .append($('<td>').text('Факс: '))
           .append($('<td>').text(getdata.fax).addClass('poi_value'))
       }
-      var website;
-      if (!(getdata.website==null)) {
-        website=$('<tr>').addClass('poi_website')
-          .append($('<td>').text('Web-сайт: '))
-          .append($('<td>').text(getdata.website).addClass('poi_value'))
-      }
+
+	var website;
+	if (!(getdata.website==null)) {
+		// assume http:// for protocol-less links
+		var properLink = getdata.website;
+		if (properLink.indexOf(':') < 0) {
+			properLink = 'http://' + properLink;
+		}
+	
+		website=$('<tr>').addClass('poi_website')
+			.append($('<td>').text('Web-сайт: '))
+			.append($('<td>').addClass('poi_value')
+				.append($('<a>').attr('href', properLink).text(getdata.website))
+			);
+	}
+
 
       var moretags=$('');
       for (xName in getdata.tags_ru) {
