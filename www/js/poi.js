@@ -155,7 +155,7 @@ osm.poi = {
 		website=$('<tr>').addClass('poi_website')
 			.append($('<td>').text('Web-сайт: '))
 			.append($('<td>').addClass('poi_value')
-				.append($('<a>').attr('href', properLink).text(getdata.website))
+				.append($('<a>').attr('href', properLink).attr('target', '_blank').text(getdata.website))
 			);
 	}
 
