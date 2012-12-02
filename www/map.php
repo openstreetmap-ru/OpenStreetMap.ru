@@ -147,7 +147,7 @@ $page_content = <<<PHP_CONTENT
       <tr><td class='colour-picker'>
         <!-- <div class='colour-picker-button' style='background:{{bg}};color:{{text}}' onClick='$$$.toggleCheck({{i}});'>&#x2713;</div> - see markers.js for replacement -->
       </td></tr>
-      <tr><td><a href="#" class="button" onClick="$$$.remove();return false">Delete</a>
+      <tr><td><a href="#" class="button" onClick="$$$.remove();return false">Удалить</a>
       </td></tr>
     </table>
   </div>
@@ -169,7 +169,7 @@ $page_content = <<<PHP_CONTENT
       <tr><td><textarea id="line_description_###" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()">Описание...</textarea></td></tr>
       <tr><td class='colour-picker'>
       </td></tr>
-      <tr><td><a href="#" class="button" onClick="$$$.remove();return false">Delete</a>
+      <tr><td><a href="#" class="button" onClick="$$$.remove();return false">Удалить</a>
       </td></tr>
     </table>
   </div>
