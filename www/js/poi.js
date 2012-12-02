@@ -191,12 +191,14 @@ osm.poi = {
           .append(moretags)
         )
 
-      return ret[0].outerHTML;
+      return $('<div>').append(ret.clone()).remove().html();
     }
   },
 
   createPopup: function(id, marker) {
-    marker.bindPopup($('<img src="/img/loader.gif">')[0].outerHTML);
+    var textPopup = $('<img src="/img/loader.gif">')
+    textPopup = $('<div>').append(textPopup.clone()).remove().html();
+    marker.bindPopup(textPopup);
     $.getJSON("/api/poi", {action: 'getpoiinfo', id: id}, function(json){
       if (!(json.data == null)) {
 
