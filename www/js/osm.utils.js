@@ -125,15 +125,14 @@ osm.onPermalink = function () {
 };
 
 osm.ui.whereima = function() {
-  if (clientLat && clientLon) {
-    osm.map.setView(new L.LatLng(clientLat, clientLon), 12);
-  }
-  else {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      if (position.coords.latitude && position.coords.longitude)
-        osm.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 12);
-    });
-  }
+	osm.map.on('locationerror', function(e) {
+		//fall back to GeoIP in case browser location has failed
+		if (clientLat && clientLon) {
+			osm.map.setView(new L.LatLng(clientLat, clientLon), 12);
+		}
+	});
+
+    osm.map.locate({setView: true, maxZoom: 16});
 };
 
 osm.ui.togglehtp = function() {
