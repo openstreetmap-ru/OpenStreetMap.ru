@@ -125,7 +125,15 @@ osm.onPermalink = function () {
 };
 
 osm.ui.whereima = function() {
-  osm.map.setView(new L.LatLng(clientLat, clientLon), 12);
+  if (clientLat && clientLon) {
+    osm.map.setView(new L.LatLng(clientLat, clientLon), 12);
+  }
+  else {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      if (position.coords.latitude && position.coords.longitude)
+        osm.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 12);
+    });
+  }
 };
 
 osm.ui.togglehtp = function() {
