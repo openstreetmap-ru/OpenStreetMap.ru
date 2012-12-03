@@ -25,9 +25,23 @@ class Sphinx:
     MATCH_MODE = SPH_MATCH_EXTENDED2
     SORT_MODE = SPH_SORT_EXTENDED
 
+EXPAND_TABLE = {
+    'М.': ['Малый', 'Малая', 'Малое'],
+    'Б.': ['Большой', 'Большая', 'Большое'],
+}
+
+def expand(term):
+    if term not in EXPAND_TABLE:
+        return term
+    return '( ' + ' | '.join(EXPAND_TABLE[term]) + ')'
+
 def prepare_query(query):
     words = query.split()
-    words[-1] = words[-1] + '*'
+    # query ends on non-space symbol
+    if query[-1] == words[-1][-1]:
+        words[-1] = words[-1] + '*'
+
+    words = map(expand, words)
     in_name = " | ".join(words)
     other = " ".join(words)
     return other + ' @name ' + in_name
@@ -56,6 +70,7 @@ def find_matches(query, lat=0, lon=0, bBox=None, limit=DEFAULT_SEARCH_RESULTS_LI
     query = query.replace("/","\/")
     query = query.replace(",", " ") # ignore comas
     query = query.replace(".", ". ") # split connected by . words
+    query = query.replace("-", "\-")
 
     sphinx_results = []
     sphinx_query = prepare_query(query)
