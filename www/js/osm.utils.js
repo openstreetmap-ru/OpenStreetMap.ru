@@ -126,13 +126,10 @@ osm.onPermalink = function () {
 
 osm.ui.whereima = function() {
 	osm.map.on('locationerror', function(e) {
-		//fall back to GeoIP in case browser location has failed
-		if (clientLat && clientLon) {
-			osm.map.setView(new L.LatLng(clientLat, clientLon), 12);
-		}
+		console.log("Browser based geo-location failed");
 	});
 
-    osm.map.locate({setView: true, maxZoom: 16});
+	osm.map.locate({setView: true, maxZoom: 16});
 };
 
 osm.ui.togglehtp = function() {
