@@ -13,7 +13,12 @@ $(function() {
     zoom = locs[2];
     layer = locs[3] || 'M';
     overlaysAsString = locs[4] || '';
-  } else {
+  } else if(clientLat || clientLon) {
+    center = new L.LatLng(clientLat, clientLon);
+    zoom = 12;
+    layer = "M";
+  }
+  else {
     center = new L.LatLng(62.0, 88.0);
     zoom = $(window).width() > 1200 ? 3 : 2;
     layer = "M";
