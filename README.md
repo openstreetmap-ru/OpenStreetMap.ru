@@ -9,6 +9,8 @@
 
 Каталог объектов (сейчас только POI) https://github.com/ErshKUS/osmCatalog
 
+Про добавление пои и/или корректировку списка пишите, или сюда https://github.com/ErshKUS/osmCatalog/issues , или сюда http://forum.openstreetmap.org/viewtopic.php?pid=294559
+
 
 ## Local development
 

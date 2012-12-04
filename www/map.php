@@ -38,11 +38,11 @@ $page_topmenu = <<<PHP_TOPMENU
 PHP_TOPMENU;
 
 $page_topbar = <<<PHP_TOPBAR
-      <div id="newstop">
-        <!--<a href="http://gisconf.ru/ru/" title="Открытые ГИС!">
+      <!--<div id="newstop">
+        <a href="http://gisconf.ru/ru/" title="Открытые ГИС!">
           <img src="/img/news/OpenGISavatar5eof.png" style="height: 100%;">
-        </a>-->
-      </div>
+        </a>
+      </div>-->
       <div id="searchpan" class="yui3-skin-sam">
         <form id="search" method="get" action="/" onsubmit="return osm.ui.searchsubmit();"><table style="width:100%;"><tr>
           <td style="width:1px;">

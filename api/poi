@@ -67,7 +67,7 @@ def getpoibbox():
     WHERE
       ST_Intersects(ST_PolygonFromText('POLYGON((%(l)s %(t)s,%(r)s %(t)s,%(r)s %(b)s,%(l)s %(b)s,%(l)s %(t)s))', 4326), c_geom)
       AND "class"=any(%(nclass)s)
-    LIMIT 100
+    LIMIT 1000
     ;""", getval)
   data = []
   for record in cur:
