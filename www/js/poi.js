@@ -49,6 +49,14 @@ osm.poi = {
     // osm.map.off('popupclose', osm.poi.bindClosePopup);
   },
 
+  choiceMarker: function(nclass){
+    if (osm.poi._markers.indexOf(nclass) == -1)
+      icon_url = 'img/poi_marker/default.png';
+    else
+      icon_url = 'img/poi_marker/'+nclass+'.png';
+    return icon_url;
+  },
+
   updateMarkerTree: function(){
     var move = false;
     if (arguments[0].type=="moveend"){move=true}
@@ -63,7 +71,7 @@ osm.poi = {
           a=1;
         }
       }
-    
+
       arguments[1].args[0].parentNode.parentNode.attributes['nclass'].nodeValue
     }
     var checked=$('.jstree-checked.jstree-leaf', osm.poi.tree );
@@ -86,10 +94,7 @@ osm.poi = {
             delete markers[results.data[item2].id];
           }
           else {
-            if (osm.poi._markers.indexOf(results.data[item2].nclass) == -1)
-              icon_url = 'img/poi_marker/default.png';
-            else
-              icon_url = 'img/poi_marker/'+results.data[item2].nclass+'.png';
+            icon_url = osm.poi.choiceMarker(results.data[item2].nclass);
             _marker = new L.Marker(new L.LatLng(results.data[item2].lat, results.data[item2].lon), {icon:new osm.poi.poiIcon({iconUrl: icon_url})});
             _marker.bindPopup(osm.poi.createPopupText(results.data[item2]));
             osm.poi.layer.addLayer(_marker);
@@ -115,7 +120,6 @@ osm.poi = {
 			popupAnchor: new L.Point(0, -11)
 		}
 	}),
-
 
   createPopupText: function(getdata) {
     if (!(getdata == null)) {
@@ -151,7 +155,7 @@ osm.poi = {
 		if (properLink.indexOf(':') < 0) {
 			properLink = 'http://' + properLink;
 		}
-	
+
 		website=$('<tr>').addClass('poi_website')
 			.append($('<td>').text('Web-сайт: '))
 			.append($('<td>').addClass('poi_value')
@@ -217,13 +221,13 @@ osm.poi = {
         isopen=osm.map.hasLayer(marker._popup);
         if (isopen) {marker.closePopup();}
         marker.bindPopup(textP,{maxWidth:400});
-        icon_url = 'img/poi_marker/'+json.data.nclass+'.png';
+        icon_url = osm.poi.choiceMarker(json.data.nclass);
         marker.setIcon(new osm.poi.poiIcon({iconUrl: icon_url}));
         if (isopen) {marker.openPopup();}
       }
     })
   },
-  
+
   bindOpenPopup: function(){
     osm.poi.openpopup=arguments[0].popup;
   },
