@@ -96,7 +96,7 @@ osm.leftpan.toggle = function(on, isClick) {
       osm.poi.disable();
       if (on === 'leftpersmap') {
         osm.markers.personalMap();
-      } else if (on === 3) {
+      } else if (on === "leftvalidator") {
         $('#lefterrorspan').addClass('on');
         $('#mainmenu .current li.errors').addClass('active');
         osm.validators.enable();
