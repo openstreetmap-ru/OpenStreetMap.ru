@@ -175,15 +175,16 @@ osm.poi = {
 
       if (getdata.opening_hours) {
         getdata.opening_hours = getdata.opening_hours
-          .replace('Mo', 'Пн')
-          .replace('Tu', 'Вт')
-          .replace('We', 'Ср')
-          .replace('Th', 'Чт')
-          .replace('Fr', 'Пт')
-          .replace('Sa', 'Сб')
-          .replace('Su', 'Вс')
+          .replace(/Mo/g, 'Пн')
+          .replace(/Tu/g, 'Вт')
+          .replace(/We/g, 'Ср')
+          .replace(/Th/g, 'Чт')
+          .replace(/Fr/g, 'Пт')
+          .replace(/Sa/g, 'Сб')
+          .replace(/Su/g, 'Вс')
           .replace('24/7', 'круглосуточно')
-          .replace('off', 'не работает');
+          .replace(/off/g, 'не работает')
+          .replace(/\s+;\s+/g, '<br>');
       }
       ret = $('<div>').addClass('poi_popup').attr('id',getdata.id)
         .append($('<p>').addClass('poi_header')

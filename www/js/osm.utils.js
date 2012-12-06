@@ -96,7 +96,7 @@ osm.leftpan.toggle = function(on, isClick) {
       osm.poi.disable();
       if (on === 'leftpersmap') {
         osm.markers.personalMap();
-      } else if (on === 3) {
+      } else if (on === "leftvalidator") {
         $('#lefterrorspan').addClass('on');
         $('#mainmenu .current li.errors').addClass('active');
         osm.validators.enable();
@@ -125,15 +125,11 @@ osm.onPermalink = function () {
 };
 
 osm.ui.whereima = function() {
-  if (clientLat && clientLon) {
-    osm.map.setView(new L.LatLng(clientLat, clientLon), 12);
-  }
-  else {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      if (position.coords.latitude && position.coords.longitude)
-        osm.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 12);
-    });
-  }
+	osm.map.on('locationerror', function(e) {
+		console.log("Browser based geo-location failed");
+	});
+
+	osm.map.locate({setView: true, maxZoom: 16});
 };
 
 osm.ui.togglehtp = function() {
