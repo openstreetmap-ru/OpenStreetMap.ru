@@ -137,6 +137,7 @@ def main():
     if retdata['error']:
       return
     else:
+      q = ' ' + q + ' '
       q=re.sub(u'(\d+)[ ]+([А-Яа-я][\s,.])', r'\1\2', q)
       retdata = search()
       if retdata['ret']:
