@@ -138,7 +138,7 @@ def main():
       return
     else:
       q = ' ' + q + ' '
-      q=re.sub(u'(\d+)[ ]+([А-Яа-я][\s,.])', r'\1\2', q)
+      q=re.sub(u'(\d+)[ -]+([А-Яа-я][\s,.])', r'\1\2', q) # 10 А => 10А, 10-А => 10А
       retdata = search()
       if retdata['ret']:
         res=retdata['res']
