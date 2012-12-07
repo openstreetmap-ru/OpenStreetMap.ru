@@ -38,10 +38,7 @@ osm.saveLocation = function() {
     }
   }
 
-  var d = new Date();
-  d.setYear(d.getFullYear()+10);
-
-  document.cookie = "_osm_location=" + ll.lng + "|" + ll.lat + "|" + z + "|" + l + "|" + ol + "; expires=" + d.toGMTString();
+  osm.setCookie("_osm_location=" + ll.lng + "|" + ll.lat + "|" + z + "|" + l + "|" + ol);
 }
 
 osm.editUpdate = function() {
@@ -88,7 +85,7 @@ osm.leftpan.toggle = function(on, isClick) {
   };
   if (typeof on == "undefined") on = !this.on;
   if (on != this.on) {
-	this.on = on;
+    this.on = on;
     if (on && on !== true) {
       $('#downpan').removeClass('left-off');
       search.disable();
@@ -108,6 +105,7 @@ osm.leftpan.toggle = function(on, isClick) {
       }
       if (on != 1) fntoggle(on)
     } else {
+      osm.setCookie("_osm_leftpan=" + on);
       if (on)
         $('#downpan').removeClass('left-off');
       else
@@ -135,6 +133,8 @@ osm.ui.whereima = function() {
 osm.ui.togglehtp = function() {
   $('body').hasClass('htp') ? $('#htpbutton').html("&uarr;") : $('#htpbutton').html("&darr;");
   $('body').toggleClass('htp');
+  var on = !$('body').hasClass('htp');
+  osm.setCookie("_osm_htp=" + on);
   setTimeout("osm.leftpan.refsizetab()", 100);
 };
 

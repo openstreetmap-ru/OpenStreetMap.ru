@@ -29,6 +29,12 @@ osm.getCookie = function(name) {
   return(setStr);
 }
 
+osm.setCookie = function(cookieValue) {
+  var d = new Date();
+  d.setYear(d.getFullYear() + 10);
+  document.cookie = cookieValue + "; " + "expires=" + d.toGMTString();
+}
+
 /** Преобразуем GET парамеры в хеш get */
 function parseGET()
 {

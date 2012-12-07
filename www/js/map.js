@@ -74,6 +74,16 @@ $(function() {
   osm.search_marker = new L.LayerGroup();
   osm.map.addLayer(osm.search_marker);
 
+  var leftpan_on = osm.getCookie("_osm_leftpan");
+  if (leftpan_on == "false") {
+    $('#downpan').addClass('left-off');
+  }
+
+  var htp_on = osm.getCookie("_osm_htp");
+  if (htp_on == "false") {
+    $('body').toggleClass('htp');
+  }
+
   osm.map.addControl(new L.Control.Scale({width: 100, position: 'bottomleft'}));
 
   osm.map.permalink = new L.Control.Permalink(osm.map.control_layers);
