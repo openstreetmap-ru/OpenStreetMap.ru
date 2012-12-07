@@ -11,6 +11,10 @@
 
 Про добавление пои и/или корректировку списка пишите, или сюда https://github.com/ErshKUS/osmCatalog/issues , или сюда http://forum.openstreetmap.org/viewtopic.php?pid=294559
 
+## Info
+
+Протокол валидаторов: http://wiki.openstreetmap.org/wiki/RU:Validator_protocol
+
 
 ## Local development
 
