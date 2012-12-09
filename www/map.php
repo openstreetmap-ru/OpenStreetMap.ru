@@ -112,6 +112,7 @@ $page_content = <<<PHP_CONTENT
               <li><a id="opento-rambler" href='#' target="_blank">Рамблер карты</a></li>
               <li><a id="opento-wikimapia" href='#' target="_blank">Wikimapia</a></li>
               <li><a id="opento-bing" href='#' target="_blank">Карты Bing</a></li>
+              <li><a id="opento-panoramio" href='#' target="_blank">Panoramio</a></li>
             </ul>
           </div>
         </div>
