@@ -69,7 +69,7 @@ $page_content = <<<PHP_CONTENT
           </div>
         </div>
         <div id="leftpoi" class="leftgroup">
-          <h1>Точки интереса (POI)</h1>
+          <h1>Точки интереса (POI) <img class="loader" src="/img/loader.gif"></h1>
           <div class="leftcontent" style="display: none;">
           </div>
         </div>

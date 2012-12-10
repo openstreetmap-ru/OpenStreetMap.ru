@@ -59,6 +59,8 @@ osm.poi = {
 
   updateMarkerTree: function(){
     var move = false;
+    if (arguments[0].type=="change_state")
+      $("#leftpoi .loader").addClass('on');
     if (arguments[0].type=="moveend"){move=true}
     if (!move && arguments[1].args[1] && false) {
       incheck = arguments[1].args[0].parentNode.parentNode;
@@ -104,13 +106,16 @@ osm.poi = {
             osm.map.removeLayer(markers[item3]);
             delete osm.poi.layer._layers[markers[item3]._leaflet_id];
           }
+          $("#leftpoi .loader").removeClass('on');
         })
       .error(
         function(jqXHR, textStatus, errorThrown){
+          $("#leftpoi .loader").removeClass('on');
           console.log('Ошибка: ' + textStatus + '<br />' + errorThrown.message);
         });
     }
     else {
+      $("#leftpoi .loader").removeClass('on');
       osm.poi.layer.clearLayers();
     }
   },
