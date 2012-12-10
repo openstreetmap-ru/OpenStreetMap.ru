@@ -20,7 +20,7 @@ $db_type = "postgresql";
 if (function_exists("pg_connect")) { // чтобы можно было тестировать не поднимая БД
   $dbapi = db_open($db_type, $pg_base, $pg_user, $pg_pass, $pg_host);
 
-  pg_connect("host='".$pg_host."' user='".$pg_user."' password='".$pg_pass."' dbname='".$pg_base."'") or die(Err500());
+  pg_connect("host='".$pg_host."' user='".$pg_user."' password='".$pg_pass."' dbname='".$pg_base."'");// or die(Err500());
   //mysql_query('SET CHARACTER SET utf8');
   //mysql_query('SET NAMES utf8');
   //mysql_select_db($mysql_base);
