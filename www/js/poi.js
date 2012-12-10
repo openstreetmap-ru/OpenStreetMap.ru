@@ -75,41 +75,44 @@ osm.poi = {
       arguments[1].args[0].parentNode.parentNode.attributes['nclass'].nodeValue
     }
     var checked=$('.jstree-checked.jstree-leaf', osm.poi.tree );
-    var nclass=[];
-    for (i=0;i<checked.length;i++) {
-      nclass.push(checked[i].attributes['nclass'].nodeValue);
+    if (checked.length) {
+      var nclass=[];
+      for (i=0;i<checked.length;i++) {
+        nclass.push(checked[i].attributes['nclass'].nodeValue);
+      }
+      nclass=nclass.join(',');
+      var bounds = osm.map.getBounds();
+      var sw = bounds.getSouthWest(), ne = bounds.getNorthEast();
+      $.getJSON('/api/poi', {action:"getpoibbox", nclass:nclass, t:ne.lat, r:ne.lng, b:sw.lat, l:sw.lng},
+        function(results){
+          markers={};
+          for (item1 in osm.poi.layer._layers){
+            markers[$(osm.poi.layer._layers[item1]._popup._content,'div.poi_popup').attr('id')]=osm.poi.layer._layers[item1]
+          }
+          for (item2 in results.data){
+            if (markers[results.data[item2].id]){
+              delete markers[results.data[item2].id];
+            }
+            else {
+              icon_url = osm.poi.choiceMarker(results.data[item2].nclass);
+              _marker = new L.Marker(new L.LatLng(results.data[item2].lat, results.data[item2].lon), {icon:new osm.poi.poiIcon({iconUrl: icon_url})});
+              _marker.bindPopup(osm.poi.createPopupText(results.data[item2]));
+              osm.poi.layer.addLayer(_marker);
+            }
+          }
+          for (item3 in markers){
+            osm.map.removeLayer(markers[item3]);
+            delete osm.poi.layer._layers[markers[item3]._leaflet_id];
+          }
+        })
+      .error(
+        function(jqXHR, textStatus, errorThrown){
+          console.log('Ошибка: ' + textStatus + '<br />' + errorThrown.message);
+        });
     }
-    nclass=nclass.join(',');
-    var bounds = osm.map.getBounds();
-    var sw = bounds.getSouthWest(), ne = bounds.getNorthEast();
-    $.getJSON('/api/poi', {action:"getpoibbox", nclass:nclass, t:ne.lat, r:ne.lng, b:sw.lat, l:sw.lng},
-      function(results){
-        markers={};
-        for (item1 in osm.poi.layer._layers){
-          markers[$(osm.poi.layer._layers[item1]._popup._content,'div.poi_popup').attr('id')]=osm.poi.layer._layers[item1]
-        }
-        //osm.poi.layer.clearLayers();
-        for (item2 in results.data){
-          if (markers[results.data[item2].id]){
-            delete markers[results.data[item2].id];
-          }
-          else {
-            icon_url = osm.poi.choiceMarker(results.data[item2].nclass);
-            _marker = new L.Marker(new L.LatLng(results.data[item2].lat, results.data[item2].lon), {icon:new osm.poi.poiIcon({iconUrl: icon_url})});
-            _marker.bindPopup(osm.poi.createPopupText(results.data[item2]));
-            osm.poi.layer.addLayer(_marker);
-          }
-        }
-        for (item3 in markers){
-          osm.map.removeLayer(markers[item3]);
-          delete osm.poi.layer._layers[markers[item3]._leaflet_id];
-        }
-
-      })
-    .error(
-      function(jqXHR, textStatus, errorThrown){
-        console.log('Ошибка: ' + textStatus + '<br />' + errorThrown.message);
-      });
+    else {
+      osm.poi.layer.clearLayers();
+    }
   },
   poiIcon :  L.Icon.extend({
 		options: {
