@@ -174,5 +174,6 @@ osm.opento = function() {
   $('#opento-rambler')[0].href = 'http://maps.rambler.ru?' + 'll=' + center.lng + ',' + center.lat + '&z=' + zoom;
   $('#opento-wikimapia')[0].href = 'http://wikimapia.org/#' + 'lat=' + center.lat + '&lon=' + center.lng + '&z=' + zoom;
   $('#opento-bing')[0].href = 'http://www.bing.com/maps/?' + 'cp=' + center.lat + '~' + center.lng + '&lvl=' + zoom;
+  $('#opento-panoramio')[0].href = 'http://www.panoramio.com/map/#' + 'lt=' + center.lat + '&ln=' + center.lon + '&z=' + zoom;
 }
 
