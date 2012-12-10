@@ -58,24 +58,9 @@ osm.poi = {
   },
 
   updateMarkerTree: function(){
-    var move = false;
-    if (arguments[0].type=="change_state")
-      $("#leftpoi .loader").addClass('on');
-    if (arguments[0].type=="moveend"){move=true}
-    if (!move && arguments[1].args[1] && false) {
-      incheck = arguments[1].args[0].parentNode.parentNode;
-      isleaf=false;
-      for (var i=0;i<incheck.classList.length;i++) {
-        if (incheck.classList[i]=="jstree-leaf") {isleaf=true;}
-      }
-      if (isleaf) {
-        for (item in osm.poi.layer._layers){
-          a=1;
-        }
-      }
-
-      arguments[1].args[0].parentNode.parentNode.attributes['nclass'].nodeValue
-    }
+    if (osm.poi.ajax && osm.poi.ajax.state() == "pending")
+      osm.poi.ajax.abort();
+    $("#leftpoi .loader").addClass('on');
     var checked=$('.jstree-checked.jstree-leaf', osm.poi.tree );
     if (checked.length) {
       var nclass=[];
@@ -85,7 +70,7 @@ osm.poi = {
       nclass=nclass.join(',');
       var bounds = osm.map.getBounds();
       var sw = bounds.getSouthWest(), ne = bounds.getNorthEast();
-      $.getJSON('/api/poi', {action:"getpoibbox", nclass:nclass, t:ne.lat, r:ne.lng, b:sw.lat, l:sw.lng},
+      osm.poi.ajax=$.getJSON('/api/poi', {action:"getpoibbox", nclass:nclass, t:ne.lat, r:ne.lng, b:sw.lat, l:sw.lng},
         function(results){
           markers={};
           for (item1 in osm.poi.layer._layers){
@@ -111,7 +96,9 @@ osm.poi = {
       .error(
         function(jqXHR, textStatus, errorThrown){
           $("#leftpoi .loader").removeClass('on');
-          console.log('Ошибка: ' + textStatus + '<br />' + errorThrown.message);
+          if (textStatus!="abort") {
+            console.log('Ошибка: ' + textStatus + '<br />' + errorThrown.message);
+          }
         });
     }
     else {
