@@ -179,7 +179,7 @@ osm.poi = {
           .replace(/Su/g, 'Вс')
           .replace('24/7', 'круглосуточно')
           .replace(/off/g, 'не работает')
-          .replace(/\s*;\s*/g, '<br>');
+          .replace(/\s*;\s*/g, ' | ');
       }
       ret = $('<div>').addClass('poi_popup').attr('id',getdata.id)
         .append($('<p>').addClass('poi_header')
