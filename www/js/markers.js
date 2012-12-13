@@ -293,6 +293,9 @@ osm.markers.readMap = function() {
       osm.markers._admin.id = mapid;
       if (osm.markers._admin.editable)
         osm.leftpan.toggle(2);
+      else {
+        $('#pm-control').html("Невозможно редактировать существующую персональную карту! Перейдите по ссылке <a href='/'>OpenStreetMap.ru</a>, чтоб начать новую персональную карту");
+      }
       //process map name and description
       var latlngs = new Array();
       var p;
