@@ -90,6 +90,7 @@ $(function() {
   osm.map.addControl(osm.map.permalink);
   osm.map.addControl(new L.Control.Zoom({shiftClick: true}));
   osm.map.addControl(new L.Control.Distance());
+  osm.map.addControl(new L.Control.inJOSM({target:'hiddenIframe', linktitle: 'Редактировать в JOSM'}));
   osm.validators.initialize();
   osm.poi.initialize();
 

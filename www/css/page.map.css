@@ -347,8 +347,8 @@ td.colour-picker {
 	box-shadow: 0 0 7px #688014;
 }
 
-/* leaflet-plugins-control-distance */
-.leaflet-control-distance {
+/* leaflet-plugins-control */
+.leaflet-control-distance, .leaflet-control-inJOSM {
   -moz-border-radius: 7px;
   -webkit-border-radius: 7px;
   border-radius: 7px;
@@ -356,7 +356,7 @@ td.colour-picker {
   padding: 5px;
   background-color: rgba(0, 0, 0, 0.25);
 }
-.leaflet-control-distance a, .leaflet-control-distance div {
+.leaflet-control-distance a, .leaflet-control-distance div, .leaflet-control-inJOSM a, .leaflet-control-inJOSM div  {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
   border-radius: 4px;
@@ -366,12 +366,12 @@ td.colour-picker {
   background-repeat: no-repeat;
   background-color: rgba(255, 255, 255, 0.75);
 }
-.leaflet-control-distance a {
+.leaflet-control-distance a, .leaflet-control-inJOSM a {
   width: 16px;
   height: 16px;
   display: block;
 }
-.leaflet-control-distance div {
+.leaflet-control-distance div, .leaflet-control-inJOSM div {
   color: #333;
   height: 16px;
   margin-top: 5px;
@@ -388,6 +388,10 @@ a.leaflet-control-distance-delete {
 }
 a.leaflet-control-distance-active {
   background-color: yellow;
+}
+.leaflet-control-inJOSM-link {
+  background-image: url('/img/josm_icon.png');
+  float: left;
 }
 
 /* for leaflet */
