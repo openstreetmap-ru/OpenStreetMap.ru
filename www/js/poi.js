@@ -170,6 +170,9 @@ osm.poi = {
 
       if (getdata.opening_hours) {
         getdata.opening_hours = getdata.opening_hours
+          .replace(/Mo-Fr/g, 'по будням')
+          .replace(/Sa-Su/g, 'по выходным')
+          .replace(/Mo-Su/g, 'ежедневно')
           .replace(/Mo/g, 'Пн')
           .replace(/Tu/g, 'Вт')
           .replace(/We/g, 'Ср')
@@ -179,7 +182,10 @@ osm.poi = {
           .replace(/Su/g, 'Вс')
           .replace('24/7', 'круглосуточно')
           .replace(/off/g, 'не работает')
+          .replace(/,(?!\s)/g, ', ')
+          .replace(/-(?=\d)/g, '—')
           .replace(/\s*;\s*/g, ' | ');
+        getdata.opening_hours = getdata.opening_hours.charAt(0).toUpperCase() + getdata.opening_hours.substr(1);
       }
       ret = $('<div>').addClass('poi_popup').attr('id',getdata.id)
         .append($('<p>').addClass('poi_header')
