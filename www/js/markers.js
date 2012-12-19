@@ -3,6 +3,9 @@ MarkerIcon = L.Icon.Default.extend({
     var img = this._createIcon(this.options.markerColor);
     this._setIconStyles(img, 'icon');
     return img;
+  },
+  getMarkerIconUrl: function() {
+    return this._getIconUrl(this.options.markerColor);
   }
 });
 
@@ -294,10 +297,12 @@ osm.markers.readMap = function() {
       if (osm.markers._admin.editable)
         osm.leftpan.toggle(2);
       else {
-        $('#pm-control').html("Невозможно редактировать существующую персональную карту! Перейдите по ссылке <a href='/'>OpenStreetMap.ru</a>, чтоб начать новую персональную карту");
+        // will fill after creating message...
+        //$('#pm-control').html("Невозможно редактировать существующую персональную карту! Перейдите по ссылке <a href='/'>OpenStreetMap.ru</a>, чтоб начать новую персональную карту");
       }
       //process map name and description
       var latlngs = new Array();
+      var text_items = new Array();
       var p;
       if (json.data.points)
         for(var i=0;i<json.data.points.length;i++) {
@@ -308,6 +313,7 @@ osm.markers.readMap = function() {
             p = new PersonalMarkerEditable(coords, point);
           else
             p = new PersonalMarker(coords, point);
+          text_items.push(p.panelText());
         }
       if (json.data.lines)
         for(var i=0;i<json.data.lines.length;i++) {
@@ -324,18 +330,25 @@ osm.markers.readMap = function() {
           }
           else
             p = new PersonalLine(coords, line);
+          text_items.push(p.panelText());
         }
       if (latlngs.length>1)
         osm.map.fitBounds(new L.LatLngBounds(latlngs));
       else if (latlngs.length==1) {
         osm.map.panTo(latlngs[0]);
-        if (p._popup) {// TODO: remove for Leaflet 0.4
-          p.openPopup();
-          if (p instanceof PersonalMarkerEditable)
-            p.loadEditableMarker();
-        }
+        p.openPopup();
+        if (p instanceof PersonalMarkerEditable)
+          p.loadEditableMarker();
       }
       $('#loader-overlay').hide();
+      if (!osm.markers._admin.editable) {
+
+        text_items.sort(); // built-in sort for now
+        var readonly_text = text_items.join("<br>");
+        $('#pm-editing').hide();
+        $('#pm-viewing').html(readonly_text);
+        osm.leftpan.toggle('leftpersmap');
+      }
     }
   }).fail(function (jqXHR, textStatus) {
     alert("Произошла ошибка при чтении карты");
@@ -356,6 +369,11 @@ PersonalMarker = L.Marker.extend({ // simple marker without editable functions
     }
   },
   fillDetails: function(details) {
+    if (!this.index) {
+      osm.markers._data.points.push(this);
+      this.index = osm.markers._data.points.length - 1;
+    }
+
     if (!details) return;
 
     this._pm_name = details.name;
@@ -368,6 +386,10 @@ PersonalMarker = L.Marker.extend({ // simple marker without editable functions
       osm.map.addLayer(osm.markers._layerGroup);
     }
     osm.markers._layerGroup.addLayer(this);
+  },
+  panelText: function() {
+    // we need leaflet >=2012-07-16 to open popup on the line
+    return "<div onclick='osm.markers._data.points["+this.index+"].openPopup()' style='display:table'><img style='float:left; margin-right:5px' src='" + this.options.icon.getMarkerIconUrl() + "' alt='.'/> <div style='display:table-cell;min-height:41px;vertical-align:middle'>" + this._pm_name + "</div></div>";
   },
   _set_pm_icon_color: function(colorIndex) {
     if (isNaN(parseFloat(colorIndex)) || !isFinite(colorIndex) ||
@@ -386,8 +408,6 @@ PersonalMarkerEditable = PersonalMarker.extend({
     // fix html entities for editable markers
     this._pm_name = osm.markers.decodehtml(this._pm_name);
     this._pm_description = osm.markers.decodehtml(this._pm_description);
-    osm.markers._data.points.push(this);
-    this.index = osm.markers._data.points.length - 1;
     this.addToLayerGroup();
     var popupHTML = $_('pm_edit_popup').innerHTML;
     popupHTML = popupHTML.replace(/\$\$\$/g, 'osm.markers._data.points['+this.index+']');
@@ -435,6 +455,7 @@ PersonalLine = L.Polyline.extend({
     L.Polyline.prototype.initialize.call(this, points, details);
     //this.setLatLngs(points);
     this.addToLayerGroup();
+    this._addToDataArray();
     this.fillDetails(details);
     if (this._pl_name || this._pl_description) {
       var popupHTML = $_('pl_show_popup').innerHTML;
@@ -450,7 +471,11 @@ PersonalLine = L.Polyline.extend({
     this._pl_description = details.description;
     this._pl_color_index = details.color;
     this._pl_weight = details.weight;
-    this._updateLineStyle(); //uncomment after coloring lines - color is incorrect
+    this._updateLineStyle();
+  },
+  panelText: function() {
+    var id = this.index;
+    return "<div onclick='osm.markers._data.lines["+this.index+"].openPopup()'><div style='background-image:url(/img/pm-lines.png);width:25px;height:6px;background-position:0px -" + (this._pl_color_index * 6) + "px;float:left;margin: 5px 5px 0 0;'/> " + this._pl_name + "</div>";
   },
   _updateLineStyle: function() {
     var properties = {};
@@ -463,6 +488,12 @@ PersonalLine = L.Polyline.extend({
       osm.map.addLayer(osm.markers._layerGroup);
     }
     osm.markers._layerGroup.addLayer(this);
+  },
+  _addToDataArray: function() {
+    if (!this.index) {
+      osm.markers._data.lines.push(this);
+      this.index = osm.markers._data.lines.length - 1;
+    }
   }
 });
 PersonalLineEditable = PersonalLine.extend({
@@ -494,8 +525,6 @@ PersonalLineEditable = PersonalLine.extend({
       this.remove();
       return;
     }
-    osm.markers._data.lines.push(this);
-    this.index = osm.markers._data.lines.length - 1;
     var popupHTML = $_('pl_edit_popup').innerHTML;
     popupHTML = popupHTML.replace(/\$\$\$/g, 'osm.markers._data.lines['+this.index+']');
     popupHTML = popupHTML.replace(/\#\#\#/g, this.index);
