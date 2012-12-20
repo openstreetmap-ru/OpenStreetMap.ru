@@ -388,8 +388,8 @@ PersonalMarker = L.Marker.extend({ // simple marker without editable functions
     osm.markers._layerGroup.addLayer(this);
   },
   panelText: function() {
-    // we need leaflet >=2012-07-16 to open popup on the line
-    return "<div onclick='osm.markers._data.points["+this.index+"].openPopup()' style='display:table'><img style='float:left; margin-right:5px' src='" + this.options.icon.getMarkerIconUrl() + "' alt='.'/> <div style='display:table-cell;min-height:41px;vertical-align:middle'>" + this._pm_name + "</div></div>";
+    var text = this._pm_name || "Маркер";
+    return "<div onclick='osm.markers._data.points["+this.index+"].openPopup()' style='display:table'><img style='float:left; margin-right:5px' src='" + this.options.icon.getMarkerIconUrl() + "' alt='.'/> <div style='display:table-cell;min-height:41px;vertical-align:middle'>" + text + "</div></div>";
   },
   _set_pm_icon_color: function(colorIndex) {
     if (isNaN(parseFloat(colorIndex)) || !isFinite(colorIndex) ||
@@ -474,8 +474,9 @@ PersonalLine = L.Polyline.extend({
     this._updateLineStyle();
   },
   panelText: function() {
-    var id = this.index;
-    return "<div onclick='osm.markers._data.lines["+this.index+"].openPopup()'><div style='background-image:url(/img/pm-lines.png);width:25px;height:6px;background-position:0px -" + (this._pl_color_index * 6) + "px;float:left;margin: 5px 5px 0 0;'/> " + this._pl_name + "</div>";
+    var text = this._pl_name || "Линия";
+    // we need leaflet >=2012-07-16 to open popup on the line
+    return "<div onclick='osm.markers._data.lines["+this.index+"].openPopup()'><div style='background-image:url(/img/pm-lines.png);width:25px;height:6px;background-position:0px -" + (this._pl_color_index * 6) + "px;float:left;margin: 5px 5px 0 0;'/> " + text + "</div>";
   },
   _updateLineStyle: function() {
     var properties = {};
