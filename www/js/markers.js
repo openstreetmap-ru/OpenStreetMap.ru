@@ -346,7 +346,7 @@ osm.markers.readMap = function() {
         text_items.sort(); // built-in sort for now
         var readonly_text = text_items.join("<br>");
         $('#pm-editing').hide();
-        $('#pm-viewing').html(readonly_text);
+        $('#pm-legend').html(readonly_text);
         osm.leftpan.toggle('leftpersmap');
       }
     }

@@ -97,7 +97,7 @@ $page_content = <<<PHP_CONTENT
             </div>
             <div id="pm-status"></div>
            </div>
-           <div id="pm-viewing"></div>
+           <div id="pm-legend"></div>
           </div>
         </div>
         <div id="leftvalidator" class="leftgroup">
