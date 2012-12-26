@@ -23,8 +23,8 @@ L.Control.Distance = L.Control.extend({
 				this._calc_enable();
 		}
 
-		var link = this._link = this._createButton('Edit', 'leaflet-control-distance leaflet-control-distance-edit', container, cb, this);
-		var del = this._link_delete = this._createButton('Delete', 'leaflet-control-distance leaflet-control-distance-delete', container, this._reset, this);
+		var link = this._link = this._createButton('Измерение расстояния', 'leaflet-control-distance leaflet-control-distance-edit', container, cb, this);
+		var del = this._link_delete = this._createButton('Сбросить измерение', 'leaflet-control-distance leaflet-control-distance-delete', container, this._reset, this);
 		var text = this._text = L.DomUtil.create('div', 'leaflet-control-distance-text', container);
 
 		//text.style.display = 'inline';
