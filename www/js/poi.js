@@ -134,7 +134,9 @@ osm.poi = {
       if (!(getdata.phone==null)) {
         phone=$('<tr>').addClass('poi_phone')
           .append($('<td>').text('Телефон: '))
-          .append($('<td>').text(getdata.phone).addClass('poi_value'))
+          .append($('<td>').addClass('poi_value')
+            .append($('<a>').attr('href', 'tel:'+getdata.phone).text(getdata.phone))
+          )
       }
       var fax;
       if (!(getdata.fax==null)) {
