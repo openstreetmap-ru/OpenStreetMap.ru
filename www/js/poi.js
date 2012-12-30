@@ -51,7 +51,7 @@ osm.poi = {
 
   choiceMarker: function(nclass){
     if (osm.poi._markers.indexOf(nclass) == -1)
-      icon_url = 'img/poi_marker/default.png';
+      icon_url = 'img/marker-poi.png';
     else
       icon_url = 'img/poi_marker/'+nclass+'.png';
     return icon_url;
