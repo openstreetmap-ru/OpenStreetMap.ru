@@ -89,17 +89,31 @@
     
     sudo /etc/init.d/apache2 restart
 
+Вэлкам
+
+	http://osmru/
+
+#### Меню страниц
+
+Специально чтобы можно было тестировать не поднимая БД сделан fallback на отсутствие pg_connect: https://github.com/ErshKUS/OpenStreetMap.ru/blob/master/www/include/config.php#L20
+Однако можно и поднять БД. Для этого следует выполнить 3 первых шага из п. db & search + установить пакет php5-pgsql. Перезагрузить apache.
+В файл /www/include/passwd.php прописать нужные параметры подключения: пользователя, пароль и БД.
+Чтобы этот файл не коммитился в репозитарий (мы разработчики или кто!?) выполняем
+
+	git update-index --assume-unchanged www/include/passwd.php
+
+
 ### db & search
 
 Ставим следующие пакеты
 
     postgresql-8.4 postgresql-client-8.4 postgresql-contrib-8.4 postgresql-doc-8.4 postgresql-8.4-postgis postgis
 
-Создаем пользователя postgres в OS (вернее с установкой пакета он уже должен появиться)... Проверяем
+Создаем пользователя postgres в OS (вернее с установкой пакета он уже должен появиться. Проверяем это
 
 	groups postgres
 	
-...а затем и базы данных (эта и последующие команды должны исполняться от имени postgres)
+)..., а затем и базы данных. Эта и последующие команды должны исполняться от имени postgres
 
 	createuser
 
