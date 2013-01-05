@@ -95,8 +95,13 @@
 
     postgresql-8.4 postgresql-client-8.4 postgresql-contrib-8.4 postgresql-doc-8.4 postgresql-8.4-postgis postgis
 
-Создаем пользователя базы данных
+Создаем пользователя postgres в OS (вернее с установкой пакета он уже должен появиться)... Проверяем
 
+	groups postgres
+	
+...а затем и базы данных (эта и последующие команды должны исполняться от имени postgres)
+
+	createuser
 
 Создаем базу данных с именем, например, `postgistemplate`. Прикручиваем PostGIS к PostgreSQL
 
