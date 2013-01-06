@@ -101,6 +101,9 @@
 Чтобы этот файл не коммитился в репозитарий (мы разработчики или кто!?) выполняем
 
 	git update-index --assume-unchanged www/include/passwd.php
+нет, .gitignore лучше пользовать
+
+	git commit -a
 
 
 ### db & search
