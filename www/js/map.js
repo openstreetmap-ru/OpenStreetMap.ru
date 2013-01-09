@@ -178,7 +178,7 @@ osm.initLayers = function(){
 
   osm.registerLayer(
     'layerBing',
-    new L.BingLayer('AjNsLhRbwTu3T2lUw5AuzE7oCERzotoAdzGXnK8-lWKKlc2Ax3d9kzbxbdi3IdKt', {maxZoom: 18}),
+    new L.BingLayer('ApaoUzCK5_6HzEgOsPL_HFxYj-RVA2FAvcvQHX4XKeR6tjzl9lquWXiZSwBFe8h-', {maxZoom: 18}),
     'Снимки Bing',
     'B',
     true
