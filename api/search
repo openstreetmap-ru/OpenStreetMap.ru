@@ -143,7 +143,17 @@ def main():
       if retdata['ret']:
         res=retdata['res']
       else:
-        return
+        if retdata['error']:
+          return
+        else:
+          q = ' ' + q + ' '
+          q=re.sub(u'\d{6}', r'', q) # 123456 => NULL
+          retdata = search()
+          if retdata['ret']:
+            res=retdata['res']
+          else:
+            return
+          
   
   
   if res.has_key('matches'):
