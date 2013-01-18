@@ -106,8 +106,10 @@ osm.leftpan.toggle = function(on, isClick) {
       if (on != 1) fntoggle(on)
     } else {
       osm.setCookie("_osm_leftpan=" + on);
-      if (on)
+      if (on) {
         $('#downpan').removeClass('left-off');
+        osm.leftpan.refsizetab();
+      }
       else
         $('#downpan').addClass('left-off');
     }
