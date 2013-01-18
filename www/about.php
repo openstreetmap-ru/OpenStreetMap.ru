@@ -105,7 +105,7 @@ $result = pg_query("SELECT * FROM \"did_you_know\" ORDER BY \"id\"");
 while ($row = pg_fetch_assoc($result)) {
   $page_content = $page_content.'<div id="id'.$row['id'].'" class="section-link">';
   $page_content = $page_content.'<p class="head-link"><a name="id'.$row['id'].'">'.$row['head'].'</a></p>';
-  $page_content = $page_content.'<p class="text" style="display: none;">'.$row['text'].'</p>';
+  $page_content = $page_content.'<div class="text" style="display: none;">'.$row['text'].'</div>';
   $page_content = $page_content.'</div>';
 }
 
