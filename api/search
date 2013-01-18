@@ -11,7 +11,9 @@ import db_config
 
 host = 'localhost'
 port = 3312
-sphinxindex = 'ershkus_search_addr, ershkus_poi'
+#sphinxindex = 'ershkus_search_addr, ershkus_poi'
+sphinxindexaddr = 'ershkus_search_addr'
+sphinxindexpoi = 'ershkus_poi'
 #sphinxindex = 'ershkus_poi'
 #sphinxindex = 'ershkus_search_addr'
 listAddrType=['city','district','region']
@@ -62,6 +64,7 @@ def main():
   asis = bool(getvalues.getfirst("asis",""))
   nolimit = bool(getvalues.getfirst("nolimit",""))
   cnt = int(getvalues.getfirst("cnt","12"))
+  stype = unicode(getvalues.getfirst("stype","all")) # all / addr / poi
   output['search']=q
   if not asis :
     output['search'] = output['search'].replace('&','&amp;')
@@ -73,6 +76,15 @@ def main():
     output['error']="no query words, 'q' is empty"
     return
   
+  if stype == 'all':
+    sphinxindex = sphinxindexaddr + ' , ' + sphinxindexpoi
+  elif stype == 'addr':
+    sphinxindex = sphinxindexaddr
+  elif stype == 'poi':
+    sphinxindex = sphinxindexpoi
+  else:
+    output['error']="no query words, 'stype' is 'all' or 'addr' or 'poi'"
+    return
   
   cl = SphinxClient()
   cl.SetServer ( host, port )
