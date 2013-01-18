@@ -192,7 +192,7 @@ osm.initLayers = function(){
     true
   );
 
-
+/*
   osm.registerLayer(
     'layerLatlonBuildings',
     new L.TileLayer('http://{s}.tile.osmosnimki.ru/buildings/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Трёхмерные здания &copy; <a href='http://latlon.org/pt'>LatLon.org</a>", subdomains: 'abcdef'}),
@@ -200,7 +200,7 @@ osm.initLayers = function(){
     'Z',
     false
   );
-
+*/
   if (!frame_map)
   osm.registerLayer(
     'osb',
