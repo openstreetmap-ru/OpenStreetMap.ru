@@ -329,11 +329,9 @@ osm.markers.readMap = function() {
         osm.map.fitBounds(new L.LatLngBounds(latlngs));
       else if (latlngs.length==1) {
         osm.map.panTo(latlngs[0]);
-        if (p._popup) {// TODO: remove for Leaflet 0.4
-          p.openPopup();
-          if (p instanceof PersonalMarkerEditable)
-            p.loadEditableMarker();
-        }
+        p.openPopup();
+        if (p instanceof PersonalMarkerEditable)
+          p.loadEditableMarker();
       }
       $('#loader-overlay').hide();
     }
@@ -467,9 +465,12 @@ PersonalLine = L.Polyline.extend({
 });
 PersonalLineEditable = PersonalLine.extend({
   initialize: function(points, details) {
-    PersonalLine.prototype.initialize.call(this, points, details);
+    if (details)
+      details.editable = true;
+    else
+      details = {editable : true};
 
-    this.editing.enable();
+    PersonalLine.prototype.initialize.call(this, points, details);
 
     this._pl_name = osm.markers.decodehtml(this._pl_name);
     this._pl_description = osm.markers.decodehtml(this._pl_description);
