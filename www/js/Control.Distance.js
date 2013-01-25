@@ -107,8 +107,8 @@ L.Control.Distance = L.Control.extend({
 			if (this.options.popups) {
 				var m = this._line.editing._markers[i];
 				m.bindPopup(this._d2txt(d));
-				m.on('mouseover', m.openPopup, m);
-				m.on('mouseout', m.closePopup, m);
+				//m.on('mouseover', m.openPopup, m);
+				//m.on('mouseout', m.closePopup, m);
 			}
 			p = ll[i];
 		}
