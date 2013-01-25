@@ -41,7 +41,7 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 	{
 		this._map = map;
 		this._map.on("moveend", this.loadBugs, this);
-		this._iterateLayers(map.addLayer, map);
+		this.eachLayer(map.addLayer, map);
 		this.loadBugs();
 		if (!this.options.readonly) {
 		  if (this.options.dblClick) {
@@ -58,7 +58,7 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 	onRemove : function(map)
 	{
 		this._map.off("moveend", this.loadBugs, this);
-		this._iterateLayers(map.removeLayer, map);
+		this.eachLayer(map.removeLayer, map);
 		delete this._map;
 		if (!this.options.readonly) {
 		  if (this.options.dblClick) {
@@ -159,10 +159,10 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 			feature.osb = {id: id, closed: closed};
 			this.addLayer(feature);
 			this.bugs[id] = feature;
+			if (feature._popup)
+				feature._popup.options.className += class_popup;
 		}
 		this.setPopupContent(id);
-		if (feature._popup)
-		feature._popup.options.className += class_popup;
 
 		if (this.options.bugid && (parseInt(this.options.bugid) == id))
 		{
