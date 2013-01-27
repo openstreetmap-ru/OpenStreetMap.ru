@@ -159,10 +159,10 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 			feature.osb = {id: id, closed: closed};
 			this.addLayer(feature);
 			this.bugs[id] = feature;
-			if (feature._popup)
-				feature._popup.options.className += class_popup;
 		}
 		this.setPopupContent(id);
+    if (feature._popup)
+      feature._popup.options.className += class_popup;
 
 		if (this.options.bugid && (parseInt(this.options.bugid) == id))
 		{
