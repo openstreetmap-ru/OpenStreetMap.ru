@@ -162,7 +162,7 @@ osm.poi = {
 
       var moretags=$('');
       for (xName in getdata.tags_ru) {
-        if (getdata.tags_ru[xName]!="неизвестно") {
+        if (getdata.tags_ru[xName]!="неизвестно" && getdata.tags_ru[xName]!='') {
           moretags.after($('<tr>').addClass('poi_moretags')
             .append($('<td>').text(xName+': '))
             .append($('<td>').text(getdata.tags_ru[xName])))
