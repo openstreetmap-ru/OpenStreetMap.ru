@@ -193,6 +193,14 @@ osm.poi = {
           .append($('<td>').text('Время работы: '))
           .append($('<td>').text(getdata.opening_hours||osm.poi.opt.nulldisplay).addClass('poi_value'))
       }
+
+      var description;
+      if (!(getdata.description==null)) {
+        description=$('<tr>').addClass('poi_description')
+          .append($('<td>').text('Описание: '))
+          .append($('<td>').text(getdata.description).addClass('poi_value'))
+      }
+
       ret = $('<div>').addClass('poi_popup').attr('id',getdata.id)
         .append($('<p>').addClass('poi_header')
           .append($('<span>').text(getdata.class_ru).addClass('poi_name'))
@@ -210,6 +218,7 @@ osm.poi = {
           .append(fax)
           .append(website)
           .append(moretags)
+          .append(description)
         )
 
       return $('<div>').append(ret.clone()).remove().html();
