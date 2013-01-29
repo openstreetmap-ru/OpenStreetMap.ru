@@ -145,21 +145,20 @@ osm.poi = {
           .append($('<td>').text(getdata.fax).addClass('poi_value'))
       }
 
-	var website;
-	if (!(getdata.website==null)) {
-		// assume http:// for protocol-less links
-		var properLink = getdata.website;
-		if (properLink.indexOf(':') < 0) {
-			properLink = 'http://' + properLink;
-		}
+      var website;
+      if (!(getdata.website==null)) {
+        // assume http:// for protocol-less links
+        var properLink = getdata.website;
+        if (properLink.indexOf(':') < 0) {
+          properLink = 'http://' + properLink;
+        }
 
-		website=$('<tr>').addClass('poi_website')
-			.append($('<td>').text('Web-сайт: '))
-			.append($('<td>').addClass('poi_value')
-				.append($('<a>').attr('href', properLink).attr('target', '_blank').text(getdata.website))
-			);
-	}
-
+        website=$('<tr>').addClass('poi_website')
+          .append($('<td>').text('Web-сайт: '))
+          .append($('<td>').addClass('poi_value')
+            .append($('<a>').attr('href', properLink).attr('target', '_blank').text(getdata.website))
+          );
+      }
 
       var moretags=$('');
       for (xName in getdata.tags_ru) {
@@ -170,9 +169,10 @@ osm.poi = {
         }
       }
 
-      if (getdata.opening_hours) {
+      var opening_hours;
+      if (!(getdata.opening_hours==null)) {
         getdata.opening_hours = getdata.opening_hours.toLowerCase()
-		  .replace(/([a-z].) /g, '$1: ')
+          .replace(/([a-z].) /g, '$1: ')
           .replace(/mo-fr/g, 'по будням')
           .replace(/sa-su/g, 'по выходным')
           .replace(/mo-su/g, 'ежедневно')
@@ -189,6 +189,9 @@ osm.poi = {
           .replace(/-(?=\d)/g, '—')
           .replace(/\s*;\s*/g, ' | ');
         getdata.opening_hours = getdata.opening_hours.charAt(0).toUpperCase() + getdata.opening_hours.substr(1);
+        opening_hours=$('<tr>').addClass('poi_opening_hours')
+          .append($('<td>').text('Время работы: '))
+          .append($('<td>').text(getdata.opening_hours||osm.poi.opt.nulldisplay).addClass('poi_value'))
       }
       ret = $('<div>').addClass('poi_popup').attr('id',getdata.id)
         .append($('<p>').addClass('poi_header')
@@ -196,10 +199,7 @@ osm.poi = {
           .append($('<span>').text(getdata.name_ru||'').addClass('poi_value'))
         )
         .append($('<table>')
-          .append($('<tr>').addClass('poi_opening_hours')
-            .append($('<td>').text('Время работы: '))
-            .append($('<td>').text(getdata.opening_hours||osm.poi.opt.nulldisplay).addClass('poi_value'))
-          )
+          .append(opening_hours)
           .append($('<tr>').addClass('poi_addr')
             .append($('<td>').text('Адрес: '))
             .append($('<td>').text(getdata.addr_full_name||"").addClass('poi_value'))
