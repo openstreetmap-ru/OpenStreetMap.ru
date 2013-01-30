@@ -160,6 +160,15 @@ osm.poi = {
           );
       }
 
+      var email;
+      if (!(getdata.email==null)) {
+        email=$('<tr>').addClass('poi_email')
+          .append($('<td>').text('E-mail: '))
+          .append($('<td>').addClass('poi_value')
+            .append($('<a>').attr('href', 'mailto:' + getdata.email).text(getdata.email))
+          );
+      }
+
       var moretags=$('');
       for (xName in getdata.tags_ru) {
         if (getdata.tags_ru[xName]!="неизвестно" && getdata.tags_ru[xName]!='') {
@@ -217,6 +226,7 @@ osm.poi = {
           .append(phone)
           .append(fax)
           .append(website)
+          .append(email)
           .append(moretags)
           .append(description)
         )
