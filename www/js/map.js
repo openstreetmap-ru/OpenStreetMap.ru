@@ -306,6 +306,17 @@ osm.initLayers = function(){
     'g',
     false
   );
+
+    osm.registerLayer(
+    'layerOpenSeaMap',
+    new L.TileLayer('http://tiles.openseamap.org/seamark/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: "<a href='http://openseamap.org'>OpenSeaMap</a>"}),
+    'Открытая морская карта',
+    'O',
+    false
+  );
+
 }
 
 osm.registerLayer = function (name, layer, title, hash, isBase){
