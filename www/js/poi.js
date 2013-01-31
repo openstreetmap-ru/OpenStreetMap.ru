@@ -160,9 +160,18 @@ osm.poi = {
           );
       }
 
+      var email;
+      if (!(getdata.email==null)) {
+        email=$('<tr>').addClass('poi_email')
+          .append($('<td>').text('E-mail: '))
+          .append($('<td>').addClass('poi_value')
+            .append($('<a>').attr('href', 'mailto:' + getdata.email).text(getdata.email))
+          );
+      }
+
       var moretags=$('');
       for (xName in getdata.tags_ru) {
-        if (getdata.tags_ru[xName]!="неизвестно") {
+        if (getdata.tags_ru[xName]!="неизвестно" && getdata.tags_ru[xName]!='') {
           moretags.after($('<tr>').addClass('poi_moretags')
             .append($('<td>').text(xName+': '))
             .append($('<td>').text(getdata.tags_ru[xName])))
@@ -193,6 +202,14 @@ osm.poi = {
           .append($('<td>').text('Время работы: '))
           .append($('<td>').text(getdata.opening_hours||osm.poi.opt.nulldisplay).addClass('poi_value'))
       }
+
+      var description;
+      if (!(getdata.description==null)) {
+        description=$('<tr>').addClass('poi_description')
+          .append($('<td>').text('Описание: '))
+          .append($('<td>').text(getdata.description).addClass('poi_value'))
+      }
+
       ret = $('<div>').addClass('poi_popup').attr('id',getdata.id)
         .append($('<p>').addClass('poi_header')
           .append($('<span>').text(getdata.class_ru).addClass('poi_name'))
@@ -209,7 +226,9 @@ osm.poi = {
           .append(phone)
           .append(fax)
           .append(website)
+          .append(email)
           .append(moretags)
+          .append(description)
         )
 
       return $('<div>').append(ret.clone()).remove().html();
