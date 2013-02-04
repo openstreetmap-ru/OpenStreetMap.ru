@@ -101,6 +101,7 @@ osm.leftpan.toggle = function(on, isClick) {
         osm.poi.enable();
       } else if (on === 'leftsearch') {
         search.enable();
+        $('#leftsearch').show();
       } else if (on) {
       }
       if (on != 1) fntoggle(on)

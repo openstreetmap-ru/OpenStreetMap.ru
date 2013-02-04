@@ -63,15 +63,15 @@ $page_content = <<<PHP_CONTENT
   <div id="downpan">
     <div id="leftpan">
       <div id="leftpantab">
-        <div id="leftsearch" class="leftgroup">
-          <h1>Поиск <img class="loader" src="/img/loader.gif"></h1>
-          <div class="leftcontent" style="display: none;">
-            <p>Для поиска введите в строку искомый адрес и нажмите "Найти"</p>
-          </div>
-        </div>
         <div id="leftpoi" class="leftgroup">
           <h1>Точки интереса (POI) <img class="loader" src="/img/loader.gif"></h1>
           <div class="leftcontent" style="display: none;">
+          </div>
+        </div>
+        <div id="leftsearch" class="leftgroup" style="display: none;">
+          <h1>Поиск <img class="loader" src="/img/loader.gif"></h1>
+          <div class="leftcontent" style="display: none;">
+            <p>Для поиска введите в строку искомый адрес и нажмите "Найти"</p>
           </div>
         </div>
         <div id="leftpersmap" class="leftgroup">
