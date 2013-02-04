@@ -74,15 +74,11 @@ $(function() {
   osm.search_marker = new L.LayerGroup();
   osm.map.addLayer(osm.search_marker);
 
-  var leftpan_on = osm.getCookie("_osm_leftpan");
-  if (leftpan_on == "false") {
-    $('#downpan').addClass('left-off');
-  }
-
-  var htp_on = osm.getCookie("_osm_htp");
-  if (htp_on == "false") {
-    $('body').toggleClass('htp');
-  }
+  if (osm.getCookie("_osm_htp") == "false")
+    osm.ui.togglehtp();
+  if (osm.getCookie("_osm_leftpan") == "false")
+    setTimeout("osm.leftpan.toggle(false)", 500);
+    
 
   osm.map.addControl(new L.Control.Scale({width: 100, position: 'bottomleft'}));
 

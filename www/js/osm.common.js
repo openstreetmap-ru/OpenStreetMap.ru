@@ -20,9 +20,9 @@ osm.getCookie = function(name) {
     if (offset != -1) {
       offset += search.length;
       end = cookie.indexOf(";", offset)
-  if (end == -1) {
-    end = cookie.length;
-  }
+      if (end == -1) {
+        end = cookie.length;
+      }
       setStr = unescape(cookie.substring(offset, end));
     }
   }
