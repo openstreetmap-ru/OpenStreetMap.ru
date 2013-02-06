@@ -79,21 +79,24 @@ $page_content = <<<PHP_CONTENT
           <div class="leftcontent" style="display: none;">
            <div id="pm-editing">
             <div id="pm-control">
-              <p class="pm-button">
-                <a id="pm-button-marker" class="pm-button-a" onclick="osm.markers.addMultiMarker()">
+              <div class="pm-button" id="pm-button-marker">
+                <a class="pm-button-a" onclick="osm.markers.addMultiMarker()">
                   Поставить маркер
                 </a>
-              </p>
-              <p class="pm-button">
-                <a id="pm-button-path" class="pm-button-a" onclick="osm.markers.addPath()">
-                  Нарисовать путь
-                </a>
-              </p>
-              <p class="pm-button pm-save">
+              </div>
+              <div class="pm-button">
+                <div id="pm-button-path">
+                  <a class="pm-button-a" onclick="osm.markers.addPath()">
+                    Нарисовать путь
+                  </a>
+                  <span><br>Чтоб закончить путь, нажмите на ESC, последнюю нарисованную точку или на кнопку "Нарисовать путь" еще раз.</span>
+                </div>
+              </div>
+              <div class="pm-button pm-save">
                 <a onclick="osm.markers.saveMap();" style="cursor: pointer;">
                   Сохранить
                 </a>
-              </p>
+              </div>
             </div>
             <div id="pm-status"></div>
            </div>

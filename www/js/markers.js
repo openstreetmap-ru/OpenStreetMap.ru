@@ -53,6 +53,7 @@ osm.markers.initialize = function() {
   osm.markers._icons = icons;
   osm.markers._line_color = lines;
   $(".colour-picker").each(function(){$(this).html(buttons)});
+  $(document).on('keyup', osm.markers.keyhandler);
 }
 osm.markers.decodehtml = function(s) {
   if(s) return $("<div/>").html(s).text(); else return s;
@@ -93,7 +94,6 @@ osm.markers._removeHandlers = function() {
 			elementId = '#pm-button-path';
 			// remove mousemove event if any
 			$("#map").unbind("mousemove", osm.markers.mouseMovePath);
-//			osm.map.doubleClickZoom.enable();
 			osm.markers._newPath.finishEditing(true);
 			break;
 		default: return 0;
@@ -135,6 +135,11 @@ osm.markers.createPoints = function(e) {
 
   var p = new PersonalMarkerEditable(e.latlng);
   p.openPopup();
+}
+osm.markers.keyhandler = function(e) {
+  if (e.keyCode == 27) {
+    osm.markers._removeHandlers();
+  }
 }
 
 osm.markers.addPath = function() {
@@ -506,11 +511,6 @@ PersonalLine = L.Polyline.extend({
 });
 PersonalLineEditable = PersonalLine.extend({
   initialize: function(points, details) {
-    if (details)
-      details.editable = true;
-    else
-      details = {editable : true};
-
     PersonalLine.prototype.initialize.call(this, points, details);
 
     this._pl_name = osm.markers.decodehtml(this._pl_name);
@@ -536,6 +536,7 @@ PersonalLineEditable = PersonalLine.extend({
       this.remove();
       return;
     }
+    this.editing.enable();
     var popupHTML = $_('pl_edit_popup').innerHTML;
     popupHTML = popupHTML.replace(/\$\$\$/g, 'osm.markers._data.lines['+this.index+']');
     popupHTML = popupHTML.replace(/\#\#\#/g, this.index);

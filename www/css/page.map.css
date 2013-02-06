@@ -300,22 +300,33 @@ input.default-input, input.default-input-focused {
   margin-top: 15px;
   font-size: 12pt;
 }
-#pm-control .pm-button-a {
+#pm-control a.pm-button-a {
   cursor: pointer;
-  background-repeat: no-repeat;
-  padding: 2px 5px 2px 30px;
+  margin: 2px 5px 2px 30px;
+}
+#pm-control div span {
+  display: none;
+  font-size: 8pt;
+  margin-left: 30px;
 }
 #pm-button-marker {
   background-image: url("/img/pm-marker.png");
+  background-repeat: no-repeat;
+  min-height: 23px;
 }
 #pm-button-path {
   background-image: url("/img/pm-path.png");
+  background-repeat: no-repeat;
+  min-height: 23px;
 }
 #pm-control .pm-save {
   margin-left: 30px;
 }
-#pm-control .pm-button-pressed {
+#pm-control .pm-button-pressed a {
   background-color: lightblue;
+}
+#pm-control .pm-button-pressed span {
+  display: block;
 }
 #pm-status{
   margin-top: 15px;
