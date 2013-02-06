@@ -30,12 +30,11 @@ search.processResults = function(results) {
       search.content.innerHTML='Пожалуйста, уточните запрос "' + (results.search) + '"';
     }
     else {
-      var content = '<ul id="ol-search_result">';
+      var content = $('<ul id="ol-search_result">')
       osm.layers.search_marker.clearLayers();
       var matches=results.matches;
       for (var i in matches) {
-        zoom = matches[i].this_poi?16:matches[i].addr_type_id*2+4;
-        content += ('<li><a href="" onClick="osm.map.setView(new L.LatLng(' + matches[i].lat + ',' + matches[i].lon + '), '+zoom+'); return false;" info="id='+matches[i].id+'  weight='+matches[i].weight+'">' + matches[i].display_name + '</a></li>');
+        var zoom = matches[i].this_poi?16:matches[i].addr_type_id*2+4;
         var marker = new L.Marker(new L.LatLng(matches[i].lat, matches[i].lon), {icon: new search.Icon()});
         if (matches[i].this_poi) {
           osm.poi.createPopup(matches[i].id, marker);
@@ -43,12 +42,25 @@ search.processResults = function(results) {
         else {
           marker.bindPopup("<b>Адрес:</b><br /> " + matches[i].display_name);
         }
+        var a = $('<a href="">');
+        a.attr('search_id',matches[i].id);
+        a.text(matches[i].display_name);
+        a.bind("click", {
+            center: new L.LatLng(matches[i].lat, matches[i].lon),
+            zoom: zoom,
+            marker: marker
+            }, function (e){
+          osm.map.setView(e.data.center, e.data.zoom);
+          e.data.marker.openPopup();
+          return false;
+        });
+        content.append(
+          $('<li>').append(a)
+        );
         osm.layers.search_marker.addLayer(marker);
       }
-      zoom = matches[0].this_poi?14:matches[0].addr_type_id*2+4
-      osm.map.setView(new L.LatLng(matches[0].lat, matches[0].lon), zoom);
-      content += '</ul>';
-      search.content.innerHTML = content;
+      $(search.content).empty().append(content);
+      $('#ol-search_result a', search.content)[0].click();
     }
   } catch(e) {
     search.content.innerHTML = 'Ошибка: ' + e.description + '<br /> Ответ поиск.серв.: '+results.error;
