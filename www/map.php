@@ -77,6 +77,7 @@ $page_content = <<<PHP_CONTENT
         <div id="leftpersmap" class="leftgroup">
           <h1>Персональная карта</h1>
           <div class="leftcontent" style="display: none;">
+           <div id="pm-editing">
             <div id="pm-control">
               <p class="pm-button">
                 <a id="pm-button-marker" class="pm-button-a" onclick="osm.markers.addMultiMarker()">
@@ -95,6 +96,8 @@ $page_content = <<<PHP_CONTENT
               </p>
             </div>
             <div id="pm-status"></div>
+           </div>
+           <div id="pm-legend"></div>
           </div>
         </div>
         <div id="leftvalidator" class="leftgroup">
