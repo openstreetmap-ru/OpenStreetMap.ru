@@ -359,33 +359,48 @@ td.colour-picker {
 }
 
 /* leaflet-plugins-control */
-.leaflet-control-distance, .leaflet-control-inJOSM {
-  -moz-border-radius: 7px;
-  -webkit-border-radius: 7px;
-  border-radius: 7px;
-
-  padding: 5px;
-  background-color: rgba(0, 0, 0, 0.25);
+.leaflet-container .leaflet-control-inJOSM {
+  margin-left: 13px;
+  margin-top: 12px;
 }
-.leaflet-control-distance a, .leaflet-control-distance div, .leaflet-control-inJOSM a, .leaflet-control-inJOSM div  {
-  -moz-border-radius: 4px;
+.leaflet-control-inJOSM a {
+  width: 22px;
+  height: 22px;
   -webkit-border-radius: 4px;
-  border-radius: 4px;
-
-  padding: 2px;
+          border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.8);
+  background-image: url('/img/josm_icon.png');
   background-position: 50% 50%;
   background-repeat: no-repeat;
-  background-color: rgba(255, 255, 255, 0.75);
-}
-.leaflet-control-distance a, .leaflet-control-inJOSM a {
-  width: 16px;
-  height: 16px;
   display: block;
 }
-.leaflet-control-distance div, .leaflet-control-inJOSM div {
+.leaflet-control-inJOSM a:hover {
+  background-color: #fff;
+  color: #777;
+}
+
+.leaflet-container .leaflet-control-distance {
+  margin-left: 13px;
+  margin-top: 12px;
+}
+.leaflet-control-distance a, .leaflet-control-distance div  {
+  -webkit-border-radius: 4px;
+          border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.75);
+}
+.leaflet-control-distance a {
+  width: 22px;
+  height: 22px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+.leaflet-control-distance a:hover {
+  background-color: #fff;
+  color: #777;
+}
+.leaflet-control-distance div {
   color: #333;
-  height: 16px;
-  margin-top: 5px;
+  text-align: center;
   white-space: nowrap;
 }
 .leaflet-control-distance-edit {
@@ -400,9 +415,8 @@ a.leaflet-control-distance-delete {
 a.leaflet-control-distance-active {
   background-color: yellow;
 }
-.leaflet-control-inJOSM-link {
-  background-image: url('/img/josm_icon.png');
-  float: left;
+a.leaflet-control-distance-active:hover {
+  background-color: #ffa;
 }
 
 /* for leaflet */

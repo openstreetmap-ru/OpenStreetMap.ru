@@ -10,7 +10,7 @@ L.Control.inJOSM = L.Control.extend({
 	},
 
 	onAdd: function(map) {
-    var className = 'leaflet-control-inJOSM',
+    var className = 'leaflet-bar leaflet-control-inJOSM',
     container = this._container = L.DomUtil.create('div', className);
 
     this._link = L.DomUtil.create('a', 'leaflet-control-inJOSM-link', container);

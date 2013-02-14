@@ -13,7 +13,7 @@ L.Control.Distance = L.Control.extend({
 	},
 
 	onAdd: function(map) {
-		var className = 'leaflet-control-distance',
+		var className = 'leaflet-bar leaflet-control-distance',
 		    container = this._container = L.DomUtil.create('div', className);
 
 		function cb() {
@@ -23,8 +23,8 @@ L.Control.Distance = L.Control.extend({
 				this._calc_enable();
 		}
 
-		var link = this._link = this._createButton('Измерение расстояния', 'leaflet-control-distance leaflet-control-distance-edit', container, cb, this);
-		var del = this._link_delete = this._createButton('Сбросить измерение', 'leaflet-control-distance leaflet-control-distance-delete', container, this._reset, this);
+		var link = this._link = this._createButton('Измерение расстояния', 'leaflet-control-distance-edit', container, cb, this);
+		var del = this._link_delete = this._createButton('Сбросить измерение', 'leaflet-control-distance-delete', container, this._reset, this);
 		var text = this._text = L.DomUtil.create('div', 'leaflet-control-distance-text', container);
 
 		//text.style.display = 'inline';
