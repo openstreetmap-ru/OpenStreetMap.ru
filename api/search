@@ -8,14 +8,9 @@ from sphinxapi import *
 import cgi, sys, json, re
 import psycopg2
 import db_config
+import api_config as conf
 
-host = 'localhost'
-port = 3312
-#sphinxindex = 'ershkus_search_addr, ershkus_poi'
-sphinxindexaddr = 'ershkus_search_addr'
-sphinxindexpoi = 'ershkus_poi'
-#sphinxindex = 'ershkus_poi'
-#sphinxindex = 'ershkus_search_addr'
+
 listAddrType=['city','district','region']
 countlistAddrType=2
 q = ''
@@ -77,17 +72,17 @@ def main():
     return
   
   if stype == 'all':
-    sphinxindex = sphinxindexaddr + ' , ' + sphinxindexpoi
+    sphinxindex = conf.sphinx_index_addr + ' , ' + conf.sphinx_index_poi
   elif stype == 'addr':
-    sphinxindex = sphinxindexaddr
+    sphinxindex = conf.sphinx_index_addr
   elif stype == 'poi':
-    sphinxindex = sphinxindexpoi
+    sphinxindex = conf.sphinx_index_poi
   else:
     output['error']="no query words, 'stype' is 'all' or 'addr' or 'poi'"
     return
   
   cl = SphinxClient()
-  cl.SetServer ( host, port )
+  cl.SetServer ( conf.sphinx_host, conf.sphinx_port )
   cl.SetMatchMode ( mode )
   
   #cl.SetRankingMode(SPH_RANK_SPH04)
