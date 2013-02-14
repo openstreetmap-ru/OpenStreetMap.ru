@@ -508,6 +508,7 @@ L.i18n.extend('ru', {
 	"Link":"Ссылка",
 	"Cancel":"Отмена",
 	"New bug":"Я нашел ошибку",
+	"Close bug":"Исправлено",
 	"Find your bug?":"Нашли ошибку?",
 	"Contact details and someone will fix it.":"Напишите подробнее и кто-нибудь её исправит.",
 });
