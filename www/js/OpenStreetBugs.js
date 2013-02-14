@@ -360,7 +360,7 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 		var form = this.createCommentForm(newContent);
 		form.osblat.value = e.latlng.lat;
 		form.osblon.value = e.latlng.lng;
-		form.ok.value = L.i18n("Add comment");
+		form.ok.value = L.i18n("Create");
 		form.onsubmit = function(e) {
 			_this._map.closePopup(popup);
 			_this.createBug(form);
@@ -498,6 +498,7 @@ L.i18n.extend = function(lang, args) {
 };
 
 L.i18n.extend('ru', {
+	"Create":"Добавить",
 	"Fixed Error":"Ошибка исправлена",
 	"Unresolved Error":"Неисправленная ошибка",
 	"Active Error":"Ошибка уточняется",
