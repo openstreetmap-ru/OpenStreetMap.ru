@@ -101,12 +101,14 @@ $page_content = <<<PHP_CONTENT
     <div id="osm-dyk" class="content">
 PHP_CONTENT;
 
-$result = pg_query("SELECT * FROM \"did_you_know\" ORDER BY \"id\"");
-while ($row = pg_fetch_assoc($result)) {
-  $page_content = $page_content.'<div id="id'.$row['id'].'" class="section-link">';
-  $page_content = $page_content.'<p class="head-link"><a name="id'.$row['id'].'">'.$row['head'].'</a></p>';
-  $page_content = $page_content.'<div class="text" style="display: none;">'.$row['text'].'</div>';
-  $page_content = $page_content.'</div>';
+if (function_exists("pg_connect")) {
+  $result = pg_query("SELECT * FROM \"did_you_know\" ORDER BY \"id\"");
+  while ($row = pg_fetch_assoc($result)) {
+    $page_content = $page_content.'<div id="id'.$row['id'].'" class="section-link">';
+    $page_content = $page_content.'<p class="head-link"><a name="id'.$row['id'].'">'.$row['head'].'</a></p>';
+    $page_content = $page_content.'<div class="text" style="display: none;">'.$row['text'].'</div>';
+    $page_content = $page_content.'</div>';
+  }
 }
 
 $page_content = $page_content.<<<PHP_CONTENT
