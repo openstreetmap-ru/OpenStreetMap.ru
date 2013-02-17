@@ -47,6 +47,10 @@ $page_content = <<<PHP_CONTENT
         <p class="head">Обратная связь</p>
         <p class="text">Если у вас есть предложения по улучшению сайта, можете написать нам на <a href="mailto:osm.ershkus@gmail.com">osm.ershkus@gmail.com</a> или сделать пометку на <a target="_blank" href="http://osmru.reformal.ru/">Reformal</a>, или вот мы ещё на <a target="_blank" href="https://github.com/ErshKUS/OpenStreetMap.ru">гитхабе</a> если у вас руки правильно заточены. Любые предложения приветствуются! <a target="_blank" href="http://forum.openstreetmap.org/viewtopic.php?id=18358">Ссылка на форум</a> (трэба регистрация OpenStreetMap).</p>
       </div>
+      <div class="section">
+        <p class="head">Техническая информация</p>
+        <p class="text">Дата актуализации адресного поиска: <i id="dateaddr">неизвестно</i><br />Дата актуализации точек интереса: <i id="datepoi">неизвестно</i></p>
+      </div>
     </div>
     <div id="osm-org" class="content">
       <div class="section">
@@ -133,4 +137,18 @@ $page_content = $page_content.<<<PHP_CONTENT
   </div>
 </div>
 PHP_CONTENT;
+
+// add date actual
+if (function_exists("pg_connect")) {
+  $result = pg_query("SELECT * FROM \"config\" WHERE \"key\"='dateaddr'");
+  while ($row = pg_fetch_assoc($result)) {
+    $page_content = str_replace('<i id="dateaddr">неизвестно</i>', '<samp>'.$row['value'].'</samp>', $page_content);
+  }
+  
+  $result = pg_query("SELECT * FROM \"config\" WHERE \"key\"='datepoi'");
+  while ($row = pg_fetch_assoc($result)) {
+    $page_content = str_replace('<i id="datepoi">неизвестно</i>', '<samp>'.$row['value'].'</samp>', $page_content);
+  }
+}
+
 ?>
