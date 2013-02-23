@@ -2,26 +2,29 @@ $(function() {
   parseGET();
   if (typeof frame_map === "undefined") frame_map = false; // in frame_map mode we have limited controls and map abilities
 
-  var loc = osm.getCookie('_osm_location');
-  var center;
-  var zoom;
-  var layer = 'M';
   var overlaysAsString = '';
-  if(loc) {
-    var locs = loc.split('|');
-    center = new L.LatLng(locs[1], locs[0]);
-    zoom = locs[2];
-    layer = locs[3] || 'M';
-    overlaysAsString = locs[4] || '';
-  } else if(clientLat || clientLon) {
-    center = new L.LatLng(clientLat, clientLon);
-    zoom = 12;
-    layer = "M";
-  }
-  else {
+  if (frame_map) {
     center = new L.LatLng(62.0, 88.0);
     zoom = $(window).width() > 1200 ? 3 : 2;
     layer = "M";
+  } else {
+    var loc = osm.getCookie('_osm_location');
+    var center;
+    var zoom;
+    var layer = 'M';
+    if(loc) {
+      var locs = loc.split('|');
+      center = new L.LatLng(locs[1], locs[0]);
+      zoom = locs[2];
+      layer = locs[3] || 'M';
+      overlaysAsString = locs[4] || '';
+    } else if(clientLat || clientLon) {
+      center = new L.LatLng(clientLat, clientLon);
+      zoom = 12;
+    } else {
+      center = new L.LatLng(62.0, 88.0);
+      zoom = $(window).width() > 1200 ? 3 : 2;
+    }
   }
 
   osm.initLayers();
