@@ -39,7 +39,9 @@
         objects: 'Objects',
         params: 'Params',
         edit_in_potlatch: 'Edit in Potlatch',
-        edit_in_josm: 'Edit in JOSM'
+        edit_in_josm: 'Edit in JOSM',
+        created_at: 'Created at',
+        updated_at: 'Updated at'
       };
       _ref = this.options.sources || [];
       _results = [];
@@ -214,6 +216,16 @@
         popupText += "</li>";
       }
       popupText += "</ul>";
+      if (this.options.dateFormat) {
+        popupText += "<p>";
+        if (res.created_at) {
+          popupText += "" + this.i18n.created_at + ": " + (this.formatDate(new Date(res.created_at))) + "<br />";
+        }
+        if (res.updated_at) {
+          popupText += "" + this.i18n.updated_at + ": " + (this.formatDate(new Date(res.updated_at))) + "<br />";
+        }
+        popupText += "</p>";
+      }
       popupText += "<p>";
       if (res.url) {
         popupText += "<a href=\"" + res.url + "\" target=\"_blank\">" + this.i18n.error_info + "</a><br />";
@@ -244,6 +256,9 @@
       popupText += "</div>";
       resLayer.bindPopup(popupText);
       return resLayer;
+    },
+    formatDate: function(date) {
+      return this.options.dateFormat.replace("DD", (date.getDate() < 10 ? '0' : '') + date.getDate()).replace("MM", (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1)).replace("YYYY", date.getFullYear());
     }
   });
 

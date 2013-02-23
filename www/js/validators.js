@@ -145,11 +145,15 @@ osm.validators = {
     params: 'Параметры',
     error_info: 'Информация об ошибке',
     edit_in_potlatch: 'Редактировать в Potlatch',
-    edit_in_josm: 'Редактировать в JOSM'
+    edit_in_josm: 'Редактировать в JOSM',
+    created_at: 'Обнаружена',
+    updated_at: 'Обновлена'
   },
 
+  dateFormat: 'YYYY-MM-DD',
+
   initialize: function() {
-    this.layer = new OsmJs.Validators.LeafletLayer({sources: this.sources, i18n: this.i18n});
+    this.layer = new OsmJs.Validators.LeafletLayer({sources: this.sources, i18n: this.i18n, dateFormat: this.dateFormat});
 
     $('#validationerrors').validatorErrorsControl(this.layer, {errors: this.errors});
   },
