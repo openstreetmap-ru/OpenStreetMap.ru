@@ -346,8 +346,7 @@ osm.markers.readMap = function() {
           p.loadEditableMarker();
       }
       $('#loader-overlay').hide();
-      if (!osm.markers._admin.editable) {
-
+      if (!osm.markers._admin.editable && !frame_map) {
         text_items.sort(); // built-in sort for now
         var readonly_text = text_items.join("<br>");
         $('#pm-editing').hide();
