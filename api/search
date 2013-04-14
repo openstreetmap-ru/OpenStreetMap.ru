@@ -5,190 +5,198 @@
 # ErshKUS
 
 from sphinxapi import *
-import cgi, sys, json, re
-import psycopg2
+import cgi, json, re, psycopg2, psycopg2.extras
 import db_config
 import api_config as conf
 
 
-listAddrType=['city','district','region']
-countlistAddrType=2
-q = ''
-q2 = ''
 
-mode=SPH_MATCH_EXTENDED2
-lat = 0
-lon = 0
+# обратный геокодинг
+def regeo(get):
+  conn = psycopg2.connect(host=db_config.addr_host, database=db_config.addr_database, user=db_config.addr_user, password=db_config.addr_password)
+  cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+  cur.execute("""
+    SELECT id, addr_type, full_name
+    FROM ershkus_search_addr_p
+    WHERE
+      (geom && (ST_GeomFromText('POINT(%(lon)s %(lat)s)',4326)))
+        AND ST_Covers(geom, (ST_GeomFromText('POINT(%(lon)s %(lat)s)',4326)))
+      AND (full_name is not null AND full_name <> '')
+    ORDER BY
+      addr_type_id DESC
+  """, get)
+  userPos = cur.fetchall()
+  return userPos
 
-output={}
-output['ver']='0.6'
 
-def main():
-  def ifresult(res):
-    if not res:
-      output['error']='query failed: %s' % cl.GetLastError()
-      return 11
-    if cl.GetLastWarning():
-      output['error']='WARNING: %s\n' % cl.GetLastWarning()
-      return 12
-    if not res['total_found']:
-      return 1
-    return 2
-    
-  def regeo(addrType):
-  
-    conn = psycopg2.connect(host=db_config.addr_host, database=db_config.addr_database, user=db_config.addr_user, password=db_config.addr_password)
-    cur = conn.cursor()
-    execute = """
-      SELECT region_id, district_id, city_id
-      FROM ershkus_search_addr_p
-      WHERE
-        (geom && (ST_GeomFromText('POINT(%(lon)s %(lat)s)',4326))) AND ST_Covers(geom, (ST_GeomFromText('POINT(%(lon)s %(lat)s)',4326)))
-        AND (full_name is not null AND full_name <> '')
-        AND addr_type='%(addrType)s'
-    """ % {"lat":lat, "lon":lon, "addrType":addrType}
-    cur.execute(execute)
-    regeo=cur.fetchone()
-    return regeo
-    
-  print "Content-type: text/javascript; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # debug
-  #print "Content-type: application/json; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # production
-  q = unicode(getvalues.getfirst("q",""),'utf8')
-  lat = float(getvalues.getfirst("lat","0"))
-  lon = float(getvalues.getfirst("lon","0"))
-  asis = bool(getvalues.getfirst("asis",""))
-  nolimit = bool(getvalues.getfirst("nolimit",""))
-  cnt = int(getvalues.getfirst("cnt","12"))
-  stype = unicode(getvalues.getfirst("stype","all")) # all / addr / poi
-  output['search']=q
-  if not asis :
-    output['search'] = output['search'].replace('&','&amp;')
-    output['search'] = output['search'].replace('\"',"&quot;")
-    output['search'] = output['search'].replace('\'','&#039;')
-    output['search'] = output['search'].replace('<','&lt;')
-    output['search'] = output['search'].replace('>','&gt;')
-  if not q:
-    output['error']="no query words, 'q' is empty"
-    return
-  
-  if stype == 'all':
-    sphinxindex = conf.sphinx_index_addr + ' , ' + conf.sphinx_index_poi
-  elif stype == 'addr':
-    sphinxindex = conf.sphinx_index_addr
-  elif stype == 'poi':
-    sphinxindex = conf.sphinx_index_poi
-  else:
-    output['error']="no query words, 'stype' is 'all' or 'addr' or 'poi'"
-    return
-  
-  cl = SphinxClient()
-  cl.SetServer ( conf.sphinx_host, conf.sphinx_port )
-  cl.SetMatchMode ( mode )
-  
-  #cl.SetRankingMode(SPH_RANK_SPH04)
-  
-  if (lat and lon):
-    cl.SetGeoAnchor("lat", "lon", lat, lon)
-    cl.SetSortMode ( SPH_SORT_EXTENDED, 'addr_type_id asc @weight desc @geodist ASC' )
-    #cl.SetSortMode ( SPH_SORT_EXPR, '@weight/@geodist' )
-  else:
-    cl.SetSortMode ( SPH_SORT_EXTENDED, 'addr_type_id asc @weight desc' )
-  
-  #cl.SetFilterRange('@relevance', 10, 10000)
-  #cl.SetSelect ( "*, @expr AS myweight" )
-  
-  if (cnt and (not nolimit)):
-    cl.SetLimits ( 0, cnt, max(cnt,1000) )
-  
-  q = q.replace("/","\/")
+def ifresult(res, output, sphinx):
+  if not res:
+    output['error']='query failed: %s' % sphinx.GetLastError()
+    return 11
+  if sphinx.GetLastWarning():
+    output['error']='WARNING: %s\n' % sphinx.GetLastWarning()
+    return 12
+  if not res['total_found']:
+    return 1
+  return 2
 
-  def search():
-    resQ=1
-    if (lat and lon):
-      for xAddrType in listAddrType:
-        q2 = regeo(xAddrType)
-        if q2 == None:
-          continue
-        i=countlistAddrType
-        cl.ResetOnlyFilter()
-        for n in q2:
-          if n <> None:
-            cl.SetFilter(listAddrType[i]+'_id',[n])
-          i=i-1
-        res = cl.Query(q, sphinxindex)
-        resQ=ifresult(res)
-        if resQ > 10:
-          return {'ret':False, 'res':res, 'error':True}
-        if resQ == 2:
-          break
-    
-    if resQ == 1:
-      cl.ResetOnlyFilter()
-      res = cl.Query(q, sphinxindex)
-      resQ2 = ifresult(res)
-      if resQ2 > 10:
-        output['find']=False
-        return {'ret':False, 'res':res, 'error':True}
-      if resQ2 == 1:
-        output['find']=False
-        return {'ret':False, 'res':res, 'error':False}
-    
-    return {'ret':True,'res':res, 'error':False}
 
-    
-  output['find']=False
-  retdata = search()
-  if retdata['ret']:
-    res=retdata['res']
-  else:
-    if retdata['error']:
-      return
-    else:
-      q = ' ' + q + ' '
-      q=re.sub(u'(\d+)[ -]+([А-Яа-я][\s,.])', r'\1\2', q) # 10 А => 10А, 10-А => 10А
-      retdata = search()
-      if retdata['ret']:
-        res=retdata['res']
-      else:
-        if retdata['error']:
-          return
-        else:
-          q = ' ' + q + ' '
-          q=re.sub(u'\d{6}', r'', q) # 123456 => NULL
-          retdata = search()
-          if retdata['ret']:
-            res=retdata['res']
-          else:
-            return
-          
-  
-  
-  if res.has_key('matches'):
+def editGet(get):
+  get['q'] = ' ' + get['q'] + ' '
+
+  # дома 4-8 +-> 4/8
+  get['q'] = re.sub(u'([\s,.])(\d+)-(\d+)([\s,.])', r'\1\2-\3|\2/\3\4', get['q'])
+
+
+
+  get['q'] = get['q'].replace("-","`")
+  get['q'] = get['q'].replace("/","\/")
+
+
+# поиск
+def search(get, output, sphinx):
+  output['find'] = False
+
+  # по результатом обратного геокодинга
+  if (get['lat'] or get['lon']):
+    userPos = regeo(get)
+    output['userPos'] = userPos
+    if userPos != []:
+      for row in userPos:
+        sphinx.ResetOnlyFilter()
+        sphinx.SetFilter(row['addr_type']+'_id', [row['id']])
+        for n in range(1,4,1):
+          q = '"' + get['q'] + '"~' + str(n)
+          res = sphinx.Query(q, get['sphinxindex'])
+          if ifresult(res, output, sphinx) >= 2:
+            return res
+
+        res = sphinx.Query(get['q'], get['sphinxindex'])
+        if ifresult(res, output, sphinx) >= 2:
+          return res
+
+  # везде
+  sphinx.ResetOnlyFilter()
+  res = sphinx.Query(get['q'], get['sphinxindex'])
+  if ifresult(res, output, sphinx) >= 2:
+    return res
+
+  # изменение запроса, в попытке найти что нужно
+   # 10 А => 10А, 10-А => 10А
+  q = ' ' + get['q'] + ' '
+  q=re.sub(u'(\d+)[ -]+([А-Яа-я][\s,.])', r'\1\2', q) # 10 А => 10А, 10-А => 10А
+  res1 = sphinx.Query(q, get['sphinxindex'])
+  if ifresult(res1, output, sphinx) >= 2:
+    return res1
+
+  # уменьшения количества значущих слов
+  output['test_big_len'] = {}
+  for n in range(len(res['words'])-1, 0, -1):
+    q = '"' + get['q'] + '"/' + str(n)
+    output['test_big_len'][n] = q
+    res1 = sphinx.Query(q, get['sphinxindex'])
+    if ifresult(res1, output, sphinx) >= 2:
+      return res1
+
+
+  return res
+
+# вывод результатов
+def report(res, output, get, sphinx):
+  output['res-report'] = res
+  if ifresult(res, output, sphinx) == 2:
     output['find']=True
     outputdata=[]
-    #weight_min=(res['matches'][0]['weight']-100)
-    addr_type_min = output['deb']=res['matches'][0]['attrs']['addr_type_id']
     for match in res['matches']:
-      if (match['attrs']['addr_type_id']<=addr_type_min):
+      if match['attrs']['addr_type_id']<=res['matches'][0]['attrs']['addr_type_id']:
         outputlen=match['attrs']
         outputlen['id']=match['id']
         outputlen['weight']=match['weight']
-        if not asis :
+        if not get['asis']: # экранирование html спецсимволов
           outputlen['display_name'] = outputlen['display_name'].replace('&','&amp;')
           outputlen['display_name'] = outputlen['display_name'].replace('\"',"&quot;")
           outputlen['display_name'] = outputlen['display_name'].replace('\'','&#039;')
           outputlen['display_name'] = outputlen['display_name'].replace('<','&lt;')
           outputlen['display_name'] = outputlen['display_name'].replace('>','&gt;')
         outputdata.append(outputlen)
-      
-  output['matches']=outputdata
 
-getvalues=cgi.FieldStorage()
-outCallback = getvalues.getfirst('callback','')
+    output['matches']=outputdata
 
-main()
 
-if (outCallback == ""):
-  print json.dumps(output)
-else:
-  print outCallback + "(" + json.dumps(output) + ");"
+def main():
+  output={}
+  output['ver']='0.6'
+
+  getvalues=cgi.FieldStorage()
+  get={}
+  get['outCallback'] = getvalues.getfirst('callback','')
+
+  print "Content-type: text/javascript; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # debug
+  #print "Content-type: application/json; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # production
+
+  get['q'] = unicode(getvalues.getfirst("q",""),'utf8') # строка поиска
+  get['lat'] = float(getvalues.getfirst("lat","0")) # координаты куда смотрит пользователь
+  get['lon'] = float(getvalues.getfirst("lon","0")) # координаты куда смотрит пользователь
+  get['asis'] = bool(getvalues.getfirst("asis","")) # не экранировать спецсимволы html при выводе результатов
+  get['nolimit'] = bool(getvalues.getfirst("nolimit","")) # не ограничивать количество выводимых результатов поиска
+  get['cnt'] = int(getvalues.getfirst("cnt","12")) # число выводимых результатов поиска
+  get['st'] = unicode(getvalues.getfirst("st","")) # [all / addr / poi]  где ищем
+  if get['st'] == "":
+    get['st'] = unicode(getvalues.getfirst("stype","all")) # all / addr / poi (поддержка старого названия)
+  output['in'] = get.copy()
+
+  if not get['q']:
+    output['error']="no query words, 'q' is empty"
+    return
+
+  output['search'] = get['q']
+  if not get['asis']: # экранирование html спецсимволов
+    output['search'] = output['search'].replace('&','&amp;')
+    output['search'] = output['search'].replace('\"',"&quot;")
+    output['search'] = output['search'].replace('\'','&#039;')
+    output['search'] = output['search'].replace('<','&lt;')
+    output['search'] = output['search'].replace('>','&gt;')
+
+  if get['st'] == 'all':
+    get['sphinxindex'] = conf.sphinx_index_addr + ' , ' + conf.sphinx_index_poi
+  elif get['st'] == 'addr':
+    get['sphinxindex'] = conf.sphinx_index_addr
+  elif get['st'] == 'poi':
+    get['sphinxindex'] = conf.sphinx_index_poi
+  else:
+    output['error']="no query words, 'st' is 'all' or 'addr' or 'poi'"
+    return
+
+  sphinx = SphinxClient()
+  sphinx.SetServer (conf.sphinx_host, conf.sphinx_port)
+  sphinx.SetMatchMode (SPH_MATCH_EXTENDED2)
+
+  if (get['lat'] or get['lon']):
+    sphinx.SetGeoAnchor("lat", "lon", get['lat'], get['lon'])
+    sphinx.SetSortMode ( SPH_SORT_EXTENDED, 'addr_type_id asc @weight desc @geodist ASC' )
+  else:
+    sphinx.SetSortMode ( SPH_SORT_EXTENDED, 'addr_type_id asc @weight desc' )
+
+  if (get['cnt'] and (not get['nolimit'])):
+    sphinx.SetLimits (0, get['cnt'], max(get['cnt'],1000))
+
+
+  editGet(get)
+
+  res = search(get, output, sphinx)
+
+  output['test-res'] = res
+
+  report(res, output, get, sphinx)
+
+
+
+
+  if (get['outCallback'] == ""):
+    print json.dumps(output)
+  else:
+    print get['outCallback'] + "(" + json.dumps(output) + ");"
+
+
+if __name__ == '__main__':
+  main()
