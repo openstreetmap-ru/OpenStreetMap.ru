@@ -1,0 +1,10 @@
+@media print {
+    html, body, #mappan {
+        height:100%;
+        width:100%;
+        padding:0px;
+        margin:0px;
+        } 
+  div#menupan, div#toppan, div#leftpan, div#htpbutton, div#leaflet-control-container { display: none !important;}
+	div#mappan { left: 0px; top: 0px;}
+}
