@@ -27,7 +27,9 @@ include_once ($_URL[0].'.php');
 <head>
   <title>OpenStreetMap Россия — <?=$current_menu['text'] ?></title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen, projection" />
+  <meta name="viewport" content="width=device-width; initial-scale=1.0">
+  <link media="screen and (max-width: 480px)" rel="stylesheet" href="/css/mobile.css" type="text/css">
+  <link media="screen and (min-width: 480px)" rel="stylesheet" href="/css/main.css" type="text/css">
   <link rel="stylesheet" href="/css/print.css" type="text/css" media="print" />
   <link rel="search" href="/search.xml" type="application/opensearchdescription+xml" title="OpenStreetMap.Ru" />
   <script type="text/javascript" src="/js/main.js"></script>
