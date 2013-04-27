@@ -124,26 +124,26 @@ div.leaflet-top {
 /*Меняем иконки*/
 
 .wheremi {
-    background-image: url("/css/images/whereami.png") !important;
+    background-image: url("/img/mobile/whereami.png") !important;
     color: transparent;
     }
 
 #searchpan input[type="submit"] {
-    background-image: url("/css/images/search.png");
+    background-image: url("/img/mobile/search.png");
     color: transparent;
 
     }
 
 .leaflet-control-layers a.leaflet-control-layers-toggle {
-    background-image: url("/css/images/layers.png") !important;
+    background-image: url("/img/mobile/layers.png") !important;
     }
 
 a.leaflet-control-distance-edit {
-    background-image: url("/css/images/ruller-edit.png") !important;
+    background-image: url("/img/mobile/ruller-edit.png") !important;
     }
 
 a.leaflet-control-distance-delete {
-    background-image: url("/css/images/ruller-delete.png") !important;
+    background-image: url("/img/mobile/ruller-delete.png") !important;
     }
 
 /*Менюшка*/
@@ -176,7 +176,7 @@ a.leaflet-control-distance-delete {
     border-style: solid;
     border-width: 1px !important;
     border-color: gray !important;
-    background-image: url("/css/images/menu.png") !important;
+    background-image: url("/img/mobile/menu.png") !important;
 }
 #mainmenu * {
     display:none;
