@@ -47,7 +47,12 @@ def editGet(get):
   # дома 4-8 +-> 4/8
   get['q'] = re.sub(u'([\s,.])(\d+)-(\d+)([\s,.])', r'\1\2-\3|\2/\3\4', get['q'])
 
-
+  
+  # for house
+  get['q'] = re.sub(u'([Кк]орпус) (\w+)', r'\1_\2', get['q'])
+  get['q'] = re.sub(u'([Сс]троение) (\w+)', r'\1_\2', get['q'])
+  get['q'] = re.sub(u'([Лл]итера) (\w+)', r'\1_\2', get['q'])
+  
 
   get['q'] = get['q'].replace("-","`")
   get['q'] = get['q'].replace("/","\/")
@@ -93,13 +98,48 @@ def search(get, output, sphinx):
   output['test_big_len'] = {}
   for n in range(len(res['words'])-1, 0, -1):
     q = '"' + get['q'] + '"/' + str(n)
-    output['test_big_len'][n] = q
+    output['test_big_len'][n] = {}
+    output['test_big_len'][n]['q'] = q
     res1 = sphinx.Query(q, get['sphinxindex'])
+    output['test_big_len'][n]['ifresult'] = ifresult(res1, output, sphinx)
     if ifresult(res1, output, sphinx) >= 2:
+      if ifresult(res1, output, sphinx) == 2 and res1['matches'][0]['attrs']['addr_type_id'] >= 35:
+        return ifReturnHouse(res1, get, output, sphinx, n, len(res['words']))
       return res1
 
 
   return res
+
+# обработка если нет дома
+def ifReturnHouse(res1, get, output, sphinx, pos, words):
+	output['test-ifRH']={}
+	for n in range(pos-1, 0, -1):
+		q = '"' + get['q'] + '"/' + str(n)
+		output['test-ifRH'][n]={}
+		output['test-ifRH'][n]['q']=q
+		res2 = sphinx.Query(q, get['sphinxindex'])
+		if ifresult(res2, output, sphinx) == 2 and res2['matches'][0]['attrs']['addr_type_id'] < 35:
+			output['test-ifRH'][n]['res2']=res2
+			sphinx.ResetOnlyFilter()
+			sphinx.SetFilter('country_id', [res2['matches'][0]['attrs']['country_id']])
+			sphinx.SetFilter('region_id', [res2['matches'][0]['attrs']['region_id']])
+			sphinx.SetFilter('district_id', [res2['matches'][0]['attrs']['district_id']])
+			sphinx.SetFilter('city_id', [res2['matches'][0]['attrs']['city_id']])
+			sphinx.SetFilter('village_id', [res2['matches'][0]['attrs']['village_id']])
+			sphinx.SetFilter('street_id', [res2['matches'][0]['attrs']['street_id']])
+			
+			sphinx.SetFilter(res2['matches'][0]['attrs']['addr_type']+'_id', [res2['matches'][0]['id']])
+			
+			for n2 in range(words-1, 0, -1):
+				q2 = '"' + get['q'] + '"/' + str(n2)
+				output['test-ifRH'][n][n2]={}
+				output['test-ifRH'][n][n2]['q2']=q2
+				res3 = sphinx.Query(q2, get['sphinxindex'])
+				output['test-ifRH'][n][n2]['res3']=res3
+				if ifresult(res3, output, sphinx) >= 2:
+					output['test-ifRH'][n][n2]['res3_']=1
+					return res3
+	return res1
 
 # вывод результатов
 def report(res, output, get, sphinx):
