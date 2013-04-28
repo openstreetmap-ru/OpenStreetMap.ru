@@ -140,11 +140,11 @@ div.leaflet-top {
     }
 
 a.leaflet-control-distance-edit {
-    background-image: url("/img/mobile/ruller-edit.png") !important;
+    background-image: url("https://dl.dropboxusercontent.com/u/8010189/trash/ruller-edit.png") !important;
 }
 
 a.leaflet-control-distance-delete {
-    background-image: url("/img/mobile/ruller-delete.png") !important;
+    background-image: url("https://dl.dropboxusercontent.com/u/8010189/trash/ruller-delete.png") !important;
     }
 
 /*Менюшка*/
@@ -190,7 +190,7 @@ a.leaflet-control-distance-delete {
 div.current {
     min-height: 4cm !important;
     color:transparent !important;
-    background-image: url("/img/mobile/logo_s.png") !important;
+    background-image: url("https://dl.dropboxusercontent.com/u/8010189/trash/logo_s.png") !important;
     background-repeat: no-repeat !important;
     background-position: center !important;
 }
