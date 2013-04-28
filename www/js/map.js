@@ -29,7 +29,7 @@ $(function() {
 
   osm.initLayers();
 
-  //some pice of paranoia
+  //some piece of paranoia
   baseLayer = osm.layers[osm.layerHash2name[layer]] || osm.layers.layerMapnik;
 
   osm.map = new L.Map('map', {zoomControl: false, center: center, zoom: zoom, layers: [baseLayer]});

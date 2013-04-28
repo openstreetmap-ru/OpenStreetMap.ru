@@ -27,7 +27,7 @@ include_once ($_URL[0].'.php');
 <head>
   <title>OpenStreetMap Россия — <?=$current_menu['text'] ?></title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width; initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link media="screen and (max-width: 480px)" rel="stylesheet" href="/css/mobile.css" type="text/css">
   <link media="screen and (min-width: 480px)" rel="stylesheet" href="/css/main.css" type="text/css">
   <link rel="stylesheet" href="/css/print.css" type="text/css" media="print" />
@@ -48,13 +48,7 @@ include_once ($_URL[0].'.php');
   <div id="menupan">
     <div id="menuback"></div>
     <table id="tablemenu"><tr>
-      <td><? show_menu($pages_menu, $_URL[0]); ?></td>
-      <td width="100%"></td>
-      <td>
-        <table id="mainmenupage"><tr>
-          <? print($page_topmenu); ?>
-        </tr></table>
-      </td>
+      <td><? show_menu($pages_menu, $_URL[0]); ?></td>      
     </tr></table>
   </div>
 

@@ -240,3 +240,6 @@ input[type="submit"]:active, button:active {
   text-decoration: underline;
 }
 
+#mainmenupage-osb h1 {
+  color: #DB4C39 !important;
+}

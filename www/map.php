@@ -34,10 +34,6 @@ $page_head = <<<PHP_HEAD
   <link rel="stylesheet" href="/css/jstree/jstree.css" />
 PHP_HEAD;
 
-$page_topmenu = <<<PHP_TOPMENU
-	<td id="mainmenupage-osb"><a href="/" title="Достаточно двойного клика мышью по месту и указать неточность" onclick="osm.osbclickon(this); return false;"><div>Указать неточность на карте</div></a></td>
-PHP_TOPMENU;
-
 $page_topbar = <<<PHP_TOPBAR
       <!--<div id="newstop">
         <a href="http://gisconf.ru/ru/" title="Открытые ГИС!">
@@ -122,7 +118,6 @@ $page_content = <<<PHP_CONTENT
             </ul>
           </div>
         </div>
-        
         <div id="leftothers" class="leftgroup leftlink">
           <h1>Другие инструменты</h1>
           <div class="leftcontent" style="display: none;">
@@ -130,6 +125,14 @@ $page_content = <<<PHP_CONTENT
               <li><a onclick="osm.markers.addPoint();" href='#'>Поставить маркер</a></li>
               <li><a id="EditJOSM" href='#'>Редактировать (в JOSM)</a></li>
             </ul>
+          </div>
+        </div>
+        <div id="mainmenupage-osb" class="leftgroup leftlink">
+          <h1 href="/" title="Достаточно двойного клика мышью по месту и указать неточность" onclick="osm.osbclickon(this); return false;">
+            <div>Указать неточность на карте</div>
+          </h1>
+          <div class="leftcontent" style="display: none;">
+            Чтобы создать новое сообщение о неточности, кликните в нужном месте на карте и введите описание, например «Тут продуктовый магазин "Еда"» или «Тут знак "уступи дорогу"». Спасибо за участие.
           </div>
         </div>
 
