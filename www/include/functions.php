@@ -24,7 +24,7 @@ function err404($code=0) {
 
 function err500() {
   header("Status: 500 Internal Server Error");
-  echo 'Ошибка на сервере.';
+  include_once '500.php';
   exit();
 }
 
