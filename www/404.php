@@ -7,7 +7,7 @@
 </head>
 <body>
   <div>
-    <img src="https://dl.dropboxusercontent.com/u/8010189/trash/404.png" alt="Error 404: page not found" style="position:relative; left:50%; margin-left:-75px;">
+    <img src="/img/err404.png" alt="Error 404: page not found" style="position:relative; left:50%; margin-left:-75px;">
     <div style="font-family:'Helvetica Neue', Arial, Helvetica, sans-serif; font-size:1em; color:gray; text-decoration:none; text-align:center; padding:0em;">
       <p>Упс! Кажется такой страницы не существует.<br>Попробуйте начать с
         <a href="/">главной страницы</a>
