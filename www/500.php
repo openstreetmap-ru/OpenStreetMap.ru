@@ -1,0 +1,17 @@
+<? header("HTTP/1.1 500 Internal Server Error"); ?>
+<html>
+<head>
+<title>Ошибка 500: Ошибка сервера</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div>
+    <img src="https://dl.dropboxusercontent.com/u/8010189/trash/500.png" alt="Error 500 Internal Server Error" style="position:relative; left:50%; margin-left:-75px;">
+    <div style="font-family:'Helvetica Neue', Arial, Helvetica, sans-serif; font-size:1em; color:gray; text-decoration:none; text-align:center; padding:0em;">
+      <p>Ой! У нас тут какая-то ошибка на сервере.<br>Сходите пока на 
+        <a href="http://www.openstreetmap.org/">OpenStreetMap.org</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>
