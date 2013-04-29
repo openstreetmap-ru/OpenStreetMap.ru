@@ -1,7 +1,7 @@
 <?
 
 function show_menu($pages, $current = '') {
-  echo '<table id="mainmenu"><tr>';
+  echo '<table id="mainmenu" onmouseover=""><tr>';
   $menu = array();
   foreach  ($pages as $page) {
     if ($page['name'] == 'map') {
