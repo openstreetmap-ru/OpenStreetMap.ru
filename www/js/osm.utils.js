@@ -65,7 +65,7 @@ osm.leftpan.refsizetab = function() {
   height=$("#leftpantab")[0].offsetHeight-(miHeight*mi.length+dykH);
   if (height < 100)
     height = 100;
-  $('#leftpan .leftgroup .leftcontent').css('height', height-12+'px');
+  $('#leftpan .leftgroup .leftcontent').css('height', height+12+'px');
 }
 
 osm.leftpan.toggle = function(on, isClick) {
