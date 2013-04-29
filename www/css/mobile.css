@@ -227,3 +227,34 @@ leaflet-popup-content {
     background: white !important;
     border-width: 0px !important;    
 }
+
+
+/*Раздел About*/
+
+.menu-img,
+#menu-osm-dyk {
+    display: none !important;
+}
+
+#left,
+#center {
+    position: relative !important;
+    left: 0cm !important;
+    min-width: 100% !important;
+}
+
+#menu {
+    padding-left: 0rem !important;
+}
+
+.on {
+    padding: 2em;
+}
+
+p,
+li,
+#menu a {
+    font-size: 1.5rem !important;
+    font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
