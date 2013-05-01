@@ -1,8 +1,6 @@
 <?
 $external_head =<<< EXTERNAL_HEAD
-  <script type="text/javascript">
 
-  </script>
 EXTERNAL_HEAD;
 
 
