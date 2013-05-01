@@ -211,6 +211,8 @@ padding-bottom: 4px;
   min-width: 80px;
   vertical-align: top;
 }
+
+/*
 a.wheremi div.wheremi {
   background-image: url("/img/wheremi.png");
   height: 28px;
@@ -224,6 +226,8 @@ a.wheremi:hover div.wheremi {
   height: 28px;
   width: 30px;
 }
+*/
+
 
 /* search */
 #leftsearch  .leftcontent li {

@@ -28,7 +28,6 @@ $page_head = <<<PHP_HEAD
   <script type="text/javascript" src="/js/jquery.jstree.js"></script>
   <script type="text/javascript" src="/js/poi.js"></script>
   <script type="text/javascript" src="/js/autocomplete.js"></script>
-  <script type="text/javascript" src="/js/screenfull.min.js"></script>
 
   <link rel="stylesheet" href="css/page.map.css" />
   <link rel="stylesheet" href="/css/osb.css" />
@@ -41,18 +40,15 @@ $page_topbar = <<<PHP_TOPBAR
           <img src="/img/news/OpenGISavatar5eof.png" style="height: 100%;">
         </a>
       </div>-->
-      <div id="searchpan" class="yui3-skin-sam">
-        <form id="search" method="get" action="/" onsubmit="return osm.ui.searchsubmit();"><table style="width:100%;"><tr>
-          <td style="width:1px;">
-            <a href="#" onClick="osm.ui.whereima(); return false;" class="wheremi" title="Где я?"><div class="wheremi">&nbsp;</div></a>
-          </td>
-          <td>
-            <input id="qsearch" autocomplete="off" type="search" name="q" />
-          </td>
-          <td style="width:1px;">
-            <input type="submit" value="Найти&nbsp;&raquo;" />
-          </td>
-        </tr></table></form>
+
+      <div id="search_container">
+        <a id="findme" href="#" onClick="osm.ui.whereima(); return false;" class="button wheremi" title="Где я?">
+          <img src="https://dl.dropboxusercontent.com/u/8010189/trash/whereami.svg">
+        </a>
+        <form id="search" method="get" action="/" onsubmit="return osm.ui.searchsubmit();">
+          <input type="search" id="qsearch" class="field" name="q" autocomplete="off" autofocus="">
+          <input type="submit" id="search_button" class="button" value="Найти">
+        </form>
       </div>
 PHP_TOPBAR;
 
@@ -148,13 +144,6 @@ $page_content = <<<PHP_CONTENT
     <div id="mappan">
       <div id="map"></div>
       <div id="htpbutton" class="map-feature-button">&uarr;</div>
-      <script>
-        $(function() {
-          $('#htpbutton').click(function() {
-            screenfull.toggle($('#container')[0]);
-          });
-        });
-      </script>
     </div>
   </div>
   <iframe name="hiddenIframe" id="hiddenIframe" style="display: none;"></iframe>
