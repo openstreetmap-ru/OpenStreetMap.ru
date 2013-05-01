@@ -43,7 +43,7 @@ $page_topbar = <<<PHP_TOPBAR
 
       <div id="search_container">
         <a id="findme" href="#" onClick="osm.ui.whereima(); return false;" class="button wheremi" title="Где я?">
-          <img src="https://dl.dropboxusercontent.com/u/8010189/trash/whereami.svg">
+          <img src="/img/whereami.svg">
         </a>
         <form id="search" method="get" action="/" onsubmit="return osm.ui.searchsubmit();">
           <input type="search" id="qsearch" class="field" name="q" autocomplete="off" autofocus="">
