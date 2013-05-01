@@ -28,7 +28,6 @@ $page_head = <<<PHP_HEAD
   <script type="text/javascript" src="/js/jquery.jstree.js"></script>
   <script type="text/javascript" src="/js/poi.js"></script>
   <script type="text/javascript" src="/js/autocomplete.js"></script>
-  <script type="text/javascript" src="/js/screenfull.min.js"></script>
 
   <link rel="stylesheet" href="css/page.map.css" />
   <link rel="stylesheet" href="/css/osb.css" />
@@ -148,13 +147,6 @@ $page_content = <<<PHP_CONTENT
     <div id="mappan">
       <div id="map"></div>
       <div id="htpbutton" class="map-feature-button">&uarr;</div>
-      <script>
-        $(function() {
-          $('#htpbutton').click(function() {
-            screenfull.toggle($('#container')[0]);
-          });
-        });
-      </script>
     </div>
   </div>
   <iframe name="hiddenIframe" id="hiddenIframe" style="display: none;"></iframe>
