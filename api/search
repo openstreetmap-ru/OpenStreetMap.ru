@@ -49,9 +49,14 @@ def editGet(get):
 
   
   # for house
-  get['q'] = re.sub(u'([Кк]орпус) (\w+)', r'\1_\2', get['q'])
-  get['q'] = re.sub(u'([Сс]троение) (\w+)', r'\1_\2', get['q'])
-  get['q'] = re.sub(u'([Лл]итера) (\w+)', r'\1_\2', get['q'])
+  get['q'] = re.sub(u'([Кк]орпус) (\d+)', r'\1_\2', get['q'])
+  get['q'] = re.sub(u'([Сс]троение) (\d+)', r'\1_\2', get['q'])
+  get['q'] = re.sub(u'([Лл]итер) ([а-яА-ЯёЁ]+)', r'\1_\2', get['q'])
+  # short house
+  get['q'] = re.sub(u'([Кк])(\d+)', ur' корпус_\2 ', get['q'])
+  get['q'] = re.sub(u'([Сс])(\d+)', ur' строение_\2 ', get['q'])
+  get['q'] = re.sub(u'(\d)([Лл])([а-яА-ЯёЁ]+)', ur'\1 литер_\3 ', get['q'])
+  
   
 
   get['q'] = get['q'].replace("-","`")
@@ -221,6 +226,8 @@ def main():
 
 
   editGet(get)
+  output['test_q'] = get['q']
+
 
   res = search(get, output, sphinx)
 
