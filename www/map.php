@@ -46,7 +46,9 @@ $page_topbar = <<<PHP_TOPBAR
           <img src="/img/whereami.svg">
         </a>
         <form id="search" method="get" action="/" onsubmit="return osm.ui.searchsubmit();">
-          <input type="search" id="qsearch" class="field" name="q" autocomplete="off" autofocus="">
+          <div id="fucking_ff">
+            <input type="search" id="qsearch" class="field" name="q" autocomplete="off" autofocus="">
+          </div>
           <input type="submit" id="search_button" class="button" value="Найти">
         </form>
       </div>
@@ -54,6 +56,8 @@ PHP_TOPBAR;
 
 $page_content = <<<PHP_CONTENT
   <div id="downpan">
+    <input type="checkbox" id="ltoggle" class="button">
+    <label for="ltoggle" id="ltoggle_label" class="button"></label>  
     <div id="leftpan">
       <div id="leftpantab">
         <div id="leftpoi" class="leftgroup">
@@ -139,7 +143,6 @@ $page_content = <<<PHP_CONTENT
           <p></p>
         </div>
       </div>
-      <div id="toggler" onClick="osm.leftpan.toggle()"></div>
     </div>
     <div id="mappan">
       <div id="map"></div>

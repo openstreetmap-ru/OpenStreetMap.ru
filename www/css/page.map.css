@@ -1,11 +1,12 @@
 #leftpan {
   bottom: 0;
-  border-top: 1px solid #ddd;
   left: 0;
   overflow: auto;
   position: absolute;
   top: 0;
-  width: 327px;
+  width: 300px;
+  transition: width 800ms;
+  background-color: white;
   z-index: 3;
 }
 .left-off #leftpan {
@@ -138,7 +139,7 @@ padding-bottom: 4px;
 #mappan {
   top: 0;
   bottom: 0;
-  left: 327px;
+  left: 0px;
   right: 0;
   position: absolute;
 /*  -webkit-user-select: none;
@@ -456,4 +457,44 @@ div.poi_popup p.poi_header .poi_name{
 }
 div.poi_popup p.poi_header .poi_value{
   font-size: 1.2em;
+}
+
+.leaflet-left {
+  left: 320px;
+  transition: left 800ms;
+}
+
+
+
+/*Testing pure css togglers*/
+
+#ltoggle {
+  visibility:hidden;
+}
+
+#ltoggle_label {
+  position: absolute;
+  width: 13px;
+  height: 100%;
+  left: 300px;
+  z-index: 1;
+  transition: left 800ms;
+  padding: 0;
+  border: 0;
+  background: url("../img/arrow.png") no-repeat 0 center;
+  background-color: rgba(255, 255, 255, 1);
+}
+
+#ltoggle:checked ~ #leftpan {
+  width:0px;
+}
+
+#ltoggle:checked ~ #ltoggle_label {
+  left:0px;
+  background: url("../img/arrow.png") no-repeat -12px center;
+  background-color: rgba(255, 255, 255, 1);
+}
+
+#ltoggle:checked ~ div .leaflet-left {
+  left:20px;
 }
