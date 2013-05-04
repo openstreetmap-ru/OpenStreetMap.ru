@@ -1,7 +1,7 @@
 <?
 
 function show_menu($pages, $current = '') {
-  echo '<table id="mainmenu" onmouseover=""><tr>';
+  echo '<ul>';
   $menu = array();
   foreach  ($pages as $page) {
     if ($page['name'] == 'map') {
@@ -10,10 +10,10 @@ function show_menu($pages, $current = '') {
     else {
       $page['name2'] = $page['name'];
     }
-    $menu[] = ($current == $page['name'] ? '<td><div class="current">'.$page['text'].'</div></td>' : '<td><a href="/'.$page['name2'].'"><div>'.$page['text'].'</div></a></td>');
+    $menu[] = ($current == $page['name'] ? '<li id="current"><span>'.$page['text'].'</span></li>' : '<li><a href="/'.$page['name2'].'">'.$page['text'].'</a></li>');
   }
   echo implode($menu);
-  echo '</tr></table>';
+  echo '</ul>';
 }
 
 function err404($code=0) {

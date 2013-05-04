@@ -6,21 +6,69 @@ body {
     margin:0px;
 }
 
+/*Сброс стандартных стилей поискового поля*/
+input[type=search] { -webkit-appearance: none; }
+
 /*Прячем всё лишнее*/
     
 #logo,
+#toppan,
 #leftpan,
 #htpbutton,
 #mainmenupage,
+#ltoggle_label,
 .leaflet-control-scale,
 .leaflet-control-inJOSM,
 .leaflet-control-zoom,
-.leaflet-bottom  {
-    display: none !important;
+.leaflet-control-distance,
+.leaflet-bottom { display: none !important; }
+
+/*Менюшка*/
+   
+nav ul {
+    display:none;
+    padding: 0 !important;
+    height:100%;
 }
 
-/*Основные стили*/ 
-   
+nav label {
+    position:relative;
+    display:block;
+    width:100%;
+    min-height:2.25em;
+    padding:0;
+    font-size:1.1em;
+    margin:0;
+    border: .15em solid rgba(60, 60, 60, .2);
+    background-color: gray;
+}
+
+nav label:after {
+    position: absolute;
+    right: .25em;  
+    top: 0; 
+    content:"\2261";
+    font-size:1.8em;
+}
+
+nav input[type=checkbox]:checked ~ label:after {color: #222;}
+nav input[type=checkbox]:checked ~ ul       {display: block;}
+
+nav input[type=checkbox]:checked ~ ul > li {
+    width:100%;
+    opacity:.8;
+    text-align:left;
+}
+
+nav input[type=checkbox]:checked ~ ul > li:after {
+    position:absolute;
+    right:.25em;
+    content:"\203A";
+    font: bold 1.4em sans-serif;
+}
+
+/**/ 
+
 #mappan {
     left: 0cm !important;
     top: 1.5cm !important;
@@ -72,12 +120,6 @@ div.wheremi {
     border-color: gray !important;
 }
 
-/*Убираем стандартные стили поискового поля*/
-
-input[type=search] {
-  -webkit-appearance: none;
-}
-
 /*Кнопка слоёв*/
 
 .leaflet-control-layers {
@@ -87,7 +129,7 @@ input[type=search] {
     border-radius: 0px !important;
     background: white !important;
     border-width: 0px !important;
-    }
+}
 
 div.leaflet-top {
     position: absolute;
@@ -99,7 +141,7 @@ div.leaflet-top {
 .ui-autocomplete,
 .ui-autocomplete a {
     border-radius: 0px !important;
-    z-index: 1001 !important;   
+    z-index: 1002 !important;   
 }
 
 .ui-autocomplete {
@@ -109,8 +151,6 @@ div.leaflet-top {
     background-image: none !important;   
     border-width: 0px !important;
 }
-
-
 
 .ui-autocomplete a:focus,
 .ui-autocomplete a:visited,
@@ -123,138 +163,16 @@ div.leaflet-top {
 
 /*Меняем иконки*/
 
-.wheremi {
-    background-image: url("/img/mobile/whereami.png") !important;
-    color: transparent;
-    }
+.wheremi,
+#searchpan input { color: transparent; }
 
-#searchpan input[type="submit"] {
-    background-image: url("/img/mobile/search.png");
-    color: transparent;
-
-    }
-
-.leaflet-control-layers a.leaflet-control-layers-toggle {
-    background-image: url("/img/mobile/layers.png") !important;
-
-    }
-
-a.leaflet-control-distance-edit {
-    background-image: url("/img/mobile/ruller-edit.png") !important;
-}
-
-a.leaflet-control-distance-delete {
-    background-image: url("/img/mobile/ruller-delete.png") !important;
-    }
-
-/*Менюшка*/
-
-#menupan {
-    height: 0cm;
-}
-
-#mainmenu {
-    position: absolute;
-    width: 100%;
-    height: auto;
-    top: 1.5cm;
-    left: 0cm;
-    z-index: 10002; /*Удалить после отладки!!!!!!!!!!!!!!!*/
-    background-color: white;
-    font-size: 22px !important;
-    font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
-}
-
-#mainmenu:before {
-    content: "";
-    position: absolute;
-    top: -1.2cm;
-    right: 0.3cm;
-    width: 0.95cm !important;
-    height: 0.95cm !important;
-    border-style: solid;
-    border-width: 1px !important;
-    border-color: gray !important;
-    background-image: url("/img/mobile/menu.png") !important;
-}
-#mainmenu * {
-    display:none;
-}
-
-#mainmenu:hover * {
-    display:block;
-    height: 100% !important;
-    top:0cm;
-}
-
-div.current {
-    min-height: 4cm !important;
-    color:transparent !important;
-    background-image: url("/img/mobile/logo_s.png") !important;
-    background-repeat: no-repeat !important;
-    background-position: center !important;
-}
-
-#mainmenu a {
-    text-align: center;
-    text-decoration: none;
-    color: gray;
-    padding: 1cm;
-}
-
-/*Шрифты покрупнее*/
-
-.leaflet-control-layers {
-    font-size: 16px !important;
-}
-
-/*OSB*/
-
-leaflet-popup-content {
-    width:100% !important;
-}
-
-.leaflet-popup-content-wrapper {
-   border-radius: 0px !important;    
-}
+.wheremi                            { background-image: url("/img/mobile/whereami.png") !important; }
+#searchpan input[type="submit"]     { background-image: url("/img/mobile/search.png"); }
+a.leaflet-control-distance-edit     { background-image: url("/img/mobile/ruller-edit.png") !important; }
+a.leaflet-control-distance-delete   { background-image: url("/img/mobile/ruller-delete.png") !important; }
+.leaflet-control-layers a.leaflet-control-layers-toggle { background-image: url("/img/mobile/layers.png") !important; }
 
 
-.leaflet-control-distance {
-    min-width: 1cm;
-    min-height: 1cm;
-    margin: 0.3cm !important;
-    border-radius: 0px !important;
-    background: white !important;
-    border-width: 0px !important;    
-}
 
 
-/*Раздел About*/
-
-.menu-img,
-#menu-osm-dyk {
-    display: none !important;
-}
-
-#left,
-#center {
-    position: relative !important;
-    left: 0cm !important;
-    min-width: 100% !important;
-}
-
-#menu {
-    padding-left: 0rem !important;
-}
-
-.on {
-    padding: 2em;
-}
-
-p,
-li,
-#menu a {
-    font-size: 1.5rem !important;
-    font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
-}
 

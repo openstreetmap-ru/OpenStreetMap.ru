@@ -1,40 +1,79 @@
-/*
- * Layout definitions
- */
+/*Общий сброс*/
 
 * {
   padding: 0;
   margin: 0;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
+html,
 body {
-  font-family: arial,sans-serif;
+  width: 100%;
+  height: 100%;
   font-size: 13px;
-  /*overflow: hidden;*/
+  font-family: arial,sans-serif;
 }
 
-table {
-  border-spacing: 0;
+img { border: none; }
+input, textarea, form:active         { outline: none; }
+aside, nav, footer, header, section { display: block; }
+
+input {
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
 }
-img {
-  border: none;
+
+/*Основные параметры*/
+/*Кнопки*/
+
+.button {
+  border: 1px solid white;
+  font: normal 12pt Tahoma, sans-serif;
+  text-align: center;
+  color: #fff;
+  padding: 5px;
 }
+
+.button:hover {
+  border: 1px solid #eee;
+  outline: 4px solid #eee;
+}
+
+.button:active { border: 1px solid #white; }
+
+
+/*Поля*/
+
+.field {
+  border: 1px solid #999;
+  font: normal 16pt Tahoma, sans-serif;
+  line-height: 24px;
+  color: #000;
+}
+
+.field:hover {
+  border: 1px solid #999;
+  outline: 4px solid #eee;
+}
+
+.field:focus {
+  border: 1px solid #999;
+  outline: 4px solid #eee;
+}
+
+input[type=checkbox].toggle { display: none; }
+
+/*Резерв под меню*/
 
 #toppan {
-  height: 90px;
-  /*overflow: hidden;*/
   position: absolute;
-  top: 0;
   width: 100%;
-  -webkit-transition: all 0.1s ease;
-  -moz-transition: all 0.1s ease;
-  -o-transition: all 0.1s ease;
-  transition: all 0.1s ease;
+  height: 90px;
   box-shadow: rgba(138, 138, 138, 0.42) 0px 9px 6px -4px;
   z-index: 1;
 }
-
-.htp #toppan { top: -90px; }
 
 #content {
   bottom: 0;
@@ -42,20 +81,7 @@ img {
   position: absolute;
   right: 0;
   top: 90px;
-  -webkit-transition: all 0.1s ease;
-  -moz-transition: all 0.1s ease;
-  -o-transition: all 0.1s ease;
-  transition: all 0.1s ease;
 }
-
-.htp #content { top: 9px; }
-
-
-/*
- * Style definitions
- */
-
-
 
 #colorline {
   height: 4px;
@@ -65,20 +91,9 @@ img {
 }
 
 #logo {
-  left: 22px;
+  left: 20px;
   top: 30px;
   position: absolute;
-  width: 288px;
-  height: 49px;
-  z-index: 1;
-  border: medium none;
-}
-
-#logoframe img#logo {
-  left: 0;
-  top: 0;
-  background-color: #EFEFEF;
-  opacity: 0.8;
 }
 
 #topbar {
@@ -86,267 +101,13 @@ img {
   left: 0;
   right: 0;
   position: absolute;
-  1padding: 0 25px 0 325px;
-}
-
-#menupan {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -o-user-select: none;
-  user-select: none;
-  color: #aaa;
-  font-size: 10pt;
-  font-family: Tahoma,sans-serif;
-  left: 0;
-  right: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: 10;
-}
-#menupan #menuback {
-  background: #333333;
-  height: 30px;
-  width: 100%;
-  -webkit-transition: all 0.1s ease;
-  -moz-transition: all 0.1s ease;
-  -o-transition: all 0.1s ease;
-  transition: all 0.1s ease;
-}
-.htp #menupan #menuback {
-  height: 9px;
-}
-#menupan #tablemenu {
-  margin: 0 22px;
-  position: absolute;
-  top: 0;
-}
-#menupan #mainmenu {
-  top: 0;
-}
-#menupan #mainmenu div, #menupan #mainmenupage div {
-  border-bottom: 3px solid #333333;
-  cursor: pointer;
-  height: 22px;
-  width: 140px;
-  text-align: center;
-  overflow: hidden;
-}
-#menupan #mainmenu div.current{
-  cursor: default;
-}
-.htp #menupan #mainmenu div,.htp #menupan #mainmenupage div {
-  border-bottom: 0 none;
-  height: 4px;
-}
-.htp #menupan #mainmenu div:hover, .htp #menupan #mainmenupage div:hover {
-  height: 22px;
-}
-#menupan a {
-  color: #aaaaaa;
-  text-decoration: none;
-  outline: none;
-}
-#menupan a:hover, #menupan a:active, #menupan a.on {
-  color: #ffffff;
-  outline: none;
-}
-#menupan td {
-  vertical-align: top;
-}
-#menupan td:nth-child(1) div { border-top: 5px solid #99bd1b; }
-#menupan td:nth-child(2) div { border-top: 5px solid #f58720; }
-#menupan td:nth-child(3) div { border-top: 5px solid #db4c39; }
-#menupan td:nth-child(4) div { border-top: 5px solid #db4c39; }
-#menupan td:nth-child(5) div { border-top: 5px solid #db4c39; }
-#menupan td:nth-child(6) div { border-top: 5px solid #faaa87; }
-#menupan td:nth-child(7) div { border-top: 5px solid #4a8af5; }
-#menupan td:nth-child(1) div:hover, #menupan td:nth-child(1) div.current { background: #99bd1b; }
-#menupan td:nth-child(2) div:hover, #menupan td:nth-child(2) div.current { background: #f58720; }
-#menupan td:nth-child(3) div:hover, #menupan td:nth-child(3) div.current { background: #db4c39; }
-#menupan td:nth-child(4) div:hover, #menupan td:nth-child(4) div.current { background: #db4c39; }
-#menupan td:nth-child(5) div:hover, #menupan td:nth-child(5) div.current { background: #db4c39; }
-#menupan td:nth-child(6) div:hover, #menupan td:nth-child(6) div.current { background: #faaa87; }
-#menupan td:nth-child(7) div:hover, #menupan td:nth-child(7) div.current { background: #4a8af5; }
-
-#menupan #mainmenupage td#mainmenupage-osb div {
-  width: 220px;
-  border-top: 5px solid #b6253b;
-}
-#menupan #mainmenupage td#mainmenupage-osb div:hover, #menupan #mainmenupage td#mainmenupage-osb a.on div { background: #b6253b; }
-
-
-#loginpan {
-  color: #aaa;
-  font-size: 12px;
-  left: 110px;
-  position: absolute;
-  top: 70px;
-}
-#loginpan ul {
-  list-style: none;
-}
-#loginpan li {
-  display: inline;
-}
-#loginpan a {
-  color: #00aa00;
-}
-#loginpan a:hover {
-  color: #ff2222;
-}
-.current {
-  color: #ffffff;
-}
-.pseudolink {
-  color: #3399DD;
-  cursor: pointer;
-  text-decoration: none;
-}
-.pseudolink:hover {
-  text-decoration: underline;
-}
-
-#mainmenupage-osb h1 {
-  color: #DB4C39 !important;
-}
-
-
-/*Test section*/
-
-/*Сброс*/
-
-input, textarea {
-  outline: none;
-}
-
-form:active {
-  outline: 0;
-}
-
-input {
-    box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    -webkit-box-sizing: content-box;
-}
-
-/*штука полезная, позже включу обратно*/
-input[type="search"]::-webkit-search-cancel-button {
-  -webkit-appearance: none;
-}
-
-/*Кнопки*/
-
-.button {
-  border:1px solid white;
-  font: normal 12pt Tahoma, sans-serif;
-  text-align: center;
-  color:#fff;
-  padding:5px;
-}
-
-.button:hover {
-  border:1px solid #eee;
-  outline:4px solid #eee;
-}
-
-.button:active {
-  border:1px solid #white;
-}
-
-
-/*Поля*/
-
-.field {
-  border:1px solid #999;
-  font: normal 16pt Tahoma, sans-serif;
-  line-height:24px;
-  color:#000;
-}
-
-.field:hover {
-  border:1px solid #999;
-  outline:4px solid #eee;
-}
-
-.field:focus {
-  border:1px solid #999;
-  outline:4px solid #eee;
-}
-
-/*Поисковая строка*/
-
-#search_container {
-  left:300px;
-  right:20px;
-  top:-5px;
-  height: 40px;
-  margin: 0px 25px;
-  position: absolute;
-  min-width: 500px;
-  max-width: 750px;
-}
-
-#findme{
-  border:1px solid #999;
-  position:absolute;
-  top:4px;
-  left:4px;
-  width:32px;
-  height:32px;
-  padding:0px;
-}
-
-#search {
-  position:absolute;
-  display: block;
-  top:0px;
-  left:40px;
-  right: 20px;
-  height:40px;
-  float: left;
-  width: auto;
-}
-
-#fucking_ff {
-  position: absolute;
-  left: 0;
-  right: 150px;
-  width: auto;
-  height: 100%;
-}
-  
-#qsearch {
-  position:absolute;
-  top:1px;
-  width: 100%;
-  height: 32px;
-  margin: 3px;
-  background: url("/img/search.svg") 98% center no-repeat;
-}
-
-#search_button {
-  position:absolute;
-  top:3px;
-  left:auto;
-  right:20px;
-  width:100px;
-  height:24px;
-  background:#9b1;
-}
-
-
-/*Временная мера*/
-#search_container a {
-  border-radius: 0px !important;
-  box-shadow: none !important;
 }
 
 /*Доп. условия*/
 
 @media (max-width: 858px) {
-  #logo {display:none;}
-  #search_container{left:0px;}
-
+  #logo { display: none; }
+  #search_container { left: 0px !important; }
+}
 
 

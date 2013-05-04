@@ -23,16 +23,17 @@ include_once ('include/external.php');
 include_once ($_URL[0].'.php');
 ?>
 <!doctype html>
-<html>
+<html lang=ru>
 <head>
   <title>OpenStreetMap Россия — <?=$current_menu['text'] ?></title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link media="screen and (max-width: 480px)" rel="stylesheet" href="/css/mobile.css" type="text/css">
-  <link media="screen and (min-width: 480px)" rel="stylesheet" href="/css/main.css" type="text/css">
-  <link rel="stylesheet" href="/css/print.css" type="text/css" media="print" />
+  <meta charset=utf-8>
+  <meta name="viewport" content="initial-scale=1, width=device-width">
+  <meta name="description" content="Наиболее актуальная карта, которую рисуют сами пользователи. Попробуйте - вам понравится!"> <!--Разделить формирование meta description для разных страниц-->
+  <link media="print" rel="stylesheet" href="/css/print.css" />
+  <link media="screen" rel="stylesheet" href="/css/main.css" />
+  <link media="screen" rel="stylesheet" href="/css/menu.css" />
+  <link media="screen and (max-width: 480px)" rel="stylesheet" href="/css/mobile.css" />
   <link rel="search" href="/search.xml" type="application/opensearchdescription+xml" title="OpenStreetMap.Ru" />
-  <script type="text/javascript" src="/js/main.js"></script>
   <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="stylesheet" href="http://yandex.st/jquery-ui/1.9.0/themes/base/jquery-ui.min.css" />
   <script src="http://yandex.st/jquery/1.8.2/jquery.min.js"></script>
@@ -45,27 +46,25 @@ include_once ($_URL[0].'.php');
   </script>
 </head>
 <body>
-  <div id="menupan">
-    <div id="menuback"></div>
-    <table id="tablemenu"><tr>
-      <td><? show_menu($pages_menu, $_URL[0]); ?></td>      
-    </tr></table>
-  </div>
-
-  <div id="toppan">
-    <a href="/">
-      <img src="<? print($page_logo); ?>" alt="OpenStreetMap.ru" id="logo">
-    </a>
-    <div id="topbar">
-      <? print($page_topbar); ?>
+  <header>
+    <nav role="navigation">
+      <input type="checkbox" id="mtoggle" class="toggle">
+      <label for="mtoggle" onclick></label>
+      <? show_menu($pages_menu, $_URL[0]); ?>
+    </nav>
+    <div id="toppan">
+      <a href="/">
+        <img src="<? print($page_logo); ?>" alt="OpenStreetMap.ru" id="logo">
+      </a>
+      <div id="topbar">
+        <? print($page_topbar); ?>
+      </div>
+      <div id="colorline" style="background:<?=$current_menu['color']?>;"></div>
     </div>
-    <div id="colorline" style="background:<?=$current_menu['color']?>;"></div>
-  </div>
-
-  <div id="content">
+  </header>
+  <div role="main" id="content">
     <? print($page_content); ?>
   </div>
-
   <? print($external_bodyend); ?>
 </body>
 </html>

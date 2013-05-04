@@ -2,40 +2,42 @@
 $page_logo = "/img/logo.png";
 
 $page_head = <<<PHP_HEAD
-  <link rel="stylesheet" href="/css/leaflet.css" />
+
+  <link rel="stylesheet" href="/css/leaflet.css">
   <script src="/js/leaflet.js"></script>
   <!--[if lte IE 8]><link rel="stylesheet" href="/css/leaflet.ie.css" /><![endif]-->
-  <script type="text/javascript" src="/js/osm.common.js"></script>
-  <script type="text/javascript" src="/js/osm.utils.js"></script>
-  <script type="text/javascript" src="/js/osm.utils.search.js"></script>
-  <script type="text/javascript" src="/js/osm.dyk.js"></script>
-  <script type="text/javascript" src="/js/map.js"></script>
-  <script type="text/javascript" src="/geo.php"></script>
-  <script type="text/javascript" src="/js/Control.Permalink.js"></script>
-  <script type="text/javascript" src="/js/Control.Scale.js"></script>
-  <script type="text/javascript" src="/js/Control.Distance.js"></script>
-  <script type="text/javascript" src="/js/Control.inJOSM.js"></script>
-  <script type="text/javascript" src="/js/Layer.TileLayer.Bing.js"></script>
-  <script type="text/javascript" src="/js/KML.js"></script>
-  <script type="text/javascript" src="/js/suncalc.js"></script>
-  <script type="text/javascript" src="/js/osmjs-validators-layer.js"></script>
-  <script type="text/javascript" src="/js/osmjs-validators-errors.js"></script>
-  <script type="text/javascript" src="/js/osmjs-weather-layer.js"></script>
-  <script type="text/javascript" src="/js/OpenStreetBugs.js"></script>
-  <script type="text/javascript" src="/js/markers.js"></script>
-  <script type="text/javascript" src="/js/validators.js"></script>
-  <script type="text/javascript" src="/js/wpc.js"></script>
-  <script type="text/javascript" src="/js/jquery.jstree.js"></script>
-  <script type="text/javascript" src="/js/poi.js"></script>
-  <script type="text/javascript" src="/js/autocomplete.js"></script>
+  <script src="/js/osm.common.js"></script>
+  <script src="/js/osm.utils.js"></script>
+  <script src="/js/osm.utils.search.js"></script>
+  <script src="/js/osm.dyk.js"></script>
+  <script src="/js/map.js"></script>
+  <script src="/geo.php"></script>
+  <script src="/js/Control.Permalink.js"></script>
+  <script src="/js/Control.Scale.js"></script>
+  <script src="/js/Control.Distance.js"></script>
+  <script src="/js/Control.inJOSM.js"></script>
+  <script src="/js/Layer.TileLayer.Bing.js"></script>
+  <script src="/js/KML.js"></script>
+  <script src="/js/suncalc.js"></script>
+  <script src="/js/osmjs-validators-layer.js"></script>
+  <script src="/js/osmjs-validators-errors.js"></script>
+  <script src="/js/osmjs-weather-layer.js"></script>
+  <script src="/js/OpenStreetBugs.js"></script>
+  <script src="/js/markers.js"></script>
+  <script src="/js/validators.js"></script>
+  <script src="/js/wpc.js"></script>
+  <script src="/js/jquery.jstree.js"></script>
+  <script src="/js/poi.js"></script>
+  <script src="/js/autocomplete.js"></script>
 
-  <link rel="stylesheet" href="css/page.map.css" />
+  <link rel="stylesheet" href="/css/page.map.css" />
   <link rel="stylesheet" href="/css/osb.css" />
+  <link rel="stylesheet" href="/css/leftpan.css" />
   <link rel="stylesheet" href="/css/jstree/jstree.css" />
 PHP_HEAD;
 
 $page_topbar = <<<PHP_TOPBAR
-      <!--<div id="newstop">
+      <!--<div id="breaking_news">
         <a href="http://gisconf.ru/ru/" title="Открытые ГИС!">
           <img src="/img/news/OpenGISavatar5eof.png" style="height: 100%;">
         </a>
@@ -45,9 +47,9 @@ $page_topbar = <<<PHP_TOPBAR
         <a id="findme" href="#" onClick="osm.ui.whereima(); return false;" class="button wheremi" title="Где я?">
           <img src="/img/whereami.svg">
         </a>
-        <form id="search" method="get" action="/" onsubmit="return osm.ui.searchsubmit();">
+        <form role="search" id="search" method="get" action="/" onsubmit="return osm.ui.searchsubmit();">
           <div id="fucking_ff">
-            <input type="search" id="qsearch" class="field" name="q" autocomplete="off" autofocus="">
+            <input type="search" id="qsearch" class="field" name="q" autocomplete="off" autofocus="" placeholder="Искать">
           </div>
           <input type="submit" id="search_button" class="button" value="Найти">
         </form>
@@ -57,7 +59,10 @@ PHP_TOPBAR;
 $page_content = <<<PHP_CONTENT
   <div id="downpan">
     <input type="checkbox" id="ltoggle" class="button">
-    <label for="ltoggle" id="ltoggle_label" class="button"></label>  
+    <label for="ltoggle" id="ltoggle_label" class="button toggle"></label>
+    <input type="checkbox" id="ttoggle" class="button">
+    <label for="ltoggle" id="ttoggle_label" class="button toggle map-feature-button">&uarr;</label>
+
     <div id="leftpan">
       <div id="leftpantab">
         <div id="leftpoi" class="leftgroup">
@@ -136,7 +141,6 @@ $page_content = <<<PHP_CONTENT
             Чтобы создать новое сообщение о неточности, кликните в нужном месте на карте и введите описание, например «Тут продуктовый магазин "Еда"» или «Тут знак "уступи дорогу"». Спасибо за участие.
           </div>
         </div>
-
         <div id="DidYouKnow" style="display: none;">
           <div class="head">Полезно знать</div>
           <div class="close"></div>
@@ -144,45 +148,48 @@ $page_content = <<<PHP_CONTENT
         </div>
       </div>
     </div>
+
     <div id="mappan">
       <div id="map"></div>
-      <div id="htpbutton" class="map-feature-button">&uarr;</div>
+      <div id="pers_maps">
+        <div id="pm_edit_popup" style="display: none;">
+          <table cellspacing="0" cellpadding="0" border="0" id="marker_popup_###">
+            <tr><td><input id="marker_name_###" type="text" value="Имя..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()"/></td></tr>
+            <tr><td><textarea id="marker_description_###" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()">Описание...</textarea></td></tr>
+            <tr><td class='colour-picker'>
+              <!-- <div class='colour-picker-button' style='background:{{bg}};color:{{text}}' onClick='$$$.toggleCheck({{i}});'>&#x2713;</div> - see markers.js for replacement -->
+            </td></tr>
+            <tr><td><a href="#" class="button" onClick="$$$.remove();return false">Удалить</a>
+            </td></tr>
+          </table>
+        </div>
+        <div id="pm_show_popup" style="display: none;">
+          <table cellspacing="0" cellpadding="0" border="0">
+          <tr><td><div class="marker-name">#name</div></td></tr>
+          <tr><td><div class="marker-description">#description</div></td></tr>
+          </table>
+        </div>
+        <div id="pl_show_popup" style="display:none;">
+          <table cellspacing="0" cellpadding="0" border="0">
+          <tr><td><div class="marker-name">#name</div></td></tr>
+          <tr><td><div class="marker-description">#description</div></td></tr>
+          </table>
+        </div>
+        <div id="pl_edit_popup" style="display:none;">
+          <table cellspacing="0" cellpadding="0" border="0" id="line_popup_###">
+            <tr><td><input id="line_name_###" type="text" value="Имя..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()"/></td></tr>
+            <tr><td><textarea id="line_description_###" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()">Описание...</textarea></td></tr>
+            <tr><td class='colour-picker'>
+            </td></tr>
+            <tr><td><a href="#" class="button" onClick="$$$.remove();return false">Удалить</a>
+            </td></tr>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
+
   <iframe name="hiddenIframe" id="hiddenIframe" style="display: none;"></iframe>
-  <div id="pm_edit_popup" style="display: none;">
-    <table cellspacing="0" cellpadding="0" border="0" id="marker_popup_###">
-      <tr><td><input id="marker_name_###" type="text" value="Имя..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()"/></td></tr>
-      <tr><td><textarea id="marker_description_###" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()">Описание...</textarea></td></tr>
-      <tr><td class='colour-picker'>
-        <!-- <div class='colour-picker-button' style='background:{{bg}};color:{{text}}' onClick='$$$.toggleCheck({{i}});'>&#x2713;</div> - see markers.js for replacement -->
-      </td></tr>
-      <tr><td><a href="#" class="button" onClick="$$$.remove();return false">Удалить</a>
-      </td></tr>
-    </table>
-  </div>
-  <div id="pm_show_popup" style="display: none;">
-    <table cellspacing="0" cellpadding="0" border="0">
-    <tr><td><div class="marker-name">#name</div></td></tr>
-    <tr><td><div class="marker-description">#description</div></td></tr>
-    </table>
-  </div>
-  <div id="pl_show_popup" style="display:none;">
-    <table cellspacing="0" cellpadding="0" border="0">
-    <tr><td><div class="marker-name">#name</div></td></tr>
-    <tr><td><div class="marker-description">#description</div></td></tr>
-    </table>
-  </div>
-  <div id="pl_edit_popup" style="display:none;">
-    <table cellspacing="0" cellpadding="0" border="0" id="line_popup_###">
-      <tr><td><input id="line_name_###" type="text" value="Имя..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()"/></td></tr>
-      <tr><td><textarea id="line_description_###" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()">Описание...</textarea></td></tr>
-      <tr><td class='colour-picker'>
-      </td></tr>
-      <tr><td><a href="#" class="button" onClick="$$$.remove();return false">Удалить</a>
-      </td></tr>
-    </table>
-  </div>
   <div id="loader-overlay" style="display:none;"></div>
   <script type="text/javascript">
     osm.markers._max_markers=$PERSMAP_MAX_POINTS;

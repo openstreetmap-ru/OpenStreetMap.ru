@@ -1,0 +1,53 @@
+/*MAIN MENU*/
+
+label { 
+  cursor: pointer;
+  user-select:none;
+}
+
+/* custom-dropdown */
+nav {
+  position:absolute;
+  width: 100%;
+  height:30px;
+  z-index: 1001; /*Cause of leaflet layers toggler with z-index=1000*/
+  background: #333;
+}
+    
+nav a,
+nav label { text-decoration:none; }
+    
+nav ul {
+  padding: 0 20px;  
+  margin: 0 auto;  
+  list-style:none;
+}
+
+nav li {
+  float: left;
+  padding-top: .15em;
+  width: 145px;
+  height: 28px;
+  background: #333;
+  border-top: solid 5px;
+  text-align:center;
+}
+
+nav li:not(#current)         { cursor: pointer; }
+
+nav li:hover                     { color: #fff; }
+nav li:hover > a                 { color: #fff; }
+nav a                            { color: #aaa; }
+nav span                         { color: #fff; }
+
+nav li:first-child    { border-top-color: #9b1; }
+nav li:nth-child(2)   { border-top-color: #fb1; }
+nav li:nth-child(3)   { border-top-color: #d41; }
+
+nav li:first-child:hover    { background: #9b1; }
+nav li:nth-child(2):hover   { background: #fb1; }
+nav li:nth-child(3):hover   { background: #d41; }
+
+nav li:first-child#current  { background: #9b1; }
+nav li:nth-child(2)#current { background: #fb1; }
+nav li:nth-child(3)#current { background: #d41; }

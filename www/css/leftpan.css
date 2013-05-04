@@ -1,0 +1,226 @@
+/*Моё*/
+
+#mainmenupage-osb div { color: #B6253B; }
+
+
+/*На просев*/
+
+#leftpantab {
+  bottom: 21px;
+  display: block;
+  left: 21px;
+  overflow: auto;
+  position: absolute;
+  right: 21px;
+  top: 21px;
+}
+
+
+#leftpantab .leftgroup { margin-bottom: 0.5em; }
+
+#leftpan div.header h1 {
+    font-weight: normal;
+    left: 15px;
+    position: absolute;
+    top: 15px;
+}
+
+img.loader {
+  display: none;
+  margin-top: -5px;
+  position: absolute;
+  right: 10px;
+}
+
+img.loader.on { display: inline; }
+
+#leftpan .leftgroup  h1 {
+  color: #187BA0;
+  cursor: pointer;
+  font-size: 12pt;
+  font-weight: bold;
+}
+
+#leftpan .leftgroup .leftcontent {
+  color: #808080;
+  margin-left: 10px;
+  overflow: auto;
+  padding-bottom: 6px;
+  padding-top: 6px;
+}
+
+#leftpan .leftgroup .leftcontent a { color: #808080; }
+#leftpan .leftgroup .leftcontent ul { list-style: none; }
+
+#DidYouKnow {
+  border: 1px solid #808080;
+  bottom: 0;
+  left: 0;
+  padding: 0.6em;
+  position: absolute;
+  right: 0;
+}
+
+#DidYouKnow .head {
+  background: none repeat scroll 0 0 white;
+  left: 7px;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  position: absolute;
+  top: -0.8em;
+  color: #808080;
+}
+
+#DidYouKnow a { color: #187BA0; }
+#DidYouKnow p { padding-top: 12px; }
+
+#DidYouKnow .close {
+  background-image: url("/img/dyk-close.png");
+  height: 12px;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 12px;
+  z-index: 1;
+  cursor: pointer;
+}
+
+#leftpantab .leftlink li { padding-bottom: 4px; }
+
+#leftpantab .leftlink a {
+  font-size: 12pt;
+  text-decoration: none;
+}
+
+*/
+
+
+/* personal map */
+.colour-picker-button {
+  width: 15px;
+  height: 15px;
+  border: 1px solid black;
+  text-align: center;
+  vertical-align: top;
+  padding: 0px;
+  margin: 3px;
+  line-height: 13px;
+  float: left;
+  cursor: pointer;
+}
+
+.default-input,
+.default-input-focused {
+  font-size: 14px;
+  font-family: sans-serif;
+  width: 200px;
+  border: 1px solid #999;
+}
+
+.default-input {
+  font-style: italic;
+  color: #999;
+}
+
+.default-input-focused {
+  font-style: normal;
+  color: #000;
+}
+
+textarea.default-input,
+textarea.default-input-focused {
+  max-width: 200px;
+  min-width: 200px;
+  max-height: 100px;
+  min-height: 100px;
+  resize: none;
+}
+
+input.default-input,
+input.default-input-focused { font-size: 20px; }
+
+.marker-name { font-weight: bold; }
+
+#pm-control .pm-button {
+  margin-top: 15px;
+  font-size: 12pt;
+}
+
+#pm-control a.pm-button-a {
+  cursor: pointer;
+  margin: 2px 5px 2px 30px;
+}
+
+#pm-control div span {
+  display: none;
+  font-size: 8pt;
+  margin-left: 30px;
+}
+
+#pm-button-marker {
+  background-image: url("/img/pm-marker.png");
+  background-repeat: no-repeat;
+  min-height: 23px;
+}
+
+#pm-button-path {
+  background-image: url("/img/pm-path.png");
+  background-repeat: no-repeat;
+  min-height: 23px;
+}
+
+#pm-control .pm-save                { margin-left: 30px; }
+#pm-control .pm-button-pressed a    { background-color: lightblue;}
+#pm-control .pm-button-pressed span { display: block; }
+#pm-status                          { margin-top: 15px; }
+#pm-status p                        { margin-bottom: 8px; }
+
+td.colour-picker {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+a.button,
+.leaflet-container a.button {
+  border: 1px solid transparent;
+  background: white;
+  top: 7px;
+  padding: 5px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  color: #777;
+}
+
+.leaflet-container a.button:active,
+a.button:active {
+  color: #99BD1B;
+  top: 10px;
+  box-shadow: 0 0 7px #688014;
+}
+
+/* search */
+
+#leftsearch .leftcontent li { margin-bottom: 0.7em; }
+
+#ol-search_result a {
+  color: #7E9B17;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+#validationerrors ul { margin-left: 10px; }
+#validationerrors li { margin: 5px; }
+#validationerrors span { margin-left: 5px; }
+
+.map-validation-error h4,
+.map-validation-error p { margin: 8px 0px !important; }
+
+.map-validation-error ul {
+  list-style: none;
+  padding-left: 10px;
+  margin: 8px 0px;
+}
+
