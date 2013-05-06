@@ -81,11 +81,12 @@
 
 #search_button {
   position: absolute;
-  top: 3px;
+  top: 4px;
   left: auto;
   right: 20px;
   width: 100px;
   height: 24px;
+  border: none;
   background: #9b1;0px 20px 0px 5px
 }
 
@@ -94,12 +95,6 @@
 #search_container a {
   border-radius: 0px !important;
   box-shadow: none !important;
-}
-
-#ttoggle_label {
-  right: 10px;
-  border: 0;
-  padding-top: 0;
 }
 
 /*штука полезная, позже включу обратно*/
@@ -113,6 +108,26 @@ input[type="search"]::-webkit-search-cancel-button { -webkit-appearance: none; }
   left: 320px;
   transition: left 800ms;
 }
+
+#ttoggle_label {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  width: 50px;
+  height: 20px;
+  border: 0;
+  top: 90px;
+  padding-top: 0;
+  transition: top 400ms;
+  background: #99BD1B;
+  color: #ffffff;
+  text-align: center;
+  z-index: 5;
+}
+
+#ttoggle:checked ~ header             { top:-60px; }
+#ttoggle:checked ~ #ttoggle_label     { top: 30px; }
+#ttoggle:checked ~ article[role=main] { top: 30px; }
 
 #ltoggle {visibility:hidden;}
 
@@ -129,8 +144,8 @@ input[type="search"]::-webkit-search-cancel-button { -webkit-appearance: none; }
   background-color: rgba(255, 255, 255, 1);
 }
 
-#ltoggle:checked ~ #leftpan           { width: 0px; }
-#ltoggle:checked ~ div .leaflet-left  { left: 20px; }
+#ltoggle:checked ~ aside                  { width: 0px; }
+#ltoggle:checked ~ section .leaflet-left  { left: 20px; }
 
 #ltoggle:checked ~ #ltoggle_label {
   left: 0px;
@@ -152,18 +167,6 @@ input[type="search"]::-webkit-search-cancel-button { -webkit-appearance: none; }
   left: 0;
   right: 0;
   position: absolute;
-}
-
-.map-feature-button {
-  background: #99BD1B;
-  color: #ffffff;
-  cursor: pointer;
-  height: 20px;
-  position: absolute;
-  text-align: center;
-  top: 0;
-  width: 50px;
-  z-index: 5;
 }
 
 /* leaflet-plugins-control */

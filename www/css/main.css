@@ -16,8 +16,14 @@ body {
 }
 
 img { border: none; }
-input, textarea, form:active         { outline: none; }
-aside, nav, footer, header, section { display: block; }
+input, textarea, form:active, input:focus { outline: none; }
+aside, nav, footer, header, section       { display: block; }
+
+table {
+  border-collapse: collapse;
+  border: 0;
+  padding: 0;
+}
 
 input {
   -moz-box-sizing: content-box;
@@ -67,15 +73,17 @@ input[type=checkbox].toggle { display: none; }
 
 /*Резерв под меню*/
 
-#toppan {
+header {
   position: absolute;
+  top: 0px;
   width: 100%;
   height: 90px;
   box-shadow: rgba(138, 138, 138, 0.42) 0px 9px 6px -4px;
+  transition: 400ms;
   z-index: 1;
 }
 
-#content {
+article[role=main] {
   bottom: 0;
   left: 0;
   position: absolute;

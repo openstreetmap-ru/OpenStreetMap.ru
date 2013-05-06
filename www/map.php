@@ -37,15 +37,17 @@ $page_head = <<<PHP_HEAD
 PHP_HEAD;
 
 $page_topbar = <<<PHP_TOPBAR
-      <!--<div id="breaking_news">
+    <!--
+      <div id="breaking_news">
         <a href="http://gisconf.ru/ru/" title="Открытые ГИС!">
           <img src="/img/news/OpenGISavatar5eof.png" style="height: 100%;">
         </a>
-      </div>-->
+      </div>
+    -->
 
       <div id="search_container">
         <a id="findme" href="#" onClick="osm.ui.whereima(); return false;" class="button wheremi" title="Где я?">
-          <img src="/img/whereami.svg">
+          <img src="/img/whereami.svg" alt="Картинка для кнопки 'Где я?'">
         </a>
         <form role="search" id="search" method="get" action="/" onsubmit="return osm.ui.searchsubmit();">
           <div id="fucking_ff">
@@ -57,137 +59,130 @@ $page_topbar = <<<PHP_TOPBAR
 PHP_TOPBAR;
 
 $page_content = <<<PHP_CONTENT
-  <div id="downpan">
-    <input type="checkbox" id="ltoggle" class="button">
-    <label for="ltoggle" id="ltoggle_label" class="button toggle"></label>
-    <input type="checkbox" id="ttoggle" class="button">
-    <label for="ltoggle" id="ttoggle_label" class="button toggle map-feature-button">&uarr;</label>
-
-    <div id="leftpan">
-      <div id="leftpantab">
-        <div id="leftpoi" class="leftgroup">
-          <h1>Точки интереса (POI) <img class="loader" src="/img/loader.gif"></h1>
-          <div class="leftcontent" style="display: none;">
-          </div>
+  <input type="checkbox" id="ltoggle" class="button">
+  <label for="ltoggle" id="ltoggle_label" class="button toggle"></label>
+  <aside id="leftpan">
+    <div id="leftpantab">
+      <div id="leftpoi" class="leftgroup">
+        <h1>Точки интереса (POI) <img class="loader" src="/img/loader.gif" alt="Индикатор состояния работы"></h1>
+        <div class="leftcontent" style="display: none;">
         </div>
-        <div id="leftsearch" class="leftgroup" style="display: none;">
-          <h1>Поиск <img class="loader" src="/img/loader.gif"></h1>
-          <div class="leftcontent" style="display: none;">
-            <p>Для поиска введите в строку искомый адрес и нажмите "Найти"</p>
-          </div>
+      </div>
+      <div id="leftsearch" class="leftgroup" style="display: none;">
+        <h1>Поиск <img class="loader" src="/img/loader.gif" alt="Индикатор состояния работы"></h1>
+        <div class="leftcontent" style="display: none;">
+          <p>Для поиска введите в строку искомый адрес и нажмите "Найти"</p>
         </div>
-        <div id="leftpersmap" class="leftgroup">
-          <h1>Персональная карта</h1>
-          <div class="leftcontent" style="display: none;">
-           <div id="pm-editing">
-            <div id="pm-control">
-              <div class="pm-button" id="pm-button-marker">
-                <a class="pm-button-a" onclick="osm.markers.addMultiMarker()">
-                  Поставить маркер
+      </div>
+      <div id="leftpersmap" class="leftgroup">
+        <h1>Персональная карта</h1>
+        <div class="leftcontent" style="display: none;">
+         <div id="pm-editing">
+          <div id="pm-control">
+            <div class="pm-button" id="pm-button-marker">
+              <a class="pm-button-a" onclick="osm.markers.addMultiMarker()">
+                Поставить маркер
+              </a>
+            </div>
+            <div class="pm-button">
+              <div id="pm-button-path">
+                <a class="pm-button-a" onclick="osm.markers.addPath()">
+                  Нарисовать путь
                 </a>
-              </div>
-              <div class="pm-button">
-                <div id="pm-button-path">
-                  <a class="pm-button-a" onclick="osm.markers.addPath()">
-                    Нарисовать путь
-                  </a>
-                  <span><br>Чтоб закончить путь, нажмите на ESC, последнюю нарисованную точку или на кнопку "Нарисовать путь" еще раз.</span>
-                </div>
-              </div>
-              <div class="pm-button pm-save">
-                <a onclick="osm.markers.saveMap();" style="cursor: pointer;">
-                  Сохранить
-                </a>
+                <span><br>Чтоб закончить путь, нажмите на ESC, последнюю нарисованную точку или на кнопку "Нарисовать путь" еще раз.</span>
               </div>
             </div>
-            <div id="pm-status"></div>
-           </div>
-           <div id="pm-legend"></div>
+            <div class="pm-button pm-save">
+              <a onclick="osm.markers.saveMap();" style="cursor: pointer;">
+                Сохранить
+              </a>
+            </div>
           </div>
-        </div>
-        <div id="leftvalidator" class="leftgroup">
-          <h1>Данные валидаторов</h1>
-          <div class="leftcontent" style="display: none;">
-            <ul id="validationerrors"></ul>
-          </div>
-        </div>
-        <div id="leftothersmaps" class="leftgroup leftlink">
-          <h1>Это место на другой карте</h1>
-          <div class="leftcontent" style="display: none;">
-            <ul>
-              <li><a id="opento-osmorg" href='#' target="_blank">OpenStreetMap.org</a></li>
-              <li><a id="opento-google" href='#' target="_blank">Google карты</a></li>
-              <li><a id="opento-yandex" href='#' target="_blank">Яндекс карты</a></li>
-              <li><a id="opento-wikimapia" href='#' target="_blank">Wikimapia</a></li>
-              <li><a id="opento-bing" href='#' target="_blank">Карты Bing</a></li>
-              <li><a id="opento-panoramio" href='#' target="_blank">Panoramio</a></li>
-            </ul>
-          </div>
-        </div>
-        <div id="leftothers" class="leftgroup leftlink">
-          <h1>Другие инструменты</h1>
-          <div class="leftcontent" style="display: none;">
-            <ul>
-              <li><a onclick="osm.markers.addPoint();" href='#'>Поставить маркер</a></li>
-              <li><a id="EditJOSM" href='#'>Редактировать (в JOSM)</a></li>
-            </ul>
-          </div>
-        </div>
-        <div id="mainmenupage-osb" class="leftgroup leftlink">
-          <h1 href="/" title="Достаточно двойного клика мышью по месту и указать неточность" onclick="osm.osbclickon(this); return false;">
-            <div>Указать неточность на карте</div>
-          </h1>
-          <div class="leftcontent" style="display: none;">
-            Чтобы создать новое сообщение о неточности, кликните в нужном месте на карте и введите описание, например «Тут продуктовый магазин "Еда"» или «Тут знак "уступи дорогу"». Спасибо за участие.
-          </div>
-        </div>
-        <div id="DidYouKnow" style="display: none;">
-          <div class="head">Полезно знать</div>
-          <div class="close"></div>
-          <p></p>
+          <div id="pm-status"></div>
+         </div>
+         <div id="pm-legend"></div>
         </div>
       </div>
+      <div id="leftvalidator" class="leftgroup">
+        <h1>Данные валидаторов</h1>
+        <div class="leftcontent" style="display: none;">
+          <ul id="validationerrors"></ul>
+        </div>
+      </div>
+      <div id="leftothersmaps" class="leftgroup leftlink">
+        <h1>Это место на другой карте</h1>
+        <div class="leftcontent" style="display: none;">
+          <ul>
+            <li><a id="opento-osmorg" href='#' target="_blank">OpenStreetMap.org</a></li>
+            <li><a id="opento-google" href='#' target="_blank">Google карты</a></li>
+            <li><a id="opento-yandex" href='#' target="_blank">Яндекс карты</a></li>
+            <li><a id="opento-wikimapia" href='#' target="_blank">Wikimapia</a></li>
+            <li><a id="opento-bing" href='#' target="_blank">Карты Bing</a></li>
+            <li><a id="opento-panoramio" href='#' target="_blank">Panoramio</a></li>
+          </ul>
+        </div>
+      </div>
+      <div id="leftothers" class="leftgroup leftlink">
+        <h1>Другие инструменты</h1>
+        <div class="leftcontent" style="display: none;">
+          <ul>
+            <li><a onclick="osm.markers.addPoint();" href='#'>Поставить маркер</a></li>
+            <li><a id="EditJOSM" href='#'>Редактировать (в JOSM)</a></li>
+          </ul>
+        </div>
+      </div>
+      <div id="mainmenupage-osb" class="leftgroup leftlink">
+        <h1 onclick="osm.osbclickon(this); return false;">Указать неточность на карте</h1>
+        <div class="leftcontent" style="display: none;">
+          Чтобы создать новое сообщение о неточности, кликните в нужном месте на карте и введите описание, например «Тут продуктовый магазин "Еда"» или «Тут знак "уступи дорогу"». Спасибо за участие.
+        </div>
+      </div>
+      <div id="DidYouKnow" style="display: none;">
+        <div class="head">Полезно знать</div>
+        <div class="close"></div>
+        <p></p>
+      </div>
     </div>
+  </aside>
 
-    <div id="mappan">
-      <div id="map"></div>
-      <div id="pers_maps">
-        <div id="pm_edit_popup" style="display: none;">
-          <table cellspacing="0" cellpadding="0" border="0" id="marker_popup_###">
-            <tr><td><input id="marker_name_###" type="text" value="Имя..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()"/></td></tr>
-            <tr><td><textarea id="marker_description_###" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()">Описание...</textarea></td></tr>
-            <tr><td class='colour-picker'>
-              <!-- <div class='colour-picker-button' style='background:{{bg}};color:{{text}}' onClick='$$$.toggleCheck({{i}});'>&#x2713;</div> - see markers.js for replacement -->
-            </td></tr>
-            <tr><td><a href="#" class="button" onClick="$$$.remove();return false">Удалить</a>
-            </td></tr>
-          </table>
-        </div>
-        <div id="pm_show_popup" style="display: none;">
-          <table cellspacing="0" cellpadding="0" border="0">
-          <tr><td><div class="marker-name">#name</div></td></tr>
-          <tr><td><div class="marker-description">#description</div></td></tr>
-          </table>
-        </div>
-        <div id="pl_show_popup" style="display:none;">
-          <table cellspacing="0" cellpadding="0" border="0">
-          <tr><td><div class="marker-name">#name</div></td></tr>
-          <tr><td><div class="marker-description">#description</div></td></tr>
-          </table>
-        </div>
-        <div id="pl_edit_popup" style="display:none;">
-          <table cellspacing="0" cellpadding="0" border="0" id="line_popup_###">
-            <tr><td><input id="line_name_###" type="text" value="Имя..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()"/></td></tr>
-            <tr><td><textarea id="line_description_###" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()">Описание...</textarea></td></tr>
-            <tr><td class='colour-picker'>
-            </td></tr>
-            <tr><td><a href="#" class="button" onClick="$$$.remove();return false">Удалить</a>
-            </td></tr>
-          </table>
-        </div>
+  <section id="mappan">
+    <article id="map"></article>
+    <article id="pers_maps">
+      <div id="pm_edit_popup" style="display: none;">
+        <table id="marker_popup_###">
+          <tr><td><input id="marker_name_###" type="text" value="Имя..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()"/></td></tr>
+          <tr><td><textarea id="marker_description_###" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()">Описание...</textarea></td></tr>
+          <tr><td class='colour-picker'>
+            <!-- <div class='colour-picker-button' style='background:{{bg}};color:{{text}}' onClick='$$$.toggleCheck({{i}});'>&#x2713;</div> - see markers.js for replacement -->
+          </td></tr>
+          <tr><td><a href="#" class="button" onClick="$$$.remove();return false">Удалить</a>
+          </td></tr>
+        </table>
       </div>
-    </div>
-  </div>
+      <div id="pm_show_popup" style="display: none;">
+        <table>
+        <tr><td><div class="marker-name">#name</div></td></tr>
+        <tr><td><div class="marker-description">#description</div></td></tr>
+        </table>
+      </div>
+      <div id="pl_show_popup" style="display:none;">
+        <table>
+        <tr><td><div class="marker-name">#name</div></td></tr>
+        <tr><td><div class="marker-description">#description</div></td></tr>
+        </table>
+      </div>
+      <div id="pl_edit_popup" style="display:none;">
+        <table id="line_popup_###">
+          <tr><td><input id="line_name_###" type="text" value="Имя..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()"/></td></tr>
+          <tr><td><textarea id="line_description_###" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()">Описание...</textarea></td></tr>
+          <tr><td class='colour-picker'>
+          </td></tr>
+          <tr><td><a href="#" class="button" onClick="$$$.remove();return false">Удалить</a>
+          </td></tr>
+        </table>
+      </div>
+    </article>
+  </section>
 
   <iframe name="hiddenIframe" id="hiddenIframe" style="display: none;"></iframe>
   <div id="loader-overlay" style="display:none;"></div>

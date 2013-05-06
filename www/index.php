@@ -22,13 +22,14 @@ if (!file_exists($current_menu["name"].'.php'))
 include_once ('include/external.php');
 include_once ($_URL[0].'.php');
 ?>
-<!doctype html>
+<!DOCTYPE html>
 <html lang=ru>
 <head>
-  <title>OpenStreetMap Россия — <?=$current_menu['text'] ?></title>
   <meta charset=utf-8>
+  <title>OpenStreetMap Россия — <?=$current_menu['text'] ?></title>
   <meta name="viewport" content="initial-scale=1, width=device-width">
-  <meta name="description" content="Наиболее актуальная карта, которую рисуют сами пользователи. Попробуйте - вам понравится!"> <!--Разделить формирование meta description для разных страниц-->
+  <meta name="description" content="Наиболее актуальная карта, которую рисуют сами пользователи. Попробуйте - вам понравится!">
+  <!--Разделить формирование meta description для разных страниц-->
   <link media="print" rel="stylesheet" href="/css/print.css" />
   <link media="screen" rel="stylesheet" href="/css/main.css" />
   <link media="screen" rel="stylesheet" href="/css/menu.css" />
@@ -46,25 +47,25 @@ include_once ($_URL[0].'.php');
   </script>
 </head>
 <body>
+  <nav role="navigation">
+    <input type="checkbox" id="mtoggle" class="toggle">
+    <label for="mtoggle" onclick></label>
+    <? show_menu($pages_menu, $_URL[0]); ?>
+  </nav>
+  <input type="checkbox" id="ttoggle" class="button">
+  <label for="ttoggle" id="ttoggle_label" class="button toggle">&uarr;</label>
   <header>
-    <nav role="navigation">
-      <input type="checkbox" id="mtoggle" class="toggle">
-      <label for="mtoggle" onclick></label>
-      <? show_menu($pages_menu, $_URL[0]); ?>
-    </nav>
-    <div id="toppan">
-      <a href="/">
-        <img src="<? print($page_logo); ?>" alt="OpenStreetMap.ru" id="logo">
-      </a>
-      <div id="topbar">
-        <? print($page_topbar); ?>
-      </div>
-      <div id="colorline" style="background:<?=$current_menu['color']?>;"></div>
+    <a href="/">
+      <img src="<? print($page_logo); ?>" alt="OpenStreetMap.ru" id="logo">
+    </a>
+    <div id="topbar">
+      <? print($page_topbar); ?>
     </div>
+    <div id="colorline" style="background:<?=$current_menu['color']?>;"></div>
   </header>
-  <div role="main" id="content">
+  <article role="main" id="content">
     <? print($page_content); ?>
-  </div>
+  </article>
   <? print($external_bodyend); ?>
 </body>
 </html>
