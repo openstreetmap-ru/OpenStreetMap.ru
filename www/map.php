@@ -60,7 +60,7 @@ PHP_TOPBAR;
 
 $page_content = <<<PHP_CONTENT
   <input type="checkbox" id="ltoggle" class="button">
-  <label for="ltoggle" id="ltoggle_label" class="button toggle"></label>
+  <label for="ltoggle" id="ltoggle_label" class="button toggle" accesskey="l" onclick></label>
   <aside id="leftpan">
     <div id="leftpantab">
       <div id="leftpoi" class="leftgroup">

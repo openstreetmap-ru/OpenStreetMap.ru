@@ -53,7 +53,6 @@ include_once ($_URL[0].'.php');
     <? show_menu($pages_menu, $_URL[0]); ?>
   </nav>
   <input type="checkbox" id="ttoggle" class="button">
-  <label for="ttoggle" id="ttoggle_label" class="button toggle">&uarr;</label>
   <header>
     <a href="/">
       <img src="<? print($page_logo); ?>" alt="OpenStreetMap.ru" id="logo">
@@ -67,5 +66,6 @@ include_once ($_URL[0].'.php');
     <? print($page_content); ?>
   </article>
   <? print($external_bodyend); ?>
+  <label for="ttoggle" id="ttoggle_label" class="button toggle" accesskey="t" onclick>&uarr;</label>
 </body>
 </html>

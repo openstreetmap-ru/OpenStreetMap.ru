@@ -136,7 +136,7 @@ input[type="search"]::-webkit-search-cancel-button { -webkit-appearance: none; }
   width: 13px;
   height: 100%;
   left: 300px;
-  z-index: 1;
+  z-index: 2;
   transition: left 800ms;
   padding: 0;
   border: 0;
