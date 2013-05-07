@@ -15,14 +15,11 @@
   top: 21px;
 }
 
-
 #leftpantab .leftgroup { margin-bottom: 0.5em; }
 
-#leftpan div.header h1 {
-    font-weight: normal;
-    left: 15px;
-    position: absolute;
-    top: 15px;
+#leftpantab div h1 {
+  font-size: 12pt;
+  font-weight: bold;
 }
 
 img.loader {
@@ -37,8 +34,6 @@ img.loader.on { display: inline; }
 #leftpan .leftgroup  h1 {
   color: #187BA0;
   cursor: pointer;
-  font-size: 12pt;
-  font-weight: bold;
 }
 
 #leftpan .leftgroup .leftcontent {
@@ -86,13 +81,9 @@ img.loader.on { display: inline; }
 }
 
 #leftpantab .leftlink li { padding-bottom: 4px; }
+#leftpantab .leftlink a  { text-decoration: none; }
 
-#leftpantab .leftlink a {
-  font-size: 12pt;
-  text-decoration: none;
-}
 
-*/
 
 
 /* personal map */
@@ -102,7 +93,7 @@ img.loader.on { display: inline; }
   border: 1px solid black;
   text-align: center;
   vertical-align: top;
-  padding: 0px;
+  padding: 0;
   margin: 3px;
   line-height: 13px;
   float: left;
@@ -111,20 +102,8 @@ img.loader.on { display: inline; }
 
 .default-input,
 .default-input-focused {
-  font-size: 14px;
-  font-family: sans-serif;
   width: 200px;
   border: 1px solid #999;
-}
-
-.default-input {
-  font-style: italic;
-  color: #999;
-}
-
-.default-input-focused {
-  font-style: normal;
-  color: #000;
 }
 
 textarea.default-input,
@@ -136,15 +115,8 @@ textarea.default-input-focused {
   resize: none;
 }
 
-input.default-input,
-input.default-input-focused { font-size: 20px; }
 
-.marker-name { font-weight: bold; }
-
-#pm-control .pm-button {
-  margin-top: 15px;
-  font-size: 12pt;
-}
+#pm-control .pm-button { margin-top: 15px; }
 
 #pm-control a.pm-button-a {
   cursor: pointer;
@@ -153,7 +125,6 @@ input.default-input-focused { font-size: 20px; }
 
 #pm-control div span {
   display: none;
-  font-size: 8pt;
   margin-left: 30px;
 }
 
@@ -170,7 +141,6 @@ input.default-input-focused { font-size: 20px; }
 }
 
 #pm-control .pm-save                { margin-left: 30px; }
-#pm-control .pm-button-pressed a    { background-color: lightblue;}
 #pm-control .pm-button-pressed span { display: block; }
 #pm-status                          { margin-top: 15px; }
 #pm-status p                        { margin-bottom: 8px; }
@@ -182,8 +152,7 @@ td.colour-picker {
   user-select: none;
 }
 
-a.button,
-.leaflet-container a.button {
+a.button {
   border: 1px solid transparent;
   background: white;
   top: 7px;
@@ -194,7 +163,6 @@ a.button,
   color: #777;
 }
 
-.leaflet-container a.button:active,
 a.button:active {
   color: #99BD1B;
   top: 10px;
@@ -204,23 +172,17 @@ a.button:active {
 /* search */
 
 #leftsearch .leftcontent li { margin-bottom: 0.7em; }
-
-#ol-search_result a {
-  color: #7E9B17;
-  text-decoration: none;
-  font-size: 15px;
-}
-
-#validationerrors ul { margin-left: 10px; }
-#validationerrors li { margin: 5px; }
-#validationerrors span { margin-left: 5px; }
+#ol-search_result a         { text-decoration: none; }
+#validationerrors ul        { margin-left: 10px; }
+#validationerrors li        { margin: 5px; }
+#validationerrors span      { margin-left: 5px; }
 
 .map-validation-error h4,
-.map-validation-error p { margin: 8px 0px !important; }
+.map-validation-error p { margin: 8px 0 !important; }
 
 .map-validation-error ul {
   list-style: none;
   padding-left: 10px;
-  margin: 8px 0px;
+  margin: 8px 0;
 }
 

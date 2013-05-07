@@ -46,9 +46,7 @@ $page_topbar = <<<PHP_TOPBAR
     -->
 
       <div id="search_container">
-        <a id="findme" href="#" onClick="osm.ui.whereima(); return false;" class="button wheremi" title="Где я?">
-          <img src="/img/whereami.svg" alt="Картинка для кнопки 'Где я?'">
-        </a>
+        <a id="findme" href="#" onClick="osm.ui.whereima(); return false;" class="button wheremi" title="Где я?"></a>
         <form role="search" id="search" method="get" action="/" onsubmit="return osm.ui.searchsubmit();">
           <div id="fucking_ff">
             <input type="search" id="qsearch" class="field" name="q" autocomplete="off" autofocus="" placeholder="Искать">
@@ -60,19 +58,17 @@ PHP_TOPBAR;
 
 $page_content = <<<PHP_CONTENT
   <input type="checkbox" id="ltoggle" class="button">
-  <label for="ltoggle" id="ltoggle_label" class="button toggle" accesskey="l" onclick></label>
   <aside id="leftpan">
+    <label for="ltoggle" id="ltoggle_label" class="button toggle" accesskey="l" onclick></label>
     <div id="leftpantab">
       <div id="leftpoi" class="leftgroup">
-        <h1>Точки интереса (POI) <img class="loader" src="/img/loader.gif" alt="Индикатор состояния работы"></h1>
+        <h1>Точки интереса (POI) <img class="loader" src="/img/loader.gif" alt=""></h1>
         <div class="leftcontent" style="display: none;">
         </div>
       </div>
       <div id="leftsearch" class="leftgroup" style="display: none;">
-        <h1>Поиск <img class="loader" src="/img/loader.gif" alt="Индикатор состояния работы"></h1>
-        <div class="leftcontent" style="display: none;">
-          <p>Для поиска введите в строку искомый адрес и нажмите "Найти"</p>
-        </div>
+        <h1>Поиск <img class="loader" src="/img/loader.gif" alt=""></h1>
+        <div class="leftcontent" style="display: none;"></div>
       </div>
       <div id="leftpersmap" class="leftgroup">
         <h1>Персональная карта</h1>
@@ -86,16 +82,12 @@ $page_content = <<<PHP_CONTENT
             </div>
             <div class="pm-button">
               <div id="pm-button-path">
-                <a class="pm-button-a" onclick="osm.markers.addPath()">
-                  Нарисовать путь
-                </a>
+                <a class="pm-button-a" onclick="osm.markers.addPath()">Нарисовать путь</a>
                 <span><br>Чтоб закончить путь, нажмите на ESC, последнюю нарисованную точку или на кнопку "Нарисовать путь" еще раз.</span>
               </div>
             </div>
             <div class="pm-button pm-save">
-              <a onclick="osm.markers.saveMap();" style="cursor: pointer;">
-                Сохранить
-              </a>
+              <a onclick="osm.markers.saveMap();" style="cursor: pointer;">Сохранить</a>
             </div>
           </div>
           <div id="pm-status"></div>
@@ -186,7 +178,7 @@ $page_content = <<<PHP_CONTENT
 
   <iframe name="hiddenIframe" id="hiddenIframe" style="display: none;"></iframe>
   <div id="loader-overlay" style="display:none;"></div>
-  <script type="text/javascript">
+  <script>
     osm.markers._max_markers=$PERSMAP_MAX_POINTS;
     osm.markers._max_line_points=$PERSMAP_MAX_LINE_POINTS;
   </script>

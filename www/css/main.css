@@ -6,18 +6,29 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-
+/*Основные параметры*/
 html,
 body {
   width: 100%;
   height: 100%;
-  font-size: 13px;
-  font-family: arial,sans-serif;
+  font: 14px normal;
 }
 
-img { border: none; }
-input, textarea, form:active, input:focus { outline: none; }
-aside, nav, footer, header, section       { display: block; }
+body,
+input,
+select,
+textarea { font-family: Tahoma, Verdana, Segoe, sans-serif; }
+
+input,
+textarea,
+form:active,
+input:focus { outline: none; }
+
+nav,
+aside,
+footer,
+header,
+section { display: block; }
 
 table {
   border-collapse: collapse;
@@ -31,12 +42,13 @@ input {
   box-sizing: content-box;
 }
 
-/*Основные параметры*/
+img { border: none; }
+
 /*Кнопки*/
 
 .button {
   border: 1px solid white;
-  font: normal 12pt Tahoma, sans-serif;
+  font-size: 12pt;
   text-align: center;
   color: #fff;
   padding: 5px;
@@ -47,14 +59,14 @@ input {
   outline: 4px solid #eee;
 }
 
-.button:active { border: 1px solid #white; }
+.button:active { border: 1px solid white; }
 
 
 /*Поля*/
 
 .field {
   border: 1px solid #999;
-  font: normal 16pt Tahoma, sans-serif;
+  font-size: 16pt;
   line-height: 24px;
   color: #000;
 }
@@ -75,20 +87,20 @@ input[type=checkbox].toggle { display: none; }
 
 header {
   position: absolute;
-  top: 0px;
+  top: 0;
   width: 100%;
   height: 90px;
-  box-shadow: rgba(138, 138, 138, 0.42) 0px 9px 6px -4px;
+  box-shadow: rgba(138, 138, 138, 0.42) 0 9px 6px -4px;
   transition: 400ms;
   z-index: 1;
 }
 
 article[role=main] {
+  top: 90px;
   bottom: 0;
   left: 0;
   position: absolute;
   right: 0;
-  top: 90px;
 }
 
 #colorline {
@@ -115,7 +127,7 @@ article[role=main] {
 
 @media (max-width: 858px) {
   #logo { display: none; }
-  #search_container { left: 0px !important; }
+  #search_container { left: 0 !important; }
 }
 
 

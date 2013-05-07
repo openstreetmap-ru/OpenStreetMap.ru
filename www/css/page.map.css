@@ -4,7 +4,7 @@
   overflow: auto;
   position: absolute;
   top: 0;
-  width: 300px;
+  width: 313px;
   transition: width 800ms;
   background-color: white;
   z-index: 3;
@@ -19,12 +19,10 @@
   border:1px solid #999;    
 }
 
-.leaflet-control-zoom a,
-.leaflet-popup-content-wrapper              { border-radius: 0; }
-.leaflet-control-layers-expanded            { padding: 15px !important; }
+.leaflet-control-zoom a                     { border-radius: 0; }
 .leaflet-control-layers.leaflet-control     { margin-top: 30px; }
 
-.leaflet-control-layers a { background-image: url("../img/layers.png") !important; }
+.leaflet-control-layers a { background-image: url("/img/layers.png") !important; }
 
 
 /*Поисковая строка*/
@@ -34,7 +32,7 @@
   right: 20px;
   top: -5px;
   height: 40px;
-  margin: 0px 20px;
+  margin: 0 20px;
   position: absolute;
   min-width: 500px;
   max-width: 750px;
@@ -47,13 +45,14 @@
   left: 4px;
   width: 34px;
   height: 34px;
-  padding: 0px;
+  padding: 0;
+  background-image: url("/img/whereami.svg")
 }
 
 #search {
   position: absolute;
   display: block;
-  top: 0px;
+  top: 0;
   left: 40px;
   right: 20px;
   height: 40px;
@@ -76,7 +75,7 @@
   height: 32px;
   margin: 3px;
   background: url("/img/search.svg") 98% center no-repeat;
-  padding: 0px 0px 0px 5px;
+  padding: 0 0 0 5px;
 }
 
 #search_button {
@@ -87,13 +86,13 @@
   width: 100px;
   height: 24px;
   border: none;
-  background: #9b1;0px 20px 0px 5px
+  background: #9b1;
 }
 
 
 /*Временная мера*/
 #search_container a {
-  border-radius: 0px !important;
+  border-radius: 0 !important;
   box-shadow: none !important;
 }
 
@@ -122,12 +121,17 @@ input[type="search"]::-webkit-search-cancel-button { -webkit-appearance: none; }
   background: #99BD1B;
   color: #ffffff;
   text-align: center;
+  cursor: n-resize;
   z-index: 5;
 }
 
 #ttoggle:checked ~ header             { top:-60px; }
-#ttoggle:checked ~ #ttoggle_label     { top: 30px; }
 #ttoggle:checked ~ article[role=main] { top: 30px; }
+
+#ttoggle:checked ~ #ttoggle_label {
+  top: 30px;
+  cursor: s-resize;
+}
 
 #ltoggle {visibility:hidden;}
 
@@ -140,26 +144,31 @@ input[type="search"]::-webkit-search-cancel-button { -webkit-appearance: none; }
   transition: left 800ms;
   padding: 0;
   border: 0;
+  cursor: w-resize;
   background: url("../img/arrow.png") no-repeat 0 center;
   background-color: rgba(255, 255, 255, 1);
 }
 
-#ltoggle:checked ~ aside                  { width: 0px; }
+#ltoggle:checked ~ aside                  { width: 13px; }
 #ltoggle:checked ~ section .leaflet-left  { left: 20px; }
 
-#ltoggle:checked ~ #ltoggle_label {
-  left: 0px;
+#ltoggle:checked ~ aside #ltoggle_label {
+  left: 0;
+  cursor: e-resize;
   background: url("../img/arrow.png") no-repeat -12px center;
   background-color: rgba(255, 255, 255, 1);
 }
 
-/*На второй просев*/
+/*
 #breaking_news {
   float: right;
   height: 35px;
   margin-top: -6px;
   width: 208px;
 }
+*/
+
+/*На второй просев*/
 
 #map {
   top: 0;
@@ -227,16 +236,17 @@ a.leaflet-control-distance-delete {
   display: inline-block;
 }
 
+.leaflet-control                        { box-shadow: none !important; }
+.leaflet-control-permalink              { margin-left: 5px !important; }
 a.leaflet-control-distance-active       { background-color: yellow; }
 a.leaflet-control-distance-active:hover { background-color: #ffa; }
+
 
 /* POI */
 div.poi_popup p                       { margin: 0; }
 div.poi_popup table td                { padding: 0.3em; }
 div.poi_popup p.poi_header            { padding-bottom: 1em; }
-div.poi_popup .poi_header .poi_value  { font-weight: bolder; }
 div.poi_popup p.poi_header .poi_name  { margin-right: 1em; }
-div.poi_popup p.poi_header .poi_value { font-size: 1.2em; }
 
 
 

@@ -12,10 +12,7 @@ input[type=search] { -webkit-appearance: none; }
 /*Прячем всё лишнее*/
     
 #logo,
-#toppan,
 #leftpan,
-#htpbutton,
-#mainmenupage,
 #ltoggle_label,
 .leaflet-control-scale,
 .leaflet-control-inJOSM,
@@ -52,13 +49,6 @@ nav label:after {
 }
 
 nav input[type=checkbox]:checked ~ label:after {color: #222;}
-nav input[type=checkbox]:checked ~ ul       {display: block;}
-
-nav input[type=checkbox]:checked ~ ul > li {
-    width:100%;
-    opacity:.8;
-    text-align:left;
-}
 
 nav input[type=checkbox]:checked ~ ul > li:after {
     position:absolute;
@@ -72,39 +62,6 @@ nav input[type=checkbox]:checked ~ ul > li:after {
 #mappan {
     left: 0cm !important;
     top: 1.5cm !important;
-}
-
-#toppan{
-    height: 1cm;
-    padding: 0.1cm;
-}
-
-div.wheremi {
-    position: absolute;
-    top: 0.2cm;
-    right: 2.5cm;
-    width: 1cm !important;
-    height: 1cm !important;
-    z-index: 2;
-}
-
-#searchpan {
-    min-width: 1cm !important;
-    border-width: 0px !important;
-}
-
-#searchpan input[type="submit"] {
-    color: transparent;
-    font-size: 1px;
-    position: absolute;
-    top: 0.2cm;
-    right: 1.5cm !important;
-    min-width: 1cm !important;
-    width: 1cm !important;
-    height: 1cm !important;
-    border-style: solid;
-    border-width: 1px !important;
-    border-color: gray !important;
 }
 
 #qsearch {
@@ -164,12 +121,8 @@ div.leaflet-top {
 /*Меняем иконки*/
 
 .wheremi,
-#searchpan input { color: transparent; }
-
 .wheremi                            { background-image: url("/img/mobile/whereami.png") !important; }
-#searchpan input[type="submit"]     { background-image: url("/img/mobile/search.png"); }
 a.leaflet-control-distance-edit     { background-image: url("/img/mobile/ruller-edit.png") !important; }
-a.leaflet-control-distance-delete   { background-image: url("/img/mobile/ruller-delete.png") !important; }
 .leaflet-control-layers a.leaflet-control-layers-toggle { background-image: url("/img/mobile/layers.png") !important; }
 
 
