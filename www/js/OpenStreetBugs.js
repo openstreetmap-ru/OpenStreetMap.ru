@@ -153,16 +153,21 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 				class_popup += ' osbOpen';
 			}
 		}
-		if (!this.bugs[id])
+		
+		if (this.bugs[id])
 		{
-			var feature = new L.Marker(bug[0], {icon:new this.osbIcon({iconUrl: icon_url})});
-			feature.osb = {id: id, closed: closed};
-			this.addLayer(feature);
-			this.bugs[id] = feature;
+			// remove old bug from map
+			this.removeLayer(this.bugs[id]);
 		}
+		// add new bug
+		var feature = new L.Marker(bug[0], {icon:new this.osbIcon({iconUrl: icon_url})});
+		feature.osb = {id: id, closed: closed};
+		this.addLayer(feature);
+		this.bugs[id] = feature;
 		this.setPopupContent(id);
-    if (feature._popup)
-      feature._popup.options.className += class_popup;
+
+    	if (feature._popup)
+      		feature._popup.options.className += class_popup;
 
 		if (this.options.bugid && (parseInt(this.options.bugid) == id))
 		{
