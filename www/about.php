@@ -1,12 +1,15 @@
 <?
 $page_logo = "/img/logo-about.png";
 
-$page_head = <<<PHP_HEAD
+$page_head_css = <<<PHP_HEAD_CSS
+  <link rel="stylesheet" href="/css/page.about.css" />
+PHP_HEAD_CSS;
+
+$page_head_js = <<<PHP_HEAD_JS
   <script type="text/javascript" src="/js/page.about.js"></script>
   <script type="text/javascript" src="/js/osm.common.js"></script>
   <script type="text/javascript" src="/js/osm.dyk.js"></script>
-  <link rel="stylesheet" href="/css/page.about.css" />
-PHP_HEAD;
+PHP_HEAD_JS;
 
 $page_topmenu = <<<PHP_TOPMENU
 PHP_TOPMENU;

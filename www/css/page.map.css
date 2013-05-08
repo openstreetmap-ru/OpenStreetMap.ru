@@ -46,7 +46,9 @@
   width: 34px;
   height: 34px;
   padding: 0;
-  background-image: url("/img/whereami.svg")
+  background-image: url("/img/whereami.svg");
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 #search {
@@ -85,7 +87,6 @@
   right: 20px;
   width: 100px;
   height: 24px;
-  border: none;
   background: #9b1;
 }
 
@@ -119,7 +120,7 @@ input[type="search"]::-webkit-search-cancel-button { -webkit-appearance: none; }
   padding-top: 0;
   transition: top 400ms;
   background: #99BD1B;
-  color: #ffffff;
+  color: #fff;
   text-align: center;
   cursor: n-resize;
   z-index: 5;
@@ -180,42 +181,30 @@ input[type="search"]::-webkit-search-cancel-button { -webkit-appearance: none; }
 
 /* leaflet-plugins-control */
 
-.leaflet-container .leaflet-control-inJOSM {
-  margin-left: 13px;
-  margin-top: 12px;
-}
-
-.leaflet-control-inJOSM a {
-  width: 22px;
-  height: 22px;
-  background-color: rgba(255, 255, 255, 0.8);
-  background-image: url('/img/josm_icon.png');
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  display: block;
-}
-
-.leaflet-control-inJOSM a:hover {
-  background-color: #fff;
-  color: #777;
-}
-
+.leaflet-container .leaflet-control-inJOSM,
 .leaflet-container .leaflet-control-distance {
   margin-left: 13px;
   margin-top: 12px;
 }
 
+.leaflet-control-inJOSM a {
+  background-image: url('/img/josm_icon.png');
+  display: block;
+}
+
+.leaflet-control-inJOSM a:hover,
+.leaflet-control-distance a:hover {
+  background-color: #fff;
+  color: #777;
+}
+
+.leaflet-control-inJOSM a,
 .leaflet-control-distance a {
   width: 22px;
   height: 22px;
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-color: rgba(255, 255, 255, 0.75);
-}
-
-.leaflet-control-distance a:hover {
-  background-color: #fff;
-  color: #777;
 }
 
 .leaflet-control-distance div {
@@ -248,7 +237,12 @@ div.poi_popup table td                { padding: 0.3em; }
 div.poi_popup p.poi_header            { padding-bottom: 1em; }
 div.poi_popup p.poi_header .poi_name  { margin-right: 1em; }
 
+/*Доп. условия*/
 
+@media (max-width: 858px) {
+  #logo { display: none; }
+  #search_container { left: 0 !important; }
+}
 
 
 

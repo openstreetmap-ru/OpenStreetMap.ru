@@ -10,7 +10,7 @@ function show_menu($pages, $current = '') {
     else {
       $page['name2'] = $page['name'];
     }
-    $menu[] = ($current == $page['name'] ? '<li id="current"><span>'.$page['text'].'</span></li>' : '<li><a href="/'.$page['name2'].'">'.$page['text'].'</a></li>');
+    $menu[] = ($current == $page['name'] ? '<li id="current" class="main-menu"><span>'.$page['text'].'</span></li>' : '<li class="main-menu"><a href="/'.$page['name2'].'">'.$page['text'].'</a></li>');
   }
   echo implode($menu);
   echo '</ul>';

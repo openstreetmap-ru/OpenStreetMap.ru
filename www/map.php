@@ -1,17 +1,23 @@
 <?
 $page_logo = "/img/logo.png";
 
-$page_head = <<<PHP_HEAD
-
-  <link rel="stylesheet" href="/css/leaflet.css">
-  <script src="/js/leaflet.js"></script>
+$page_head_css = <<<PHP_HEAD_CSS
+  <link rel="stylesheet" href="/css/leaflet.css" />
   <!--[if lte IE 8]><link rel="stylesheet" href="/css/leaflet.ie.css" /><![endif]-->
+
+  <link rel="stylesheet" href="/css/page.map.css" />
+  <link rel="stylesheet" href="/css/osb.css" />
+  <link rel="stylesheet" href="/css/leftpan.css" />
+  <link rel="stylesheet" href="/css/jstree/jstree.css" />
+PHP_HEAD_CSS;
+
+$page_head_js = <<<PHP_HEAD_JS
+  <script src="/js/leaflet.js"></script>
   <script src="/js/osm.common.js"></script>
   <script src="/js/osm.utils.js"></script>
   <script src="/js/osm.utils.search.js"></script>
   <script src="/js/osm.dyk.js"></script>
   <script src="/js/map.js"></script>
-  <script src="/geo.php"></script>
   <script src="/js/Control.Permalink.js"></script>
   <script src="/js/Control.Scale.js"></script>
   <script src="/js/Control.Distance.js"></script>
@@ -29,12 +35,8 @@ $page_head = <<<PHP_HEAD
   <script src="/js/jquery.jstree.js"></script>
   <script src="/js/poi.js"></script>
   <script src="/js/autocomplete.js"></script>
-
-  <link rel="stylesheet" href="/css/page.map.css" />
-  <link rel="stylesheet" href="/css/osb.css" />
-  <link rel="stylesheet" href="/css/leftpan.css" />
-  <link rel="stylesheet" href="/css/jstree/jstree.css" />
-PHP_HEAD;
+  <script src="/geo.php"></script>
+PHP_HEAD_JS;
 
 $page_topbar = <<<PHP_TOPBAR
     <!--

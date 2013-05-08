@@ -1,8 +1,11 @@
 <?
 $page_logo = "/img/logo-cakes.png";
 
+$page_head_css = <<<PHP_HEAD_CSS
+	<link rel="stylesheet" href="css/v1/styles.css" />
+PHP_HEAD_CSS;
+
 $page_head = <<<PHP_HEAD
-	<link href="css/v1/styles.css" type="text/css" rel="stylesheet">
 PHP_HEAD;
 
 $page_topmenu = <<<PHP_TOPMENU

@@ -1,9 +1,12 @@
 <?
 $page_logo = "/img/logo-navigator.png";
 
-$page_head = <<<PHP_HEAD
+$page_head_css = <<<PHP_HEAD_CSS
   <link rel="stylesheet" href="css/page.navigator.css" />
-PHP_HEAD;
+PHP_HEAD_CSS;
+
+$page_head_js = <<<PHP_HEAD_JS
+PHP_HEAD_JS;
 
 $page_topmenu = <<<PHP_TOPMENU
 PHP_TOPMENU;
