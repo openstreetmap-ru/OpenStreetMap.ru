@@ -18,6 +18,9 @@
 
 ## Local development
 
+![](www/img/setup-is-simple.jpg)
+
+
 ### www
 
 Ставим следующие зависимости
