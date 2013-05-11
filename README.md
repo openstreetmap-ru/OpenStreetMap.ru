@@ -16,11 +16,6 @@
 Протокол валидаторов: http://wiki.openstreetmap.org/wiki/RU:Validator_protocol
 
 
-## Local development
-
-![](www/img/setup-is-simple.jpg)
-
-
 ### www
 
 Ставим следующие зависимости
