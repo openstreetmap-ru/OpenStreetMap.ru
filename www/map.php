@@ -3,7 +3,10 @@ $page_logo = "/img/logo.png";
 
 $page_head_css = <<<PHP_HEAD_CSS
   <link rel="stylesheet" href="/css/leaflet.css" />
-  <!--[if lte IE 8]><link rel="stylesheet" href="/css/leaflet.ie.css" /><![endif]-->
+  <!--[if lte IE 8]>
+    <link rel="stylesheet" href="/css/leaflet.ie.css" />
+    <script src="/js/html5shiv.js"></script>
+  <![endif]-->
 
   <link rel="stylesheet" href="/css/page.map.css" />
   <link rel="stylesheet" href="/css/osb.css" />
