@@ -11,7 +11,7 @@
 }
 
 
-/*Styling leaflet controls*/
+/*ReStyling leaflet*/
 
 .leaflet-top > div.leaflet-control {
   border-radius: 0;
@@ -19,7 +19,8 @@
   border:1px solid #999;    
 }
 
-.leaflet-control-zoom a                     { border-radius: 0; }
+.leaflet-control-zoom a,
+.leaflet-popup-content-wrapper              { border-radius: 0; }
 .leaflet-control-layers.leaflet-control     { margin-top: 30px; }
 
 .leaflet-control-layers a { background-image: url("/img/layers.png") !important; }
@@ -229,6 +230,20 @@ a.leaflet-control-distance-delete {
 .leaflet-control-permalink              { margin-left: 5px !important; }
 a.leaflet-control-distance-active       { background-color: yellow; }
 a.leaflet-control-distance-active:hover { background-color: #ffa; }
+
+/*reSection*/
+.leaflet-container {font-size: inherit;}
+
+.osb .osb-popup h1 {
+  color: #fff;
+  padding: 1em;
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.osbOpen .osb-popup h1   { background-color: #DB4C39; }
+.osbActive .osb-popup h1 { background-color: #4A8AF5; }
+.osbClosed .osb-popup h1 { background-color: #99BD1B; }
 
 
 /* POI */

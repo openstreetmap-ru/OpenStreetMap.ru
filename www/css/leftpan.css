@@ -2,6 +2,12 @@
 
 #mainmenupage-osb h1 { color: #B6253B !important; }
 
+.leftcontent ul {
+  padding-left: 0;
+  margin: 0;
+}
+
+.leftcontent ul { padding: 0.1em; }
 
 /*На просев*/
 
