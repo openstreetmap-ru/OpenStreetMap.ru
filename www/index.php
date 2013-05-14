@@ -29,7 +29,6 @@ include_once ($_URL[0].'.php');
   <title>OpenStreetMap Россия — <?=$current_menu['text'] ?></title>
   <meta name="viewport" content="initial-scale=1, width=device-width">
   <meta name="description" content="Наиболее актуальная карта, которую рисуют сами пользователи. Попробуйте - вам понравится!">
-  <!--Разделить формирование meta description для разных страниц-->
   <link media="screen" rel="stylesheet" href="/css/main.css" />
   <link media="screen and (max-width: 480px)" rel="stylesheet" href="/css/mobile.css" />
   <link rel="search" href="/search.xml" type="application/opensearchdescription+xml" title="OpenStreetMap.Ru" />
