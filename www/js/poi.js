@@ -61,7 +61,7 @@ osm.poi = {
     if (osm.poi.ajax && osm.poi.ajax.state() == "pending")
       osm.poi.ajax.abort();
     $("#leftpoi .loader").addClass('on');
-    var checked=$('.jstree-checked.jstree-leaf', osm.poi.tree );
+    var checked=$('.jstree-checked', osm.poi.tree );
     if (checked.length) {
       var nclass=[];
       for (i=0;i<checked.length;i++) {
