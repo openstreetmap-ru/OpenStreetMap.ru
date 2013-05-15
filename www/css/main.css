@@ -12,7 +12,7 @@ body {
 body,
 input,
 select,
-textarea { font-family: Tahoma, Verdana, Segoe, sans-serif; }
+textarea { font-family: Helvetica, arial, freesans, clean, sans-serif; }
 
 input,
 textarea,
