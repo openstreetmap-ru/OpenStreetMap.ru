@@ -59,13 +59,14 @@ osm.setLinkOSB = function() {
 osm.leftpan.refsizetab = function() {
   var mi=$("#leftpantab .leftgroup");
   var dykH=$("#leftpantab #DidYouKnow")[0].offsetHeight;
+  var count = mi.length - ($("#leftpantab #leftsearch")[0].offsetHeight?0:1)
   if (dykH)
     dykH += 34;
   var miHeight = +$("#leftpantab .leftgroup h1")[0].offsetHeight + parseFloat(mi.css('margin-bottom'))
-  height=$("#leftpantab")[0].offsetHeight-(miHeight*mi.length+dykH);
+  height=$("#leftpantab")[0].offsetHeight-(miHeight*count+dykH);
   if (height < 100)
     height = 100;
-  $('#leftpan .leftgroup .leftcontent').css('height', height+12+'px');
+  $('#leftpan .leftgroup .leftcontent').css('height', height-12+'px');
 }
 
 osm.leftpan.toggle = function(on, isClick) {
@@ -102,6 +103,7 @@ osm.leftpan.toggle = function(on, isClick) {
       } else if (on === 'leftsearch') {
         search.enable();
         $('#leftsearch').show();
+        osm.leftpan.refsizetab();
       } else if (on) {
       }
       if (on != 1) fntoggle(on)
