@@ -10,10 +10,15 @@ body {
 input[type=search] { -webkit-appearance: none; }
 
 /*Прячем всё лишнее*/
-    
+
+nav,
 #logo,
+.wheremi,
 #leftpan,
+#ltoggle,
+#ttoggle,
 #ltoggle_label,
+#ttoggle_label,
 .leaflet-control-scale,
 .leaflet-control-inJOSM,
 .leaflet-control-zoom,
@@ -21,7 +26,7 @@ input[type=search] { -webkit-appearance: none; }
 .leaflet-bottom { display: none !important; }
 
 /*Менюшка*/
-   
+/*   
 nav ul {
     display:none;
     padding: 0 !important;
@@ -56,8 +61,33 @@ nav input[type=checkbox]:checked ~ ul > li:after {
     content:"\203A";
     font: bold 1.4em sans-serif;
 }
+*/
 
-/**/ 
+#topbar { top: 10px; }
+header { height: 60px; }
+article[role=main] { top: 60px; }
+
+#search_container {
+    margin-left: 0px !important;
+    min-width: 100% !important;
+}
+
+#search,
+#fucking_ff { 
+    right: 0px !important;
+    width: auto !important;
+    left: 0px !important;
+}
+
+#search_button { 
+    right: 5px !important;
+    width: 30px !important;
+    height: 30px !important;
+    color: transparent;
+    background-image: url(http://osmru/img/search.svg) !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+}
 
 #mappan {
     left: 0cm !important;
@@ -75,6 +105,11 @@ nav input[type=checkbox]:checked ~ ul > li:after {
     border-style: solid !important;
     border-width: 1px !important;
     border-color: gray !important;
+    background-image: none !important;
+}
+
+#colorline {
+    top: 56px;
 }
 
 /*Кнопка слоёв*/
@@ -82,7 +117,7 @@ nav input[type=checkbox]:checked ~ ul > li:after {
 .leaflet-control-layers {
     min-width: 1cm;
     min-height: 1cm;
-    margin: 0.3cm !important;
+    margin: 6px !important;
     border-radius: 0px !important;
     background: white !important;
     border-width: 0px !important;
@@ -120,7 +155,6 @@ div.leaflet-top {
 
 /*Меняем иконки*/
 
-.wheremi,
 .wheremi                            { background-image: url("/img/mobile/whereami.png") !important; }
 a.leaflet-control-distance-edit     { background-image: url("/img/mobile/ruller-edit.png") !important; }
 .leaflet-control-layers a.leaflet-control-layers-toggle { background-image: url("/img/mobile/layers.png") !important; }
