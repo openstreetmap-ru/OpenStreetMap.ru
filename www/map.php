@@ -125,8 +125,8 @@ $page_content = <<<PHP_CONTENT
           </ul>
         </div>
       </div>
-      <div id="mainmenupage-osb" class="leftgroup leftlink">
-        <h1 onclick="osm.osbclickon(this); return false;">Указать неточность на карте</h1>
+      <div id="leftosb" class="leftgroup leftlink">
+        <h1>Указать неточность на карте</h1>
         <div class="leftcontent" style="display: none;">
           Чтобы создать новое сообщение о неточности, кликните в нужном месте на карте и введите описание, например «Тут продуктовый магазин "Еда"» или «Тут знак "уступи дорогу"». Спасибо за участие.
         </div>

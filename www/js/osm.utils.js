@@ -69,44 +69,65 @@ osm.leftpan.refsizetab = function() {
   $('#leftpan .leftgroup .leftcontent').css('height', height-12+'px');
 }
 
-osm.leftpan.toggle = function(on, isClick) {
-  fntoggle = function(id) {
-    var el=$('#leftpantab #'+id+' .leftcontent');
-    if (el.is(':visible'))
-      $("#leftpan .leftcontent").hide("normal");
-    else {
-      all = $("#leftpan .leftcontent:visible");
-      delay = 0;
-      if (all.length){
-        all.hide("normal");
-        delay = 300;
-      }
-      el.stop().delay(delay).show("normal");
+
+osm.leftpan.toggleVisible = function(id) {
+  var el=$('#leftpantab #'+id+' .leftcontent');
+  if (el.is(':visible'))
+    $("#leftpan .leftcontent").hide("normal");
+  else {
+    all = $("#leftpan .leftcontent:visible");
+    delay = 0;
+    if (all.length){
+      all.hide("normal");
+      delay = 300;
     }
-  };
+    el.stop().delay(delay).show("normal");
+  }
+};
+osm.leftpan.toggleItem = function(on, item) {
+  if (item === 'leftpersmap') {
+    if (on) {
+      osm.markers.personalMap();
+    } else {
+    }
+  } else if (item === 'leftvalidator') {
+    if (on) {
+      $('#lefterrorspan').addClass('on');
+      $('#mainmenu .current li.errors').addClass('active');
+      osm.validators.enable();
+    } else {
+      osm.validators.disable();
+    }
+  } else if (item === 'leftpoi') {
+    if (on) {
+      osm.poi.enable();
+    } else {
+      osm.poi.disable();
+    }
+  } else if (item === 'leftsearch') {
+    if (on) {
+      search.enable();
+      $('#leftsearch').show();
+      osm.leftpan.refsizetab();
+    } else {
+      search.disable();
+    }
+  } else if (item === 'leftosb') {
+    if (on) {
+      osm.map.addLayer(osm.layers.osb);
+    } else {
+      osm.map.removeLayer(osm.layers.osb);
+    }
+  }
+}
+osm.leftpan.toggle = function(on, isClick) {
   if (typeof on == "undefined") on = !this.on;
   if (on != this.on) {
-    this.on = on;
     if (on && on !== true) {
       $('#downpan').removeClass('left-off');
-      search.disable();
-      osm.validators.disable();
-      osm.poi.disable();
-      if (on === 'leftpersmap') {
-        osm.markers.personalMap();
-      } else if (on === "leftvalidator") {
-        $('#lefterrorspan').addClass('on');
-        $('#mainmenu .current li.errors').addClass('active');
-        osm.validators.enable();
-      } else if (on === 'leftpoi') {
-        osm.poi.enable();
-      } else if (on === 'leftsearch') {
-        search.enable();
-        $('#leftsearch').show();
-        osm.leftpan.refsizetab();
-      } else if (on) {
-      }
-      if (on != 1) fntoggle(on)
+      osm.leftpan.toggleItem(false, this.on);
+      osm.leftpan.toggleItem(true, on);
+      if (on != 1) osm.leftpan.toggleVisible(on)
     } else {
       osm.setCookie("_osm_leftpan=" + on);
       if (on) {
@@ -117,9 +138,11 @@ osm.leftpan.toggle = function(on, isClick) {
         $('#downpan').addClass('left-off');
     }
     osm.map.invalidateSize();
+    this.on = on;
   }
   else if (isClick)
-    fntoggle(on);
+    osm.leftpan.toggleVisible(on);
+    osm.leftpan.toggleItem(!$('#leftpantab #'+on+' .leftcontent:visible').length, on);
 };
 
 osm.onPermalink = function () {
@@ -147,16 +170,6 @@ osm.ui.searchsubmit = function() {
   return search.search($_('qsearch').value);
 }
 
-osm.osbclickon = function(e) {
-  if (e.className!="on") {
-    osm.map.addLayer(osm.layers.osb);
-  }
-  else {
-    osm.map.removeLayer(osm.layers.osb);
-  }
-  osm.map.control_layers._update();
-}
-
 osm.osbclick = function(e,on) {
   if (on==null) on=e.className!="on"
   if (on) {
@@ -168,7 +181,6 @@ osm.osbclick = function(e,on) {
     osm.map._mapPane.style.cursor=""
   }
 };
-
 
 osm.opento = function() {
   var center = osm.map.getCenter();

@@ -101,8 +101,6 @@ $(function() {
   osm.map.on('layerremove', osm.saveLocation);
   osm.map.on('moveend', osm.editUpdate);
 
-  osm.layers.osb.on('add', function(){osm.osbclick($_('mainmenupage-osb').children[0],true,this);});
-  osm.layers.osb.on('remove', function(){osm.osbclick($_('mainmenupage-osb').children[0],false,this);});
   osm.setLinkOSB();
   // osm.initModes();
 

@@ -440,8 +440,8 @@ a.wheremi:hover div.wheremi {
 #menupan td:nth-child(6) div:hover, #menupan td:nth-child(6) div.current { background: #faaa87; }
 #menupan td:nth-child(7) div:hover, #menupan td:nth-child(7) div.current { background: #4a8af5; }
 
-#menupan #mainmenupage td#mainmenupage-osb div { width: 220px; border-top: 5px solid #c3102e; }
-#menupan #mainmenupage td#mainmenupage-osb div:hover, #menupan #mainmenupage td#mainmenupage-osb a.on div { background: #c3102e; }
+#menupan #mainmenupage td#leftosb div { width: 220px; border-top: 5px solid #c3102e; }
+#menupan #mainmenupage td#leftosb div:hover, #menupan #mainmenupage td#leftosb a.on div { background: #c3102e; }
 
 
 #loginpan {
