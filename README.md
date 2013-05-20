@@ -127,7 +127,7 @@
 	psql -d postgistemplate -f /usr/share/postgresql/8.4/contrib/postgis-2.0/spatial_ref_sys.sql
 	psql -d postgistemplate -f /usr/share/postgresql/8.4/contrib/postgis_comments.sql
 
-Заливаем данные в базу
+Заливаем данные в базу (Готового скрипта пока нет: обращаться к ErshKUS)
 
 
 Ставим сфинкса отсюда http://sphinxsearch.com/downloads/release/.
