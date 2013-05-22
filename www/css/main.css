@@ -70,8 +70,6 @@ img { border: none; }
 .field:hover,
 .field:focus { outline: 4px solid #eee; }
 
-input[type=checkbox].toggle { display: none; }
-
 /*Основные элементы*/
 
 header {
