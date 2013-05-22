@@ -2,8 +2,8 @@ html,
 body {
     height: 100%;
     width: 100%;
-    padding: 0px;
-    margin:0px;
+    padding: 0;
+    margin:0;
 }
 
 /*Сброс стандартных стилей поискового поля*/
@@ -13,15 +13,11 @@ input[type=search] { -webkit-appearance: none; }
 
 nav,
 #logo,
-.wheremi,
 #leftpan,
 #ltoggle,
 #ttoggle,
-#ltoggle_label,
-#ttoggle_label,
-.leaflet-control-scale,
-.leaflet-control-inJOSM,
 .leaflet-control-zoom,
+.leaflet-control-inJOSM,
 .leaflet-control-distance,
 .leaflet-bottom { display: none !important; }
 
@@ -68,15 +64,15 @@ header { height: 60px; }
 article[role=main] { top: 60px; }
 
 #search_container {
-    margin-left: 0px !important;
+    margin-left: 0 !important;
     min-width: 100% !important;
 }
 
 #search,
 #fucking_ff { 
-    right: 0px !important;
+    right: 0 !important;
     width: auto !important;
-    left: 0px !important;
+    left: 0 !important;
 }
 
 #search_button { 
@@ -84,13 +80,13 @@ article[role=main] { top: 60px; }
     width: 30px !important;
     height: 30px !important;
     color: transparent;
-    background-image: url(http://osmru/img/search.svg) !important;
+    background-image: url(/img/mobile/search.png) !important;
     background-repeat: no-repeat !important;
     background-position: center !important;
 }
 
 #mappan {
-    left: 0cm !important;
+    left: 0 !important;
     top: 1.5cm !important;
 }
 
@@ -101,7 +97,8 @@ article[role=main] { top: 60px; }
     left: 0.1cm !important;
     width: auto !important;
     height: 1cm !important;
-    margin-right: 0.5cm;    
+    margin-right: 0.5cm;
+    padding-left: 1.1cm !important;    
     border-style: solid !important;
     border-width: 1px !important;
     border-color: gray !important;
@@ -118,21 +115,22 @@ article[role=main] { top: 60px; }
     min-width: 1cm;
     min-height: 1cm;
     margin: 6px !important;
-    border-radius: 0px !important;
+    border-radius: 0 !important;
     background: white !important;
-    border-width: 0px !important;
+    border-width: 0 !important;
 }
+
 
 div.leaflet-top {
     position: absolute;
-    bottom: 0cm !important;
+    bottom: 0 !important;
 }
 
 /*Автокомплит поиска*/
 
 .ui-autocomplete,
 .ui-autocomplete a {
-    border-radius: 0px !important;
+    border-radius: 0 !important;
     z-index: 1002 !important;   
 }
 
@@ -141,7 +139,7 @@ div.leaflet-top {
     width: 100% !important;
     left: 0cm !important;
     background-image: none !important;   
-    border-width: 0px !important;
+    border-width: 0 !important;
 }
 
 .ui-autocomplete a:focus,
@@ -150,9 +148,15 @@ div.leaflet-top {
 .ui-autocomplete a:active {
     background-image: none !important;
     background-color: #e5e5e5 !important;
-    border-width: 0px !important;
+    border-width: 0 !important;
 }
 
+.wheremi {
+    border: 0 !important;
+    top: 7px !important;
+    left: 10px !important;
+    z-index: 1;
+}
 /*Меняем иконки*/
 
 .wheremi                            { background-image: url("/img/mobile/whereami.png") !important; }
