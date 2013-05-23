@@ -13,8 +13,6 @@ input[type=search] { -webkit-appearance: none; }
 
 nav,
 #logo,
-#leftpan,
-#ltoggle,
 #ttoggle,
 .leaflet-control-zoom,
 .leaflet-control-inJOSM,
@@ -163,7 +161,21 @@ div.leaflet-top {
 a.leaflet-control-distance-edit     { background-image: url("/img/mobile/ruller-edit.png") !important; }
 .leaflet-control-layers a.leaflet-control-layers-toggle { background-image: url("/img/mobile/layers.png") !important; }
 
+/* Левая панель*/
 
+#leftpan {
+    width: 100% !important;
+    z-index: 1001 !important;
+}
+
+#ltoggle {
+    right: 0px;
+    top: 40% !important;
+    left: auto !important;
+    width: 40px !important;
+    height: 40px !important;
+    background-image: url("/img/mobile/leftpan.png") !important;
+}
 
 
 
