@@ -27,7 +27,7 @@ include_once ($_URL[0].'.php');
 <head>
   <meta charset=utf-8>
   <title>OpenStreetMap Россия — <?=$current_menu['text'] ?></title>
-  <meta name="viewport" content="initial-scale=1, width=device-width">
+  <meta name="viewport" content="initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, width=device-width">
   <meta name="description" content="Наиболее актуальная карта, которую рисуют сами пользователи. Попробуйте - вам понравится!">
   <link media="screen" rel="stylesheet" href="/css/main.css" />
   <link media="screen and (max-width: 480px)" rel="stylesheet" href="/css/mobile.css" />
