@@ -165,6 +165,7 @@ a.leaflet-control-distance-edit     { background-image: url("/img/mobile/ruller-
 
 #leftpan {
     width: 100% !important;
+    font-size: 12pt !important;
     z-index: 1001 !important;
 }
 
@@ -177,5 +178,14 @@ a.leaflet-control-distance-edit     { background-image: url("/img/mobile/ruller-
     background-image: url("/img/mobile/leftpan.png") !important;
 }
 
+/* Test */
 
+#leftpantab div h1 {
+    font-weight: normal !important;
+    font-size: 14pt !important;
+}
 
+#leftpan::-webkit-scrollbar,
+.jstree::-webkit-scrollbar {
+    display: none; 
+}
