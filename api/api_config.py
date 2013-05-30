@@ -11,4 +11,4 @@ sphinx_port = 3312
 sphinx_index_addr = 'ershkus_search_addr'
 sphinx_index_poi = 'ershkus_poi'
 
-isdebug = False
+isdebug = True

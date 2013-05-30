@@ -28,7 +28,7 @@ def regeo(get):
   userPos = cur.fetchall()
   return userPos
 
-
+# проверка результата поиска
 def ifresult(res, output, sphinx):
   if not res:
     output['error']='query failed: %s' % sphinx.GetLastError()
@@ -49,9 +49,9 @@ def editGet(get):
 
   
   # for house
-  get['q'] = re.sub(u'([Кк]орпус) (\d+)', r'\1_\2', get['q'])
-  get['q'] = re.sub(u'([Сс]троение) (\d+)', r'\1_\2', get['q'])
-  get['q'] = re.sub(u'([Лл]итер) ([а-яА-ЯёЁ]+)', r'\1_\2', get['q'])
+  get['q'] = re.sub(u'([Кк]орп[у]?[с]?[. ]*)(\d+)', ur'корпус_\2', get['q'])
+  get['q'] = re.sub(u'([Сс]тр[о]?[е]?[н]?[и]?[е]?[. ]*)(\d+)', ur'строение_\2', get['q'])
+  get['q'] = re.sub(u'([Лл]итер[а]?[. ]+)([а-яА-ЯёЁ]+)', ur'литер_\2', get['q'])
   # short house
   get['q'] = re.sub(u'([Кк])(\d+)', ur' корпус_\2 ', get['q'])
   get['q'] = re.sub(u'([Сс])(\d+)', ur' строение_\2 ', get['q'])
