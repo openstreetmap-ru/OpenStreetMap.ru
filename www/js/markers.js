@@ -300,7 +300,7 @@ osm.markers.readMap = function() {
       osm.markers._admin.hash = adminhash;
       osm.markers._admin.id = mapid;
       if (osm.markers._admin.editable)
-        osm.leftpan.toggle(2);
+        osm.leftpan.toggleItem('leftpersmap', true);
       else {
         // will fill after creating message...
         //$('#pm-control').html("Невозможно редактировать существующую персональную карту! Перейдите по ссылке <a href='/'>OpenStreetMap.ru</a>, чтоб начать новую персональную карту");
@@ -351,7 +351,7 @@ osm.markers.readMap = function() {
         var readonly_text = text_items.join("<br>");
         $('#pm-editing').hide();
         $('#pm-legend').html(readonly_text);
-        osm.leftpan.toggle('leftpersmap');
+        osm.leftpan.toggleItem('leftpersmap', true);
       }
     }
   }).fail(function (jqXHR, textStatus) {

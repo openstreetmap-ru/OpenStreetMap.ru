@@ -86,7 +86,7 @@ search.search = function(inQuery) {
     return false;
   $("#leftsearch .loader").addClass('on');
   mapCenter=osm.map.getCenter();
-  osm.leftpan.toggle('leftsearch');
+  osm.leftpan.toggleItem('leftsearch', true);
   $.getJSON('/api/search', {q: inQuery, accuracy: 1, lat: mapCenter.lat, lon: mapCenter.lng}, search.processResults)
   .error(search.errorHandler);
   return false;

@@ -53,7 +53,7 @@ $(function() {
 
   if (!frame_map) {
     $("#leftpan div h1").bind('click',function(){
-      osm.leftpan.toggle(this.parentNode.id, true);
+      osm.leftpan.toggleItem(this.parentNode.id);
     });
     osm.leftpan.on=true;
     osm.leftpan.refsizetab();
@@ -77,10 +77,10 @@ $(function() {
   osm.search_marker = new L.LayerGroup();
   osm.map.addLayer(osm.search_marker);
 
-  if (osm.getCookie("_osm_htp") == "false")
-    osm.ui.togglehtp();
-  if (osm.getCookie("_osm_leftpan") == "false")
-    setTimeout("osm.leftpan.toggle(false)", 500);
+  if (osm.getCookie("_osm_htp") != "false")
+    setTimeout("osm.toppan_toggle(true)", 500);
+  if (osm.getCookie("_osm_leftpan") != "false")
+    setTimeout("osm.leftpan.toggle(true)", 500);
     
 
   osm.map.addControl(new L.Control.Scale({width: 100, position: 'bottomleft'}));

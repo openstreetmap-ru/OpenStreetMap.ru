@@ -60,7 +60,6 @@ PHP_TOPBAR;
 
 $page_content = <<<PHP_CONTENT
   <aside id="leftpan">
-    <div id="ltoggle" class="button toggle" accesskey="l" onclick></div>
     <div id="leftpantab">
       <div id="leftpoi" class="leftgroup">
         <h1>Точки интереса (POI) <img class="loader" src="/img/loader.gif" alt=""></h1>
@@ -136,6 +135,7 @@ $page_content = <<<PHP_CONTENT
         <p></p>
       </div>
     </div>
+    <div id="ltoggle" class="button toggle" accesskey="l" onclick="osm.leftpan.toggle();"></div>
   </aside>
 
   <section id="mappan">

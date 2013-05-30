@@ -119,7 +119,6 @@ label { cursor: pointer; }
 nav {
   position:absolute;
   width: 100%;
-  height:30px;
   z-index: 1001; /*Cause of leaflet layers toggler with z-index=1000*/
   background: #333;
 }
@@ -141,12 +140,16 @@ nav li {
   background: #333;
   border-top: solid 5px;
   text-align:center;
+  transition: 400ms;
 }
 
 nav li:hover                     { color: #fff; }
 nav li:hover > a                 { color: #fff; }
 nav a                            { color: #aaa; }
 nav span                         { color: #fff; }
+.htp nav { height: 9px; }
+.htp nav li:hover { height: 32px; }
+.htp nav li:hover * { display: block; }
 
 nav li:first-child    { border-top-color: #9b1; }
 nav li:nth-child(2)   { border-top-color: #fb1; }

@@ -69,7 +69,7 @@ $(function()
 		select: function(event, ui)
 		{
 			if (!ui.item) return;
-			osm.leftpan.toggle(1); // открываем левую панельку поиска
+			osm.leftpan.toggleItem('leftsearch', true); // открываем левую панельку поиска
 			search.processResults({find: true, matches: [ui.item]}); // имитируем результат поиска с сервера
 			search.enable(); // показываем результаты поиска
 		}
