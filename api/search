@@ -9,6 +9,8 @@ import cgi, json, re, psycopg2, psycopg2.extras
 import db_config
 import api_config as conf
 
+if conf.isdebug:
+  import datetime
 
 
 # обратный геокодинг
@@ -16,7 +18,7 @@ def regeo(get):
   conn = psycopg2.connect(host=db_config.addr_host, database=db_config.addr_database, user=db_config.addr_user, password=db_config.addr_password)
   cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
   cur.execute("""
-    SELECT id, addr_type, full_name
+    SELECT id, addr_type, full_name, name
     FROM ershkus_search_addr_p
     WHERE
       (geom && (ST_GeomFromText('POINT(%(lon)s %(lat)s)',4326)))
@@ -43,19 +45,20 @@ def ifresult(res, output, sphinx):
 
 def editGet(get):
   get['q'] = ' ' + get['q'] + ' '
+  get['q'] = get['q'].lower()
 
   # дома 4-8 +-> 4/8
   get['q'] = re.sub(u'([\s,.])(\d+)-(\d+)([\s,.])', r'\1\2-\3|\2/\3\4', get['q'])
 
   
   # for house
-  get['q'] = re.sub(u'([Кк]орп[у]?[с]?[. ]*)(\d+)', ur'корпус_\2', get['q'])
-  get['q'] = re.sub(u'([Сс]тр[о]?[е]?[н]?[и]?[е]?[. ]*)(\d+)', ur'строение_\2', get['q'])
-  get['q'] = re.sub(u'([Лл]итер[а]?[. ]+)([а-яА-ЯёЁ]+)', ur'литер_\2', get['q'])
+  get['q'] = re.sub(u'(кор(?:п|пус)[. ]*)(\d+)', ur'корпус_\2', get['q'])
+  get['q'] = re.sub(u'(ст(?:р|роение)[. ]*)(\d+)', ur'строение_\2', get['q'])
+  get['q'] = re.sub(u'(литер[а]?[. ]+)([а-яА-ЯёЁ]+)', ur'литер_\2', get['q'])
   # short house
-  get['q'] = re.sub(u'([Кк])(\d+)', ur' корпус_\2 ', get['q'])
-  get['q'] = re.sub(u'([Сс])(\d+)', ur' строение_\2 ', get['q'])
-  get['q'] = re.sub(u'(\d)([Лл])([а-яА-ЯёЁ]+)', ur'\1 литер_\3 ', get['q'])
+  get['q'] = re.sub(u'(к)(\d+)', ur' корпус_\2 ', get['q'])
+  get['q'] = re.sub(u'(с)(\d+)', ur' строение_\2 ', get['q'])
+  get['q'] = re.sub(u'(\d)(л)([а-яА-ЯёЁ]+)', ur'\1 литер_\3 ', get['q'])
   
   
 
@@ -73,9 +76,11 @@ def search(get, output, sphinx):
     output['userPos'] = userPos
     if userPos != []:
       for row in userPos:
+        if conf.isdebug: output['test-timer'].append(str(datetime.datetime.now())+' - firstSearch, '+row['addr_type'])
         sphinx.ResetOnlyFilter()
         sphinx.SetFilter(row['addr_type']+'_id', [row['id']])
         for n in range(1,4,1):
+          if conf.isdebug: output['test-timer'].append(str(datetime.datetime.now())+' - firstSearch, '+row['addr_type']+'-'+str(n))
           q = '"' + get['q'] + '"~' + str(n)
           res = sphinx.Query(q, get['sphinxindex'])
           if ifresult(res, output, sphinx) >= 2:
@@ -85,6 +90,7 @@ def search(get, output, sphinx):
         if ifresult(res, output, sphinx) >= 2:
           return res
 
+  if conf.isdebug: output['test-timer'].append(str(datetime.datetime.now())+' - everywhere')
   # везде
   sphinx.ResetOnlyFilter()
   res = sphinx.Query(get['q'], get['sphinxindex'])
@@ -157,8 +163,8 @@ def ifReturnHouse(res1, get, output, sphinx, pos, words):
 
 # вывод результатов
 def report(res, output, get, sphinx):
-  if conf.isdebug:
-    output['res-report'] = res
+  if conf.isdebug: output['test-timer'].append(str(datetime.datetime.now())+' - def report')
+  if conf.isdebug: output['res-report'] = res
   if ifresult(res, output, sphinx) == 2:
     output['find']=True
     outputdata=[]
@@ -181,6 +187,10 @@ def report(res, output, get, sphinx):
 def main():
   output={}
   output['ver']='0.7'
+  if conf.isdebug:
+    output['test-timer']=[]
+    output['test-timer'].append(str(datetime.datetime.now())+' - 1')
+
 
   getvalues=cgi.FieldStorage()
   get={}
@@ -235,12 +245,13 @@ def main():
   if (get['cnt'] and (not get['nolimit'])):
     sphinx.SetLimits (0, get['cnt'], max(get['cnt'],1000))
 
-
+  if conf.isdebug: output['test-timer'].append(str(datetime.datetime.now())+' - 2')
   editGet(get)
   if conf.isdebug:
     output['test_q'] = get['q']
 
 
+  if conf.isdebug: output['test-timer'].append(str(datetime.datetime.now())+' - 3')
   res = search(get, output, sphinx)
 
   if conf.isdebug:
