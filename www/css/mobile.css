@@ -6,18 +6,27 @@ body {
     margin:0;
 }
 
-/*Сброс стандартных стилей поискового поля*/
-input[type=search] { -webkit-appearance: none; }
+/*Сброс стандартных стилей поискового поля и кнопок*/
+input[type=search],
+input[type=submit] {
+    -webkit-appearance: none;
+}
 
 /*Прячем всё лишнее*/
 
 nav,
 #logo,
-#ttoggle,
+#DidYouKnow,
 .leaflet-control-zoom,
 .leaflet-control-inJOSM,
 .leaflet-control-distance,
 .leaflet-bottom { display: none !important; }
+
+#ttoggle { top: -30px !important; }
+
+#ltoggle {
+
+}
 
 /*Менюшка*/
 /*   
@@ -85,7 +94,6 @@ article[role=main] { top: 60px; }
 
 #mappan {
     left: 0 !important;
-    top: 1.5cm !important;
 }
 
 #qsearch {
@@ -164,9 +172,12 @@ a.leaflet-control-distance-edit     { background-image: url("/img/mobile/ruller-
 /* Левая панель*/
 
 #leftpan {
-    width: 100% !important;
     font-size: 12pt !important;
     z-index: 1001 !important;
+}
+
+article #leftpan {
+    width: 100%;
 }
 
 #ltoggle {
