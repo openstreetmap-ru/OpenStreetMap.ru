@@ -174,6 +174,16 @@ osm.initLayers = function(){
   );
 
   osm.registerLayer(
+    'layerChepetsk',
+    new L.TileLayer('http://ingreelab.net/C04AF0B62BEC112E8D7242FB848631D12D252728/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, rendering <a href=\"http://чепецк.net\" target=\"_blank\">ST-GIS</a>, <a href=\"http://www.openstreetmap.org/user/Max%20Vasilev\" target=\"_blank\">Maks Vasilev</a>"}),
+    'Чепецк.net',
+    'H',
+    true
+  );
+
+  osm.registerLayer(
     'layerBing',
     new L.BingLayer('ApaoUzCK5_6HzEgOsPL_HFxYj-RVA2FAvcvQHX4XKeR6tjzl9lquWXiZSwBFe8h-', {maxZoom: 18}),
     'Снимки Bing',
