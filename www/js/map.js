@@ -232,7 +232,7 @@ osm.initLayers = function(){
       maxZoom: 18,
       attribution: "Map data &copy <a href='http://osm.org'>OpenStreetMap</a> contributors, CC-BY-SA; rendering by <a href='http://kosmosnimki.ru'>kosmosnimki.ru</a>"}),
     'Космоснимки (гибрид)',
-    'H',
+    'h',
     false
   );
 
