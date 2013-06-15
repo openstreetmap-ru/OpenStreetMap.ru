@@ -109,9 +109,9 @@ osm.leftpan.toggleItem = function(item, on) {
   el = $('#leftpantab #'+item+' .leftcontent');
   delay = 0;
   if (typeof on == "undefined") on = !el.is(':visible');
-  if (this.toggleItem_open) {
-    osm.leftpan.item(this.toggleItem_open, false);
-    $('#leftpantab #'+this.toggleItem_open+' .leftcontent').hide("normal");
+  if (this.ltoggleItem_open) {
+    osm.leftpan.item(this.ltoggleItem_open, false);
+    $('#leftpantab #'+this.ltoggleItem_open+' .leftcontent').hide("normal");
     delay = 300;
   }
   if (on) {
@@ -119,41 +119,45 @@ osm.leftpan.toggleItem = function(item, on) {
     osm.leftpan.item(item, true);
     el.stop().delay(delay).show("normal");
     osm.leftpan.refsizetab();
-  } else if (this.toggleItem_open != item) {
+  } else if (this.ltoggleItem_open != item) {
     osm.leftpan.item(item, false);
     el.hide("normal");
   }
   
-  this.toggleItem_open = item;
+  this.ltoggleItem_open = item;
 };
 
 osm.leftpan.toggle = function(on) {
-  if (typeof on == "undefined") on = !this.toggle_open;
-  if (on != this.toggle_open) {
+  if (typeof this.ltoggle_open == "undefined") this.ltoggle_open = true;
+  if (typeof on == "undefined") on = !this.ltoggle_open;
+  if (on != this.ltoggle_open) {
     if (on) {
       $('article[role=main]').removeClass('hlp');
     }
     else {
       $('article[role=main]').addClass('hlp');
     }
+    osm.map.invalidateSize();
   }
-  this.toggle_open = on;
+  this.ltoggle_open = on;
   osm.setCookie("_osm_leftpan=" + (on?"true":"false"));
 };
 
 osm.toppan_toggle = function(on) {
-  if (on === undefined) on = !this.on;
-  if (on != this.on) {
+  if (typeof this.ttoggle_open == "undefined") this.ttoggle_open = true;
+  if (on === undefined) on = !this.ttoggle_open;
+  if (on != this.ttoggle_open) {
     if (on) {
       $('body').removeClass('htp');
     }
     else {
       $('body').addClass('htp');
     }
+    osm.map.invalidateSize();
     on ? $('#ttoggle').html("&uarr;") : $('#ttoggle').html("&darr;");
     osm.setCookie("_osm_htp=" + (on?"true":"false"));
   }
-  this.on = on;
+  this.ttoggle_open = on;
 };
 
 osm.onPermalink = function () {

@@ -77,10 +77,10 @@ $(function() {
   osm.search_marker = new L.LayerGroup();
   osm.map.addLayer(osm.search_marker);
 
-  if (osm.getCookie("_osm_htp") != "false")
-    setTimeout("osm.toppan_toggle(true)", 500);
-  if (osm.getCookie("_osm_leftpan") != "false")
-    setTimeout("osm.leftpan.toggle(true)", 500);
+  if (osm.getCookie("_osm_htp") == "false")
+    osm.toppan_toggle(false);
+  if (osm.getCookie("_osm_leftpan") == "false")
+    osm.leftpan.toggle(false);
     
 
   osm.map.addControl(new L.Control.Scale({width: 100, position: 'bottomleft'}));

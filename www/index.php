@@ -45,7 +45,7 @@ include_once ($_URL[0].'.php');
     srv.url = ['<? print(implode("','", $_URL)) ?>'];
   </script>
 </head>
-<body class="htp">
+<body>
   <nav role="navigation">
     <? show_menu($pages_menu, $_URL[0]); ?>
   </nav>
@@ -59,7 +59,7 @@ include_once ($_URL[0].'.php');
     <div id="colorline" style="background:<?=$current_menu['color']?>;"></div>
     <div id="ttoggle" class="button toggle" accesskey="t" onclick="osm.toppan_toggle();" style="display: none;">&darr;</div>
   </header>
-  <article role="main" id="content" class="hlp">
+  <article role="main" id="content">
     <? print($page_content); ?>
   </article>
   <? print($external_bodyend); ?>
