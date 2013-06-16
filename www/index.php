@@ -57,7 +57,7 @@ include_once ($_URL[0].'.php');
       <? print($page_topbar); ?>
     </div>
     <div id="colorline" style="background:<?=$current_menu['color']?>;"></div>
-    <div id="ttoggle" class="button toggle" accesskey="t" onclick="osm.toppan_toggle();" style="display: none;">&darr;</div>
+    <div id="ttoggle" class="button toggle" accesskey="t" onclick="osm.toppan_toggle();" style="display: none;">&uarr;</div>
   </header>
   <article role="main" id="content">
     <? print($page_content); ?>
