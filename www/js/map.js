@@ -112,6 +112,7 @@ $(function() {
   $(window).resize(osm.leftpan.refsizetab);
 
   osm.map.on('moveend', osm.opento);
+  osm.opento();
 
  }
 });
