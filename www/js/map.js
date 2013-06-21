@@ -115,6 +115,10 @@ $(function() {
   osm.opento();
 
  }
+ 
+ if (frame_map)
+  FramePos();
+ 
 });
 
 osm.initLayers = function(){
