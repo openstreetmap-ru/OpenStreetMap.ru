@@ -51,9 +51,9 @@
 </head>
 <body>
 <? if (isset($_GET['noscreenshot'])) { ?>
-  <div id="logoframe">
+  <div>
     <a href="/">
-      <img id="logo" alt="OpenStreetMap.ru" src="/img/logo.png">
+      <img alt="OpenStreetMap.ru" src="/img/logo.png" style="background-color: rgb(239, 239, 239); border: medium none; height: 49px; left: 0px; opacity: 0.8; position: absolute; top: 0px; width: 288px; z-index: 1;">
     </a>  
   </div>
 <? } ?>
