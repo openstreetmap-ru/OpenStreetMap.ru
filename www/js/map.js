@@ -284,6 +284,14 @@ osm.initLayers = function(){
   );
 
   osm.registerLayer(
+    'layerPanoramio',
+    new L.Panoramio(),
+    'Фото (Panoramio)',
+    'P',
+    false
+  );
+
+  osm.registerLayer(
     'layerWeatherCities',
      new OsmJs.Weather.LeafletLayer({type: 'city', lang: 'ru', temperatureDigits: 0}),
     'Погода (OpenWeatherMap) - города',
@@ -319,7 +327,7 @@ osm.initLayers = function(){
     false
   );
 
-    osm.registerLayer(
+  osm.registerLayer(
     'layerOpenSeaMap',
     new L.TileLayer('http://tiles.openseamap.org/seamark/{z}/{x}/{y}.png', {
       maxZoom: 18,
