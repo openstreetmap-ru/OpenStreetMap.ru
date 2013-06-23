@@ -25,9 +25,7 @@ L.Panoramio = L.FeatureGroup.extend({
 		this.fire('remove');
 	},
 
-	_load: function(data, options={}) {
-		var layers = [];
-
+	_load: function(data) {
 		for (var i = 0; i < data.photos.length; i++) {
 			var p = data.photos[i];
 			var ico = new L.Icon({
