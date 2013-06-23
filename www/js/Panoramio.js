@@ -3,12 +3,13 @@
 
 L.Panoramio = L.FeatureGroup.extend({
 	options: {
-		async: true
+		maxLoad: 100, // max photos loaded in one request (should be less or equal 100)
+		maxTotal: 300 // max total photos
 	},
 
 	initialize: function(options) {
+		L.FeatureGroup.prototype.initialize.call(this);
 		L.Util.setOptions(this, options);
-		this._layers = [];
 	},
 
 	onAdd: function(map, insertAtTheBottom) {
@@ -41,6 +42,11 @@ L.Panoramio = L.FeatureGroup.extend({
 			});
 			this.addLayer(m);
 		}
+		var ks = [];
+		for(var key in this._layers)
+			ks.push(key);
+		for(var i = 0; i < ks.length-this.options.maxTotal; i++)
+			this.removeLayer(this._layers[ks[i]]);
 		//this.fire("loaded");
 	},
 
@@ -68,7 +74,7 @@ L.Panoramio = L.FeatureGroup.extend({
 			e.parentNode.removeChild(e);
 			_this._load(json);
 		};
-		var url = 'http://www.panoramio.com/map/get_panoramas.php?set=public&from=0&to=100&minx='+
+		var url = 'http://www.panoramio.com/map/get_panoramas.php?set=public&from=0&to='+this.options.maxLoad+'&minx='+
 		  minll.lng+'&miny='+minll.lat+'&maxx='+maxll.lng+'&maxy='+maxll.lat+'&size=small&mapfilter=true&callback='+cbid;
 		var script = document.createElement("script");
 		script.type = "text/javascript";
