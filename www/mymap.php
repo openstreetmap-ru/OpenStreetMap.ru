@@ -221,11 +221,11 @@ EOD;
       echo "<wpt lat=\"{$point->lat}\" lon=\"{$point->lon}\"><name>{$point->name}</name><cmt>{$point->description}</cmt></wpt>";
     }
     foreach($data->lines as $line) {
-      echo "<rte><name>{$line->name}</name><cmt>{$line->description}</cmt>";
+      echo "<trk><name>{$line->name}</name><cmt>{$line->description}</cmt><trkseg>";
       foreach($line->points as $point) {
-        echo "<rtept lat=\"{$point[0]}\" lon=\"{$point[1]}\"/>";
+        echo "<trkpt lat=\"{$point[0]}\" lon=\"{$point[1]}\"/>";
       }
-      echo "</rte>";
+      echo "</trkseg></trk>";
     }
   }
   echo "</gpx>";
