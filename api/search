@@ -50,6 +50,8 @@ def editGet(get):
   # дома 4-8 +-> 4/8
   get['q'] = re.sub(u'([\s,.])(\d+)-(\d+)([\s,.])', r'\1\2-\3|\2/\3\4', get['q'])
 
+  # for street numb  '4-ая улица'
+  get['q'] = re.sub(u'( [^4-9]?\d)([ -]|й|ой|ый|я|ая)+(?!корпус|строение|литер)(?=[а-яА-ЯёЁ])', ur'\1-', get['q'])
   
   # for house
   # get['q'] = re.sub(u'((?:д|дом)[. ]*)(\d+)', ur'\2', get['q'])
@@ -100,6 +102,7 @@ def search(get, output, sphinx):
 
   # изменение запроса, в попытке найти что нужно
    # 10 А => 10А, 10-А => 10А
+  if conf.isdebug: output['debug']['test-timer'].append(str(datetime.datetime.now())+' - 10 А=>10А')
   q = ' ' + get['q'] + ' '
   q=re.sub(u'(\d+)[ -]+([А-Яа-я][\s,.])', r'\1\2', q) # 10 А => 10А, 10-А => 10А
   res1 = sphinx.Query(q, get['sphinxindex'])
@@ -109,6 +112,7 @@ def search(get, output, sphinx):
   # уменьшения количества значущих слов
   if conf.isdebug:
     output['debug']['test_big_len'] = {}
+    output['debug']['test-timer'].append(str(datetime.datetime.now())+' - significant words')
   for n in range(len(res['words'])-1, 0, -1):
     q = '"' + get['q'] + '"/' + str(n)
     if conf.isdebug:
