@@ -64,9 +64,9 @@ def editGet(get):
   get['q'] = re.sub(u'(\d)(л)([а-яА-ЯёЁ]+)', ur'\1 литер_\3 ', get['q'])
   
   
-
   get['q'] = get['q'].replace("-","`")
   get['q'] = get['q'].replace("/","\/")
+  get['q'] = get['q'].replace('"',r'\"')
 
 
 # поиск
