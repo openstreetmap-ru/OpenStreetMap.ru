@@ -308,7 +308,7 @@ osm.initLayers = function(){
 
   osm.registerLayer(
     'layerOpenSeaMap',
-    new L.TileLayer('http://tiles.openseamap.org/seamark/{z}/{x}/{y}.png', {
+    new L.TileLayer('http://t1.openseamap.org/seamark/{z}/{x}/{y}.png', {
       maxZoom: 18,
       attribution: "<a href='http://openseamap.org'>OpenSeaMap</a>"}),
     'Открытая морская карта',
