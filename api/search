@@ -51,7 +51,7 @@ def editGet(get):
   get['q'] = re.sub(u'([\s,.])(\d+)-(\d+)([\s,.])', r'\1\2-\3|\2/\3\4', get['q'])
 
   # for street numb  '4-ая улица'
-  get['q'] = re.sub(u'( [^4-9]?\d)([ -]|й|ой|ый|я|ая)+(?!корпус|строение|литер)(?=[а-яА-ЯёЁ])', ur'\1-', get['q'])
+  get['q'] = re.sub(u'( [^4-9]?\d)([-]|й|ой|ый|я|ая)+(?!корпус|строение|литер)(?=[а-яА-ЯёЁ])', ur'\1-', get['q'])
   
   # for house
   # get['q'] = re.sub(u'((?:д|дом)[. ]*)(\d+)', ur'\2', get['q'])
@@ -64,7 +64,7 @@ def editGet(get):
   get['q'] = re.sub(u'(\d)(л)([а-яА-ЯёЁ]+)', ur'\1 литер_\3 ', get['q'])
   
   
-  get['q'] = get['q'].replace("-","`")
+  get['q'] = get['q'].replace("-",u"ъ")
   get['q'] = get['q'].replace("/","\/")
   get['q'] = get['q'].replace('"',r'\"')
 
@@ -112,8 +112,8 @@ def search(get, output, sphinx):
   # уменьшения количества значущих слов
   if conf.isdebug:
     output['debug']['test_big_len'] = {}
-    output['debug']['test-timer'].append(str(datetime.datetime.now())+' - significant words')
-  for n in range(len(res['words'])-1, 0, -1):
+    output['debug']['test-timer'].append(str(datetime.datetime.now())+' - significant words, words:'+str(len(res['words'])))
+  for n in range(len(res['words'])-1, max(len(res['words'])-3,0), -1):
     q = '"' + get['q'] + '"/' + str(n)
     if conf.isdebug:
       output['debug']['test_big_len'][n] = {}
@@ -126,7 +126,7 @@ def search(get, output, sphinx):
         return ifReturnHouse(res1, get, output, sphinx, n, len(res['words']))
       return res1
 
-
+  if conf.isdebug: output['debug']['test-timer'].append(str(datetime.datetime.now())+' - end search')
   return res
 
 # обработка если нет дома
