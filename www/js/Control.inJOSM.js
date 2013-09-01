@@ -21,6 +21,8 @@ L.Control.inJOSM = L.Control.extend({
     this._map.on('moveend', this._update_link, this);
     this._update_link();
 
+    L.DomEvent.addListener(this._link, 'click', L.DomEvent.stopPropagation);
+
     return container;
 	},
 
