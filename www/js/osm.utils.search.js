@@ -60,7 +60,7 @@ search.processResults = function(results) {
         osm.layers.search_marker.addLayer(marker);
       }
       $(search.content).empty().append(content);
-      $('#ol-search_result a', search.content)[0].click();
+      $('#ol-search_result a', search.content).eq(0).click();
     }
   } catch(e) {
     search.content.innerHTML = 'Ошибка: ' + e.description + '<br /> Ответ поиск.серв.: '+results.error;
