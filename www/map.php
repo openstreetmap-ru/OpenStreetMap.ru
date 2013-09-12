@@ -3,16 +3,19 @@ $page_logo = "/img/logo.png";
 
 $page_head_css = <<<PHP_HEAD_CSS
   <link rel="stylesheet" href="/css/leaflet.css" />
+  <link rel="stylesheet" href="/css/leaflet.draw.css" />
   <link rel="stylesheet" href="/css/page.map.css" />
   <link rel="stylesheet" href="/css/jstree/jstree.css" />
   <!--[if lte IE 8]>
     <link rel="stylesheet" href="/css/leaflet.ie.css" />
+    <link rel="stylesheet" href="/css/leaflet.draw.ie.css" />
     <script src="/js/html5shiv.js"></script>
   <![endif]-->
 PHP_HEAD_CSS;
 
 $page_head_js = <<<PHP_HEAD_JS
   <script src="/js/leaflet.js"></script>
+  <script src="/js/leaflet.draw.js"></script>
   <script src="/js/osm.common.js"></script>
   <script src="/js/osm.utils.js"></script>
   <script src="/js/osm.utils.search.js"></script>
