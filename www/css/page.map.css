@@ -214,7 +214,7 @@ article[role="main"] {
 a.leaflet-control-distance-delete {
   margin-left: 5px;
   background-image: url('/img/edit-clear.png'); /* gpl, Alexander Moore */
-  display: inline-block;
+  display: inline-block !important;
 }
 
 .leaflet-control                        { box-shadow: none !important; }
