@@ -192,8 +192,8 @@ article[role="main"] {
 
 .leaflet-control-inJOSM a,
 .leaflet-control-distance a {
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-color: rgba(255, 255, 255, 0.75);
