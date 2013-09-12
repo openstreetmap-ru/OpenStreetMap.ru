@@ -397,7 +397,7 @@ PersonalMarker = L.Marker.extend({ // simple marker without editable functions
   },
   panelText: function() {
     var text = this._pm_name || "Маркер";
-    return "<div onclick='osm.markers._data.points["+this.index+"].display()' style='display:table'><img style='float:left; margin-right:5px' src='" + this.options.icon.getMarkerIconUrl() + "' alt='.'/> <div style='display:table-cell;min-height:41px;vertical-align:middle'>" + text + "</div></div>";
+    return "<div onclick='osm.markers._data.points["+this.index+"].display()' style='display:table'><img style='float:left; margin-right:5px' src='" + this.options.icon.getMarkerIconUrl() + "' alt='.'/> <div style='display:table-cell;min-height:41px;vertical-align:middle'><div style='font-weight: bolder;'>" + text + "</div><div>" + this._pm_description +"</div></div></div>";
   },
   _set_pm_icon_color: function(colorIndex) {
     if (isNaN(parseFloat(colorIndex)) || !isFinite(colorIndex) ||
