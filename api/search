@@ -40,12 +40,33 @@ def ifresult(res, output, sphinx):
     return 12
   if not res['total_found']:
     return 1
-  return 2
+    
+  if checkRes(res, output):
+    return 5
+  else:
+    return 2
+  
+def checkRes(res, output):
+  pref = {'street':[u'улица',u'проспект',u'переулок',u'шоссе',u'площадь',u'бульвар',u'набережная',u'проезд']}
+  
+  if 'street' in res['matches'][0]['attrs']:
+    resW = res['matches'][0]['attrs']['street'].decode('utf-8').lower().split(' ')
+    for strResW in resW:
+      isPref = False
+      for strPref in pref['street']:
+        if strPref == strResW:
+          isPref = True
+          break
+      if isPref: continue
+      if not (output['q_check'].find(strResW)+1): return False
+  
+  return True
 
-
-def editGet(get):
+def editGet(get, output):
   get['q'] = ' ' + get['q'] + ' '
   get['q'] = get['q'].lower()
+  
+  output['q_check'] = get['q'].replace(',',' ').replace('.',' ')
 
   # дома 4-8 +-> 4/8
   get['q'] = re.sub(u'([\s,.])(\d+)-(\d+)([\s,.])', r'\1\2-\3|\2/\3\4', get['q'])
@@ -86,18 +107,18 @@ def search(get, output, sphinx):
           if conf.isdebug: output['debug']['test-timer'].append(str(datetime.datetime.now())+' - firstSearch, '+row['addr_type']+'-'+str(n))
           q = '"' + get['q'] + '"~' + str(n)
           res = sphinx.Query(q, get['sphinxindex'])
-          if ifresult(res, output, sphinx) >= 2:
+          if ifresult(res, output, sphinx) >= 5:
             return res
 
         res = sphinx.Query(get['q'], get['sphinxindex'])
-        if ifresult(res, output, sphinx) >= 2:
+        if ifresult(res, output, sphinx) >= 5:
           return res
 
   if conf.isdebug: output['debug']['test-timer'].append(str(datetime.datetime.now())+' - everywhere')
   # везде
   sphinx.ResetOnlyFilter()
   res = sphinx.Query(get['q'], get['sphinxindex'])
-  if ifresult(res, output, sphinx) >= 2:
+  if ifresult(res, output, sphinx) >= 5:
     return res
 
   # изменение запроса, в попытке найти что нужно
@@ -106,14 +127,14 @@ def search(get, output, sphinx):
   q = ' ' + get['q'] + ' '
   q=re.sub(u'(\d+)[ -]+([А-Яа-я][\s,.])', r'\1\2', q) # 10 А => 10А, 10-А => 10А
   res1 = sphinx.Query(q, get['sphinxindex'])
-  if ifresult(res1, output, sphinx) >= 2:
+  if ifresult(res1, output, sphinx) >= 5:
     return res1
 
   # уменьшения количества значущих слов
   if conf.isdebug:
     output['debug']['test_big_len'] = {}
     output['debug']['test-timer'].append(str(datetime.datetime.now())+' - significant words, words:'+str(len(res['words'])))
-  for n in range(len(res['words'])-1, max(len(res['words'])-3,0), -1):
+  for n in range(len(res['words'])-1, max(len(res['words'])-8,0), -1):
     q = '"' + get['q'] + '"/' + str(n)
     if conf.isdebug:
       output['debug']['test_big_len'][n] = {}
@@ -121,8 +142,8 @@ def search(get, output, sphinx):
     res1 = sphinx.Query(q, get['sphinxindex'])
     if conf.isdebug:
       output['debug']['test_big_len'][n]['ifresult'] = ifresult(res1, output, sphinx)
-    if ifresult(res1, output, sphinx) >= 2:
-      if ifresult(res1, output, sphinx) == 2 and res1['matches'][0]['attrs']['addr_type_id'] >= 35:
+    if ifresult(res1, output, sphinx) >= 5:
+      if ifresult(res1, output, sphinx) == 5 and res1['matches'][0]['attrs']['addr_type_id'] >= 35:
         return ifReturnHouse(res1, get, output, sphinx, n, len(res['words']))
       return res1
 
@@ -170,7 +191,7 @@ def ifReturnHouse(res1, get, output, sphinx, pos, words):
 def report(res, output, get, sphinx):
   if conf.isdebug: output['debug']['test-timer'].append(str(datetime.datetime.now())+' - def report')
   if conf.isdebug: output['debug']['res-report'] = res
-  if ifresult(res, output, sphinx) == 2:
+  if ifresult(res, output, sphinx) == 5:
     output['find']=True
     outputdata=[]
     for match in res['matches']:
@@ -252,9 +273,8 @@ def main():
     sphinx.SetLimits (0, get['cnt'], max(get['cnt'],1000))
 
   if conf.isdebug: output['debug']['test-timer'].append(str(datetime.datetime.now())+' - 2')
-  editGet(get)
-  if conf.isdebug:
-    output['debug']['test_q'] = get['q']
+  editGet(get, output)
+  if conf.isdebug: output['debug']['test_q'] = get['q']
 
 
   if conf.isdebug: output['debug']['test-timer'].append(str(datetime.datetime.now())+' - 3')
