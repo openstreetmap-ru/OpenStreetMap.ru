@@ -11,7 +11,7 @@ if (!isset($_GET["title"])) {
 
 $title = $_GET["title"];
 if (isset($_GET["js"]) && $_GET["js"]) $title = urldecode($title);
-$title = preg_replace("@^http://commons\.wikimedia\.org/wiki/@", "", $title);
+$title = preg_replace("@^https?://commons\.wikimedia\.org/wiki/@", "", $title);
 $title = preg_replace("@\?.+$@", "", $title);
 $title = preg_replace("@#.+$@", "", $title);
 $title = preg_replace("@_@", " ", $title);
