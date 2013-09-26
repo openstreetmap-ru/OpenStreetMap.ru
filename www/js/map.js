@@ -158,6 +158,14 @@ osm.initLayers = function(){
   );
 
   osm.registerLayer(
+    'layerHOT',
+    new L.TileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {maxZoom: 20, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, tiles &copy; <a href='http://hot.openstreetmap.org/' target='_blank'>Humanitarian OpenStreetMap Team</a>", subdomains: 'abc'}),
+    'Humanitarian',
+    'H',
+    true
+  );
+
+  osm.registerLayer(
     'layerMS',
     new L.TileLayer('http://129.206.74.245:8001/tms_r.ashx?x={x}&y={y}&z={z}', {
       maxZoom: 19,
