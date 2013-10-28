@@ -315,6 +315,18 @@ osm.initLayers = function(){
   );
 
   osm.registerLayer(
+    'layerGPSTracks',
+	new L.TileLayer('http://{s}.gps-tile.openstreetmap.org/lines/{z}/{x}/{y}.png', {
+			maxZoom: 20,
+			subdomains: 'abc',
+			attribution: "Tracks &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors"
+		}),
+    'GPS треки',
+    'G',
+    false
+  );
+
+  osm.registerLayer(
     'layerOpenSeaMap',
     new L.TileLayer('http://t1.openseamap.org/seamark/{z}/{x}/{y}.png', {
       maxZoom: 18,
