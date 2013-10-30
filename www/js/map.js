@@ -6,17 +6,17 @@ $(function() {
   if (frame_map) {
     center = new L.LatLng(62.0, 88.0);
     zoom = $(window).width() > 1200 ? 3 : 2;
-    layer = "M";
+    layer = "S";
   } else {
     var loc = osm.getCookie('_osm_location');
     var center;
     var zoom;
-    var layer = 'M';
+    var layer = 'S';
     if(loc) {
       var locs = loc.split('|');
       center = new L.LatLng(locs[1], locs[0]);
       zoom = locs[2];
-      layer = locs[3] || 'M';
+      layer = locs[3] || 'S';
       overlaysAsString = locs[4] || '';
     } else if(clientLat || clientLon) {
       center = new L.LatLng(clientLat, clientLon);
