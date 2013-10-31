@@ -43,7 +43,7 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 		this._map.on("moveend", this.loadBugs, this);
 		this.eachLayer(map.addLayer, map);
 		this.loadBugs();
-		if (!this.options.readonly) {
+		// if (!this.options.readonly) {
 		  // if (this.options.dblClick) {
 			  // map.doubleClickZoom.disable();
 			  // map.on('dblclick', this.addBug, this);
@@ -51,7 +51,7 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 		  // else {
 			  // map.on('click', this.addBug, this);
 			// }
-		}
+		// }
 		this.fire('add');
 	},
 
@@ -60,7 +60,7 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 		this._map.off("moveend", this.loadBugs, this);
 		this.eachLayer(map.removeLayer, map);
 		delete this._map;
-		if (!this.options.readonly) {
+		// if (!this.options.readonly) {
 		  // if (this.options.dblClick) {
 			  // map.doubleClickZoom.enable();
 			  // map.off('dblclick', this.addBug, this);
@@ -68,7 +68,7 @@ L.OpenStreetBugs = L.FeatureGroup.extend({
 		  // else {
 		    // map.off('click', this.addBug, this);
 			// }
-		}
+		// }
 		this.fire('remove');
 	},
 
