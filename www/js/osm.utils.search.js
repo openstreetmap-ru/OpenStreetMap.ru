@@ -34,7 +34,7 @@ search.processResults = function(results) {
       osm.layers.search_marker.clearLayers();
       var matches=results.matches;
       for (var i in matches) {
-        var zoom = matches[i].this_poi?16:matches[i].addr_type_id*2+4;
+        var zoom = (matches[i].this_poi?16:matches[i].addr_type_id/5*2+4).toFixed(0);
         var marker = new L.Marker(new L.LatLng(matches[i].lat, matches[i].lon), {icon: new search.Icon()});
         if (matches[i].this_poi) {
           osm.poi.createPopup(matches[i].id, marker);
