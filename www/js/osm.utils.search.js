@@ -84,6 +84,12 @@ search.search = function(inQuery) {
   osm.input.value = inQuery;
   if (inQuery.length < 1)
     return false;
+    
+  if (search.parserUrlIn(inQuery)) {
+    osm.input.value = '';
+    return false;
+  }
+    
   $("#leftsearch .loader").addClass('on');
   mapCenter=osm.map.getCenter();
   osm.leftpan.toggleItem('leftsearch', true);
@@ -91,6 +97,23 @@ search.search = function(inQuery) {
   .error(search.errorHandler);
   return false;
 };
+
+search.parserUrlIn = function(inQuery) {
+  inQuery = $.trim(inQuery);
+  var res;
+  if (res = inQuery.match(/map=(\d+)[/]([\d.]+)[/]([\d.]+)/i)) { //openstreetmap.org
+    osm.map.setView(new L.LatLng(res[2], res[3]), res[1]);
+    return true;
+  }
+  else if (res = inQuery.match(/yandex.+ll=([\d.]+)(%2C|,)+([\d.]+).+z=(\d+)/i)) { //yandex
+    osm.map.setView(new L.LatLng(res[3], res[1]), res[4]);
+    return true;
+  }
+  else if (res = inQuery.match(/google.+ll=([\d.]+)(%2C|,)+([\d.]+).+z=(\d+)/i)) { //google
+    osm.map.setView(new L.LatLng(res[1], res[3]), res[4]);
+    return true;
+  }
+}
 
 search.inLoad = function() {
   var query = get['q'] || '';
