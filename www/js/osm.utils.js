@@ -106,8 +106,8 @@ osm.leftpan.item = function(item, on) {
 };
 
 osm.leftpan.toggleItem = function(item, on) {
-  el = $('#leftpantab #'+item+' .leftcontent');
-  delay = 0;
+  var el = $('#leftpantab #'+item+' .leftcontent');
+  var delay = 0;
   if (typeof on == "undefined") on = !el.is(':visible');
   if (this.ltoggleItem_open) {
     osm.leftpan.item(this.ltoggleItem_open, false);
