@@ -10,6 +10,7 @@ $(function() {
   mapOptions['layers'] = [mapOptions['baseLayer']];
   osm.map = new L.Map('map', mapOptions);
   
+  osm.permalink.updPos();
   osm.map.on('moveend', osm.permalink.updPos);
   
   for (var i in mapOptions['overlays'])
@@ -401,30 +402,35 @@ osm.sManager.decodeURI = function(str) {
   return decodeURIComponent(str.replace(/\+/g, " "));
 }
 
+osm.sManager.Param2Line = function(obj, sep){
+  var a, url = [];
+  for (a in obj)
+    url.push(a + '=' + obj[a]);
+  return url.join(sep)
+}
+
 osm.sManager.setP = function(k, v, type){
   console.debug(new Date().getTime() + ' start fn osm.sManager.setP'+' - k=' + k + ' - type=' + type);
-  Param2Line = function(obj, sep){
-    var a, url = [];
-    for (a in obj)
-      url.push(a + '=' + obj[a]);
-    return url.join(sep)
-    
-  }
-  if (isUnd(v)) v = ''; 
+  if (isUnd(v)) v = '';
   if (type == 'cookie'){
     osm.p.cookie[k] = v;
     var d = new Date();
     d.setYear(d.getFullYear() + 10);
-    document.cookie = Param2Line(osm.p.cookie, ';') + "; " + "expires=" + d.toGMTString();
+    document.cookie = osm.sManager.Param2Line(osm.p.cookie, ';') + "; " + "expires=" + d.toGMTString();
   }
   else if (type == 'get'){
   }
   else if (type == 'anchor'){
     if (!isUnd(osm.p.anchor[k]) && osm.p.anchor[k] == v) return;
     osm.p.anchor[k] = v;
-    this.hashNoChange = true;
-    location.hash = '#' + Param2Line(osm.p.anchor, '&');
+    var newLine = osm.sManager.Param2Line(osm.p.anchor, '&');
+    location.hash = newLine ? '#' + newLine : '';
   }
+}
+
+osm.sManager.updGet = function() {
+  var newLine = osm.sManager.Param2Line(osm.p.get, '&');
+  location.search = newLine ? '?' + newLine : '';
 }
 
 osm.sManager.on = function(p, fn) {
@@ -478,7 +484,8 @@ osm.permalink.startLoadPos = function() {
       if (strLayer.length > 1)
         overlays = strLayer.substring(1);
     }
-  } else if ((osm.p.get['lat'] || osm.p.get['lon'])
+  }
+  else if ((osm.p.get['lat'] || osm.p.get['lon'])
         && osm.p.get['zoom']) {
     ret['center'] = new L.LatLng(osm.p.get['lat'], osm.p.get['lon']);
     ret['zoom'] = osm.p.get['zoom'];
@@ -486,8 +493,14 @@ osm.permalink.startLoadPos = function() {
       baseLayer = strLayer[0];
       if (strLayer.length > 1)
         overlays = strLayer.substring(1);
+      osm.sManager.setP('layer', osm.p.get.layer, 'anchor'), delete osm.p.get['layer'];
     }
-  } else if (!frame_map && (loc=osm.getCookie('_osm_location'))) {
+    osm.sManager.setP('lat', osm.p.get.lat, 'anchor'), delete osm.p.get['lat'];
+    osm.sManager.setP('lon', osm.p.get.lon, 'anchor'), delete osm.p.get['lon'];
+    osm.sManager.setP('zoom', osm.p.get.zoom, 'anchor'), delete osm.p.get['zoom'];
+    osm.sManager.updGet();
+  }
+  else if (!frame_map && (loc=osm.getCookie('_osm_location'))) {
     loc = loc.split('|');
     ret['center'] = new L.LatLng(loc[1], loc[0]);
     ret['zoom'] = loc[2];
