@@ -21,7 +21,6 @@ $page_head_js = <<<PHP_HEAD_JS
   <script src="/js/osm.utils.search.js"></script>
   <script src="/js/osm.dyk.js"></script>
   <script src="/js/map.js"></script>
-  <script src="/js/Control.Permalink.js"></script>
   <script src="/js/Control.Scale.js"></script>
   <script src="/js/Control.Distance.js"></script>
   <script src="/js/Control.inJOSM.js"></script>

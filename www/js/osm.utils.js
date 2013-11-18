@@ -22,25 +22,6 @@ function reloadKML() {
   wpc.layers.addKML(url);
 }
 
-osm.saveLocation = function() {
-  var ll = osm.map.getCenter();
-  var z = osm.map.getZoom();
-  var currentBaseLayer = osm.map.control_layers.currentBaseLayer();
-  var l = currentBaseLayer ? (osm.layerHashes[currentBaseLayer.name]) : '';
-
-  var ol = '';
-  var curOverlays = osm.map.control_layers.listCurrentOverlays();
-  for(var i in curOverlays){
-    var hash = osm.layerHashes[curOverlays[i].name] || '';
-    //don't save OSB layer
-    if(hash != 'U'){
-        ol += hash;
-    }
-  }
-
-  osm.setCookie("_osm_location=" + ll.lng + "|" + ll.lat + "|" + z + "|" + l + "|" + ol);
-}
-
 osm.editUpdate = function() {
   var pos = osm.map.getBounds();
   var url="http://127.0.0.1:8111/load_and_zoom?left=" + pos._southWest.lng + "&top=" + pos._northEast.lat + "&right=" + pos._northEast.lng + "&bottom=" + pos._southWest.lat;
