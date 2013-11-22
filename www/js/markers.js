@@ -421,7 +421,7 @@ PersonalMarkerEditable = PersonalMarker.extend({
     popupHTML = popupHTML.replace(/\$\$\$/g, 'osm.markers._data.points['+this.index+']');
     popupHTML = popupHTML.replace(/\#\#\#/g, this.index);
     this.bindPopup(popupHTML);
-    this.on('click', function(e){e.target.loadEditableMarker(e)});
+    this.on('popupopen', function(e){e.target.loadEditableMarker(e)});
   },
   saveData: function() {
     var nameEl = $_('marker_name_'+this.index);
@@ -540,7 +540,7 @@ PersonalLineEditable = PersonalLine.extend({
     popupHTML = popupHTML.replace(/\$\$\$/g, 'osm.markers._data.lines['+this.index+']');
     popupHTML = popupHTML.replace(/\#\#\#/g, this.index);
     this.bindPopup(popupHTML);
-    this.on('click', function(e){e.target.loadEditableLine(e)});
+    this.on('popupopen', function(e){e.target.loadEditableLine(e)});
   },
   saveData: function(e) {
     var nameEl = $_('line_name_'+this.index);
