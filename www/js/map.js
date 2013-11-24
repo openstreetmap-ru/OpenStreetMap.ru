@@ -605,16 +605,22 @@ osm.permalink.setLayer = function() {
 
 osm.permalink.updPos = function() {
   console.debug(new Date().getTime() + ' start fn osm.permalink.updPos');
-  var center = osm.map.getCenter();
   var zoom = osm.map.getZoom();
-  var precision = Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
+  var center = osm.permalink.rounding(zoom, osm.map.getCenter());
   
   osm.sManager.setP('zoom', zoom, 'anchor');
-  osm.sManager.setP('lat', center.lat.toFixed(precision), 'anchor');
-  osm.sManager.setP('lon', center.lng.toFixed(precision), 'anchor');
+  osm.sManager.setP('lat', center.lat, 'anchor');
+  osm.sManager.setP('lon', center.lng, 'anchor');
   osm.sManager.setP('zoom', zoom, 'cookie');
-  osm.sManager.setP('lat', center.lat.toFixed(precision), 'cookie');
-  osm.sManager.setP('lon', center.lng.toFixed(precision), 'cookie');
+  osm.sManager.setP('lat', center.lat, 'cookie');
+  osm.sManager.setP('lon', center.lng, 'cookie');
+}
+
+osm.permalink.rounding = function(zoom, pos) {
+  var precision = Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
+  pos.lat = pos.lat.toFixed(precision);
+  pos.lng = pos.lng.toFixed(precision);
+  return pos;
 }
 
 osm.permalink.updLayer = function(obj) {
@@ -641,6 +647,30 @@ osm.permalink.updLayerP = function () {
   osm.sManager.setP('layer', hash, 'anchor');
   console.debug('updLayerP - ' + hash);
   osm.sManager.setP('layer', hash, 'cookie');
+}
+
+osm.permalink.addMarker = function () {
+  osm.map.on('click', osm.permalink.createMarker);
+  $('#map').css('cursor','crosshair');
+}
+
+osm.permalink.createMarker = function(e) {
+  osm.map.off('click', osm.permalink.createMarker);
+  $('#map').css('cursor','');
+  osm.permalink.setPopupMarker(e.latlng);
+}
+
+osm.permalink.setPopupMarker = function (pos) {
+  var zoom = osm.map.getZoom();
+  pos = this.rounding(zoom, pos);
+  
+  if (this.LMarker)
+    osm.map.removeLayer(this.LMarker);
+  this.LMarker = new L.Marker(pos);
+  osm.map.addLayer(this.LMarker);
+  var url = '/#' + 'lat=' + pos.lat + '&lon=' + pos.lng + '&zoom=' + zoom;
+  var popup = this.LMarker.bindPopup('<a href="'+url+'">Ссылка на маркер</a>');
+  popup.openPopup();
 }
 
 osm.permalink.include = function(obj){

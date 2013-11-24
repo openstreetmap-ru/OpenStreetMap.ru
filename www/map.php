@@ -121,7 +121,7 @@ $page_content = <<<PHP_CONTENT
         <h1>Другие инструменты</h1>
         <div class="leftcontent" style="display: none;">
           <ul>
-            <li><a onclick="osm.markers.addPoint();" href='#'>Поставить маркер</a></li>
+            <li><a onclick="osm.permalink.addMarker(); return false;" href='#'>Поставить маркер</a></li>
             <li><a id="EditJOSM" href='#'>Редактировать (в JOSM)</a></li>
           </ul>
         </div>

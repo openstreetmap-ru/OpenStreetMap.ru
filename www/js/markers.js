@@ -58,19 +58,6 @@ osm.markers.initialize = function() {
 osm.markers.decodehtml = function(s) {
   if(s) return $("<div/>").html(s).text(); else return s;
 }
-osm.markers.addPoint = function ()
-{
-	if (osm.markers._drawingMode != 1) osm.markers._removeHandlers();
-
-	osm.map.on('click', osm.markers.createPoint);
-	$_('map').style.cursor = 'crosshair';
-	osm.markers._drawingMode = 1;
-}
-osm.markers.createPoint = function(e) {
-	osm.map.permalink._popup_marker(e.latlng);
-	osm.map.off('click', osm.markers.createPoint);
-	$_('map').style.cursor='';
-}
 osm.markers.personalMap = function() {
   osm.markers._admin.editable = true;
 }
@@ -81,10 +68,6 @@ osm.markers._removeHandlers = function() {
 
 	switch (oldDrawingMode)
 	{
-		case 1:
-			func = osm.markers.createPoint;
-			elementId = '';
-			break;
 		case 2:
 			func = osm.markers.createPoints;
 			elementId = '#pm-button-marker';
