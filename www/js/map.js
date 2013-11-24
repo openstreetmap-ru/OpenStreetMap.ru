@@ -10,8 +10,7 @@ $(function() {
   mapOptions['layers'] = [mapOptions['baseLayer']];
   osm.map = new L.Map('map', mapOptions);
   
-  osm.permalink.updPos();
-  osm.map.on('moveend', osm.permalink.updPos);
+  osm.permalink.start();
   
   for (var i in mapOptions['overlays'])
     osm.map.addLayer(mapOptions['overlays'][i]);
@@ -461,7 +460,14 @@ osm.sManager.on = function(p, fn) {
 
 
 
-osm.permalink = {p:{}};
+osm.permalink = {
+  p:{},
+  defaults:{
+    baseLayer:'layerMS',
+    center: new L.LatLng(62.0, 88.0),
+    zoom: ($(window).width() > 1200 ? 3 : 2)
+  }
+};
 
 $(function() {
   osm.sManager.on(['zoom','lat','lon'], osm.permalink.setPos);
@@ -473,9 +479,12 @@ $(function() {
 })
 
 osm.permalink.startLoadPos = function() {
-  var ret = {}, loc = '', baseLayer = 'S', overlays = '', strLayer;
-  ret['center'] = new L.LatLng(62.0, 88.0);
-  ret['zoom'] = $(window).width() > 1200 ? 3 : 2;
+  var loc = '', overlays = '', strLayer;
+  var baseLayer = osm.layers[this.defaults.baseLayer].options.osmHash;
+  var ret = {
+    center: this.defaults.center,
+    zoom: this.defaults.zoom
+  };
   
   if ((osm.p.anchor['lat'] || osm.p.anchor['lon'])
         && osm.p.anchor['zoom']) {
@@ -515,38 +524,45 @@ osm.permalink.startLoadPos = function() {
   
   ret['baseLayer'] = osm.layers[osm.layerHash2name[baseLayer]];
   
-  ret['overlays'] = []
+  ret['overlays'] = {}
   for (var i in overlays) {
     var over = osm.layers[osm.layerHash2name[overlays[i]]];
     if (over)
-      ret['overlays'].push(over);
+      ret.overlays[over.options.osmName] = over;
   }
   
-  osm.permalink.p['center'] = ret['center'];
-  osm.permalink.p['zoom'] = ret['zoom'];
-  osm.permalink.p['baseLayer'] = ret['baseLayer'];
-  osm.permalink.p['overlays'] = ret['overlays'];
+  this.p['center'] = ret.center;
+  this.p['zoom'] = ret.zoom;
+  this.p['baseLayer'] = ret.baseLayer;
+  this.p['overlays'] = ret.overlays;
   
   return ret;
 }
 
+osm.permalink.start = function() {
+  this.updPos();
+  osm.map.on('moveend', osm.permalink.updPos);
+  
+  if (osm.layers[this.defaults.baseLayer] != this.p.baseLayer || !$.isEmptyObject(this.p.overlays))
+    this.updLayerP();
+};
+
 osm.permalink.setPos = function() {
   console.debug(new Date().getTime() + ' start fn osm.permalink.setPos');
-  var loc = '', baseLayer = 'S', overlays = '';
-  if (isUnd(osm.permalink.p['center']))
-    osm.permalink.p['center'] = new L.LatLng(62.0, 88.0);
+  if (isUnd(osm.permalink.p.center))
+    osm.permalink.p.center = osm.permalink.defaults.center;
 
-  if (isUnd(osm.permalink.p['zoom']))
-    osm.permalink.p['zoom'] = $(window).width() > 1200 ? 3 : 2;
+  if (isUnd(osm.permalink.p.zoom))
+    osm.permalink.p.zoom = osm.permalink.defaults.zoom;
   
   if (!isUnd(osm.p.anchor['lat']) && !isUnd(osm.p.anchor['lon']) && osm.p.anchor['zoom']) {
-    osm.permalink.p['center'] = new L.LatLng(osm.p.anchor['lat'], osm.p.anchor['lon']);
-    osm.permalink.p['zoom'] = osm.p.anchor['zoom'];
+    osm.permalink.p.center = new L.LatLng(osm.p.anchor['lat'], osm.p.anchor['lon']);
+    osm.permalink.p.zoom = osm.p.anchor['zoom'];
   }
   
-  if (osm.permalink.p['center'] != osm.map.getCenter() || osm.permalink.p['zoom'] != osm.map.getZoom())
-    osm.map.setView(osm.permalink.p['center'], osm.permalink.p['zoom']);
-}
+  if (osm.permalink.p.center != osm.map.getCenter() || osm.permalink.p.zoom != osm.map.getZoom())
+    osm.map.setView(osm.permalink.p.center, osm.permalink.p.zoom);
+};
 
 osm.permalink.setLayer = function() {
   console.debug(new Date().getTime() + ' start fn osm.permalink.setLayer');
@@ -555,7 +571,7 @@ osm.permalink.setLayer = function() {
   if (strLayer && strLayer.length > 0) {
     // разбор строки
     baseLayer = osm.layers[osm.layerHash2name[strLayer[0]]];
-    osm.permalink.p['overlays'] = {};
+    osm.permalink.p.overlays = {};
     var overlays = [];
     if (strLayer.length > 1) {
       for (var i = 1; i < strLayer.length; i++) {
@@ -566,10 +582,10 @@ osm.permalink.setLayer = function() {
       }
     }
     // базовый слой
-    if (!isUnd(baseLayer) && baseLayer != osm.permalink.p['baseLayer']){
-      osm.map.removeLayer(osm.permalink.p['baseLayer']);
+    if (!isUnd(baseLayer) && baseLayer != osm.permalink.p.baseLayer){
+      osm.map.removeLayer(osm.permalink.p.baseLayer);
       osm.map.addLayer(baseLayer);
-      osm.permalink.p['baseLayer'] = baseLayer;
+      osm.permalink.p.baseLayer = baseLayer;
     }
     // прозрачные слои
     if (!isUnd(overlays)) {
@@ -612,13 +628,18 @@ osm.permalink.updLayer = function(obj) {
   else if (obj.type == 'overlayremove') {
     delete osm.permalink.p.overlays[obj.layer.options.osmName];
   }
+  
+  osm.permalink.updLayerP ();
+}
+
+osm.permalink.updLayerP = function () {
   var hash = '';
-  hash += osm.permalink.p.baseLayer.options.osmHash;
-  for(var i in osm.permalink.p.overlays) {
-    hash += osm.permalink.p.overlays[i].options.osmHash;
-  }
+  hash += this.p.baseLayer.options.osmHash;
+  for(var i in this.p.overlays)
+    hash += this.p.overlays[i].options.osmHash;
+  
   osm.sManager.setP('layer', hash, 'anchor');
-  console.debug('updLayer - ' + hash);
+  console.debug('updLayerP - ' + hash);
   osm.sManager.setP('layer', hash, 'cookie');
 }
 
