@@ -16,28 +16,9 @@ PHP_HEAD_CSS;
 $page_head_js = <<<PHP_HEAD_JS
   <script src="/js/leaflet.js"></script>
   <script src="/js/leaflet.draw.js"></script>
-  <script src="/js/osm.common.js"></script>
-  <script src="/js/osm.utils.js"></script>
-  <script src="/js/osm.utils.search.js"></script>
-  <script src="/js/osm.dyk.js"></script>
-  <script src="/js/map.js"></script>
-  <script src="/js/Control.Scale.js"></script>
-  <script src="/js/Control.Distance.js"></script>
-  <script src="/js/Control.inJOSM.js"></script>
-  <script src="/js/Layer.TileLayer.Bing.js"></script>
-  <script src="/js/KML.js"></script>
   <script src="/js/suncalc.js"></script>
-  <script src="/js/osmjs-validators-layer.js"></script>
-  <script src="/js/osmjs-validators-errors.js"></script>
-  <script src="/js/osmjs-weather-layer.js"></script>
-  <script src="/js/OpenStreetBugs.js"></script>
-  <script src="/js/markers.js"></script>
-  <script src="/js/validators.js"></script>
-  <script src="/js/wpc.js"></script>
   <script src="/js/jquery.jstree.js"></script>
-  <script src="/js/poi.js"></script>
-  <script src="/js/autocomplete.js"></script>
-  <script src="/js/Panoramio.js"></script>
+  <script src="/js/page.map.js"></script>
   <script src="/geo.php"></script>
 PHP_HEAD_JS;
 
