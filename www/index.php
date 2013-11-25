@@ -12,12 +12,12 @@ if (empty($_URL[0]))
   $_URL[0] = 'map';
 
 if (empty($pages_menu[$_URL[0]]))
-  Err404();
+  include_once '404.php';
 
 $current_menu = $pages_menu[$_URL[0]];
 
 if (!file_exists($current_menu["name"].'.php'))
-  Err404();
+  include_once '404.php';
 
 include_once ('include/external.php');
 include_once ($_URL[0].'.php');

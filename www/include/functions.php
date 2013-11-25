@@ -16,18 +16,6 @@ function show_menu($pages, $current = '') {
   echo '</ul>';
 }
 
-function err404($code=0) {
-  header("Status: 404 Not Found");
-  include_once '404.php';
-  exit();
-}
-
-function err500() {
-  header("Status: 500 Internal Server Error");
-  include_once '500.php';
-  exit();
-}
-
 # see http://www.php.net/manual/ru/ref.pgsql.php#89841
 function pg_array_parse( $text, &$output, $limit = false, $offset = 1 )
 {
