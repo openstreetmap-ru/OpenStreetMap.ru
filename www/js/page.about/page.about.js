@@ -22,13 +22,13 @@ $(function(){  //init
     }
     d = new Date();
     d.setYear(d.getFullYear()+10);
-    document.cookie = "_osm_dyk_ex=" + ex.join(',') + " ; path=/ ; expires=" + d.toGMTString();
-    document.cookie = "_osm_dyk_val= ; path=/";
+    osm.sManager.setP('dyk_ex', ex.join(','), 'cookie');
+    osm.sManager.setP('dyk_val', '', 'cookie');
   });
 
   $('#dyk-tools #dyk-forget').bind('click', function(){
-    document.cookie = "_osm_dyk_ex= ; path=/";
-    document.cookie = "_osm_dyk_val= ; path=/";
+    osm.sManager.setP('dyk_ex', '', 'cookie');
+    osm.sManager.setP('dyk_val', '', 'cookie');
   });
 
   if (document.location.hash.substr(1,2)=='id') {

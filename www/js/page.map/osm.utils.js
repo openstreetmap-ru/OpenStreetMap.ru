@@ -31,7 +31,7 @@ osm.editUpdate = function() {
 }
 
 osm.setLinkOSB = function() {
-  if (parseInt(get['bugid'])) {
+  if (parseInt(osm.p.get.bugid)) {
     osm.map.addLayer(osm.layers.osb);
     osm.map.control_layers._update();
   }
@@ -121,7 +121,7 @@ osm.leftpan.toggle = function(on) {
     osm.map.invalidateSize();
   }
   this.ltoggle_open = on;
-  osm.setCookie("_osm_leftpan=" + (on?"true":"false"));
+  osm.sManager.setP('leftpan', (on?"true":"false"), 'cookie');
 };
 
 osm.toppan_toggle = function(on) {
@@ -136,7 +136,7 @@ osm.toppan_toggle = function(on) {
     }
     osm.map.invalidateSize();
     on ? $('#ttoggle').html("&uarr;") : $('#ttoggle').html("&darr;");
-    osm.setCookie("_osm_htp=" + (on?"true":"false"));
+    osm.sManager.setP('htp', (on?"true":"false"), 'cookie');
   }
   this.ttoggle_open = on;
 };
@@ -152,14 +152,6 @@ osm.ui.whereima = function() {
 	});
 
 	osm.map.locate({setView: true, maxZoom: 16});
-};
-
-osm.ui.togglehtp = function() {
-  $('body').hasClass('htp') ? $('#htpbutton').html("&uarr;") : $('#htpbutton').html("&darr;");
-  $('body').toggleClass('htp');
-  var on = !$('body').hasClass('htp');
-  osm.setCookie("_osm_htp=" + on);
-  setTimeout("osm.leftpan.refsizetab()", 100);
 };
 
 osm.ui.searchsubmit = function() {

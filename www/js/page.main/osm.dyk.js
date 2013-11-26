@@ -3,7 +3,7 @@ osm.dyk={};
 
 osm.dyk.loadval = function(){
   var val = {};
-  var valcook = osm.getCookie('_osm_dyk_val');
+  var valcook = osm.p.cookie.dyk_val;
   if (valcook) {
     group = valcook.split(',');
     for (var i=0;i<group.length;i++){
@@ -18,12 +18,12 @@ osm.dyk.saveval = function(val, id){
   var d = new Date();
   d.setYear(d.getFullYear()+10);
   if (val[id]>=5) {
-    var ex = osm.getCookie('_osm_dyk_ex');
+    var ex = osm.p.cookie.dyk_ex;
     if (ex)
       ex = ex + ',' + id;
     else
       ex = '' + id;
-    document.cookie = "_osm_dyk_ex=" + ex + "; expires=" + d.toGMTString();
+    osm.sManager.setP('dyk_ex', ex, 'cookie');
     delete val[id];
   }
 
@@ -33,7 +33,7 @@ osm.dyk.saveval = function(val, id){
   }
   valcook=valcook.substr(0,valcook.length-1);
 
-  document.cookie = "_osm_dyk_val=" + valcook + "; expires=" + d.toGMTString();
+  osm.sManager.setP('dyk_val', valcook, 'cookie');
 };
 
 osm.dyk.updateval = function(id, addnum) {
@@ -44,7 +44,7 @@ osm.dyk.updateval = function(id, addnum) {
 }
 
 osm.dyk.load = function(){
-  var ex = osm.getCookie('_osm_dyk_ex') || '';
+  var ex = osm.p.cookie.dyk_ex || '';
 
   $.getJSON('/api/didyouknow', {ex:ex}, function(results){
     if (results.data) {

@@ -116,7 +116,7 @@ search.parserUrlIn = function(inQuery) {
 }
 
 search.inLoad = function() {
-  var query = get['q'] || '';
+  var query = osm.p.get.q || '';
   if (query != '')
     search.search(query);
 };
