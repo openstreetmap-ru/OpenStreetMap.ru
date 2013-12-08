@@ -209,6 +209,24 @@ osm.poi = {
           .append($('<td>').text('Описание: '))
           .append($('<td>').text(getdata.description).addClass('poi_value'))
       }
+      
+      // addr
+      if (getdata.addr_street) {
+        getdata.addr = getdata.addr_street;
+        getdata.addr += (getdata.addr_house ? ', '+getdata.addr_house : '');
+      }
+      else if (getdata.addr_city)
+        getdata.addr = getdata.addr_city;
+      else if (getdata.addr_village)
+        getdata.addr = getdata.addr_village;
+      else
+        getdata.addr = getdata.addr_full_name;
+      
+      getdata.addr = getdata.addr
+        .replace(/улица/g, 'ул.')
+        .replace(/проспект/g, 'пр-т.')
+        .replace(/дом /g, '');
+      
 
       ret = $('<div>').addClass('poi_popup').attr('id',getdata.id)
         .append($('<p>').addClass('poi_header')
@@ -219,7 +237,7 @@ osm.poi = {
           .append(opening_hours)
           .append($('<tr>').addClass('poi_addr')
             .append($('<td>').text('Адрес: '))
-            .append($('<td>').text(getdata.addr_full_name||"").addClass('poi_value'))
+            .append($('<td>').text(getdata.addr ||"").addClass('poi_value'))
           )
           .append(operator)
           .append(brand)
