@@ -22,7 +22,9 @@ def main():
       js_in = ''
       if fDir[-1] != os.sep: fDir += os.sep
       fOutName = fDir[:-1]
-      for fFile in os.listdir(cat_in_js + fDir): # просмотр файлов в директориях
+      fFiles = os.listdir(cat_in_js + fDir)
+      fFiles.sort()
+      for fFile in fFiles: # просмотр файлов в директориях
         if os.path.isfile(cat_in_js + fDir + fFile):
           js_in += ' --js=' + cat_in_js + fDir + fFile
       
