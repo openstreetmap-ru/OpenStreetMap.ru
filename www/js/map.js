@@ -191,15 +191,6 @@ osm.initLayers = function(){
     true
   );
 
-/*
-  osm.registerLayer(
-    'layerLatlonBuildings',
-    new L.TileLayer('http://{s}.tile.osmosnimki.ru/buildings/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Трёхмерные здания &copy; <a href='http://latlon.org/pt'>LatLon.org</a>", subdomains: 'abcdef'}),
-    'Трёхмерные здания',
-    'Z',
-    false
-  );
-*/
   if (!frame_map)
   osm.registerLayer(
     'osb',
@@ -212,19 +203,8 @@ osm.initLayers = function(){
   osm.registerLayer(
     'layerPt',
     new L.TileLayer('http://pt.openmap.lt/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Маршруты &copy; <a href='http://openmap.lt'>openmap.lt</a>"}),
-    //new L.TileLayer('http://{s}.tile.osmosnimki.ru/pt/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Маршруты &copy; <a href='http://latlon.org/pt'>LatLon.org</a>", subdomains: 'abcdef'}),
     'Общественный транспорт',
     'T',
-    false
-  );
-
-  osm.registerLayer(
-    'layerKosmoHyb',
-    new L.TileLayer('http://{s}.tile.osmosnimki.ru/hyb/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      attribution: "Map data &copy <a href='http://osm.org'>OpenStreetMap</a> contributors, CC-BY-SA; rendering by <a href='http://kosmosnimki.ru'>kosmosnimki.ru</a>"}),
-    'Космоснимки (гибрид)',
-    'k',
     false
   );
 
