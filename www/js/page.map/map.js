@@ -5,13 +5,9 @@ $(function() {
 
   var mapOptions = osm.permalink.startLoadPos();
   mapOptions['zoomControl'] = false;
-  mapOptions['layers'] = [mapOptions['baseLayer']];
   osm.map = new L.Map('map', mapOptions);
   
   osm.permalink.start();
-  
-  for (var i in mapOptions['overlays'])
-    osm.map.addLayer(mapOptions['overlays'][i]);
   
   L.Icon.Default.imagePath='/img';
   osm.markers.initialize();
@@ -35,6 +31,10 @@ $(function() {
   );
   osm.permalink.include(osm.map.control_layers);
   osm.map.addControl(osm.map.control_layers);
+  
+  osm.map.addLayer(mapOptions['baseLayer']);
+  for (var i in mapOptions['overlays'])
+    osm.map.addLayer(mapOptions['overlays'][i]);
 
   osm.leftpan.panel = $_('leftpan');
   osm.leftpan.content = $_('content_pan');
@@ -89,6 +89,16 @@ osm.initLayers = function(){
   osm.overlays = {};
 
   osm.registerLayer(
+    'layerMS',
+    new L.TileLayer('http://openmapsurfer.uni-hd.de/tiles/roads/x={x}&y={y}&z={z}', {
+      maxZoom: 19,
+      attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, rendering <a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ University of Heidelberg</a>"}),
+    'MapSurfer.net',
+    'S',
+    true
+  );
+
+  osm.registerLayer(
     'layerMapnik',
     new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors"}),
     'Mapnik',
@@ -121,16 +131,6 @@ osm.initLayers = function(){
     new L.TileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {maxZoom: 20, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, tiles &copy; <a href='http://hot.openstreetmap.org/' target='_blank'>Humanitarian OpenStreetMap Team</a>", subdomains: 'abc'}),
     'Humanitarian',
     'H',
-    true
-  );
-
-  osm.registerLayer(
-    'layerMS',
-    new L.TileLayer('http://openmapsurfer.uni-hd.de/tiles/roads/x={x}&y={y}&z={z}', {
-      maxZoom: 19,
-      attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, rendering <a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ University of Heidelberg</a>"}),
-    'MapSurfer.net',
-    'S',
     true
   );
 
