@@ -259,6 +259,14 @@ osm.initLayers = function(){
   );
 
   osm.registerLayer(
+    'layerFlickr',
+    new L.Flickr('dfa25833234018ef8f19fb04c6935b77'),
+    'Фото (Flickr)',
+    'F',
+    false
+  );
+
+  osm.registerLayer(
     'layerWeatherCities',
      new OsmJs.Weather.LeafletLayer({type: 'city', lang: 'ru', temperatureDigits: 0}),
     'Погода (OpenWeatherMap) - города',

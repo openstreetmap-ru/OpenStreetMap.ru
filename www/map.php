@@ -39,6 +39,7 @@ $page_head_js = <<<PHP_HEAD_JS
   <script src="/js/poi.js"></script>
   <script src="/js/autocomplete.js"></script>
   <script src="/js/Panoramio.js"></script>
+  <script src="/js/Flickr.js"></script>
   <script src="/geo.php"></script>
 PHP_HEAD_JS;
 
