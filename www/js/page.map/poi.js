@@ -152,7 +152,13 @@ osm.poi = {
         if (properLink.indexOf(':') < 0) {
           properLink = 'http://' + properLink;
         }
-
+        
+        getdata.website = getdata.website.toLowerCase()
+          .replace(/(http:\/\/)?(www.)?(.+)/g, '$3')
+          .replace(/(.+)(\/$)/gm, '$1')
+        if (getdata.website.length > 18)
+          getdata.website = getdata.website.substr(0,16) + '...';
+        
         website=$('<tr>').addClass('poi_website')
           .append($('<td>').text('Web-сайт: '))
           .append($('<td>').addClass('poi_value')
