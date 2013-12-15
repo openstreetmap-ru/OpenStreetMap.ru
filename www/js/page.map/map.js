@@ -5,6 +5,7 @@ $(function() {
 
   var mapOptions = osm.permalink.startLoadPos();
   mapOptions['zoomControl'] = false;
+  mapOptions['zoomsliderControl'] = true;
   osm.map = new L.Map('map', mapOptions);
   
   osm.permalink.start();
@@ -51,7 +52,6 @@ $(function() {
 
   osm.map.addControl(new L.Control.Scale({width: 100, position: 'bottomleft'}));
 
-  osm.map.addControl(new L.Control.Zoom({shiftClick: true}));
   osm.map.addControl(new L.Control.Distance());
   osm.map.addControl(new L.Control.inJOSM({target:'hiddenIframe', linktitle: 'Редактировать в JOSM'}));
   osm.validators.initialize();
