@@ -72,7 +72,8 @@ $(function() {
 
   osm.map.on('moveend', osm.opento);
   osm.opento();
-
+  
+  $('body').keypress(osm.keypress);
  }
  
  if (frame_map)
@@ -314,6 +315,20 @@ osm.registerLayer = function (name, layer, title, hash, isBase){
           osm.overlays[title] = osm.layers[name];
         }
     }
+}
+
+
+osm.keypress = function(e) {
+  if (e.keyCode == 8) {
+    if (e.target.id != 'qsearch') {
+      var search = $('#qsearch');
+      search.focus();
+      var text = search.val();
+      text = text.substr(0, text.length - 1);
+      search.val(text);
+      return false;
+    }
+  }
 }
 
 
