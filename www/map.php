@@ -18,7 +18,6 @@ PHP_HEAD_CSS;
 $page_head_js = <<<PHP_HEAD_JS
   <script src="/js/leaflet.js"></script>
   <script src="/js/leaflet.draw.js"></script>
-  <script src="/js/L.Control.Zoomslider.js"></script>
   <script src="/js/suncalc.js"></script>
   <script src="/js/jquery.jstree.js"></script>
   <script src="/js/page.map.js"></script>
