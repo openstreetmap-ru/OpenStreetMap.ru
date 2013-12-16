@@ -67,7 +67,7 @@ osm.sManager.loadAnchor = function() {
         else
           continue;
         
-        if ((!isUnd(oldAnchor[newP['k']]) && oldAnchor[newP['k']] != newP['v'])
+        if ((!isUnd(oldAnchor[newP['k']]) && oldAnchor[newP['k']] !== newP['v'])
                 || (isUnd(oldAnchor[newP['k']]) && !isUnd(this._on))
               && newP['k'] in this._on.p
               && !(ex.indexOf(this._on.p[newP['k']]) + 1) ) {
@@ -105,7 +105,7 @@ osm.sManager.setP = function(k, v, type){
   else if (type == 'get'){
   }
   else if (type == 'anchor'){
-    if (!isUnd(osm.p.anchor[k]) && osm.p.anchor[k] == v) return;
+    if (!isUnd(osm.p.anchor[k]) && osm.p.anchor[k] === v) return;
     osm.p.anchor[k] = v;
     var newLine = osm.sManager.Param2Line(osm.p.anchor, '&');
     location.hash = newLine ? '#' + newLine : '';
