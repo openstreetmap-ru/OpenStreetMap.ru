@@ -108,7 +108,8 @@ osm.sManager.setP = function(k, v, type){
     if (!isUnd(osm.p.anchor[k]) && osm.p.anchor[k] === v) return;
     osm.p.anchor[k] = v;
     var newLine = osm.sManager.Param2Line(osm.p.anchor, '&');
-    location.hash = newLine ? '#' + newLine : '';
+    newLine = newLine ? '#' + newLine : '';
+    location.replace(newLine);
   }
 }
 
