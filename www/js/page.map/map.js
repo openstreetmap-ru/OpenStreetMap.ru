@@ -36,48 +36,48 @@ $(function() {
   for (var i in mapOptions['overlays'])
     osm.map.addLayer(mapOptions['overlays'][i]);
 
- if (!frame_map) {
-  osm.leftpan.panel = $_('leftpan');
-  osm.leftpan.content = $_('content_pan');
-  osm.mappan.panel = $_('mappan');
-  osm.input = $_('qsearch');
-  osm.input.focus();
-  osm.search_marker = new L.LayerGroup();
-  osm.map.addLayer(osm.search_marker);
+  if (!frame_map) {
+    osm.leftpan.panel = $_('leftpan');
+    osm.leftpan.content = $_('content_pan');
+    osm.mappan.panel = $_('mappan');
+    osm.input = $_('qsearch');
+    osm.input.focus();
+    osm.search_marker = new L.LayerGroup();
+    osm.map.addLayer(osm.search_marker);
 
-  if (osm.p.cookie.htp == "false")
-    osm.toppan_toggle(false);
-  if (osm.p.cookie.leftpan == "false")
-    osm.leftpan.toggle(false);
+    if (osm.p.cookie.htp == "false")
+      osm.toppan_toggle(false);
+    if (osm.p.cookie.leftpan == "false")
+      osm.leftpan.toggle(false);
 
-  osm.map.addControl(new L.Control.Scale({width: 100, position: 'bottomleft'}));
+    osm.map.addControl(new L.Control.Scale({width: 100, position: 'bottomleft'}));
 
-  osm.map.addControl(new L.Control.Distance());
-  osm.map.addControl(new L.Control.inJOSM({target:'hiddenIframe', linktitle: 'Редактировать в JOSM'}));
-  osm.validators.initialize();
-  osm.poi.initialize();
+    osm.map.addControl(new L.Control.Distance());
+    osm.map.addControl(new L.Control.inJOSM({target:'hiddenIframe', linktitle: 'Редактировать в JOSM'}));
+    osm.validators.initialize();
+    osm.poi.initialize();
 
-  search.inLoad();
+    search.inLoad();
 
-  osm.editUpdate();
-  osm.map.on('moveend', osm.editUpdate);
+    osm.editUpdate();
+    osm.map.on('moveend', osm.editUpdate);
 
-  osm.setLinkOSB();
+    osm.setLinkOSB();
 
-  if (osm.p.get.hidetoppan) osm.toppan_toggle(false);
+    if (osm.p.get.hidetoppan) osm.toppan_toggle(false);
 
-  if ($('#leftpantab').height()>300)
-    osm.dyk.load();
-  $(window).resize(osm.leftpan.refsizetab);
+    if ($('#leftpantab').height()>300)
+      osm.dyk.load();
+    $(window).resize(osm.leftpan.refsizetab);
 
-  osm.map.on('moveend', osm.opento);
-  osm.opento();
-  
-  $('body').keypress(osm.keypress);
- }
+    osm.map.on('moveend', osm.opento);
+    osm.opento();
+    
+    $('body').keypress(osm.keypress);
+  }
  
- if (frame_map)
-  FramePos();
+  if (frame_map)
+    FramePos();
  
 });
 
@@ -106,14 +106,14 @@ osm.permalink = {
 };
 
 $(function() {
-if (!frame_map) {
-  osm.sManager.on(['zoom','lat','lon'], osm.permalink.setPos);
-  osm.sManager.on(['layer'], osm.permalink.setLayer);
-  osm.sManager.on(['marker'], osm.permalink.setMarker);
-  
-  osm.map.on('baselayerchange', osm.permalink.updLayer);
-  osm.map.on('overlayadd', osm.permalink.updLayer);
-  osm.map.on('overlayremove', osm.permalink.updLayer);
+  if (!frame_map) {
+    osm.sManager.on(['zoom','lat','lon'], osm.permalink.setPos);
+    osm.sManager.on(['layer'], osm.permalink.setLayer);
+    osm.sManager.on(['marker'], osm.permalink.setMarker);
+    
+    osm.map.on('baselayerchange', osm.permalink.updLayer);
+    osm.map.on('overlayadd', osm.permalink.updLayer);
+    osm.map.on('overlayremove', osm.permalink.updLayer);
   }
 })
 
