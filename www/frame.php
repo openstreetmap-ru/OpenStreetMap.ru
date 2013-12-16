@@ -4,15 +4,17 @@
   <title>OpenStreetMap Россия — Карта Online</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="/css/page.map.css" type="text/css" />
   <link rel="icon" type="image/png" href="/favicon.png" />
   <script src="http://yandex.st/jquery/1.8.2/jquery.min.js"></script>
   <link rel="stylesheet" href="/css/leaflet.css" />
   <script src="/js/leaflet.js"></script>
   <!--[if lte IE 8]><link rel="stylesheet" href="/css/leaflet.ie.css" /><![endif]-->
-  <script type="text/javascript" src="/js/osm.common.js"></script>
-  <script type="text/javascript" src="/js/map.js"></script>
-  <script type="text/javascript" src="/js/markers.js"></script>
-  <script type="text/javascript" src="/js/Layer.TileLayer.Bing.js"></script>
+  <script type="text/javascript" src="/js/page.main.js"></script>
+  <script type="text/javascript" src="/js/page.map/map.js"></script>
+  <script type="text/javascript" src="/js/page.map/osm.layers.js"></script>
+  <script type="text/javascript" src="/js/page.map/markers.js"></script>
+  <script type="text/javascript" src="/js/page.map/Layer.TileLayer.Bing.js"></script>
   <script type="text/javascript">frame_map = 1;</script>
   <script type="text/javascript">
     FramePos = function(){
@@ -47,7 +49,11 @@
       }
     }
   </script>
-  <link rel="stylesheet" href="css/page.map.css" />
+  <style type="text/css">
+    .leaflet-control-layers {
+        display: none;
+    }
+  </style>
 </head>
 <body>
 <? if (isset($_GET['noscreenshot'])) { ?>
