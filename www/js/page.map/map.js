@@ -8,13 +8,13 @@ $(function() {
   mapOptions['zoomsliderControl'] = true;
   osm.map = new L.Map('map', mapOptions);
   
-  osm.permalink.start();
-  
   L.Icon.Default.imagePath='/img';
   osm.markers.initialize();
   osm.markers.readMap();
 
   if (!frame_map) {
+    osm.permalink.start();
+    
     $("#leftpan div h1").bind('click',function(){
       osm.leftpan.toggleItem(this.parentNode.id);
     });
@@ -75,10 +75,6 @@ $(function() {
     
     $('body').keypress(osm.keypress);
   }
- 
-  if (frame_map)
-    FramePos();
- 
 });
 
 
@@ -116,6 +112,14 @@ $(function() {
     osm.map.on('overlayremove', osm.permalink.updLayer);
   }
 })
+
+osm.permalink.start = function() {
+  this.updPos();
+  osm.map.on('moveend', osm.permalink.updPos);
+  
+  if (osm.layers[this.defaults.baseLayer] != this.p.baseLayer || !$.isEmptyObject(this.p.overlays))
+    this.updLayerP();
+};
 
 osm.permalink.startLoadPos = function() {
   var loc = '', overlays = '', strLayer;
@@ -177,14 +181,6 @@ osm.permalink.startLoadPos = function() {
   
   return ret;
 }
-
-osm.permalink.start = function() {
-  this.updPos();
-  osm.map.on('moveend', osm.permalink.updPos);
-  
-  if (osm.layers[this.defaults.baseLayer] != this.p.baseLayer || !$.isEmptyObject(this.p.overlays))
-    this.updLayerP();
-};
 
 osm.permalink.setPos = function() {
   console.debug(new Date().getTime() + ' start fn osm.permalink.setPos');

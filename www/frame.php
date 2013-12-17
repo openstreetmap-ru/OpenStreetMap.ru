@@ -1,5 +1,5 @@
-﻿<!doctype html>
-<html>
+<!doctype html>
+<html lang=ru>
 <head>
   <title>OpenStreetMap Россия — Карта Online</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -16,39 +16,6 @@
   <script type="text/javascript" src="/js/page.map/markers.js"></script>
   <script type="text/javascript" src="/js/page.map/Layer.TileLayer.Bing.js"></script>
   <script type="text/javascript">frame_map = 1;</script>
-  <script type="text/javascript">
-    FramePos = function(){
-      var pos, params, a, i, newP, getParams = {}
-      var pos = location.href.indexOf('#');
-      if (pos+1) {
-        if (params = location.href.substr(pos+1)) {
-          a = params.split('&');
-          for (i in a) {
-            a[i] = a[i].split('=');
-            if (a[i].length == 2)
-              newP = {k:a[i][0],v:decodeURIComponent(a[i][1].replace(/\+/g, " "))};
-            else if (a[i].length == 1)
-              newP = {k:a[i][0],v:''};
-            else
-              continue;
-            if (newP['k'] in {'lat':1,'lon':1,'zoom':1,'layer':1})
-              getParams[newP['k']] = newP['v'];
-          }
-        }
-      }
-      
-      if ('lat' in getParams && 'lon' in getParams && 'zoom' in getParams) {
-        osm.map.setView(new L.LatLng(getParams['lat'], getParams['lon']), getParams['zoom']);
-        if (getParams['layer'] != 'M') {
-          osm.map.removeLayer (osm.layers[osm.layerHash2name['M']])
-          var layerName;
-          for(var i = 0; i < getParams['layer'].length; i++)
-            if (layerName = osm.layers[osm.layerHash2name[getParams['layer'].charAt(i)]])
-              osm.map.addLayer(layerName);
-        }
-      }
-    }
-  </script>
   <style type="text/css">
     .leaflet-control-layers {
         display: none;

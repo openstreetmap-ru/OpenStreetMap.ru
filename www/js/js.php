@@ -1,18 +1,14 @@
 <?php
-
-// print_r (urldecode($_SERVER['REQUEST_URI']));
+header('Content-type: application/javascript');
 
 $UrlJs = preg_replace("/^(.*?)js\.php$/is", "$1", $_SERVER['SCRIPT_NAME']);
 $UrlJs = preg_replace("/^".preg_quote($UrlJs, "/")."/is", "", urldecode($_SERVER['REQUEST_URI']));
 $UrlJs = preg_replace("/(\/?)(\?.*)?$/is", "", $UrlJs);
 $UrlJs = preg_replace("/[^0-9A-Za-z._\\-\\/]/is", "", $UrlJs); // вырезаем ненужные символы (не обязательно это делать)
-// $UrlJs = explode("/", $UrlJs);
-// if (preg_match("/^js\.(?:html|php|js)$/is", $UrlJs[count($UrlJs) - 1])) unset($UrlJs[count($UrlJs) - 1]); // удаляем суффикс
 
 $UrlJs = preg_replace("/[^\/]+\//is", "", $UrlJs);
 $UrlJs = preg_replace("/.[^.]+$/is", "", $UrlJs);
 
-// echo '<br>'.$UrlJs.'<br>';
 $fileList = glob($UrlJs."/*.js");
 
 if (!sizeof($fileList)) {
