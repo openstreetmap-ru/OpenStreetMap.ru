@@ -184,21 +184,6 @@ article[role="main"] {
   display: block;
 }
 
-.leaflet-control-inJOSM a:hover,
-.leaflet-control-distance a:hover {
-  background-color: #fff;
-  color: #777;
-}
-
-.leaflet-control-inJOSM a,
-.leaflet-control-distance a {
-  width: 26px;
-  height: 26px;
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  background-color: rgba(255, 255, 255, 0.75);
-}
-
 .leaflet-control-distance div {
   color: #333;
   text-align: center;
