@@ -180,7 +180,7 @@ article[role="main"] {
 }
 
 .leaflet-control-inJOSM a {
-  background-image: url('/img/josm_icon.png');
+  background-image: url('/img/edit_icon.png');
   display: block;
 }
 
