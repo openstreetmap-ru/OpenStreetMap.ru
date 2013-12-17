@@ -115,7 +115,7 @@ $(function() {
 
 osm.permalink.start = function() {
   this.updPos();
-  osm.map.on('moveend', osm.permalink.updPos);
+  osm.map.on('moveend', osm.permalink.updPosTimer);
   
   if (osm.layers[this.defaults.baseLayer] != this.p.baseLayer || !$.isEmptyObject(this.p.overlays))
     this.updLayerP();
@@ -147,11 +147,14 @@ osm.permalink.startLoadPos = function() {
       baseLayer = strLayer[0];
       if (strLayer.length > 1)
         overlays = strLayer.substring(1);
-      osm.sManager.setP('layer', osm.p.get.layer, 'anchor'), delete osm.p.get['layer'];
+      osm.sManager.setP([{type:'anchor', k:'layer', v:osm.p.get.layer}]), delete osm.p.get['layer'];
     }
-    osm.sManager.setP('lat', osm.p.get.lat, 'anchor'), delete osm.p.get['lat'];
-    osm.sManager.setP('lon', osm.p.get.lon, 'anchor'), delete osm.p.get['lon'];
-    osm.sManager.setP('zoom', osm.p.get.zoom, 'anchor'), delete osm.p.get['zoom'];
+    osm.sManager.setP([
+      {type:'anchor', k:'lat', v:osm.p.get.lat},
+      {type:'anchor', k:'lon', v:osm.p.get.lon},
+      {type:'anchor', k:'zoom', v:osm.p.get.zoom}
+    ]);
+    delete osm.p.get['lat'], delete osm.p.get['lon'], delete osm.p.get['zoom'];
     osm.sManager.updGet();
   }
   else if (!frame_map && (osm.p.cookie['lat'] || osm.p.cookie['lon'])
@@ -183,7 +186,7 @@ osm.permalink.startLoadPos = function() {
 }
 
 osm.permalink.setPos = function() {
-  console.debug(new Date().getTime() + ' start fn osm.permalink.setPos');
+  console.debug(new Date().getTime() + ' osm.permalink.setPos');
   if (isUnd(osm.permalink.p.center))
     osm.permalink.p.center = osm.permalink.defaults.center;
 
@@ -195,12 +198,13 @@ osm.permalink.setPos = function() {
     osm.permalink.p.zoom = osm.p.anchor['zoom'];
   }
   
-  if (osm.permalink.p.center != osm.map.getCenter() || osm.permalink.p.zoom != osm.map.getZoom())
+  var center = osm.permalink.rounding(osm.permalink.p.zoom,osm.map.getCenter());
+  if (osm.permalink.p.center.lat != center.lat || osm.permalink.p.center.lng != center.lng || osm.permalink.p.zoom != osm.map.getZoom())
     osm.map.setView(osm.permalink.p.center, osm.permalink.p.zoom);
 };
 
 osm.permalink.setLayer = function() {
-  console.debug(new Date().getTime() + ' start fn osm.permalink.setLayer');
+  console.debug(new Date().getTime() + ' osm.permalink.setLayer');
   var baseLayer = '';
   var strLayer = osm.sManager.decodeURI(osm.p.anchor['layer']);
   if (strLayer && strLayer.length > 0) {
@@ -239,7 +243,7 @@ osm.permalink.setLayer = function() {
 }
 
 osm.permalink.setMarker = function() {
-  console.debug(new Date().getTime() + ' start fn osm.permalink.setMarker');
+  console.debug(new Date().getTime() + ' osm.permalink.setMarker');
   if (osm.permalink.p.marker === osm.p.anchor.marker)
     return;
   
@@ -250,7 +254,7 @@ osm.permalink.setMarker = function() {
     osm.permalink.p.marker = !!Number(osm.p.anchor.marker);
   
   if (osm.permalink.p.marker !== osm.p.anchor.marker)
-    osm.sManager.setP('marker', Number(osm.permalink.p.marker), 'anchor')
+    osm.sManager.setP([{type:'anchor', k:'marker', v:Number(osm.permalink.p.marker)}])
   
   if (osm.permalink.p.marker)
     osm.permalink.setPopupMarker(osm.permalink.p.center, true);
@@ -258,17 +262,26 @@ osm.permalink.setMarker = function() {
     osm.map.removeLayer(osm.permalink.LMarker), delete osm.permalink.LMarker;
 }
 
+osm.permalink.updPosTimer = function() {
+  console.debug(new Date().getTime() + ' osm.permalink.updPosTimer');
+  if (!isUnd(osm.permalink.tPos))
+    clearTimeout(osm.permalink.tPos);
+  osm.permalink.tPos = setTimeout(osm.permalink.updPos, 1000);
+}
+
 osm.permalink.updPos = function() {
-  console.debug(new Date().getTime() + ' start fn osm.permalink.updPos');
+  console.debug(new Date().getTime() + ' osm.permalink.updPos');
   var zoom = osm.map.getZoom();
   var center = osm.permalink.rounding(zoom, osm.map.getCenter());
   
-  osm.sManager.setP('zoom', zoom, 'anchor');
-  osm.sManager.setP('lat', center.lat, 'anchor');
-  osm.sManager.setP('lon', center.lng, 'anchor');
-  osm.sManager.setP('zoom', zoom, 'cookie');
-  osm.sManager.setP('lat', center.lat, 'cookie');
-  osm.sManager.setP('lon', center.lng, 'cookie');
+  osm.sManager.setP([
+    {type:'anchor', k:'zoom', v:zoom},
+    {type:'anchor', k:'lat', v:center.lat},
+    {type:'anchor', k:'lon', v:center.lng},
+    {type:'cookie', k:'zoom', v:zoom},
+    {type:'cookie', k:'lat', v:center.lat},
+    {type:'cookie', k:'lon', v:center.lng}
+  ]);
 }
 
 osm.permalink.rounding = function(zoom, pos) {
@@ -279,7 +292,7 @@ osm.permalink.rounding = function(zoom, pos) {
 }
 
 osm.permalink.updLayer = function(obj) {
-  console.debug(new Date().getTime() + ' start fn osm.permalink.updLayer');
+  console.debug(new Date().getTime() + ' osm.permalink.updLayer');
   if (obj.type == 'baselayerchange') {
     osm.permalink.p.baseLayer = obj.layer;
   }
@@ -299,9 +312,11 @@ osm.permalink.updLayerP = function () {
   for(var i in this.p.overlays)
     hash += this.p.overlays[i].options.osmHash;
   
-  osm.sManager.setP('layer', hash, 'anchor');
   console.debug('updLayerP - ' + hash);
-  osm.sManager.setP('layer', hash, 'cookie');
+  osm.sManager.setP([
+    {type:'anchor', k:'layer', v:hash},
+    {type:'cookie', k:'layer', v:hash}
+  ]);
 }
 
 osm.permalink.addMarker = function () {

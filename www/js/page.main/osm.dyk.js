@@ -23,7 +23,7 @@ osm.dyk.saveval = function(val, id){
       ex = ex + ',' + id;
     else
       ex = '' + id;
-    osm.sManager.setP('dyk_ex', ex, 'cookie');
+    osm.sManager.setP([{type:'cookie', k:'dyk_ex', v:ex}]);
     delete val[id];
   }
 
@@ -33,7 +33,7 @@ osm.dyk.saveval = function(val, id){
   }
   valcook=valcook.substr(0,valcook.length-1);
 
-  osm.sManager.setP('dyk_val', valcook, 'cookie');
+  osm.sManager.setP([{type:'cookie', k:'dyk_val', v:valcook}]);
 };
 
 osm.dyk.updateval = function(id, addnum) {

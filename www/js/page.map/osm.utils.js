@@ -121,7 +121,7 @@ osm.leftpan.toggle = function(on) {
     osm.map.invalidateSize();
   }
   this.ltoggle_open = on;
-  osm.sManager.setP('leftpan', (on?"true":"false"), 'cookie');
+  osm.sManager.setP([{type:'cookie', k:'leftpan', v:(on?"true":"false")}]);
 };
 
 osm.toppan_toggle = function(on) {
@@ -136,7 +136,7 @@ osm.toppan_toggle = function(on) {
     }
     osm.map.invalidateSize();
     on ? $('#ttoggle').html("&uarr;") : $('#ttoggle').html("&darr;");
-    osm.sManager.setP('htp', (on?"true":"false"), 'cookie');
+    osm.sManager.setP([{type:'cookie', k:'htp', v:(on?"true":"false")}]);
   }
   this.ttoggle_open = on;
 };

@@ -20,15 +20,13 @@ $(function(){  //init
     for (var i=0;i<link.length;i++){
       ex.push(link[i].name.substr(2));
     }
-    d = new Date();
-    d.setYear(d.getFullYear()+10);
-    osm.sManager.setP('dyk_ex', ex.join(','), 'cookie');
-    osm.sManager.setP('dyk_val', '', 'cookie');
+    osm.sManager.setP([{type:'cookie', k:'dyk_ex',v:ex.join(',')}]);
+    osm.sManager.setP([{type:'cookie', k:'dyk_val', v:''}]);
   });
 
   $('#dyk-tools #dyk-forget').bind('click', function(){
-    osm.sManager.setP('dyk_ex', '', 'cookie');
-    osm.sManager.setP('dyk_val', '', 'cookie');
+    osm.sManager.setP([{type:'cookie', k:'dyk_ex', v:''}]);
+    osm.sManager.setP([{type:'cookie', k:'dyk_val', v:''}]);
   });
 
   if (document.location.hash.substr(1,2)=='id') {

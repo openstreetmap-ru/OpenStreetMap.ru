@@ -41,7 +41,7 @@ osm.sManager.loadGet = function() {
 }
 
 osm.sManager.loadAnchor = function() {
-  console.debug(new Date().getTime() + ' start fn osm.sManager.loadAnchor');
+  console.debug(new Date().getTime() + ' osm.sManager.loadAnchor');
   function clone(obj){
     var newObj = {}, i;
     for(i in obj)
@@ -93,20 +93,32 @@ osm.sManager.Param2Line = function(obj, sep){
   return url.join(sep)
 }
 
-osm.sManager.setP = function(k, v, type){
-  console.debug(new Date().getTime() + ' start fn osm.sManager.setP'+' - k=' + k + ' - type=' + type);
-  if (isUnd(v)) v = '';
-  if (type == 'cookie'){
-    osm.p.cookie[k] = v;
-    var d = new Date();
-    d.setYear(d.getFullYear() + 10);
-    document.cookie = 'osm_' + k + '=' + v + '; path=/ ; expires=' + d.toGMTString();
+osm.sManager.setP = function(data){ // [{type, k, v}] . for type=cookie: path, expires
+  console.debug(new Date().getTime() + ' osm.sManager.setP');
+  
+  var isAnchor = false;
+  for (var i in data) {
+    if (isUnd(data[i].v)) data[i].v = '';
+    if (data[i].type == 'cookie'){
+      osm.p.cookie[data[i].k] = data[i].v;
+      if (isUnd(data[i].expires)) {
+        data[i].expires = new Date();
+        data[i].expires.setYear(data[i].expires.getFullYear() + 10);
+      }
+      if (isUnd(data[i].path)) data[i].path = '/';
+      document.cookie = 'osm_' + data[i].k + '=' + data[i].v
+        + '; path=' + data[i].path
+        + '; expires=' + data[i].expires.toGMTString();
+    }
+    else if (data[i].type == 'get'){
+    }
+    else if (data[i].type == 'anchor'){
+      if (isUnd(osm.p.anchor[data[i].k]) || osm.p.anchor[data[i].k] !== data[i].v)
+        osm.p.anchor[data[i].k] = data[i].v, isAnchor = true;
+    }
   }
-  else if (type == 'get'){
-  }
-  else if (type == 'anchor'){
-    if (!isUnd(osm.p.anchor[k]) && osm.p.anchor[k] === v) return;
-    osm.p.anchor[k] = v;
+  
+  if (isAnchor) {
     var newLine = osm.sManager.Param2Line(osm.p.anchor, '&');
     newLine = newLine ? '#' + newLine : '';
     location.replace(newLine);
