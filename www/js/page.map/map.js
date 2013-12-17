@@ -103,7 +103,8 @@ osm.permalink = {
 
 $(function() {
   if (!frame_map) {
-    osm.sManager.on(['zoom','lat','lon'], osm.permalink.setPos);
+    osm.sManager.on(['zoom','lat','lon'], osm.permalink.setPosLatLon);
+    osm.sManager.on(['map'], osm.permalink.setPosMap);
     osm.sManager.on(['layer'], osm.permalink.setLayer);
     osm.sManager.on(['marker'], osm.permalink.setMarker);
     
@@ -129,7 +130,16 @@ osm.permalink.startLoadPos = function() {
     zoom: this.defaults.zoom
   };
   
-  if ((osm.p.anchor['lat'] || osm.p.anchor['lon'])
+  if (osm.p.anchor.map && (parse = osm.permalink.parseHash())) {
+    ret.center = parse.center;
+    ret.zoom = parse.zoom;
+    if (strLayer = osm.sManager.decodeURI(osm.p.anchor.layer)) {
+      baseLayer = strLayer[0];
+      if (strLayer.length > 1)
+        overlays = strLayer.substring(1);
+    }
+  }
+  else if ((osm.p.anchor['lat'] || osm.p.anchor['lon'])
         && osm.p.anchor['zoom']) {
     ret['center'] = new L.LatLng(osm.p.anchor['lat'], osm.p.anchor['lon']);
     ret['zoom'] = osm.p.anchor['zoom'];
@@ -152,9 +162,11 @@ osm.permalink.startLoadPos = function() {
     osm.sManager.setP([
       {type:'anchor', k:'lat', v:osm.p.get.lat},
       {type:'anchor', k:'lon', v:osm.p.get.lon},
-      {type:'anchor', k:'zoom', v:osm.p.get.zoom}
+      {type:'anchor', k:'zoom', v:osm.p.get.zoom},
+      {type:'get', k:'lat', del:1},
+      {type:'get', k:'lon', del:1},
+      {type:'get', k:'zoom', del:1}
     ]);
-    delete osm.p.get['lat'], delete osm.p.get['lon'], delete osm.p.get['zoom'];
     osm.sManager.updGet();
   }
   else if (!frame_map && (osm.p.cookie['lat'] || osm.p.cookie['lon'])
@@ -185,7 +197,34 @@ osm.permalink.startLoadPos = function() {
   return ret;
 }
 
-osm.permalink.setPos = function() {
+osm.permalink.parseHash = function () {
+  var args = osm.p.anchor.map.split("/");
+  if (args.length == 3) {
+    return {
+      zoom: parseInt(args[0], 10),
+      center: new L.LatLng(args[1], args[2])
+    };
+  }
+  return false;
+}
+
+osm.permalink.setPosMap = function() {
+  console.debug(new Date().getTime() + ' osm.permalink.setPosMap');
+  if (parse = osm.permalink.parseHash())
+    osm.permalink.setPos(parse.center, parse.zoom);
+}
+
+osm.permalink.setPosLatLon = function() {
+  console.debug(new Date().getTime() + ' osm.permalink.setPosLatLon');
+  osm.permalink.setPos (new L.LatLng(osm.p.anchor.lat, osm.p.anchor.lon), osm.p.anchor.zoom);
+  osm.sManager.setP([
+    {type:'anchor', k:'zoom', del:1},
+    {type:'anchor', k:'lat', del:1},
+    {type:'anchor', k:'lon', del:1}
+  ]);
+}
+
+osm.permalink.setPos = function(center, zoom) {
   console.debug(new Date().getTime() + ' osm.permalink.setPos');
   if (isUnd(osm.permalink.p.center))
     osm.permalink.p.center = osm.permalink.defaults.center;
@@ -193,12 +232,12 @@ osm.permalink.setPos = function() {
   if (isUnd(osm.permalink.p.zoom))
     osm.permalink.p.zoom = osm.permalink.defaults.zoom;
   
-  if (!isUnd(osm.p.anchor['lat']) && !isUnd(osm.p.anchor['lon']) && osm.p.anchor['zoom']) {
-    osm.permalink.p.center = new L.LatLng(osm.p.anchor['lat'], osm.p.anchor['lon']);
-    osm.permalink.p.zoom = osm.p.anchor['zoom'];
+  if (center && zoom) {
+    osm.permalink.p.center = center;
+    osm.permalink.p.zoom = zoom;
   }
   
-  var center = osm.permalink.rounding(osm.permalink.p.zoom,osm.map.getCenter());
+  var center = osm.permalink.rounding(osm.permalink.p.zoom, osm.map.getCenter());
   if (osm.permalink.p.center.lat != center.lat || osm.permalink.p.center.lng != center.lng || osm.permalink.p.zoom != osm.map.getZoom())
     osm.map.setView(osm.permalink.p.center, osm.permalink.p.zoom);
 };
@@ -274,10 +313,10 @@ osm.permalink.updPos = function() {
   var zoom = osm.map.getZoom();
   var center = osm.permalink.rounding(zoom, osm.map.getCenter());
   
+  var map = [zoom, center.lat, center.lng].join("/");
+  
   osm.sManager.setP([
-    {type:'anchor', k:'zoom', v:zoom},
-    {type:'anchor', k:'lat', v:center.lat},
-    {type:'anchor', k:'lon', v:center.lng},
+    {type:'anchor', k:'map', v:map},
     {type:'cookie', k:'zoom', v:zoom},
     {type:'cookie', k:'lat', v:center.lat},
     {type:'cookie', k:'lon', v:center.lng}

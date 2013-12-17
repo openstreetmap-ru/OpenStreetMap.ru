@@ -93,7 +93,7 @@ osm.sManager.Param2Line = function(obj, sep){
   return url.join(sep)
 }
 
-osm.sManager.setP = function(data){ // [{type, k, v}] . for type=cookie: path, expires
+osm.sManager.setP = function(data){ // [{type, k, v}] | type=cookie: path, expires | type=anchor: del | only type=get: del
   console.debug(new Date().getTime() + ' osm.sManager.setP');
   
   var isAnchor = false;
@@ -111,9 +111,13 @@ osm.sManager.setP = function(data){ // [{type, k, v}] . for type=cookie: path, e
         + '; expires=' + data[i].expires.toGMTString();
     }
     else if (data[i].type == 'get'){
+      if (data[i].del)
+        delete osm.p.get[data[i].k];
     }
     else if (data[i].type == 'anchor'){
-      if (isUnd(osm.p.anchor[data[i].k]) || osm.p.anchor[data[i].k] !== data[i].v)
+      if (data[i].del)
+        delete osm.p.anchor[data[i].k], isAnchor = true;
+      else if (isUnd(osm.p.anchor[data[i].k]) || osm.p.anchor[data[i].k] !== data[i].v)
         osm.p.anchor[data[i].k] = data[i].v, isAnchor = true;
     }
   }
