@@ -90,22 +90,26 @@ osm.leftpan.toggleItem = function(item, on) {
   var el = $('#leftpantab #'+item+' .leftcontent');
   var delay = 0;
   if (typeof on == "undefined") on = !el.is(':visible');
-  if (this.ltoggleItem_open) {
-    osm.leftpan.item(this.ltoggleItem_open, false);
-    $('#leftpantab #'+this.ltoggleItem_open+' .leftcontent').hide("normal");
-    delay = 300;
-  }
   if (on) {
-    osm.leftpan.toggle(true);
-    osm.leftpan.item(item, true);
-    el.stop().delay(delay).show("normal");
-    osm.leftpan.refsizetab();
-  } else if (this.ltoggleItem_open != item) {
+    if (this.ltoggleItem_open && this.ltoggleItem_open !== item) {
+      osm.leftpan.item(this.ltoggleItem_open, false);
+      $('#leftpantab #'+this.ltoggleItem_open+' .leftcontent').hide("normal");
+      delay = 300;
+    }
+    if (!(this.ltoggleItem_open && this.ltoggleItem_open === item)) {
+      osm.leftpan.toggle(true);
+      osm.leftpan.item(item, true);
+      el.stop().delay(delay).show("normal");
+      osm.leftpan.refsizetab();
+    }
+  } else {
     osm.leftpan.item(item, false);
     el.hide("normal");
   }
-  
-  this.ltoggleItem_open = item;
+  if (on)
+    this.ltoggleItem_open = item;
+  else
+    this.ltoggleItem_open = '';
 };
 
 osm.leftpan.toggle = function(on) {

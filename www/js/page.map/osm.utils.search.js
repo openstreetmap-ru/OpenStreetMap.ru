@@ -1,12 +1,27 @@
+search = {last:{}};
+
 $(function() {
   search.content=$('#leftpantab #leftsearch .leftcontent')[0];
+  osm.sManager.on(['q','qmap'], search.startSearch);
 });
 
 search.enable = function(){
+  console.debug(new Date().getTime() + ' search.enable');
   osm.map.addLayer(osm.layers.search_marker);
+  if (!osm.p.anchor.q && search.last.q) {
+    osm.sManager.setP([
+      {type:'anchor', k:'q', v:search.last.q},
+      {type:'anchor', k:'qmap', v:search.last.map}
+    ]);
+  }
 };
 search.disable = function(){
+  console.debug(new Date().getTime() + ' search.disable');
   osm.map.removeLayer(osm.layers.search_marker);
+  osm.sManager.setP([
+    {type:'anchor', k:'q', del:1},
+    {type:'anchor', k:'qmap', del:1}
+  ]);
 };
 
 
@@ -80,22 +95,47 @@ search.errorHandler = function(jqXHR, textStatus, errorThrown) {
 };
 
 search.search = function(inQuery) {
-  inQuery = inQuery || osm.input.value;
-  osm.input.value = inQuery;
+  console.debug(new Date().getTime() + ' search.search');
+  inQuery = inQuery || $('#qsearch').val();
+  $('#qsearch').val(inQuery);
   if (inQuery.length < 1)
     return false;
     
   if (search.parserUrlIn(inQuery)) {
-    osm.input.value = '';
+    $('#qsearch').val('');
     return false;
   }
     
-  $("#leftsearch .loader").addClass('on');
-  mapCenter=osm.map.getCenter();
-  osm.leftpan.toggleItem('leftsearch', true);
-  $.getJSON('/api/search', {q: inQuery, accuracy: 1, lat: mapCenter.lat, lon: mapCenter.lng}, search.processResults)
-  .error(search.errorHandler);
+  search.last = {
+    q: inQuery,
+    pos: osm.permalink.p.center,
+    zoom: osm.permalink.p.zoom,
+    map: osm.permalink.p.map
+  };
+  osm.sManager.setP([
+    {type:'anchor', k:'q', v:search.last.q},
+    {type:'anchor', k:'qmap', v:search.last.map}
+  ]);
+  
+  // search.startSearch();
   return false;
+};
+
+search.startSearch = function() {
+  console.debug(new Date().getTime() + ' search.startSearch');
+  var q = osm.sManager.decodeURI(osm.p.anchor.q || osm.p.get.q);
+  $('#qsearch').val(q);
+  if (osm.p.anchor.qmap)
+    var center = osm.permalink.parseHash(osm.p.anchor.qmap).center;
+  else if (osm.p.get.qmap)
+    var center = osm.permalink.parseHash(osm.p.get.qmap).center;
+  else
+    var center = osm.map.getCenter();
+  
+  $("#leftsearch .loader").addClass('on');
+  osm.leftpan.toggleItem('leftsearch', true);
+  $.getJSON('/api/search', {q:q, lat:center.lat, lon:center.lng, accuracy:1}, search.processResults)
+    .error(search.errorHandler);
 };
 
 search.parserUrlIn = function(inQuery) {

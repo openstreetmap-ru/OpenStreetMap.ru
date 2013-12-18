@@ -98,6 +98,7 @@ osm.sManager.setP = function(data){ // [{type, k, v}] | type=cookie: path, expir
   
   var isAnchor = false;
   for (var i in data) {
+    console.debug(data[i]);
     if (isUnd(data[i].v)) data[i].v = '';
     if (data[i].type == 'cookie'){
       osm.p.cookie[data[i].k] = data[i].v;

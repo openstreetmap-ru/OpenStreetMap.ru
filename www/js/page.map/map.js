@@ -197,8 +197,9 @@ osm.permalink.startLoadPos = function() {
   return ret;
 }
 
-osm.permalink.parseHash = function () {
-  var args = osm.p.anchor.map.split("/");
+osm.permalink.parseHash = function (e) {
+  var args = e || osm.p.anchor.map;
+  args = args.split("/");
   if (args.length == 3) {
     return {
       zoom: parseInt(args[0], 10),
@@ -235,6 +236,7 @@ osm.permalink.setPos = function(center, zoom) {
   if (center && zoom) {
     osm.permalink.p.center = center;
     osm.permalink.p.zoom = zoom;
+    osm.permalink.p.map = [zoom, center.lat, center.lng].join("/");
   }
   
   var center = osm.permalink.rounding(osm.permalink.p.zoom, osm.map.getCenter());
