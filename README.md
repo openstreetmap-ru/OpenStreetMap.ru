@@ -3,7 +3,7 @@
 Обсуждение:
  * http://forum.openstreetmap.org/viewtopic.php?id=2689
  * http://forum.openstreetmap.org/viewtopic.php?id=14295
- * https://groups.google.com/group/openstreetmap-ru
+ * http://forum.openstreetmap.org/viewtopic.php?id=18358
 
 Обратная связь без регистрации http://osmru.reformal.ru/
 
@@ -132,7 +132,7 @@
 
 Ставим сфинкса отсюда http://sphinxsearch.com/downloads/release/.
 
-Кладем конфиг сфинкса по адресу `/etc/sphinxsearch/sphinx.conf` // TODO: описать конфиг
+Берем конфиг сфинкса  [отсюда](../master/search/configs/sphinx.conf) и кладем по адресу `/etc/sphinxsearch/sphinx.conf`.
 
 Создаем папку /var/cache/sphinx.
 
