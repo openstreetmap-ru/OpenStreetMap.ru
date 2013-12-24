@@ -116,7 +116,7 @@ $(function() {
 
 osm.permalink.start = function() {
   this.updPos();
-  osm.map.on('moveend', osm.permalink.updPosTimer);
+  osm.map.on('moveend', osm.permalink.updPos);
   
   if (osm.layers[this.defaults.baseLayer] != this.p.baseLayer || !$.isEmptyObject(this.p.overlays))
     this.updLayerP();
@@ -301,13 +301,6 @@ osm.permalink.setMarker = function() {
     osm.permalink.setPopupMarker(osm.permalink.p.center, true);
   else if (osm.permalink.LMarker)
     osm.map.removeLayer(osm.permalink.LMarker), delete osm.permalink.LMarker;
-}
-
-osm.permalink.updPosTimer = function() {
-  console.debug(new Date().getTime() + ' osm.permalink.updPosTimer');
-  if (!isUnd(osm.permalink.tPos))
-    clearTimeout(osm.permalink.tPos);
-  osm.permalink.tPos = setTimeout(osm.permalink.updPos, 1000);
 }
 
 osm.permalink.updPos = function() {
