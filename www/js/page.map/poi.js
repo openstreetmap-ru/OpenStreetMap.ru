@@ -1,16 +1,21 @@
 ﻿//var _this = this;
+(function() {
 
 osm.poi = {
   i18n: {},
   // layers:{},
   opt:{
-
+    on: false,
+    nulldisplay: "Неизвестно",
+    alphabet: '0123456789_~abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    loaded: false,
+    runLoaded: false
   },
 
   initialize: function() {
     osm.poi.layer = new L.LayerGroup();
     //osm.map.addLayer(osm.poi.layer);
-    osm.poi.tree=$('#leftpoi div.leftcontent')
+    osm.poi.tree=$('#leftpoi #leftpoiTree')
       .jstree({
         "plugins" : ["json_data", "checkbox","ui"],
         "json_data" : {
@@ -25,12 +30,27 @@ osm.poi = {
       })
       .bind("change_state.check_box.jstree", function (event, data) {
         osm.poi.updateMarkerTree(event, data);
+        poi.codePerm();
+      })
+      .bind("uncheck_node.check_box.jstree", function (event, data) {
+        poi.checkClone(data);
+      })
+      .bind('loaded.jstree', function(event, data){
+        poi.opt.loaded = true;
+        if (poi.opt.runLoaded)
+          poi.decodePerm();
       });
     $.getJSON('data/poimarker.json',
       function(results){
         osm.poi._markers=results;
       }
-    )
+    );
+    $.getJSON('data/poidatalistperm.json',
+      function(results){
+        poi.opt.listPerm = results;
+      }
+    );
+    osm.sManager.on(['poi'], function(){poi.decodePerm();});
   },
 
   enable: function() {
@@ -56,12 +76,152 @@ osm.poi = {
       icon_url = 'img/poi_marker/'+nclass+'.png';
     return icon_url;
   },
+  
+  checkClone: function(e){
+    var nclassArr = []
+    if (e.rslt.obj[0].classList.contains("jstree-unchecked")) {
+      var nclassArr = [e.rslt.obj[0].attributes['nclass'].nodeValue];
+      var checked = $('li.jstree-unchecked',e.rslt.obj[0]);
+      if (checked.length) {
+        for (var i = 0; i < checked.length; i++)
+          nclassArr.push(checked[i].attributes['nclass'].nodeValue);
+      }
+      for (var i = 0; i < nclassArr.length; i++) {
+        var el = $('[nclass=' + nclassArr[i] + ']', poi.tree);
+        poi.tree.jstree('uncheck_node', el);
+      }
+    }
+  },
+  
+  codePerm: function(){
+    var checked=$('.jstree-checked', poi.tree);
+    if (checked.length) {
+      var idArr = []
+      for (var i = 0; i < checked.length; i++) {
+        var nclass = checked[i].attributes['nclass'].nodeValue;
+        var id = poi.opt.listPerm.indexOf(nclass);
+        if (id != -1)
+          idArr.push(id);
+      }
+      var code = poi.numset_pack(idArr);
+      poi.opt.code = code;
+      osm.sManager.setP([{type:'anchor', k:'poi', v:code}]);
+    }
+    else {
+      osm.sManager.setP([{type:'anchor', k:'poi', del:1}]);
+    }
+  },
+
+  decodePerm:function(){
+    if (poi.opt.code === osm.p.anchor.poi)
+      return;
+    if (!poi.opt.loaded) {
+      poi.opt.runLoaded = true;
+      osm.leftpan.toggleItem('leftpoi', true);
+      return;
+    }
+    console.debug(new Date().getTime() + ' osm.poi.decodePerm');
+    var code = osm.p.anchor.poi || '';
+    var uncode = poi.numset_unpack(code);
+    
+    poi.opt.decodeWork = true;
+    poi.tree.jstree('uncheck_all');
+    for (var i in uncode){
+      var name = poi.opt.listPerm[uncode[i]] || '';
+      if (name) {
+        var el = $('[nclass=' + name + ']', poi.tree);
+        poi.tree.jstree('check_node', el);
+      }
+    }
+    
+    poi.opt.decodeWork = false;
+    osm.leftpan.toggleItem('leftpoi', true);
+    poi.updateMarkerTree();
+  },
+
+  numset_pack: function(numbers) {
+    // Sort input
+    var sorted_numbers = numbers.slice(0);
+    sorted_numbers.sort(function(a,b){return a-b;});
+ 
+    // RLE
+    var lengths = [];
+    var empty_range_start = 0;
+    for (var pos = 0; pos < sorted_numbers.length; ++pos) {
+      // starting number of current range
+      var full_range_start = sorted_numbers[pos];
+
+      // trace continuous range of numbers (allows duplicates)
+      while (pos + 1 < sorted_numbers.length && sorted_numbers[pos + 1] <= sorted_numbers[pos] + 1)
+        pos++;
+
+      // ending number of current range
+      var full_range_end = sorted_numbers[pos];
+
+      // save next empty range
+      lengths.push(full_range_start - empty_range_start);
+
+      // save next full range
+      lengths.push(full_range_end - full_range_start + 1);
+
+      empty_range_start = full_range_end + 1;
+    }
+ 
+    // Prefix encoding
+    var output = '';
+    for (var pos = 0; pos < lengths.length; ++pos) {
+      while (lengths[pos] >= 32) {
+        // Store high-order parts of a number in 1XXXXX form
+        var lowpart = lengths[pos] & 0x1f;
+        lengths[pos] = lengths[pos] >> 5;
+        lowpart |= 0x20;
+        output += '' + poi.opt.alphabet.substr(lowpart, 1);
+      }
+      // Store low-order part of a number in 0XXXXX form
+      output += '' + poi.opt.alphabet.substr(lengths[pos], 1);
+    }
+ 
+    return output;
+  },
+   
+  numset_unpack: function(str) {
+    var output = [];
+    var full_range = 0;  // wether we currently decode full range
+    var range_start = 0; // start of current range
+    var number = 0; // currently decoded number
+    var shift = 0;  // shift for high-order parts
+    for (var pos = 0; pos < str.length; ++pos) {
+      var decoded = poi.opt.alphabet.indexOf(str[pos]);;
+      if (decoded & 0x20) {
+        // handle high-order parts
+        decoded = decoded & 0x1f;
+        number = number | (decoded << shift);
+        shift += 5;
+      } else {
+        // number is fully decoded
+        number = number | (decoded << shift);
+        if (full_range) {
+          // if it denotes full range, output it
+          for (var i = range_start; i < range_start + number; i++)
+            output.push(i);
+        }
+        full_range = !full_range;
+        range_start += number;
+        number = 0;
+        shift = 0;
+      }
+    }
+    return output;
+  },
 
   updateMarkerTree: function(){
+    if (poi.opt.decodeWork)
+      return;
+    console.debug(new Date().getTime() + ' osm.poi.updateMarkerTree');
     if (osm.poi.ajax && osm.poi.ajax.state() == "pending")
       osm.poi.ajax.abort();
     $("#leftpoi .loader").addClass('on');
-    var checked=$('.jstree-checked', osm.poi.tree );
+    var checked=$('.jstree-checked', osm.poi.tree);
     if (checked.length) {
       var nclass=[];
       for (i=0;i<checked.length;i++) {
@@ -287,7 +447,6 @@ osm.poi = {
 
 }
 
-osm.poi.opt={
-  on: false,
-  nulldisplay: "Неизвестно"
-}
+var poi = osm.poi;
+
+}).call(this);

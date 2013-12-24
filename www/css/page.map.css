@@ -228,6 +228,14 @@ div.poi_popup table td                { padding: 0.3em; }
 div.poi_popup p.poi_header            { padding-bottom: 1em; }
 div.poi_popup p.poi_header .poi_name  { margin-right: 1em; }
 
+#leftpoiTree .root > ul > li {
+    margin-left: 0;
+}
+
+#leftpoiTree .root > ins {
+    display: none;
+}
+
 /*Доп. условия*/
 
 @media (max-width: 858px) {

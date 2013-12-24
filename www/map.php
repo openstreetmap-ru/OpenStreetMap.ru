@@ -50,6 +50,7 @@ $page_content = <<<PHP_CONTENT
       <div id="leftpoi" class="leftgroup">
         <h1>Точки интереса (POI) <img class="loader" src="/img/loader.gif" alt=""></h1>
         <div class="leftcontent" style="display: none;">
+          <div id="leftpoiTree"></div>
         </div>
       </div>
       <div id="leftsearch" class="leftgroup" style="display: none;">
