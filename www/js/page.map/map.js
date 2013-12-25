@@ -106,7 +106,8 @@ $(function() {
     osm.sManager.on(['zoom','lat','lon'], osm.permalink.setPosLatLon);
     osm.sManager.on(['map'], osm.permalink.setPosMap);
     osm.sManager.on(['layer'], osm.permalink.setLayer);
-    osm.sManager.on(['marker'], osm.permalink.setMarker);
+    osm.sManager.on(['mmap'], osm.permalink.setMarker);
+    osm.sManager.on(['marker'], osm.permalink.setMarkerOld);
     
     osm.map.on('baselayerchange', osm.permalink.updLayer);
     osm.map.on('overlayadd', osm.permalink.updLayer);
@@ -123,14 +124,23 @@ osm.permalink.start = function() {
 };
 
 osm.permalink.startLoadPos = function() {
-  var loc = '', overlays = '', strLayer;
+  var loc = '', overlays = '', strLayer, parse;
   var baseLayer = osm.layers[this.defaults.baseLayer].options.osmHash;
   var ret = {
     center: this.defaults.center,
     zoom: this.defaults.zoom
   };
   
-  if (osm.p.anchor.map && (parse = osm.permalink.parseHash())) {
+  if (osm.p.anchor.mmap && (parse = osm.permalink.parseHash(osm.p.anchor.mmap))) {
+    ret.center = parse.center;
+    ret.zoom = parse.zoom;
+    if (strLayer = osm.sManager.decodeURI(osm.p.anchor.layer)) {
+      baseLayer = strLayer[0];
+      if (strLayer.length > 1)
+        overlays = strLayer.substring(1);
+    }
+  }
+  else if (osm.p.anchor.map && (parse = osm.permalink.parseHash())) {
     ret.center = parse.center;
     ret.zoom = parse.zoom;
     if (strLayer = osm.sManager.decodeURI(osm.p.anchor.layer)) {
@@ -211,7 +221,8 @@ osm.permalink.parseHash = function (e) {
 
 osm.permalink.setPosMap = function() {
   console.debug(new Date().getTime() + ' osm.permalink.setPosMap');
-  if (parse = osm.permalink.parseHash())
+  var parse = osm.permalink.parseHash();
+  if (parse)
     osm.permalink.setPos(parse.center, parse.zoom);
 }
 
@@ -283,22 +294,25 @@ osm.permalink.setLayer = function() {
   }
 }
 
+osm.permalink.setMarkerOld = function() {
+  osm.sManager.setP([{type:'anchor', k:'marker', del:1}]);
+  osm.sManager.setP([{type:'anchor', k:'mmap', v:osm.permalink.p.map}]);
+  osm.permalink.setMarker();
+}
+
 osm.permalink.setMarker = function() {
   console.debug(new Date().getTime() + ' osm.permalink.setMarker');
-  if (osm.permalink.p.marker === osm.p.anchor.marker)
-    return;
-  
   if (isUnd(osm.permalink.p.marker))
     osm.permalink.p.marker = false;
   
-  if (!isUnd(osm.p.anchor.marker))
-    osm.permalink.p.marker = !!Number(osm.p.anchor.marker);
+  if (osm.p.anchor.mmap)
+    osm.permalink.p.marker = true;
   
-  if (osm.permalink.p.marker !== osm.p.anchor.marker)
-    osm.sManager.setP([{type:'anchor', k:'marker', v:Number(osm.permalink.p.marker)}])
-  
-  if (osm.permalink.p.marker)
-    osm.permalink.setPopupMarker(osm.permalink.p.center, true);
+  if (osm.permalink.p.marker) {
+    var parse = osm.permalink.parseHash(osm.p.anchor.mmap);
+    osm.permalink.setPopupMarker(parse.center, true);
+    osm.permalink.setPos (parse.center, parse.zoom);
+  }
   else if (osm.permalink.LMarker)
     osm.map.removeLayer(osm.permalink.LMarker), delete osm.permalink.LMarker;
 }
@@ -373,7 +387,7 @@ osm.permalink.setPopupMarker = function (pos, center) {
     osm.map.removeLayer(this.LMarker);
   this.LMarker = new L.Marker(pos);
   osm.map.addLayer(this.LMarker);
-  var url = '/#' + 'lat=' + pos.lat + '&lon=' + pos.lng + '&zoom=' + zoom + '&marker=1';
+  var url = '/#' + 'mmap=' + [zoom, pos.lat, pos.lng].join("/");
   var popup = this.LMarker.bindPopup('<a href="'+url+'">Ссылка на маркер</a>');
   if (!center)
     popup.openPopup();
