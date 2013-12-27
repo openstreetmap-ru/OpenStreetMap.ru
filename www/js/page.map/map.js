@@ -75,8 +75,20 @@ $(function() {
     
     $('body').keypress(osm.keypress);
   }
-});
 
+  // добавляем по умолчанию maxHeight для Popup у Marker
+  osm.bindPopup_ = L.Marker.prototype.bindPopup;
+  L.Marker.include({
+    bindPopup: function (content, options) {
+      if (isUnd(options))
+        options = {};
+      if (osm && osm.map && !options.maxHeight)
+        options.maxHeight = osm.map._size.y - 90;
+      osm.bindPopup_.call(this, content, options);
+    }
+  });
+
+});
 
 osm.keypress = function(e) {
   if (e.keyCode == 8) {

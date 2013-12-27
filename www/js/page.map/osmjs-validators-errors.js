@@ -25,6 +25,7 @@
               e = _ref[_i];
               _results.push(this.nodeJson(e));
             }
+            _results = [{"data":"выбрать все", "state": "open", "attr":{"class":"root", "data-error-type":undefined}, 'children': _results}];
             return _results;
           }).call(this)
         },

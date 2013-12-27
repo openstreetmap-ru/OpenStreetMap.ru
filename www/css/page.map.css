@@ -229,11 +229,11 @@ div.poi_popup p.poi_header            { padding-bottom: 1em; }
 div.poi_popup p.poi_header .poi_name  { margin-right: 1em; }
 
 #leftpoiTree .root > ul > li {
-    margin-left: 0;
+  margin-left: 0;
 }
 
 #leftpoiTree .root > ins {
-    display: none;
+  display: none;
 }
 
 /*Доп. условия*/
@@ -446,6 +446,16 @@ a.button:active {
   margin: 8px 0;
 }
 
+#validationerrors .root > ul,
+#validationerrors .root > ul  > li,
+#validationerrors > ul,
+#validationerrors > ul  > li
+{
+  margin-left: 0 !important;
+}
+#validationerrors .root > ins {
+  display: none;
+}
 
 
 
