@@ -1,5 +1,6 @@
 $(function() {
-  search.content=$('#leftpantab #leftsearch .leftcontent')[0];
+  search.content=$('#leftpantab #leftsearch .mainsearch')[0];
+  search.nominatimContent=$('#leftpantab #leftsearch .othersearch')[0];
 });
 
 search.enable = function(){
@@ -31,7 +32,6 @@ search.processResults = function(results) {
     }
     else {
       var content = $('<ul id="ol-search_result">')
-      osm.layers.search_marker.clearLayers();
       var matches=results.matches;
       for (var i in matches) {
         var zoom = (matches[i].this_poi?16:matches[i].addr_type_id/5*2+4).toFixed(0);
@@ -67,6 +67,40 @@ search.processResults = function(results) {
   }
 };
 
+
+search.processNominatimResults = function(results) {
+  try {
+    $("#leftsearch .loader").removeClass('on');
+    var content = $('<ul id="ol-search_result">');
+    var matches=results;
+    for (var i in matches) {
+      var zoom = 12;
+      var marker = new L.Marker(new L.LatLng(matches[i].lat, matches[i].lon), {icon: new search.Icon()});
+      marker.bindPopup("<b>Адрес:</b><br /> " + matches[i].display_name);
+      var a = $('<a href="">');
+      // a.attr('search_id',matches[i].place_id);
+      a.text(matches[i].display_name);
+      a.bind("click", {
+          center: new L.LatLng(matches[i].lat, matches[i].lon),
+          zoom: zoom,
+          marker: marker
+          }, function (e){
+        e.data.marker.openPopup();
+        osm.map.setView(e.data.center, e.data.zoom);
+        return false;
+      });
+      content.append(
+        $('<li>').append(a)
+      );
+      osm.layers.search_marker.addLayer(marker);
+    }
+    $(search.nominatimContent).empty().append(content);
+    // $('#ol-search_result a', search.nominatimContent).eq(0).click();
+  } catch(e) {
+    search.nominatimContent.innerHTML = 'Ошибка: ' + e.description + '<br /> Ответ поиск.серв.: '+results.error;
+  }
+};
+
 search.reportError = function() {
   comment=$_('rsearch').value;
   $.get("/api/search_report_add", {search: search.q, comment: comment.replace("\n", " ")} );
@@ -93,8 +127,22 @@ search.search = function(inQuery) {
   $("#leftsearch .loader").addClass('on');
   mapCenter=osm.map.getCenter();
   osm.leftpan.toggleItem('leftsearch', true);
-  $.getJSON('/api/search', {q: inQuery, accuracy: 1, lat: mapCenter.lat, lon: mapCenter.lng}, search.processResults)
-  .error(search.errorHandler);
+  osm.layers.search_marker.clearLayers();
+
+
+  $.getJSON('/api/search', {
+      q: inQuery, 
+      accuracy: 1, 
+      lat: mapCenter.lat, 
+      lon: mapCenter.lng
+    }, search.processResults).error(search.errorHandler);
+
+  $.getJSON('http://open.mapquestapi.com/nominatim/v1/search.php', {
+      q: inQuery, 
+      format: 'json',
+      limit: 5
+      }, search.processNominatimResults).error(search.errorHandler);
+
   return false;
 };
 
