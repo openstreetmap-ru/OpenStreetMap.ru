@@ -57,16 +57,15 @@ osm.poi = {
     osm.map.addLayer(osm.poi.layer);
     this.opt.on=true;
     osm.map.on('moveend', osm.poi.updateMarkerTree);
-    // osm.map.on('popupopen', osm.poi.bindOpenPopup);
-    // osm.map.on('popupclose', osm.poi.bindClosePopup);
+    if (poi.opt.code)
+      osm.sManager.setP([{type:'anchor', k:'poi', v:poi.opt.code}]);
   },
 
   disable: function() {
     this.opt.on=false;
     osm.map.removeLayer(osm.poi.layer);
     osm.map.off('moveend',this.updateMarkerTree);
-    // osm.map.off('popupopen', osm.poi.bindOpenPopup);
-    // osm.map.off('popupclose', osm.poi.bindClosePopup);
+    osm.sManager.setP([{type:'anchor', k:'poi', del:1}]);
   },
 
   choiceMarker: function(nclass){
@@ -437,13 +436,6 @@ osm.poi = {
       }
     })
   },
-
-  bindOpenPopup: function(){
-    osm.poi.openpopup=arguments[0].popup;
-  },
-  bindClosePopup: function(){
-    delete osm.poi.openpopup;
-  }
 
 }
 
