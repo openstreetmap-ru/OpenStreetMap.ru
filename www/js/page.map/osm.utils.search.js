@@ -71,7 +71,8 @@ search.processResults = function(results) {
 search.processNominatimResults = function(results) {
   try {
     $("#leftsearch .loader").removeClass('on');
-    var content = $('<ul id="ol-search_result">');
+    var from = $('<div style="font-size: 0.8em">Результаты от <a href="http://nominatim.openstreetmap.org/">Nominatim</a></div>');
+    var content = $('<ul id="ol-search_result">')
     var matches=results;
     for (var i in matches) {
       var zoom = 12;
@@ -94,7 +95,7 @@ search.processNominatimResults = function(results) {
       );
       osm.layers.search_marker.addLayer(marker);
     }
-    $(search.nominatimContent).empty().append(content);
+    $(search.nominatimContent).empty().append(from).append(content);
     // $('#ol-search_result a', search.nominatimContent).eq(0).click();
   } catch(e) {
     search.nominatimContent.innerHTML = 'Ошибка: ' + e.description + '<br /> Ответ поиск.серв.: '+results.error;

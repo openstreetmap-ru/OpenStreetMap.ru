@@ -56,7 +56,6 @@ $page_content = <<<PHP_CONTENT
         <h1>Поиск <img class="loader" src="/img/loader.gif" alt=""></h1>
         <div class="leftcontent" style="display: none;">
           <div class="mainsearch"></div>
-          <hr>
           <div class="othersearch"></div>
         </div>
       </div>
