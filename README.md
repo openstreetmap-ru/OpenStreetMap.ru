@@ -25,7 +25,7 @@ sudo apt-get install apache2 php5 libapache2-mod-php5 php5-curl
 ```
 
 Дальше необходимо поднять локальный веб-сервер.
-Один из способов это сделать --- использовать утилиту [https://github.com/lox/phpup](phpup).
+Один из способов это сделать --- использовать утилиту [phpup](https://github.com/lox/phpup).
 Скачиваем phpup:
 
 ```
