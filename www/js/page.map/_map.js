@@ -53,6 +53,7 @@ $(function() {
     osm.map.addControl(new L.Control.Scale({width: 100, position: 'bottomleft'}));
 
     osm.map.addControl(new L.Control.Distance());
+    osm.map.addControl(new L.Control.permMarker());
     osm.map.addControl(new L.Control.inJOSM({target:'hiddenIframe', linktitle: 'Редактировать в JOSM'}));
     osm.validators.initialize();
     osm.poi.initialize();
@@ -229,6 +230,10 @@ osm.permalink.parseHash = function (e) {
     };
   }
   return false;
+}
+
+osm.permalink.createButton = function() {
+  
 }
 
 osm.permalink.setPosMap = function() {
@@ -447,3 +452,34 @@ osm.permalink.include = function(obj){
     return result;
   }
 }
+
+L.Control.permMarker = L.Control.extend({
+  options: {
+    position: 'topleft',
+    target: '',
+    linktitle: 'Поставить маркер'
+  },
+
+  initialize: function (options) {
+    L.Util.setOptions(this, options);
+  },
+
+  onAdd: function(map) {
+    var className = 'leaflet-bar leaflet-control-permMarker',
+      container = this._container = L.DomUtil.create('div', className),
+      link = L.DomUtil.create('a', 'leaflet-control-permMarker-link', container);
+    link.title = this.options.linktitle;
+    link.href = '#';
+    
+    L.DomEvent
+      .addListener(link, 'click', L.DomEvent.stopPropagation)
+      .addListener(link, 'click', L.DomEvent.preventDefault)
+      .addListener(link, 'click', osm.permalink.addMarker);
+    
+    return container;
+  },
+
+  onRemove: function(map) {
+    // this._map.off('moveend', this._update_link, this);
+  }
+});
