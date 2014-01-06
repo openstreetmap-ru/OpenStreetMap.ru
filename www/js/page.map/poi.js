@@ -435,7 +435,7 @@ osm.poi = {
         if (isopen) {marker.openPopup();}
       }
     })
-  },
+  }
 
 }
 
