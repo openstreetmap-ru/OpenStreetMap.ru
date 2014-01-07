@@ -54,7 +54,7 @@ $(function() {
 
     osm.map.addControl(new L.Control.Distance());
     osm.map.addControl(new L.Control.permMarker());
-    osm.map.addControl(new L.Control.inJOSM({target:'hiddenIframe', linktitle: 'Редактировать в JOSM'}));
+    osm.map.addControl(new L.Control.inJOSM());
     osm.validators.initialize();
     osm.poi.initialize();
 

@@ -185,6 +185,11 @@ article[role="main"] {
   display: block;
 }
 
+.leaflet-control-inJOSM a.noRun {
+  background-image: url('/img/edit_no_icon.png');
+  display: block;
+}
+
 .leaflet-control-permMarker a {
   background-image: url('/img/marker_icon.png');
   display: block;
@@ -249,8 +254,13 @@ div.poi_popup p.poi_header .poi_name  { margin-right: 1em; }
   #search_container { left: 0 !important; }
 }
 
-
-
+/* jQuery UI, alert dialog */
+.ui-dialog.alert .ui-dialog-buttonpane {
+    text-align: center;
+}
+.ui-dialog.alert .ui-dialog-buttonpane .ui-dialog-buttonset {
+    float: none;
+}
 
 
 
