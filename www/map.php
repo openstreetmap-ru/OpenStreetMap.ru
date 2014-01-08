@@ -106,7 +106,7 @@ $page_content = <<<PHP_CONTENT
         <div class="leftcontent" style="display: none;">
           <ul>
             <li><a onclick="osm.permalink.addMarker(); return false;" href='#'>Поставить маркер</a></li>
-            <li><a id="EditJOSM" href='#'>Редактировать (в JOSM)</a></li>
+            <li id="EditJOSM"><a href='#'>Редактировать (в JOSM)</a></li>
           </ul>
         </div>
       </div>

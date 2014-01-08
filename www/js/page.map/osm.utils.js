@@ -22,14 +22,6 @@ function reloadKML() {
   wpc.layers.addKML(url);
 }
 
-osm.editUpdate = function() {
-  var pos = osm.map.getBounds();
-  var url="http://127.0.0.1:8111/load_and_zoom?left=" + pos._southWest.lng + "&top=" + pos._northEast.lat + "&right=" + pos._northEast.lng + "&bottom=" + pos._southWest.lat;
-  var edit = $_('EditJOSM');
-  edit.target = 'hiddenIframe';
-  edit.href = url;
-}
-
 osm.setLinkOSB = function() {
   if (parseInt(osm.p.get.bugid)) {
     osm.map.addLayer(osm.layers.osb);

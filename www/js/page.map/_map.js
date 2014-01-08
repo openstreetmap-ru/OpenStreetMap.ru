@@ -54,14 +54,15 @@ $(function() {
 
     osm.map.addControl(new L.Control.Distance());
     osm.map.addControl(new L.Control.permMarker());
-    osm.map.addControl(new L.Control.inJOSM());
     osm.validators.initialize();
     osm.poi.initialize();
 
     search.inLoad();
 
-    osm.editUpdate();
-    osm.map.on('moveend', osm.editUpdate);
+    // inJOSM
+    osm.inJOSM = new L.Control.inJOSM();
+    osm.map.addControl(osm.inJOSM);
+    $('#EditJOSM a').click($.proxy(osm.inJOSM._click_link, osm.inJOSM));
 
     osm.setLinkOSB();
 
