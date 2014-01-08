@@ -24,13 +24,17 @@ L.Control.inJOSM = L.Control.extend({
     
     this.errorDialog = $('<div><p>JOSM не запущен!</p><p>Пожалуйста запустите JOSM и повторите попытку.</p></div>')
       .dialog({
-        autoOpen:false,
-        modal:true,
-        resizable:false,
-        draggable:false,
+        autoOpen: false,
+        modal: true,
+        resizable: false,
+        draggable: false,
         title: 'JOSM не запущен!',
         dialogClass: 'alert',
-        buttons: [{text:"Ok", position: 'center', click:function() {$(this).dialog("close");}}]
+        buttons: [{
+          text: 'Ok',
+          position: 'center',
+          click: function() {$(this).dialog('close');}
+        }]
       });
     
     return container;
@@ -41,16 +45,26 @@ L.Control.inJOSM = L.Control.extend({
   },
   
   _click_link: function() {
+    var pos = this._map.getBounds();
+    var url = 'http://127.0.0.1:8111/load_and_zoom?left=' + pos._southWest.lng + '&top=' + pos._northEast.lat + '&right=' + pos._northEast.lng + '&bottom=' + pos._southWest.lat;
+    
+    this._send_JOSM(url);
+  },
+  
+  _load_object: function(id) {
+    var url = 'http://127.0.0.1:8111/load_object?objects=' + id;
+    
+    this._send_JOSM(url);
+  },
+  
+  _send_JOSM: function(url) {
     var processResults = function(data, textStatus) {
       if (!(textStatus == 'success' && data == 'OK\r\n'))
-        this.errorDialog.dialog("open");
+        this.errorDialog.dialog('open');
     }
     
-    if (this.click_ajax && this.click_ajax.state() == "pending")
+    if (this.click_ajax && this.click_ajax.state() == 'pending')
       this.click_ajax.abort();
-    
-    var pos = this._map.getBounds();
-    var url = "http://127.0.0.1:8111/load_and_zoom?left=" + pos._southWest.lng + "&top=" + pos._northEast.lat + "&right=" + pos._northEast.lng + "&bottom=" + pos._southWest.lat;
     
     this.click_ajax = $.get(url, {}, $.proxy(processResults, this))
       .error($.proxy(processResults, this));
