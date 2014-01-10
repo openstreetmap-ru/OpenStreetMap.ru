@@ -1,4 +1,3 @@
-
 osm.initLayers = function(){
 
   osm.layerHashes = {};
@@ -87,16 +86,6 @@ osm.initLayers = function(){
   );
 
   osm.registerLayer(
-    'layerKosmoHyb',
-    new L.TileLayer('http://{s}.tile.osmosnimki.ru/hyb/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      attribution: "Map data &copy <a href='http://osm.org'>OpenStreetMap</a> contributors, CC-BY-SA; rendering by <a href='http://kosmosnimki.ru'>kosmosnimki.ru</a>"}),
-    'Космоснимки (гибрид)',
-    'k',
-    false
-  );
-
-  osm.registerLayer(
     'layerMSHyb',
     new L.TileLayer('http://openmapsurfer.uni-hd.de/tiles/hybrid/x={x}&y={y}&z={z}', {
       maxZoom: 18,
@@ -143,6 +132,14 @@ osm.initLayers = function(){
     new L.Panoramio(),
     'Фото (Panoramio)',
     'P',
+    false
+  );
+
+  osm.registerLayer(
+    'layerFlickr',
+    new L.Flickr('dfa25833234018ef8f19fb04c6935b77'),
+    'Фото (Flickr)',
+    'F',
     false
   );
 

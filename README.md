@@ -3,7 +3,7 @@
 Обсуждение:
  * http://forum.openstreetmap.org/viewtopic.php?id=2689
  * http://forum.openstreetmap.org/viewtopic.php?id=14295
- * https://groups.google.com/group/openstreetmap-ru
+ * http://forum.openstreetmap.org/viewtopic.php?id=18358
 
 Обратная связь без регистрации http://osmru.reformal.ru/
 
@@ -11,10 +11,51 @@
 
 Про добавление пои и/или корректировку списка пишите, или сюда https://github.com/ErshKUS/osmCatalog/issues , или сюда http://forum.openstreetmap.org/viewtopic.php?pid=294559
 
-## Info
-
 Протокол валидаторов: http://wiki.openstreetmap.org/wiki/RU:Validator_protocol
 
+## Development
+
+Этот раздел описывает способ настроить локальный вариант сайта.
+
+
+Ставим зависимости:
+
+```
+sudo apt-get install apache2 php5 libapache2-mod-php5 php5-curl
+```
+
+Дальше необходимо поднять локальный веб-сервер.
+Один из способов это сделать --- использовать утилиту [phpup](https://github.com/lox/phpup).
+Скачиваем phpup:
+
+```
+wget https://raw.github.com/lox/phpup/master/phpup
+chmod +x phpup
+```
+
+Чтобы не поднимать локальную базу данных и поиск, можно настроить перенаправление запросов на главный сервер openstreetmap.ru:
+
+```
+mkdir api
+echo "Redirect /api/ http://openstreetmap.ru/api/" > api/.htaccess
+```
+
+Запускаем веб-сервер:
+
+```
+./phpup -p 8000 www
+```
+
+Теперь сайт доступен по адресу
+
+```
+localhost:8000
+```
+
+
+## Deployment
+
+Этот раздел описывает способ развертывания сайта на удаленном сервере.
 
 ### www
 
@@ -132,7 +173,7 @@
 
 Ставим сфинкса отсюда http://sphinxsearch.com/downloads/release/.
 
-Кладем конфиг сфинкса по адресу `/etc/sphinxsearch/sphinx.conf` // TODO: описать конфиг
+Берем конфиг сфинкса  [отсюда](../master/search/configs/sphinx.conf) и кладем по адресу `/etc/sphinxsearch/sphinx.conf`.
 
 Создаем папку /var/cache/sphinx.
 
