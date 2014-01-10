@@ -134,7 +134,7 @@ osm.initLayers = function(){
     'P',
     false
   );
-
+/*
   osm.registerLayer(
     'layerFlickr',
     new L.Flickr('dfa25833234018ef8f19fb04c6935b77'),
@@ -142,7 +142,7 @@ osm.initLayers = function(){
     'F',
     false
   );
-
+*/
   osm.registerLayer(
     'layerWeatherCities',
      new OsmJs.Weather.LeafletLayer({type: 'city', lang: 'ru', temperatureDigits: 0}),
