@@ -4,11 +4,13 @@ $page_logo = "/img/logo.png";
 $page_head_css = <<<PHP_HEAD_CSS
   <link rel="stylesheet" href="/css/leaflet.css" />
   <link rel="stylesheet" href="/css/leaflet.draw.css" />
+  <link rel="stylesheet" href="/css/L.Control.Zoomslider.css" />
   <link rel="stylesheet" href="/css/page.map.css" />
   <link rel="stylesheet" href="/css/jstree/jstree.css" />
   <!--[if lte IE 8]>
     <link rel="stylesheet" href="/css/leaflet.ie.css" />
     <link rel="stylesheet" href="/css/leaflet.draw.ie.css" />
+    <link rel="stylesheet" href="/css/L.Control.Zoomslider.ie.css" />
     <script src="/js/html5shiv.js"></script>
   <![endif]-->
 PHP_HEAD_CSS;
@@ -16,30 +18,9 @@ PHP_HEAD_CSS;
 $page_head_js = <<<PHP_HEAD_JS
   <script src="/js/leaflet.js"></script>
   <script src="/js/leaflet.draw.js"></script>
-  <script src="/js/osm.common.js"></script>
-  <script src="/js/osm.utils.js"></script>
-  <script src="/js/osm.utils.search.js"></script>
-  <script src="/js/osm.dyk.js"></script>
-  <script src="/js/map.js"></script>
-  <script src="/js/Control.Permalink.js"></script>
-  <script src="/js/Control.Scale.js"></script>
-  <script src="/js/Control.Distance.js"></script>
-  <script src="/js/Control.inJOSM.js"></script>
-  <script src="/js/Layer.TileLayer.Bing.js"></script>
-  <script src="/js/KML.js"></script>
   <script src="/js/suncalc.js"></script>
-  <script src="/js/osmjs-validators-layer.js"></script>
-  <script src="/js/osmjs-validators-errors.js"></script>
-  <script src="/js/osmjs-weather-layer.js"></script>
-  <script src="/js/OpenStreetBugs.js"></script>
-  <script src="/js/markers.js"></script>
-  <script src="/js/validators.js"></script>
-  <script src="/js/wpc.js"></script>
   <script src="/js/jquery.jstree.js"></script>
-  <script src="/js/poi.js"></script>
-  <script src="/js/autocomplete.js"></script>
-  <script src="/js/Panoramio.js"></script>
-  <script src="/js/Flickr.js"></script>
+  <script src="/js/page.map.js"></script>
   <script src="/geo.php"></script>
 PHP_HEAD_JS;
 
@@ -69,6 +50,7 @@ $page_content = <<<PHP_CONTENT
       <div id="leftpoi" class="leftgroup">
         <h1>Точки интереса (POI) <img class="loader" src="/img/loader.gif" alt=""></h1>
         <div class="leftcontent" style="display: none;">
+          <div id="leftpoiTree"></div>
         </div>
       </div>
       <div id="leftsearch" class="leftgroup" style="display: none;">
@@ -123,8 +105,8 @@ $page_content = <<<PHP_CONTENT
         <h1>Другие инструменты</h1>
         <div class="leftcontent" style="display: none;">
           <ul>
-            <li><a onclick="osm.markers.addPoint();" href='#'>Поставить маркер</a></li>
-            <li><a id="EditJOSM" href='#'>Редактировать (в JOSM)</a></li>
+            <li><a onclick="osm.permalink.addMarker(); return false;" href='#'>Поставить маркер</a></li>
+            <li id="EditJOSM"><a href='#'>Редактировать (в JOSM)</a></li>
           </ul>
         </div>
       </div>

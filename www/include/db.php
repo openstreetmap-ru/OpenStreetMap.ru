@@ -8,7 +8,7 @@ function db_open($type, $db_name, $db_user, $db_password, $db_host) {
 	else if ($type == "postgresql")
 		$db->open($db_name, $db_user, $db_password, $db_host);
 	else
-		die(Err500());
+		include_once '../500.php';
 	return $db;
 };
  ?>

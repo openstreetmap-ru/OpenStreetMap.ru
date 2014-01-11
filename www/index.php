@@ -12,12 +12,12 @@ if (empty($_URL[0]))
   $_URL[0] = 'map';
 
 if (empty($pages_menu[$_URL[0]]))
-  Err404();
+  include_once '404.php';
 
 $current_menu = $pages_menu[$_URL[0]];
 
 if (!file_exists($current_menu["name"].'.php'))
-  Err404();
+  include_once '404.php';
 
 include_once ('include/external.php');
 include_once ($_URL[0].'.php');
@@ -38,6 +38,7 @@ include_once ($_URL[0].'.php');
   <link media="print" rel="stylesheet" href="/css/print.css" />
   <script src="http://yandex.st/jquery/1.8.2/jquery.min.js"></script>
   <script src="http://yandex.st/jquery-ui/1.9.0/jquery-ui.min.js"></script>
+  <script src="/js/page.main.js"></script>
   <? print($page_head_js); ?>
   <? print($external_head); ?>
   <script type="text/javascript">

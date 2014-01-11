@@ -174,29 +174,25 @@ article[role="main"] {
 /* leaflet-plugins-control */
 
 .leaflet-container .leaflet-control-inJOSM,
+.leaflet-container .leaflet-control-permMarker,
 .leaflet-container .leaflet-control-distance {
   margin-left: 10px;
   margin-top: 12px;
 }
 
 .leaflet-control-inJOSM a {
-  background-image: url('/img/josm_icon.png');
+  background-image: url('/img/edit_icon.png');
   display: block;
 }
 
-.leaflet-control-inJOSM a:hover,
-.leaflet-control-distance a:hover {
-  background-color: #fff;
-  color: #777;
+.leaflet-control-inJOSM a.noRun {
+  background-image: url('/img/edit_no_icon.png');
+  display: block;
 }
 
-.leaflet-control-inJOSM a,
-.leaflet-control-distance a {
-  width: 26px;
-  height: 26px;
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  background-color: rgba(255, 255, 255, 0.75);
+.leaflet-control-permMarker a {
+  background-image: url('/img/marker_icon.png');
+  display: block;
 }
 
 .leaflet-control-distance div {
@@ -243,6 +239,14 @@ div.poi_popup table td                { padding: 0.3em; }
 div.poi_popup p.poi_header            { padding-bottom: 1em; }
 div.poi_popup p.poi_header .poi_name  { margin-right: 1em; }
 
+#leftpoiTree .root > ul > li {
+  margin-left: 0;
+}
+
+#leftpoiTree .root > ins {
+  display: none;
+}
+
 /*Доп. условия*/
 
 @media (max-width: 858px) {
@@ -250,8 +254,13 @@ div.poi_popup p.poi_header .poi_name  { margin-right: 1em; }
   #search_container { left: 0 !important; }
 }
 
-
-
+/* jQuery UI, alert dialog */
+.ui-dialog.alert .ui-dialog-buttonpane {
+    text-align: center;
+}
+.ui-dialog.alert .ui-dialog-buttonpane .ui-dialog-buttonset {
+    float: none;
+}
 
 
 
@@ -453,6 +462,16 @@ a.button:active {
   margin: 8px 0;
 }
 
+#validationerrors .root > ul,
+#validationerrors .root > ul  > li,
+#validationerrors > ul,
+#validationerrors > ul  > li
+{
+  margin-left: 0 !important;
+}
+#validationerrors .root > ins {
+  display: none;
+}
 
 
 

@@ -1,4 +1,4 @@
-<? header("HTTP/1.1 500 Internal Server Error"); ?>
+<?php header("HTTP/1.1 500 Internal Server Error"); ?>
 <html>
 <head>
 <title>Ошибка 500: Ошибка сервера</title>
@@ -16,3 +16,4 @@
   </div>
 </body>
 </html>
+<?php exit(); ?>
