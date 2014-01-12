@@ -1,3 +1,6 @@
+(function() {
+
+
 osm.sManager = {}
 osm.p = {}
 
@@ -9,7 +12,7 @@ osm.sManager.initialize = function() {
   osm.sManager.loadCookie();
   osm.sManager.loadGet();
   osm.sManager.loadAnchor();
-  document.body.onhashchange = function(){ osm.sManager.loadAnchor(); }
+  document.body.onhashchange = osm.sManager.loadAnchor;
 }
 
 osm.sManager.loadCookie = function() {
@@ -27,6 +30,13 @@ osm.sManager.loadCookie = function() {
   }
 }
 
+var clone = function(obj){
+  var newObj = {}, i;
+  for(i in obj)
+    newObj[i] = obj[i];
+  return newObj;
+}
+
 osm.sManager.loadGet = function() {
   var i, a, params;
   osm.p.get = {};
@@ -42,17 +52,11 @@ osm.sManager.loadGet = function() {
 
 osm.sManager.loadAnchor = function() {
   console.debug(new Date().getTime() + ' osm.sManager.loadAnchor');
-  function clone(obj){
-    var newObj = {}, i;
-    for(i in obj)
-      newObj[i] = obj[i];
-    return newObj;
-  }
-  if (isUnd(osm.p.anchor)) {
+  if (isUnd(osm.p.anchor))
     oldAnchor = {};
-  } else {
+  else
     var oldAnchor = clone(osm.p.anchor);
-  }
+
   var i, params, newP, a, ex = [];
   osm.p.anchor = {};
   
@@ -68,17 +72,17 @@ osm.sManager.loadAnchor = function() {
           continue;
         
         if ((!isUnd(oldAnchor[newP['k']]) && oldAnchor[newP['k']] !== newP['v'])
-                || (isUnd(oldAnchor[newP['k']]) && !isUnd(this._on))
-              && newP['k'] in this._on.p
-              && !(ex.indexOf(this._on.p[newP['k']]) + 1) ) {
-          ex.push(this._on.p[newP['k']]);
+                || (isUnd(oldAnchor[newP['k']]) && !isUnd(osm.sManager._on))
+              && newP['k'] in osm.sManager._on.p
+              && !(ex.indexOf(osm.sManager._on.p[newP['k']]) + 1) ) {
+          ex.push(osm.sManager._on.p[newP['k']]);
         }
         osm.p.anchor[newP['k']] = newP['v'];
       }
     }
   }
   for (i in ex)
-    this._on.fn[ex[i]]({'type':'anchor'});
+    osm.sManager._on.fn[ex[i]]({'type':'anchor'});
 }
 
 osm.sManager.decodeURI = function(str) {
@@ -97,6 +101,11 @@ osm.sManager.setP = function(data){ // [{type, k, v}] | type=cookie: path, expir
   console.debug(new Date().getTime() + ' osm.sManager.setP');
   
   var isAnchor = false;
+  if (isUnd(osm.p.anchor))
+    oldAnchor = {};
+  else
+    var oldAnchor = clone(osm.p.anchor);
+  
   for (var i in data) {
     console.debug(data[i]);
     if (isUnd(data[i].v)) data[i].v = '';
@@ -117,14 +126,14 @@ osm.sManager.setP = function(data){ // [{type, k, v}] | type=cookie: path, expir
     }
     else if (data[i].type == 'anchor'){
       if (data[i].del)
-        delete osm.p.anchor[data[i].k], isAnchor = true;
+        delete oldAnchor[data[i].k], isAnchor = true;
       else if (isUnd(osm.p.anchor[data[i].k]) || osm.p.anchor[data[i].k] !== data[i].v)
-        osm.p.anchor[data[i].k] = data[i].v, isAnchor = true;
+        oldAnchor[data[i].k] = data[i].v, isAnchor = true;
     }
   }
   
   if (isAnchor) {
-    var newLine = osm.sManager.Param2Line(osm.p.anchor, '&');
+    var newLine = osm.sManager.Param2Line(oldAnchor, '&');
     newLine = newLine ? '#' + newLine : '';
     location.replace(newLine);
   }
@@ -158,3 +167,7 @@ osm.sManager.on = function(p, fn) {
   if (ex)
     fn({'type':type});
 }
+
+var sm = osm.sManager;
+
+}).call(this);
