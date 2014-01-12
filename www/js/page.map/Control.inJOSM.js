@@ -1,7 +1,7 @@
 L.Control.inJOSM = L.Control.extend({
   options: {
     position: 'topleft',
-    linktitle: 'Редактировать в JOSM',
+    linktitle: 'Редактировать в JOSM'
   },
 
   initialize: function (options) {
