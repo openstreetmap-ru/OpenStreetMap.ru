@@ -2,6 +2,7 @@
 # -*- coding: utf8 -*-
 
 import os, subprocess
+import config_compile as conf
 
 def cmdrun(cmd, errorText=''):
   PIPE = subprocess.PIPE
@@ -12,8 +13,8 @@ def cmdrun(cmd, errorText=''):
 
 
 def main():
-  cat_in_js = '/home/ershkus/osm.ru/www/js/'
-  compiler = '/home/ershkus/osm.ru/compiler/compiler.jar'
+  cat_in_js = conf.cat_in_js
+  compiler = conf.compiler
   
   if cat_in_js[-1] != os.sep: cat_in_js += os.sep
   
