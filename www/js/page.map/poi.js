@@ -108,6 +108,7 @@ osm.poi = {
     }
     else {
       osm.sManager.setP([{type:'anchor', k:'poi', del:1}]);
+      poi.opt.code = '';
     }
   },
 
