@@ -131,6 +131,7 @@ $(function() {
 
 osm.permalink.start = function() {
   this.updPos();
+  osm.sManager.loadAnchor();
   osm.map.on('moveend', osm.permalink.updPos);
   
   if (osm.layers[this.defaults.baseLayer] != this.p.baseLayer || !$.isEmptyObject(this.p.overlays))
