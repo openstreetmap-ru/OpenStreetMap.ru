@@ -36,8 +36,8 @@ chmod +x phpup
 Чтобы не поднимать локальную базу данных и поиск, можно настроить перенаправление запросов на главный сервер openstreetmap.ru:
 
 ```
-mkdir api
-echo "Redirect /api/ http://openstreetmap.ru/api/" > api/.htaccess
+mkdir www/api
+echo "Redirect /api/ http://openstreetmap.ru/api/" > www/api/.htaccess
 ```
 
 Запускаем веб-сервер:
