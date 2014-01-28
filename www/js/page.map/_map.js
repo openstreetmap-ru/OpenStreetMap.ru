@@ -234,10 +234,6 @@ osm.permalink.parseHash = function (e) {
   return false;
 }
 
-osm.permalink.createButton = function() {
-  
-}
-
 osm.permalink.setPosMap = function() {
   console.debug(new Date().getTime() + ' osm.permalink.setPosMap');
   var parse = osm.permalink.parseHash();

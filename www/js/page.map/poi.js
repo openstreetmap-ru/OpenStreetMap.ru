@@ -269,14 +269,14 @@ osm.poi = {
     }
   },
   poiIcon :  L.Icon.extend({
-		options: {
-			//iconUrl: 'img/marker-icon.png',
-			iconSize: new L.Point(32, 37),
-			shadowSize: new L.Point(0, 0),
-			iconAnchor: new L.Point(16, 35),
-			popupAnchor: new L.Point(0, -11)
-		}
-	}),
+    options: {
+      //iconUrl: 'img/marker-icon.png',
+      iconSize: new L.Point(32, 37),
+      shadowSize: new L.Point(0, 0),
+      iconAnchor: new L.Point(16, 35),
+      popupAnchor: new L.Point(0, -11)
+    }
+  }),
 
   createPopupText: function(getdata) {
     if (!(getdata == null)) {
