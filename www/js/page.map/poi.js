@@ -29,10 +29,14 @@ osm.poi = {
         }
       })
       .bind("change_state.check_box.jstree", function (event, data) {
+        if (poi.opt.decodeWork)
+          return;
         osm.poi.updateMarkerTree(event, data);
         poi.codePerm();
       })
       .bind("uncheck_node.check_box.jstree", function (event, data) {
+        if (poi.opt.decodeWork)
+          return;
         poi.checkClone(data);
       })
       .bind('loaded.jstree', function(event, data){
@@ -215,8 +219,6 @@ osm.poi = {
   },
 
   updateMarkerTree: function(){
-    if (poi.opt.decodeWork)
-      return;
     console.debug(new Date().getTime() + ' osm.poi.updateMarkerTree');
     if (osm.poi.ajax && osm.poi.ajax.state() == "pending")
       osm.poi.ajax.abort();
