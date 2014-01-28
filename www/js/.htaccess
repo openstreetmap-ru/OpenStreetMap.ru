@@ -5,7 +5,9 @@ ErrorDocument 403 /404.php
 ErrorDocument 404 /404.php
 
 RewriteEngine on
-RewriteCond %{REQUEST_FILENAME} !-f [OR]
-RewriteCond %{REQUEST_FILENAME} ^(.js)
+RewriteCond %{REQUEST_FILENAME} (page\.main\.js)$ [OR]
+RewriteCond %{REQUEST_FILENAME} (page\.map\.js)$ [OR]
+RewriteCond %{REQUEST_FILENAME} (page\.about\.js)$ [OR]
+RewriteCond %{REQUEST_FILENAME} !-f 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ js.php [L]
