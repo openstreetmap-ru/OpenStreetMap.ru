@@ -16,21 +16,7 @@ search.processResults = function(results) {
     $("#leftsearch .loader").removeClass('on');
     if (results.error) {
       search.content.innerHTML='Произошла ошибка: ' + (results.error);
-    } else if (results.find==0) {
-      search.q=results.search;
-      search.content.innerHTML='<p>Ничего не найдено по запросу "' + (results.search)  + '"</p><br /><br />\
-          <p>Оставьте заявку об отсутствующем у нас адресе или неправильной работе поиска<br><br>\
-          Комментарий (запрос указывать не надо):\
-          </p>\
-          <form onsubmit="return search.reportError();">\
-          <p><textarea id="rsearch" style="width: 95%;"></textarea></p>\
-          <p style="text-align: center;"><input type="submit" style=""></p>\
-          </form>';
-    }
-    else if (results.find==1 && results.accuracy_find==0) {
-      search.content.innerHTML='Пожалуйста, уточните запрос "' + (results.search) + '"';
-    }
-    else {
+    } else {
       var content = $('<ul id="ol-search_result">')
       var matches=results.matches;
       for (var i in matches) {
