@@ -1,7 +1,8 @@
 search = {last:{}};
 
 $(function() {
-  search.content=$('#leftpantab #leftsearch .leftcontent')[0];
+  search.content=$('#leftpantab #leftsearch .mainsearch')[0];
+  search.nominatimContent=$('#leftpantab #leftsearch .othersearch')[0];
   osm.sManager.on(['q','qmap'], search.startSearch);
 });
 
@@ -30,23 +31,8 @@ search.processResults = function(results) {
     $("#leftsearch .loader").removeClass('on');
     if (results.error) {
       search.content.innerHTML='Произошла ошибка: ' + (results.error);
-    } else if (results.find==0) {
-      search.q=results.search;
-      search.content.innerHTML='<p>Ничего не найдено по запросу "' + (results.search)  + '"</p><br /><br />\
-          <p>Оставьте заявку об отсутствующем у нас адресе или неправильной работе поиска<br><br>\
-          Комментарий (запрос указывать не надо):\
-          </p>\
-          <form onsubmit="return search.reportError();">\
-          <p><textarea id="rsearch" style="width: 95%;"></textarea></p>\
-          <p style="text-align: center;"><input type="submit" style=""></p>\
-          </form>';
-    }
-    else if (results.find==1 && results.accuracy_find==0) {
-      search.content.innerHTML='Пожалуйста, уточните запрос "' + (results.search) + '"';
-    }
-    else {
+    } else {
       var content = $('<ul id="ol-search_result">')
-      osm.layers.search_marker.clearLayers();
       var matches=results.matches;
       for (var i in matches) {
         var zoom = (matches[i].this_poi?16:matches[i].addr_type_id/5*2+4).toFixed(0);
@@ -79,6 +65,41 @@ search.processResults = function(results) {
     }
   } catch(e) {
     search.content.innerHTML = 'Ошибка: ' + e.description + '<br /> Ответ поиск.серв.: '+results.error;
+  }
+};
+
+
+search.processNominatimResults = function(results) {
+  try {
+    $("#leftsearch .loader").removeClass('on');
+    var from = $('<div style="font-size: 0.8em">Результаты от <a href="http://nominatim.openstreetmap.org/">Nominatim</a></div>');
+    var content = $('<ul id="ol-search_result">')
+    var matches=results;
+    for (var i in matches) {
+      var zoom = 12;
+      var marker = new L.Marker(new L.LatLng(matches[i].lat, matches[i].lon), {icon: new search.Icon()});
+      marker.bindPopup("<b>Адрес:</b><br /> " + matches[i].display_name);
+      var a = $('<a href="">');
+      // a.attr('search_id',matches[i].place_id);
+      a.text(matches[i].display_name);
+      a.bind("click", {
+          center: new L.LatLng(matches[i].lat, matches[i].lon),
+          zoom: zoom,
+          marker: marker
+          }, function (e){
+        e.data.marker.openPopup();
+        osm.map.setView(e.data.center, e.data.zoom);
+        return false;
+      });
+      content.append(
+        $('<li>').append(a)
+      );
+      osm.layers.search_marker.addLayer(marker);
+    }
+    $(search.nominatimContent).empty().append(from).append(content);
+    // $('#ol-search_result a', search.nominatimContent).eq(0).click();
+  } catch(e) {
+    search.nominatimContent.innerHTML = 'Ошибка: ' + e.description + '<br /> Ответ поиск.серв.: '+results.error;
   }
 };
 
@@ -134,8 +155,22 @@ search.startSearch = function() {
   
   $("#leftsearch .loader").addClass('on');
   osm.leftpan.toggleItem('leftsearch', true);
-  $.getJSON('/api/search', {q:q, lat:center.lat, lon:center.lng, accuracy:1}, search.processResults)
-    .error(search.errorHandler);
+  osm.layers.search_marker.clearLayers();
+
+  $.getJSON('/api/search', {
+      q: q, 
+      accuracy: 1, 
+      lat: center.lat, 
+      lon: center.lng
+    }, search.processResults).error(search.errorHandler);
+
+  $.getJSON('http://open.mapquestapi.com/nominatim/v1/search.php', {
+      q: q, 
+      format: 'json',
+      limit: 5
+      }, search.processNominatimResults).error(search.errorHandler);
+
+  return false;
 };
 
 search.parserUrlIn = function(inQuery) {

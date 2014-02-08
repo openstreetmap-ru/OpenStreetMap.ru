@@ -55,7 +55,10 @@ $page_content = <<<PHP_CONTENT
       </div>
       <div id="leftsearch" class="leftgroup" style="display: none;">
         <h1>Поиск <img class="loader" src="/img/loader.gif" alt=""></h1>
-        <div class="leftcontent" style="display: none;"></div>
+        <div class="leftcontent" style="display: none;">
+          <div class="mainsearch"></div>
+          <div class="othersearch"></div>
+        </div>
       </div>
       <div id="leftpersmap" class="leftgroup">
         <h1>Персональная карта</h1>
