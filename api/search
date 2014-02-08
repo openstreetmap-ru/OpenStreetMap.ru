@@ -229,7 +229,7 @@ def main():
   get['q'] = unicode(getvalues.getfirst("q",""),'utf8') # строка поиска
   get['lat'] = float(getvalues.getfirst("lat","0")) # координаты куда смотрит пользователь
   get['lon'] = float(getvalues.getfirst("lon","0")) # координаты куда смотрит пользователь
-  get['asis'] = bool(getvalues.getfirst("asis","")) # не экранировать спецсимволы html при выводе результатов
+  get['asis'] = bool(getvalues.getfirst("asis","1")) # не экранировать спецсимволы html при выводе результатов
   get['nolimit'] = bool(getvalues.getfirst("nolimit","")) # не ограничивать количество выводимых результатов поиска
   get['cnt'] = int(getvalues.getfirst("cnt","12")) # число выводимых результатов поиска
   get['st'] = unicode(getvalues.getfirst("st","")) # [all / addr / poi]  где ищем
