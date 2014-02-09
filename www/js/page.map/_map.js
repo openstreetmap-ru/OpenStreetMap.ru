@@ -235,6 +235,10 @@ osm.permalink.parseHash = function (e) {
 }
 
 osm.permalink.setPosMap = function() {
+  if (osm.permalink._isUpdPos) {
+    osm.permalink._isUpdPos = false;
+    return;
+  }
   console.debug(new Date().getTime() + ' osm.permalink.setPosMap');
   var parse = osm.permalink.parseHash();
   if (parse)
@@ -336,8 +340,9 @@ osm.permalink.updPos = function() {
   console.debug(new Date().getTime() + ' osm.permalink.updPos');
   var zoom = osm.map.getZoom();
   var center = osm.permalink.rounding(zoom, osm.map.getCenter());
-  
   var map = [zoom, center.lat, center.lng].join("/");
+  
+  osm.permalink._isUpdPos = true;
   
   osm.sManager.setP([
     {type:'anchor', k:'map', v:map},
