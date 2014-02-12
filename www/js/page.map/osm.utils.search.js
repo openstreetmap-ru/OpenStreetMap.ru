@@ -167,7 +167,8 @@ search.startSearch = function() {
   $.getJSON('http://open.mapquestapi.com/nominatim/v1/search.php', {
       q: q, 
       format: 'json',
-      limit: 5
+      limit: 5,
+      'accept-language': 'ru',
       }, search.processNominatimResults).error(search.errorHandler);
 
   return false;
