@@ -158,17 +158,17 @@ search.startSearch = function() {
   osm.layers.search_marker.clearLayers();
 
   $.getJSON('/api/search', {
-      q: q, 
-      accuracy: 1, 
-      lat: center.lat, 
+      q: q,
+      accuracy: 1,
+      lat: center.lat,
       lon: center.lng
     }, search.processResults).error(search.errorHandler);
 
   $.getJSON('http://open.mapquestapi.com/nominatim/v1/search.php', {
-      q: q, 
+      q: q,
       format: 'json',
       limit: 5,
-      'accept-language': 'ru',
+      'accept-language': 'ru'
       }, search.processNominatimResults).error(search.errorHandler);
 
   return false;
