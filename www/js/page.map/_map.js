@@ -94,7 +94,7 @@ $(function() {
 
 osm.keypress = function(e) {
   if (e.keyCode == 8) {
-    if (e.target.id != 'qsearch') {
+    if ( !(['textarea', 'text', 'search'].indexOf(e.target.type) + 1) ) {
       var search = $('#qsearch');
       search.focus();
       var text = search.val();
