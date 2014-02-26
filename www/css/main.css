@@ -145,7 +145,12 @@ nav li {
 
 nav li:hover                     { color: #fff; }
 nav li:hover > a                 { color: #fff; }
-nav a                            { color: #aaa; }
+nav a {
+  color: #aaa;
+  display: block;
+  height: 100%;
+
+}
 nav span                         { color: #fff; }
 .htp nav { height: 9px; }
 .htp nav li:hover { height: 32px; }
