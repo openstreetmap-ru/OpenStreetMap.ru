@@ -374,6 +374,31 @@ SELECT
   ways.id AS id_link,
   'W' as type_link,
   ways.version as ver_link,
+  ways.tags->'addr2:street' AS street,
+  ways.tags->'addr2:housenumber' AS housenumber,
+  ways.linestring as geom
+FROM
+  ways
+WHERE
+  ways.tags ? 'building'  
+  AND ways.linestring is not null
+  AND ((ways.tags->'addr2:housenumber') is not null OR (ways.tags->'addr2:housenumber')<>'');
+  
+  
+INSERT INTO
+  search_osm(
+  addr_type,
+  id_link,
+  type_link,
+  ver_link,
+  street,
+  housenumber,
+  geom)
+SELECT 
+  'housenumber' as addr_type,
+  ways.id AS id_link,
+  'W' as type_link,
+  ways.version as ver_link,
   ways.tags->'addr:street3' AS street,
   ways.tags->'addr:housenumber3' AS housenumber,
   ways.linestring as geom
