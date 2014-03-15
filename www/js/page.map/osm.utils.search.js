@@ -87,8 +87,8 @@ search.processNominatimResults = function(results) {
           zoom: zoom,
           marker: marker
           }, function (e){
-        e.data.marker.openPopup();
         osm.map.setView(e.data.center, e.data.zoom);
+        e.data.marker.openPopup();
         return false;
       });
       content.append(
