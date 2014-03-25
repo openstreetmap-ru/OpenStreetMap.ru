@@ -80,7 +80,7 @@ osm.initLayers = function(){
   if (!frame_map)
   osm.registerLayer(
     'osmNotes',
-    new L.OpenStreetNotes({dblClick: false, iconOpen:"img/osb/open_bug_marker.png", iconClosed:"img/osb/closed_bug_marker.png", iconActive:"img/osb/active_bug_marker.png", editArea:0.001, bugid: osm.p.get.bugid}),
+    new L.OpenStreetNotes({dblClick: false, iconOpen:"img/osb/open_bug_marker.png", iconClosed:"img/osb/closed_bug_marker.png", iconActive:"img/osb/active_bug_marker.png", editArea:0.001, noteid: osm.p.get.noteid}),
     'OSM Notes',
     'N',
     false

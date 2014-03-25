@@ -29,6 +29,13 @@ osm.setLinkOSB = function() {
   }
 };
 
+osm.setLinkOSN = function() {
+  if (parseInt(osm.p.get.noteid)) {
+    osm.map.addLayer(osm.layers.osmNotes);
+    osm.map.control_layers._update();
+  }
+};
+
 osm.leftpan.refsizetab = function() {
   var mi=$("#leftpantab .leftgroup");
   var dykH=$("#leftpantab #DidYouKnow")[0].offsetHeight;

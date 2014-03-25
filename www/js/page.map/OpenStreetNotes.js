@@ -1,6 +1,6 @@
 L.OpenStreetNotes = L.FeatureGroup.extend({
 	options : {
-		serverURL: "http://api.openstreetmap.org/api/0.6/",
+		serverURL: "http://api06.dev.openstreetmap.org/api/0.6/",
 		readonly:  false,
 		setCookie: true,
 		username: "NoName",
@@ -16,7 +16,7 @@ L.OpenStreetNotes = L.FeatureGroup.extend({
 		iconActive: undefined,
 		editArea: 0.01,
 		popupOptions: {autoPan: false, minWidth: 410, maxWidth: 410},
-		dblClick: true
+		dblClick: true,
 	},
 
 	initialize : function(options)
@@ -108,7 +108,7 @@ L.OpenStreetNotes = L.FeatureGroup.extend({
 			+ ","+round(sw.lat, 5)
 			+ ","+round(ne.lng, 5)
 			+ ","+round(ne.lat, 5));
-
+        var _this = this;
         $.ajax({
            type: "GET",
            url: url,
@@ -189,10 +189,12 @@ L.OpenStreetNotes = L.FeatureGroup.extend({
     	if (feature._popup)
       		feature._popup.options.className += class_popup;
 
-		if (this.options.bugid && (parseInt(this.options.bugid) == id))
+		if (this.options.noteid && (parseInt(this.options.noteid) == id))
 		{
+            alert(id);
 			this.bugs[id].alwaysOpen = true;
 			this.bugs[id].openPopup();
+            this.options.firstOpen = false;
 		}
 
 		//this.events.triggerEvent("markerAdded");
@@ -310,7 +312,7 @@ L.OpenStreetNotes = L.FeatureGroup.extend({
 
 		var a = create_link(ul, "Link");
 		var offset = 0.005; // смещение карты немного вниз, чтобы окошко бага было открыто примерно по центру
-		var vars = {lat:rawbug[0].lat+offset, lon:rawbug[0].lng, zoom:this.options.permalinkZoom, bugid:id}
+		var vars = {lat:rawbug[0].lat+offset, lon:rawbug[0].lng, zoom:this.options.permalinkZoom, noteid:id}
 		if (this.options.permalinkUrl)
 			a.href = L.Util.template(this.options.permalinkUrl, vars)
 		else
@@ -340,12 +342,17 @@ L.OpenStreetNotes = L.FeatureGroup.extend({
 	submitComment: function(form) {
 		if (!form.osbcomment.value) return;
 //		var nickname = form.osbnickname.value || this.options.username;
+        that = this;
         $.ajax({
            type: "POST",
            data: ({text: form.osbcomment.value}),
            url:this.options.serverURL + "/notes/" + encodeURIComponent(form.osbid.value) + "/comment",
         error: function () {
-            alert('Error append comment');}
+            alert('Error append comment');},
+        success: function(){
+            form.osbcomment.value = '';
+            that.loadBugs();
+        }
         });
 
 	},
@@ -407,17 +414,19 @@ L.OpenStreetNotes = L.FeatureGroup.extend({
 	createBug: function(form) {
 		if (!form.osbcomment.value) return;
 //		var nickname = form.osbnickname.value || this.options.username;
-
+        var that = this;
         $.ajax({
            type: "POST",
            data: ({lat : encodeURIComponent(form.osblat.value),
                    lon: encodeURIComponent(form.osblon.value),
                    text: form.osbcomment.value
            }),
-           url:this.options.serverURL,
+           url:this.options.serverURL + "/notes",
         error: function () {
-            alert('Error append Note');}
+            alert('Error append Note');},
+        success: function() { that.loadBugs()}
         })
+
     },
 
 	remoteEdit: function(x) {
@@ -469,7 +478,7 @@ function putNoteAJAXMarker(id, lon, lat, comments, closed)
 {
 	var old = putNoteAJAXMarker.bugs[id];
 	if (old)    // маркер уже есть
-	if (old[3] == comments && old[2] == closed) // обновляем только в случае изменения текста или статуса
+	if (old[1].length == comments.length && old[2] == closed) // обновляем только в случае изменения текста или статуса
 		return; // не перерисоздаем существующие
 
 //	var comments = text.split(/<hr \/>/);

@@ -65,6 +65,7 @@ $(function() {
     $('#EditJOSM a').click($.proxy(osm.inJOSM._click_link, osm.inJOSM));
 
     osm.setLinkOSB();
+    osm.setLinkOSN();
 
     if (osm.p.get.hidetoppan) osm.toppan_toggle(false);
 
