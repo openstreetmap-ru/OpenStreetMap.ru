@@ -64,6 +64,22 @@ osm.initLayers = function(){
   );
 
   osm.registerLayer(
+    'layerKosmo',
+    new L.TileLayer('http://{s}.tile.osm.kosmosnimki.ru/kosmo/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, tiles &copy; <a href='http://osm.kosmosnimki.ru/' target='_blank'>Kosmosnimki</a>", subdomains: 'abcd'}),
+    'Kosmosnimki OSM',
+    'k',
+    true
+  );
+
+  osm.registerLayer(
+    'layerKosmoNight',
+    new L.TileLayer('http://{s}.tile.osm.kosmosnimki.ru/night/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, tiles &copy; <a href='http://osm.kosmosnimki.ru/' target='_blank'>Kosmosnimki</a>", subdomains: 'abcd'}),
+    'Kosmosnimki OSM Night',
+    'N',
+    true
+  );
+
+  osm.registerLayer(
     'layerBing',
     new L.BingLayer('ApaoUzCK5_6HzEgOsPL_HFxYj-RVA2FAvcvQHX4XKeR6tjzl9lquWXiZSwBFe8h-', {maxZoom: 18}),
     'Снимки Bing',
