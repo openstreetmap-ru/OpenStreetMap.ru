@@ -36,6 +36,17 @@ osm.initLayers = function(){
   );
 
   osm.registerLayer(
+    'layerVeloroad',
+    new L.TileLayer('http://tile.osmz.ru/veloroad/{z}/{x}/{y}.png', {
+      maxZoom: 15,
+      attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, tiles &copy; " +
+         "<a href=\"http://www.openstreetmap.org/user/Zverik\" target=\"_blank\">Ilya Zverev</a>"}),
+    'Veloroad',
+    'V',
+    true
+  );
+
+  osm.registerLayer(
     'layerMQ',
     new L.TileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png', {
       maxZoom: 18,
