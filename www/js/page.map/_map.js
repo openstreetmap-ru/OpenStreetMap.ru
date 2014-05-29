@@ -61,7 +61,6 @@ $(function() {
 
     // inJOSM
     osm.inJOSM = new L.Control.inJOSM();
-    osm.map.addControl(osm.inJOSM);
     $('#EditJOSM a').click($.proxy(osm.inJOSM._click_link, osm.inJOSM));
 
     osm.setLinkOSB();
@@ -76,6 +75,8 @@ $(function() {
     osm.opento();
     
     $('body').keypress(osm.keypress);
+    
+    osm.mapperMode.start();
   }
 
   // добавляем по умолчанию maxHeight для Popup у Marker
@@ -86,7 +87,7 @@ $(function() {
         options = {};
       if (osm && osm.map && !options.maxHeight)
         options.maxHeight = osm.map._size.y - 90;
-      osm.bindPopup_.call(this, content, options);
+      return osm.bindPopup_.call(this, content, options);
     }
   });
 

@@ -177,3 +177,38 @@ osm.opento = function() {
   $('#opento-panoramio')[0].href = 'http://www.panoramio.com/map/#' + 'lt=' + center.lat + '&ln=' + center.lng + '&z=' + (17 - zoom);
 }
 
+
+// mapperMode
+osm.mapperMode = {};
+
+osm.mapperMode.start = function() {
+  osm.mapperMode.on = Number(osm.p.cookie.mapperMode) || false;
+  if (osm.mapperMode.on) {
+    $('#leftpantab #mapperMode ins').addClass('on');
+    osm.mapperMode.changeMode();
+  }
+}
+
+// переключение чекбокса
+osm.mapperMode.toggleChecked = function() {
+  var e = $('#leftpantab #mapperMode ins');
+  e.toggleClass('on');
+  this.on = e.hasClass('on');
+  osm.sManager.setP([{type:'cookie', k:'mapperMode', v:Number(this.on)}]);
+  osm.mapperMode.changeMode();
+  return false;
+}
+
+osm.mapperMode.changeMode = function() {
+  if (osm.mapperMode.on) {
+    $('body').addClass('mapperMode');
+    // inJOSM
+    osm.map.addControl(osm.inJOSM);
+  }
+  else {
+    $('body').removeClass('mapperMode');
+    // inJOSM
+    osm.map.removeControl(osm.inJOSM);
+  }
+}
+

@@ -336,6 +336,12 @@ a.leaflet-control-distance-active:hover { background-color: #ffa; }
 .poi_popup .technical a.button_space {
   margin-right: 14px;
 }
+body .poi_popup .technical {
+  display: none;
+}
+body.mapperMode .poi_popup .technical {
+  display: block;
+}
 
 
 /*Доп. условия*/
@@ -351,6 +357,35 @@ a.leaflet-control-distance-active:hover { background-color: #ffa; }
 }
 .ui-dialog.alert .ui-dialog-buttonpane .ui-dialog-buttonset {
     float: none;
+}
+
+/* mapperMode */
+body #leftvalidator {
+  display: none;
+}
+body.mapperMode #leftvalidator {
+  display: block;
+}
+
+body .poi_popup .poi_osm_id {
+  display: none;
+}
+body.mapperMode .poi_popup .poi_osm_id {
+  display: table-row;
+}
+
+body #EditJOSM {
+  display: none;
+}
+body.mapperMode #EditJOSM {
+  display: block;
+}
+
+/* to_ */
+.buttonTo {
+  height: 16px;
+  margin: 0 2px;
+  width: 16px;
 }
 
 
@@ -449,6 +484,27 @@ img.loader.on { display: inline; }
 
 #leftpantab .leftlink li { padding-bottom: 4px; }
 #leftpantab .leftlink a  { text-decoration: none; }
+
+#leftpantab a > ins.checkbox{
+  background-color: rgba(0, 0, 0, 0);
+  background-image: url("/css/jstree/e.png");
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+}
+#leftpantab a > ins.checkbox.on{
+  background-position: -38px -19px;
+}
+#leftpantab a > ins.checkbox{
+  background-position: -2px -19px;
+}
+#leftpantab a:hover > ins.checkbox.on{
+  background-position: -38px -37px;
+}
+#leftpantab a:hover > ins.checkbox{
+  background-position: -2px -37px;
+}
 
 
 

@@ -110,6 +110,7 @@ $page_content = <<<PHP_CONTENT
           <ul>
             <li><a onclick="osm.permalink.addMarker(); return false;" href='#'>Поставить маркер</a></li>
             <li id="EditJOSM"><a href='#'>Редактировать (в JOSM)</a></li>
+            <li><a id="mapperMode" onclick="return osm.mapperMode.toggleChecked();" href='#'><ins class="checkbox"> </ins>Режим Маппера</a></li>
           </ul>
         </div>
       </div>
