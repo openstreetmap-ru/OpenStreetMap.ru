@@ -9,7 +9,8 @@ osm.poi = {
     nulldisplay: "Неизвестно",
     alphabet: '0123456789_~abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
     loaded: false,
-    runLoaded: false
+    runLoaded: false,
+    popupOptions: {minWidth: 220, maxWidth: 350}
   },
 
   initialize: function() {
@@ -245,7 +246,7 @@ osm.poi = {
             else {
               icon_url = osm.poi.choiceMarker(results.data[item2].nclass);
               _marker = new L.Marker(new L.LatLng(results.data[item2].lat, results.data[item2].lon), {icon:new osm.poi.poiIcon({iconUrl: icon_url})});
-              _marker.bindPopup(osm.poi.createPopupText(results.data[item2]));
+              _marker.bindPopup(osm.poi.createPopupText(results.data[item2]), osm.poi.opt.popupOptions);
               osm.poi.layer.addLayer(_marker);
             }
           }
@@ -279,146 +280,292 @@ osm.poi = {
   }),
 
   createPopupText: function(getdata) {
-    if (!(getdata == null)) {
-      var operator;
-      if (!(getdata.operator==null)) {
-        operator=$('<tr>').addClass('poi_operator')
-          .append($('<td>').text('Владелец: '))
-          .append($('<td>').text(getdata.operator).addClass('poi_value'))
-      }
-      var brand;
-      if (!(getdata.brand==null)) {
-        brand=$('<tr>').addClass('poi_brand')
-          .append($('<td>').text('Бренд: '))
-          .append($('<td>').text(getdata.brand).addClass('poi_value'))
-      }
-      var phone;
-      if (!(getdata.phone==null)) {
-        phone=$('<tr>').addClass('poi_phone')
-          .append($('<td>').text('Телефон: '))
-          .append($('<td>').addClass('poi_value')
-            .append($('<a>').attr('href', 'tel:'+getdata.phone).text(getdata.phone))
-          )
-      }
-      var fax;
-      if (!(getdata.fax==null)) {
-        fax=$('<tr>').addClass('poi_fax')
-          .append($('<td>').text('Факс: '))
-          .append($('<td>').text(getdata.fax).addClass('poi_value'))
-      }
-
-      var website;
-      if (!(getdata.website==null)) {
-        // assume http:// for protocol-less links
-        var properLink = getdata.website;
-        if (properLink.indexOf(':') < 0) {
-          properLink = 'http://' + properLink;
+    function createListValue(p, isDivMain, divClass, phone){
+      var out;
+      var mainTag = (isDivMain ? '<div>' : '<td>');
+      p = p.trim();
+      divClass = divClass || '';
+      var pArr = p.split(';');
+      if (pArr.length === 1)
+        pArr = pArr[0].split(',');
+      
+      if (pArr.length > 1) {
+        out = $('<ul>');
+        for (var i in pArr) {
+          var item = pArr[i].trim();
+          if (phone)
+            out = out.append($('<li>').append($('<a>').attr('href', 'tel:' + item).text(item)));
+          else
+            out = out.append($('<li>').text(item));
         }
-        
-        getdata.website = getdata.website.toLowerCase()
-          .replace(/(http:\/\/)?(www.)?(.+)/g, '$3')
-          .replace(/(.+)(\/$)/gm, '$1')
-        if (getdata.website.length > 18)
-          getdata.website = getdata.website.substr(0,16) + '...';
-        
-        website=$('<tr>').addClass('poi_website')
-          .append($('<td>').text('Web-сайт: '))
-          .append($('<td>').addClass('poi_value')
-            .append($('<a>').attr('href', properLink).attr('target', '_blank').text(getdata.website))
-          );
+        out = $(mainTag).addClass(divClass).append(out);
       }
-
-      var email;
-      if (!(getdata.email==null)) {
-        email=$('<tr>').addClass('poi_email')
-          .append($('<td>').text('E-mail: '))
-          .append($('<td>').addClass('poi_value')
-            .append($('<a>').attr('href', 'mailto:' + getdata.email).text(getdata.email))
-          );
+      else {
+        if (phone)
+          out = $(mainTag).addClass(divClass).append($('<a>').attr('href', 'tel:' + p).text(p));
+        else
+          out = $(mainTag).addClass(divClass).text(p);
       }
-
-      var moretags=$('');
-      for (xName in getdata.tags_ru) {
-        if (getdata.tags_ru[xName]!="неизвестно" && getdata.tags_ru[xName]!='' && getdata.tags_ru[xName]!==null) {
-          moretags.after($('<tr>').addClass('poi_moretags')
-            .append($('<td>').text(xName+': '))
-            .append($('<td>').text(getdata.tags_ru[xName])))
-        }
-      }
-
-      var opening_hours;
-      if (!(getdata.opening_hours==null)) {
-        getdata.opening_hours = getdata.opening_hours.toLowerCase()
-          .replace(/([a-z].) /g, '$1: ')
-          .replace(/mo-fr/g, 'по будням')
-          .replace(/sa-su/g, 'по выходным')
-          .replace(/mo-su/g, 'ежедневно')
-          .replace(/mo/g, 'Пн')
-          .replace(/tu/g, 'Вт')
-          .replace(/we/g, 'Ср')
-          .replace(/th/g, 'Чт')
-          .replace(/fr/g, 'Пт')
-          .replace(/sa/g, 'Сб')
-          .replace(/su/g, 'Вс')
-          .replace('24/7', 'круглосуточно')
-          .replace(/off/g, 'не работает')
-          .replace(/,(?!\s)/g, ', ')
-          .replace(/-(?=\d)/g, '—')
-          .replace(/\s*;\s*/g, ' | ');
-        getdata.opening_hours = getdata.opening_hours.charAt(0).toUpperCase() + getdata.opening_hours.substr(1);
-        opening_hours=$('<tr>').addClass('poi_opening_hours')
-          .append($('<td>').text('Время работы: '))
-          .append($('<td>').text(getdata.opening_hours||osm.poi.opt.nulldisplay).addClass('poi_value'))
-      }
-
-      var description;
-      if (!(getdata.description==null)) {
-        description=$('<tr>').addClass('poi_description')
-          .append($('<td>').text('Описание: '))
-          .append($('<td>').text(getdata.description).addClass('poi_value'))
-      }
-      
-      // addr
-      if (getdata.addr_street) {
-        getdata.addr = getdata.addr_street;
-        getdata.addr += (getdata.addr_house ? ', '+getdata.addr_house : '');
-      }
-      else if (getdata.addr_city)
-        getdata.addr = getdata.addr_city;
-      else if (getdata.addr_village)
-        getdata.addr = getdata.addr_village;
-      else
-        getdata.addr = getdata.addr_full_name;
-      
-      getdata.addr = getdata.addr
-        .replace(/улица/g, 'ул.')
-        .replace(/проспект/g, 'пр-т.')
-        .replace(/дом /g, '');
-      
-
-      ret = $('<div>').addClass('poi_popup').attr('id',getdata.id)
-        .append($('<p>').addClass('poi_header')
-          .append($('<span>').text(getdata.class_ru).addClass('poi_name'))
-          .append($('<span>').text(getdata.name_ru||'').addClass('poi_value'))
-        )
-        .append($('<table>')
-          .append(opening_hours)
-          .append($('<tr>').addClass('poi_addr')
-            .append($('<td>').text('Адрес: '))
-            .append($('<td>').text(getdata.addr ||"").addClass('poi_value'))
-          )
-          .append(operator)
-          .append(brand)
-          .append(phone)
-          .append(fax)
-          .append(website)
-          .append(email)
-          .append(moretags)
-          .append(description)
-        )
-
-      return $('<div>').append(ret.clone()).remove().html();
+      return out;
     }
+    
+    var operator;
+    if (!(getdata.operator==null)) {
+      operator=$('<div>').text(getdata.operator).addClass('operator');
+    }
+    var brand;
+    if (!(getdata.brand==null)) {
+      brand=$('<tr>').addClass('brand')
+        .append($('<td>').text('Бренд: '))
+        .append(createListValue(getdata.brand))
+    }
+    
+    var phone;
+    if (!(getdata.phone==null)) {
+      phone = createListValue(getdata.phone, true, 'main phone', true)
+    }
+    
+    var fax;
+    if (!(getdata.fax==null)) {
+      fax = createListValue(getdata.fax, true, 'main fax');
+    }
+
+    var website;
+    if (!(getdata.website==null)) {
+      // assume http:// for protocol-less links
+      var properLink = getdata.website;
+      if (properLink.indexOf(':') < 0) {
+        properLink = 'http://' + properLink;
+      }
+      
+      getdata.website = getdata.website.toLowerCase()
+        .replace(/(http:\/\/)?(www.)?(.+)/g, '$3')
+        .replace(/(.+)(\/$)/gm, '$1')
+      if (getdata.website.length > 18)
+        getdata.website = getdata.website.substr(0,16) + '...';
+      
+      website = $('<div>').addClass('main website')
+        .append($('<a>').attr('href', properLink).attr('target', '_blank').text(getdata.website));
+    }
+
+    var email;
+    if (!(getdata.email==null)) {
+      email = $('<div>').addClass('main email')
+        .append($('<a>').attr('href', 'mailto:' + getdata.email).text(getdata.email));
+    }
+
+    var moretags=$('');
+    for (xName in getdata.tags_ru) {
+      if (getdata.tags_ru[xName]!="неизвестно" && getdata.tags_ru[xName]!='' && getdata.tags_ru[xName]!==null) {
+        moretags.after($('<tr>').addClass('poi_moretags')
+          .append($('<td>').text(xName+': '))
+          .append(createListValue(getdata.tags_ru[xName])))
+      }
+    }
+
+    var opening_hours_p;
+    if (!(getdata.opening_hours==null)) {
+      var oh = new opening_hours(getdata.opening_hours);
+      getdata.opening_hours = getdata.opening_hours.toLowerCase()
+        .replace(/([a-z].) /g, '$1: ')
+        .replace(/mo-fr/g, 'по будням')
+        .replace(/sa ?[-,] ?su/g, 'по выходным')
+        .replace(/sa,su/g, 'по выходным')
+        .replace(/mo-su/g, 'ежедневно')
+        .replace(/mo/g, 'Пн')
+        .replace(/tu/g, 'Вт')
+        .replace(/we/g, 'Ср')
+        .replace(/th/g, 'Чт')
+        .replace(/fr/g, 'Пт')
+        .replace(/sa/g, 'Сб')
+        .replace(/su/g, 'Вс')
+        .replace('24/7', 'круглосуточно')
+        .replace(/off/g, 'не работает')
+        .replace(/,(?!\s)/g, ', ')
+        .replace(/-(?=\d)/g, '−')
+      // getdata.opening_hours = getdata.opening_hours.charAt(0).toUpperCase() + getdata.opening_hours.substr(1);
+      oh_second = $('<div>').addClass('second').text(getdata.opening_hours);
+      oh_second[0].innerHTML = oh_second[0].innerHTML.replace(/\s*;\s*/g, '<br />');
+      
+      if (oh.getState())
+        var oh_state = $('<div>').addClass('main open').text('Сейчас открыто')
+      else
+        var oh_state = $('<div>').addClass('main close').text('Сейчас закрыто')
+      
+      opening_hours_p = $('<div>').addClass('main opening_hours')
+        .append(oh_state)
+        .append(oh_second);
+      
+      
+    }
+
+    var description;
+    if (!(getdata.description==null)) {
+      description = $('<div>').addClass('main description').text(getdata.description);
+    }
+    
+    // address
+    var address = osm.poi.addrForPopup({
+      full: getdata.addr_full_name,
+      city: getdata.addr_city,
+      village: getdata.addr_village,
+      street: getdata.addr_street,
+      house: getdata.addr_house
+    });
+    
+    // technical info
+    var osm_id_text = getdata.osm_id
+      .replace('r', 'rel: ')
+      .replace('w', 'way: ')
+      .replace('n', 'node: ')
+    
+    var osm_id_type = getdata.osm_id.substr(0, 1)
+      .replace('r', 'relation')
+      .replace('w', 'way')
+      .replace('n', 'node')
+    
+    var osm_id_id = getdata.osm_id.substr(1);
+    
+    var technical = $('<tr>')
+      .append($('<td>').addClass('osm_id').text(osm_id_text))
+      .append($('<td>').addClass('buttons')
+        .append($('<a target="_blank">')
+          .attr('href', 'http://www.openstreetmap.org/' + osm_id_type + '/' + osm_id_id)
+          .append($('<img>').attr('src', '/img/popup/osm-info.png'))
+        )
+        .append($('<a target="_blank">')
+          .attr('href', 'http://www.openstreetmap.org/' + osm_id_type + '/' + osm_id_id + '/history')
+          .append($('<img>').attr('src', '/img/popup/osm-history.png'))
+          .addClass('button_space')
+        )
+        .append($('<a target="_blank">')
+          .attr('href', 'http://www.openstreetmap.org/edit?editor=id&' + osm_id_type + '=' + osm_id_id)
+          .append($('<img>').attr('src', '/img/popup/edit-in-iD.png'))
+        )
+        .append($('<a>')
+          .attr('href', '#')
+          .click(function(){
+            $.proxy(osm.inJOSM._load_object(getdata.osm_id), osm.inJOSM);
+          })
+          .append($('<img>').attr('src', '/img/popup/edit-in-Josm.png'))
+        )
+        
+      )
+    
+    
+    // class / name
+    var className = $('<div>').text(getdata.class_ru);
+    if (getdata.name_ru==null) {
+      className.addClass('name');
+    }
+    else {
+      className.addClass('class')
+        .after($('<div>').text(getdata.name_ru||'').addClass('name'));
+    }
+
+    ret = $('<div>').addClass('poi_popup').attr('id',getdata.id)
+      .append(className)
+      .append(operator)
+      
+      .append(address)
+      
+      .append(phone)
+      .append(fax)
+      .append(website)
+      .append(email)
+      
+      .append(opening_hours_p)
+      
+      .append(description)
+      
+    
+    if (moretags.length || brand) {
+      ret = ret
+      .append($('<div>').addClass('moretags')
+        .append($('<a>')
+          .addClass('on_button')
+          .attr('href', '#')
+          .text('Подробнее...')
+          .click(function(){
+            $(this).hide();
+            $(this.nextSibling).removeClass('off');
+            return false;
+          })
+        )
+        .append($('<div>').addClass('frame off')
+          .append($('<table>')
+            .append(moretags)
+          )
+        )
+      )
+    }
+    
+    // technical info
+    ret = ret
+    .append($('<div>').addClass('technical')
+      .append($('<a>')
+        .addClass('on_button')
+        .attr('href', '#')
+        .text('Техническая информация')
+        .click(function(){
+          $(this).hide();
+          $(this.nextSibling).removeClass('off');
+          return false;
+        })
+      )
+      .append($('<div>').addClass('frame off')
+        .append($('<table>')
+          .append(technical)
+        )
+      )
+    )
+    
+      
+    return ret[0];
+  },
+  
+  addrForPopup: function(inAddr) { // full, street, house, city, village
+    var address;
+    if (!(inAddr.full==null)) {
+      var mainAddr = '';
+      if (inAddr.street) {
+        mainAddr = inAddr.street;
+        mainAddr += (inAddr.house ? ', ' + inAddr.house : '');
+      }
+      else if (inAddr.city)
+        mainAddr = inAddr.city;
+      else if (inAddr.village)
+        mainAddr = inAddr.village;
+      else
+        mainAddr = inAddr.full;
+      
+      var mainPos = inAddr.full.indexOf(mainAddr);
+      var secondAddr = '';
+      if (mainPos + 1) {
+        var secondAddr = inAddr.full.substr(0, mainPos).trimRight();
+        if (secondAddr.substr(secondAddr.length - 1, 1) == ',')
+          secondAddr = secondAddr.substr(0, secondAddr.length-1);
+      }
+      
+      var cutAddr = function(addr) {
+        return addr
+          .replace(/Российская Федерация/g, 'Россия')
+          .replace(/область/g, 'обл.')
+          .replace(/городской округ/g, 'ГО')
+          .replace(/город /g, 'г.')
+          .replace(/улица/g, 'ул.')
+          .replace(/проспект/g, 'пр-т.')
+          .replace(/дом /g, '');
+      }
+      
+      mainAddr = cutAddr(mainAddr);
+      secondAddr = cutAddr(secondAddr);
+      
+      var address = $('<div>').addClass('main address')
+        .append($('<div>').addClass('second').text(secondAddr))
+        .append($('<div>').addClass('main').text(mainAddr))
+    }
+    return address;
   },
 
   createPopup: function(id, marker) {
@@ -432,7 +579,7 @@ osm.poi = {
 
         isopen=osm.map.hasLayer(marker._popup);
         if (isopen) {marker.closePopup();}
-        marker.bindPopup(textP,{maxWidth:400});
+        marker.bindPopup(textP, osm.poi.opt.popupOptions);
         icon_url = osm.poi.choiceMarker(json.data.nclass);
         marker.setIcon(new osm.poi.poiIcon({iconUrl: icon_url}));
         if (isopen) {marker.openPopup();}

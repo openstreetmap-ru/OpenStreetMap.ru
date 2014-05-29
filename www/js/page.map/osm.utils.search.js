@@ -41,7 +41,16 @@ search.processResults = function(results) {
           osm.poi.createPopup(matches[i].id, marker);
         }
         else {
-          marker.bindPopup("<b>Адрес:</b><br /> " + matches[i].display_name);
+          marker.bindPopup((
+            $('<div>').addClass('addr_popup')
+              .append(osm.poi.addrForPopup({
+                full: matches[i].display_name,
+                city: matches[i].city,
+                village: matches[i].village,
+                street: matches[i].street,
+                house: matches[i].house
+              }))
+          )[0]);
         }
         var a = $('<a href="">');
         a.attr('search_id',matches[i].id);
