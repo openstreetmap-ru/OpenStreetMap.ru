@@ -62,7 +62,7 @@
 				// Array with non-empty date selector types, with most optimal ordering
 				date: [],
 
-				meaning: true,
+				meaning: true
 			};
 
 			parseGroup(tokens, 0, selectors);
@@ -87,7 +87,7 @@
 
 					meaning: selectors.meaning,
 
-					wrapped: true,
+					wrapped: true
 				};
 
 				for (var dselg = 0; dselg < selectors.date.length; dselg++) {
