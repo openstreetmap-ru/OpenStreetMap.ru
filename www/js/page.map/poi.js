@@ -382,7 +382,7 @@ osm.poi = {
         .replace('24/7', 'круглосуточно')
         .replace(/off/g, 'не работает')
         .replace(/,(?!\s)/g, ', ')
-        .replace(/-(?=\d)/g, '−')
+        .replace(/-(?=\d)/g, '\u2009−\u2009')
       // getdata.opening_hours = getdata.opening_hours.charAt(0).toUpperCase() + getdata.opening_hours.substr(1);
       oh_second = $('<div>').addClass('second').text(getdata.opening_hours);
       oh_second[0].innerHTML = oh_second[0].innerHTML.replace(/\s*;\s*/g, '<br />');
