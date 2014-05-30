@@ -413,45 +413,6 @@ osm.poi = {
       house: getdata.addr_house
     });
     
-    // technical info
-    var osm_id_text = getdata.osm_id
-      .replace('r', 'rel: ')
-      .replace('w', 'way: ')
-      .replace('n', 'node: ')
-    
-    var osm_id_type = getdata.osm_id.substr(0, 1)
-      .replace('r', 'relation')
-      .replace('w', 'way')
-      .replace('n', 'node')
-    
-    var osm_id_id = getdata.osm_id.substr(1);
-    
-    var technical = $('<tr>')
-      .append($('<td>').addClass('osm_id').text(osm_id_text))
-      .append($('<td>').addClass('buttons')
-        .append($('<a target="_blank">')
-          .attr('href', 'http://www.openstreetmap.org/' + osm_id_type + '/' + osm_id_id)
-          .append($('<img>').attr('src', '/img/popup/osm-info.png'))
-        )
-        .append($('<a target="_blank">')
-          .attr('href', 'http://www.openstreetmap.org/' + osm_id_type + '/' + osm_id_id + '/history')
-          .append($('<img>').attr('src', '/img/popup/osm-history.png'))
-          .addClass('button_space')
-        )
-        .append($('<a target="_blank">')
-          .attr('href', 'http://www.openstreetmap.org/edit?editor=id&' + osm_id_type + '=' + osm_id_id)
-          .append($('<img>').attr('src', '/img/popup/edit-in-iD.png'))
-        )
-        .append($('<a>')
-          .attr('href', '#')
-          .click(function(){
-            $.proxy(osm.inJOSM._load_object(getdata.osm_id), osm.inJOSM);
-          })
-          .append($('<img>').attr('src', '/img/popup/edit-in-Josm.png'))
-        )
-        
-      )
-    
     
     // class / name
     var className = $('<div>').text(getdata.class_ru);
@@ -463,7 +424,7 @@ osm.poi = {
         .after($('<div>').text(getdata.name_ru||'').addClass('name'));
     }
 
-    ret = $('<div>').addClass('poi_popup').attr('id',getdata.id)
+    ret = $('<div>').addClass('poi_popup info_popup').attr('id',getdata.id)
       .append(className)
       .append(operator)
       
@@ -501,26 +462,8 @@ osm.poi = {
     }
     
     // technical info
-    ret = ret
-    .append($('<div>').addClass('technical')
-      .append($('<a>')
-        .addClass('on_button')
-        .attr('href', '#')
-        .text('Техническая информация')
-        .click(function(){
-          $(this).hide();
-          $(this.nextSibling).removeClass('off');
-          return false;
-        })
-      )
-      .append($('<div>').addClass('frame off')
-        .append($('<table>')
-          .append(technical)
-        )
-      )
-    )
+    ret = ret.append(poi.technicalForPopup(getdata.osm_id));
     
-      
     return ret[0];
   },
   
@@ -567,7 +510,82 @@ osm.poi = {
     }
     return address;
   },
-
+  
+  technicalForPopup: function(osm_id) {
+    var technical = $('');
+    if (osm_id.charAt(0) == "{" && osm_id.charAt(osm_id.length-1) == "}")
+      var id = osm_id.substr(1, osm_id.length - 2).split(',');
+    else
+      var id = [osm_id];
+    
+    if (id.length > 15) {
+      technical = technical.after($('<tr>')
+        .append($('<td>').addClass('osm_id').text('Отобразить все элементы нельзя, их больше 15'))
+      )
+    }
+    else {
+      for (var i in id) {
+        
+        var osm_id_text = id[i]
+          .replace('r', 'rel: ')
+          .replace('w', 'way: ')
+          .replace('n', 'node: ')
+        
+        var osm_id_type = id[i].substr(0, 1)
+          .replace('r', 'relation')
+          .replace('w', 'way')
+          .replace('n', 'node')
+        
+        var osm_id_id = id[i].substr(1);
+        
+        technical = technical.after($('<tr>')
+          .append($('<td>').addClass('osm_id').text(osm_id_text))
+          .append($('<td>').addClass('buttons')
+            .append($('<a target="_blank">')
+              .attr('href', 'http://www.openstreetmap.org/' + osm_id_type + '/' + osm_id_id)
+              .append($('<img>').attr('src', '/img/popup/osm-info.png'))
+            )
+            .append($('<a target="_blank">')
+              .attr('href', 'http://www.openstreetmap.org/' + osm_id_type + '/' + osm_id_id + '/history')
+              .append($('<img>').attr('src', '/img/popup/osm-history.png'))
+              .addClass('button_space')
+            )
+            .append($('<a target="_blank">')
+              .attr('href', 'http://www.openstreetmap.org/edit?editor=id&' + osm_id_type + '=' + osm_id_id)
+              .append($('<img>').attr('src', '/img/popup/edit-in-iD.png'))
+            )
+            .append($('<a>')
+              .attr('href', '#')
+              .click(function(){
+                $.proxy(osm.inJOSM._load_object(id[i]), osm.inJOSM);
+              })
+              .append($('<img>').attr('src', '/img/popup/edit-in-Josm.png'))
+            )
+          )
+        )
+      }
+    }
+    
+    technical = $('<div>').addClass('technical')
+      .append($('<a>')
+        .addClass('on_button')
+        .attr('href', '#')
+        .text('Техническая информация')
+        .click(function(){
+          $(this).hide();
+          $(this.nextSibling).removeClass('off');
+          return false;
+        })
+      )
+      .append($('<div>').addClass('frame off')
+        .append($('<table>')
+          .append(technical)
+        )
+      )
+    
+    return technical;
+  },
+  
   createPopup: function(id, marker) {
     var textPopup = $('<img src="/img/loader.gif">')
     textPopup = $('<div>').append(textPopup.clone()).remove().html();

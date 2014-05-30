@@ -42,7 +42,7 @@ search.processResults = function(results) {
         }
         else {
           marker.bindPopup((
-            $('<div>').addClass('addr_popup')
+            $('<div>').addClass('addr_popup info_popup')
               .append(osm.poi.addrForPopup({
                 full: matches[i].display_name,
                 city: matches[i].city,
@@ -50,6 +50,7 @@ search.processResults = function(results) {
                 street: matches[i].street,
                 house: matches[i].house
               }))
+              .append(osm.poi.technicalForPopup(matches[i].osm_id))
           )[0]);
         }
         var a = $('<a href="">');

@@ -233,113 +233,110 @@ a.leaflet-control-distance-active:hover { background-color: #ffa; }
 .osbClosed .osb-popup h1 { background-color: #99BD1B; }
 
 
-/* POI Popup*/
-.poi_popup {
+/* info popup , POI Popup */
+.info_popup {
   color: #333;
   font-size: 12pt;
 }
-.poi_popup > .class,
-.poi_popup > .operator,
-.poi_popup > .address > .second,
-.addr_popup > .address > .second,
-.poi_popup > .opening_hours > .second,
-.poi_popup > .description,
-.poi_popup > .moretags,
-.poi_popup > .technical {
+.info_popup > .class,
+.info_popup > .operator,
+.info_popup .second,
+.info_popup > .description,
+.info_popup > .moretags,
+.info_popup > .technical {
   color: #666;
   font-size: 8pt;
 }
-.poi_popup .class,
-.poi_popup .name,
-.poi_popup .operator,
-.poi_popup .moretags .frame,
-.poi_popup .technical .frame {
+.info_popup .class,
+.info_popup .name,
+.info_popup .operator,
+.info_popup .frame {
   padding-left: 35px;
 }
-.poi_popup ul {
+.info_popup ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
-.poi_popup a {
+.info_popup a {
   color: #333;
 }
-.poi_popup .moretags td {
+.info_popup .moretags td {
   padding: 2px;
-  width: 50%;
+  /*width: 50%;*/
 }
-.poi_popup > .name {
+.info_popup > .name {
   color: #000;
   font-size: 18pt;
 }
-.poi_popup > .main, .addr_popup > .main {
+.info_popup > .main {
   background-position: left center;
   background-repeat: no-repeat;
   padding: 1px 0 1px 35px;
 }
-.poi_popup > .address, .addr_popup > .address {
+.info_popup > .address {
   background-image: url("/img/popup/address.png");
   margin-bottom: 8px;
   margin-top: 12px;
 }
-.poi_popup > .phone {
+.info_popup > .phone {
   background-image: url("/img/popup/phone.png");
 }
-.poi_popup > .fax {
+.info_popup > .fax {
   background-image: url("/img/popup/fax.png");
 }
-.poi_popup > .website {
+.info_popup > .website {
   background-image: url("/img/popup/website.png");
 }
-.poi_popup > .email {
+.info_popup > .email {
   background-image: url("/img/popup/email.png");
 }
-.poi_popup > .opening_hours {
+.info_popup > .opening_hours {
   background-image: url("/img/popup/opening_hours.png");
   margin: 8px 0em;
 }
-.poi_popup > .opening_hours > .open{
+.info_popup > .opening_hours > .open{
   color: #008001
 }
-.poi_popup > .opening_hours > .close{
+.info_popup > .opening_hours > .close{
   color: #F00
 }
-.poi_popup .on_button {
+.info_popup .on_button {
   border-bottom: 1px dashed;
   color: #666;
   text-decoration: none;
 }
-.poi_popup .frame.off {
+.info_popup .frame.off {
   display: none;
 }
-.poi_popup .moretags,
-.poi_popup .technical {
+.info_popup .moretags,
+.info_popup .technical {
   margin-top: 8px;
 }
-.poi_popup .technical table {
+.info_popup .technical table {
   width: 100%;
 }
-.poi_popup .technical .buttons {
+.info_popup .technical .buttons {
   min-width: 110px;
   text-align: right;
   width: 110px;
 }
-.poi_popup .technical .buttons a {
+.info_popup .technical .buttons a {
   display: block;
   float: left;
   margin: 0 1px;
   outline: none;
 }
-.poi_popup .technical .buttons img {
+.info_popup .technical .buttons img {
   display: block;
 }
-.poi_popup .technical a.button_space {
+.info_popup .technical a.button_space {
   margin-right: 14px;
 }
-body .poi_popup .technical {
+body .info_popup .technical {
   display: none;
 }
-body.mapperMode .poi_popup .technical {
+body.mapperMode .info_popup .technical {
   display: block;
 }
 
