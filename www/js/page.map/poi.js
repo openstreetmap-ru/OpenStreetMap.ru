@@ -294,7 +294,8 @@ osm.poi = {
         for (var i in pArr) {
           var item = pArr[i].trim();
           if (phone)
-            out = out.append($('<li>').append($('<a>').attr('href', 'tel:' + item).text(item)));
+            out = out.append($('<li>').append($('<a>').attr('href', 'tel:' + item)
+              .text(item.replace(/^(\+\d) (\d{3}) (\d{3})(\d{2})(\d{2})/, '$1 ($2) $3-$4-$5'))));
           else
             out = out.append($('<li>').text(item));
         }
@@ -302,7 +303,8 @@ osm.poi = {
       }
       else {
         if (phone)
-          out = $(mainTag).addClass(divClass).append($('<a>').attr('href', 'tel:' + p).text(p));
+          out = $(mainTag).addClass(divClass).append($('<a>').attr('href', 'tel:' + p)
+              .text(p.replace(/^(\+\d) (\d{3}) (\d{3})(\d{2})(\d{2})/, '$1 ($2) $3-$4-$5')));
         else
           out = $(mainTag).addClass(divClass).text(p);
       }
@@ -342,7 +344,7 @@ osm.poi = {
         .replace(/(http:\/\/)?(www.)?(.+)/g, '$3')
         .replace(/(.+)(\/$)/gm, '$1')
       if (getdata.website.length > 18)
-        getdata.website = getdata.website.substr(0,16) + '...';
+        getdata.website = getdata.website.substr(0,16) + '…';
       
       website = $('<div>').addClass('main website')
         .append($('<a>').attr('href', properLink).attr('target', '_blank').text(getdata.website));
@@ -446,7 +448,7 @@ osm.poi = {
         .append($('<a>')
           .addClass('on_button')
           .attr('href', '#')
-          .text('Подробнее...')
+          .text('Подробнее…')
           .click(function(){
             $(this).hide();
             $(this.nextSibling).removeClass('off');

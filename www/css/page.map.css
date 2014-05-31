@@ -271,6 +271,9 @@ a.leaflet-control-distance-active:hover { background-color: #ffa; }
 .info_popup > .name {
   color: #000;
   font-size: 18pt;
+  line-height: 1.15em;
+  padding-top: 0.15em;
+  padding-bottom: 0.15em;
 }
 .info_popup > .main {
   background-position: left center;
