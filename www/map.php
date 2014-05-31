@@ -153,12 +153,14 @@ $page_content = <<<PHP_CONTENT
         <table>
         <tr><td><div class="marker-name">#name</div></td></tr>
         <tr><td><div class="marker-description">#description</div></td></tr>
+        <tr><td><div class="marker-moreinfo">#moreinfo</div></td></tr>
         </table>
       </div>
       <div id="pl_edit_popup" style="display:none;">
         <table id="line_popup_###">
           <tr><td><input id="line_name_###" type="text" value="Имя..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()"/></td></tr>
           <tr><td><textarea id="line_description_###" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()">Описание...</textarea></td></tr>
+          <tr><td><div class="marker-moreinfo">#moreinfo</div></td></tr>
           <tr><td class='colour-picker'>
           </td></tr>
           <tr><td><a href="#" class="button" onClick="$$$.remove();return false">Удалить</a>

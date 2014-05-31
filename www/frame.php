@@ -11,7 +11,7 @@
   <script src="/js/leaflet.js"></script>
   <!--[if lte IE 8]><link rel="stylesheet" href="/css/leaflet.ie.css" /><![endif]-->
   <script type="text/javascript" src="/js/page.main.js"></script>
-  <script type="text/javascript" src="/js/page.map/map.js"></script>
+  <script type="text/javascript" src="/js/page.map/_map.js"></script>
   <script type="text/javascript" src="/js/page.map/osm.layers.js"></script>
   <script type="text/javascript" src="/js/page.map/markers.js"></script>
   <script type="text/javascript" src="/js/page.map/Layer.TileLayer.Bing.js"></script>

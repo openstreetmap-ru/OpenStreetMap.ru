@@ -565,6 +565,14 @@ textarea.default-input-focused {
 #pm-status                          { margin-top: 15px; }
 #pm-status p                        { margin-bottom: 8px; }
 
+.marker-moreinfo {
+  color: grey;
+  font-size: 10px;
+}
+.marker-name  {
+  font-weight: bolder;
+}
+
 td.colour-picker {
   -webkit-user-select: none;
   -moz-user-select: none;

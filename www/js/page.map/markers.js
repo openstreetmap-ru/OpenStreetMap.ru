@@ -380,7 +380,7 @@ PersonalMarker = L.Marker.extend({ // simple marker without editable functions
   },
   panelText: function() {
     var text = this._pm_name || "Маркер";
-    return "<div onclick='osm.markers._data.points["+this.index+"].display()' style='display:table'><img style='float:left; margin-right:5px' src='" + this.options.icon.getMarkerIconUrl() + "' alt='.'/> <div style='display:table-cell;min-height:41px;vertical-align:middle'><div style='font-weight: bolder;'>" + text + "</div><div>" + this._pm_description +"</div></div></div>";
+    return "<div onclick='osm.markers._data.points["+this.index+"].display()' style='display:table'><img style='float:left; margin-right:5px' src='" + this.options.icon.getMarkerIconUrl() + "' alt='.'/> <div style='display:table-cell;min-height:41px;vertical-align:middle'>" + text + "</div></div>";
   },
   _set_pm_icon_color: function(colorIndex) {
     if (isNaN(parseFloat(colorIndex)) || !isFinite(colorIndex) ||
@@ -452,6 +452,7 @@ PersonalLine = L.Polyline.extend({
       var popupHTML = $_('pl_show_popup').innerHTML;
       popupHTML = popupHTML.replace(/\#name/g, this._pl_name);
       popupHTML = popupHTML.replace(/\#description/g, this._pl_description.replace(/\n/, "<br>"));
+      popupHTML = popupHTML.replace(/\#moreinfo/g, this.formatLength(this.pathLength()));
       this.bindPopup(popupHTML);
     }
   },
@@ -470,6 +471,7 @@ PersonalLine = L.Polyline.extend({
   },
   panelText: function() {
     var text = this._pl_name || "Линия";
+    text += " <span class='marker-moreinfo'>(" + this.formatLength(this.pathLength()) + ")</span>";
     return "<div onclick='osm.markers._data.lines["+this.index+"].display()'><div style='background-image:url(/img/pm-lines.png);width:25px;height:6px;background-position:0px -" + (this._pl_color_index * 6) + "px;float:left;margin: 5px 5px 0 0;'/> " + text + "</div>";
   },
   _updateLineStyle: function() {
@@ -489,6 +491,22 @@ PersonalLine = L.Polyline.extend({
       osm.markers._data.lines.push(this);
       this.index = osm.markers._data.lines.length - 1;
     }
+  },
+  pathLength: function() {
+    var length = 0;
+	var a=this.getLatLngs();
+	for(var i=1;i<a.length;i++) {
+	  length += a[i-1].distanceTo(a[i]);
+	}
+	return length;
+  },
+  formatLength: function(len) {
+    if (len <= 0) return "";
+	if (len < 10) return len.toFixed(1) + " м";
+	if (len < 1000) return len.toFixed(0) + " м";
+	if (len < 10000) return (len / 1000).toFixed(2) + " км";
+	if (len < 100000) return (len / 1000).toFixed(1) + " км";
+	return (len / 1000).toFixed(0) + " км";
   }
 });
 PersonalLineEditable = PersonalLine.extend({
@@ -523,7 +541,8 @@ PersonalLineEditable = PersonalLine.extend({
     popupHTML = popupHTML.replace(/\$\$\$/g, 'osm.markers._data.lines['+this.index+']');
     popupHTML = popupHTML.replace(/\#\#\#/g, this.index);
     this.bindPopup(popupHTML);
-    this.on('popupopen', function(e){e.target.loadEditableLine(e)});
+    this.on('popupopen', function(e){e.target.loadEditableLine(e);e.target.on('edit', e.target.refreshLengthOnOpenedPopup);});
+    this.on('popupclosed', function(e){e.target.off('edit', e.target.refreshLengthOnOpenedPopup);});
   },
   saveData: function(e) {
     var nameEl = $_('line_name_'+this.index);
@@ -544,6 +563,10 @@ PersonalLineEditable = PersonalLine.extend({
     if (this._pl_color_index) {
       this.toggleCheck(this._pl_color_index);
     }
+    this.refreshLengthOnOpenedPopup();
+  },
+  refreshLengthOnOpenedPopup: function(e) {
+    $('#line_popup_'+this.index+' .marker-moreinfo').text(this.formatLength(this.pathLength()));
   },
   toggleCheck: function(colorIndex) {
     var colorBoxes = $_('line_popup_'+this.index).getElementsByClassName('colour-picker-button');
