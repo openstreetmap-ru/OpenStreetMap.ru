@@ -323,9 +323,9 @@ a.leaflet-control-distance-active:hover { background-color: #ffa; }
   width: 100%;
 }
 .info_popup .technical .buttons {
-  min-width: 110px;
+  min-width: 87px;
   text-align: right;
-  width: 110px;
+  width: 87px;
 }
 .info_popup .technical .buttons a {
   display: block;
@@ -337,7 +337,7 @@ a.leaflet-control-distance-active:hover { background-color: #ffa; }
   display: block;
 }
 .info_popup .technical a.button_space {
-  margin-right: 14px;
+  margin-right: 12;
 }
 body .info_popup .technical {
   display: none;

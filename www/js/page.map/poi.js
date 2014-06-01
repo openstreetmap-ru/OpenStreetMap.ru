@@ -10,7 +10,7 @@ osm.poi = {
     alphabet: '0123456789_~abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
     loaded: false,
     runLoaded: false,
-    popupOptions: {minWidth: 220, maxWidth: 350}
+    popupOptions: {minWidth: 242, maxWidth: 350}
   },
 
   initialize: function() {
@@ -343,8 +343,8 @@ osm.poi = {
       getdata.website = getdata.website.toLowerCase()
         .replace(/(http:\/\/)?(www.)?(.+)/g, '$3')
         .replace(/(.+)(\/$)/gm, '$1')
-      if (getdata.website.length > 18)
-        getdata.website = getdata.website.substr(0,16) + '…';
+      if (getdata.website.length > 24)
+        getdata.website = getdata.website.substr(0,22) + '…';
       
       website = $('<div>').addClass('main website')
         .append($('<a>').attr('href', properLink).attr('target', '_blank').text(getdata.website));
