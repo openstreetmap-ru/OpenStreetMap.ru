@@ -260,14 +260,20 @@ a.leaflet-control-distance-active:hover { background-color: #ffa; }
 }
 .info_popup a {
   color: #333;
+  text-decoration: none;
+  border-bottom: 1px solid #999;
 }
 .info_popup .moretags td {
-  padding: 2px;
+  padding: 4px 2px;
+  line-height: 1.25em;
   /*width: 50%;*/
 }
 .info_popup > .name {
   color: #000;
   font-size: 18pt;
+  line-height: 1.15em;
+  padding-top: 0.15em;
+  padding-bottom: 0.15em;
 }
 .info_popup > .main {
   background-position: left center;
