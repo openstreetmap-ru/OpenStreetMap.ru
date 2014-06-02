@@ -513,10 +513,15 @@ osm.poi = {
       else
         mainAddr = inAddr.full;
       
-      var mainPos = inAddr.full.indexOf(mainAddr);
+      var mainPos = inAddr.full.lastIndexOf(mainAddr);
       var secondAddr = '';
       if (mainPos + 1) {
-        var secondAddr = inAddr.full.substr(0, mainPos).trimRight();
+        var secondAddr = inAddr.full.substr(0, mainPos).trim();
+        if (secondAddr.substr(secondAddr.length - 1, 1) == ',')
+          secondAddr = secondAddr.substr(0, secondAddr.length-1);
+        if (secondAddr.substr(secondAddr.length - 5, 5) == 'город')
+          secondAddr = secondAddr.substr(0, secondAddr.length-5);
+        secondAddr = secondAddr.trim();
         if (secondAddr.substr(secondAddr.length - 1, 1) == ',')
           secondAddr = secondAddr.substr(0, secondAddr.length-1);
       }
