@@ -374,6 +374,13 @@ osm.poi = {
         
         
       }
+      else {
+        var wiki_text = getdata.wikipedia;
+        if (wiki_text.length > poi.opt.linkLength)
+          wiki_text = wiki_text.substr(0, poi.opt.linkLength-2) + '…';
+        
+        wiki = $('<div>').addClass('main wiki').text(wiki_text);
+      }
     }
 
     var moretags=$('');
