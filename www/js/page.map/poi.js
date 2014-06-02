@@ -10,7 +10,8 @@ osm.poi = {
     alphabet: '0123456789_~abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
     loaded: false,
     runLoaded: false,
-    popupOptions: {minWidth: 242, maxWidth: 350}
+    popupOptions: {minWidth: 242, maxWidth: 350},
+    linkLength: 24
   },
 
   initialize: function() {
@@ -343,8 +344,8 @@ osm.poi = {
       getdata.website = getdata.website.toLowerCase()
         .replace(/(http:\/\/)?(www.)?(.+)/g, '$3')
         .replace(/(.+)(\/$)/gm, '$1')
-      if (getdata.website.length > 24)
-        getdata.website = getdata.website.substr(0,22) + '…';
+      if (getdata.website.length > poi.opt.linkLength)
+        getdata.website = getdata.website.substr(0, poi.opt.linkLength-2) + '…';
       
       website = $('<div>').addClass('main website')
         .append($('<a>').attr('href', properLink).attr('target', '_blank').text(getdata.website));
@@ -354,6 +355,25 @@ osm.poi = {
     if (!(getdata.email==null)) {
       email = $('<div>').addClass('main email')
         .append($('<a>').attr('href', 'mailto:' + getdata.email).text(getdata.email));
+    }
+
+    var wiki;
+    if (!(getdata.wikipedia == null)) {
+      if (getdata.wikipedia.indexOf(':') == 2) {
+        var wiki_link = getdata.wikipedia
+          .replace(/(..):(.*)/g, 'http://$1.wikipedia.org/wiki/$2')
+          .replace('"', '%22')
+          .replace("'", '%27')
+        
+        var wiki_text = getdata.wikipedia.substr(3)
+        if (wiki_text.length > poi.opt.linkLength)
+          wiki_text = wiki_text.substr(0, poi.opt.linkLength-2) + '…';
+        
+        wiki = $('<div>').addClass('main wiki')
+          .append($('<a>').attr('href', wiki_link).text(wiki_text));
+        
+        
+      }
     }
 
     var moretags=$('');
@@ -438,6 +458,8 @@ osm.poi = {
       .append(email)
       
       .append(opening_hours_p)
+      
+      .append(wiki)
       
       .append(description)
       

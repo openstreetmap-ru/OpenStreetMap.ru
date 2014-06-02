@@ -297,6 +297,9 @@ a.leaflet-control-distance-active:hover { background-color: #ffa; }
 .info_popup > .email {
   background-image: url("/img/popup/email.png");
 }
+.info_popup > .wiki {
+  background-image: url("/img/popup/wiki.png");
+}
 .info_popup > .opening_hours {
   background-image: url("/img/popup/opening_hours.png");
   margin: 8px 0em;
