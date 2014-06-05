@@ -71,8 +71,9 @@ osm.sManager.loadAnchor = function() {
         else
           continue;
         
-        if ((!isUnd(oldAnchor[newP['k']]) && oldAnchor[newP['k']] !== newP['v'])
-                || (isUnd(oldAnchor[newP['k']]) && !isUnd(osm.sManager._on))
+        if (((!isUnd(oldAnchor[newP['k']]) && oldAnchor[newP['k']] !== newP['v'])
+                || isUnd(oldAnchor[newP['k']]))
+              && !isUnd(osm.sManager._on)
               && newP['k'] in osm.sManager._on.p
               && !(ex.indexOf(osm.sManager._on.p[newP['k']]) + 1) ) {
           ex.push(osm.sManager._on.p[newP['k']]);
