@@ -126,8 +126,10 @@ $page_content = <<<PHP_CONTENT
         <p></p>
       </div>
     </div>
-    <div id="ltoggle" class="button toggle" accesskey="l" onclick="osm.leftpan.toggle();"></div>
   </aside>
+  <div id="ltoggle">
+    <div accesskey="l" onclick="osm.leftpan.toggle();"></div>
+  </div>
 
   <section id="mappan">
     <article id="map"></article>

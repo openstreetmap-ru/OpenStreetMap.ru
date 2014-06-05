@@ -24,9 +24,32 @@ nav,
 
 #ttoggle { top: -30px !important; }
 
-#ltoggle {
-
+/* Левая панель*/
+article #ltoggle>div {
+  left: auto;
+  right: 0;
 }
+
+article #leftpan {
+  font-size: 12pt;
+  right: 33px;
+  width: auto;
+  z-index: 1001;
+}
+#ltoggle {
+  background-color: #99BD1B;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  width: 33px;
+  z-index: 1001;
+}
+.hlp #ltoggle {
+  height: auto;
+  position: static;
+  width: auto;
+}
+
 
 /*Менюшка*/
 /*   
@@ -83,7 +106,7 @@ article[role=main] { top: 60px; }
 }
 
 #search_button { 
-    right: 5px !important;
+    right: 6px !important;
     width: 30px !important;
     height: 30px !important;
     color: transparent;
@@ -169,25 +192,6 @@ div.leaflet-top {
 a.leaflet-control-distance-edit     { background-image: url("/img/mobile/ruller-edit.png") !important; }
 .leaflet-control-layers a.leaflet-control-layers-toggle { background-image: url("/img/mobile/layers.png") !important; }
 
-/* Левая панель*/
-
-#leftpan {
-    font-size: 12pt !important;
-    z-index: 1001 !important;
-}
-
-article #leftpan {
-    width: 100%;
-}
-
-#ltoggle {
-    right: 0px;
-    top: 40% !important;
-    left: auto !important;
-    width: 40px !important;
-    height: 40px !important;
-    background-image: url("/img/mobile/leftpan.png") !important;
-}
 
 /* Test */
 

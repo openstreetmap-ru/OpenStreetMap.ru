@@ -122,17 +122,27 @@ article[role="main"] {
   cursor: pointer;
 }
 
-#ltoggle {
-  position: absolute;
-  width: 13px;
-  height: 100%;
-  right: 0;
-  z-index: 2;
-  padding: 0;
-  border: 0;
-  background: url("../img/arrow.png") no-repeat 0 center;
-  background-color: rgba(255, 255, 255, 1);
+#ltoggle>div {
+  background: url("../img/arrow.png") no-repeat scroll 0 center #FFFFFF;
+  border: 0 none;
   cursor: pointer;
+  height: 50px;
+  left: 313px;
+  padding: 0;
+  position: absolute;
+  width: 33px;
+  z-index: 1001;
+}
+
+.leaflet-top.leaflet-left {
+  background-color: #99BD1B;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  padding-top: 50px;
+}
+
+.leaflet-left .leaflet-control {
+  margin-left: 5px;
 }
 
 .htp header { top:-85px; }
@@ -140,9 +150,21 @@ article[role="main"] {
 .htp nav li { height: 9px; }
 .htp nav li * { display: none; }
 
-.hlp #leftpan { width: 13px; }
-.hlp #mappan { left: 13px; }
-.hlp #ltoggle { background-position: -12px center; }
+.hlp #leftpan { width: 0; }
+.hlp #mappan { left: 0; }
+.hlp #ltoggle>div {
+  background-position: -33px center;
+  left: 0;
+  right: auto;
+}
+
+#ltoggle>div:hover {
+  background-position: -66px center;
+}
+.hlp #ltoggle>div:hover {
+  background-position: -99px center;
+}
+
 
 /*
 #breaking_news {
@@ -176,7 +198,6 @@ article[role="main"] {
 .leaflet-container .leaflet-control-inJOSM,
 .leaflet-container .leaflet-control-permMarker,
 .leaflet-container .leaflet-control-distance {
-  margin-left: 10px;
   margin-top: 12px;
 }
 
