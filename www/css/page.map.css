@@ -623,6 +623,8 @@ a.button:active {
   margin: 8px 0;
 }
 
+#leftpoiTree .root > ul,
+#leftpoiTree .root > ul  > li,
 #validationerrors .root > ul,
 #validationerrors .root > ul  > li,
 #validationerrors > ul,
@@ -630,6 +632,7 @@ a.button:active {
 {
   margin-left: 0 !important;
 }
+#leftpoiTree .root > ins,
 #validationerrors .root > ins {
   display: none;
 }
