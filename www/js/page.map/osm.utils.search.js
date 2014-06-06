@@ -154,6 +154,11 @@ search.search = function(inQuery) {
 
 search.startSearch = function() {
   console.debug(new Date().getTime() + ' search.startSearch');
+
+  $("#leftsearch .loader").addClass('on');
+  osm.leftpan.toggleItem('leftsearch', true);
+  osm.layers.search_marker.clearLayers();
+
   var q = osm.sManager.decodeURI(osm.p.anchor.q || osm.p.get.q);
   $('#qsearch').val(q);
   if (osm.p.anchor.qmap)
@@ -163,12 +168,15 @@ search.startSearch = function() {
   else
     var center = osm.map.getCenter();
   
-  $("#leftsearch .loader").addClass('on');
-  osm.leftpan.toggleItem('leftsearch', true);
-  osm.layers.search_marker.clearLayers();
+  var st = '';
+  if (q.search(/^пои[: ]/i) + 1)
+    st = 'poi';
+  else if (q.search(/^адрес[а]?[: ]/i) + 1)
+    st = 'addr';
 
   $.getJSON('/api/search', {
       q: q,
+      st: st,
       accuracy: 1,
       lat: center.lat,
       lon: center.lng
