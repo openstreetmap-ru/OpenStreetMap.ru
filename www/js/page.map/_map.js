@@ -6,6 +6,7 @@ $(function() {
   var mapOptions = osm.permalink.startLoadPos();
   mapOptions['zoomControl'] = false;
   mapOptions['zoomsliderControl'] = true;
+  mapOptions['worldCopyJump'] = true;
   osm.map = new L.Map('map', mapOptions);
   
   L.Icon.Default.imagePath='/img';
