@@ -261,7 +261,7 @@ osm.poi = {
         function(jqXHR, textStatus, errorThrown){
           $("#leftpoi .loader").removeClass('on');
           if (textStatus!="abort") {
-            console.log('Ошибка: ' + textStatus + '<br />' + errorThrown.message);
+            console.log('Ошибка #3: ' + textStatus + '<br />' + errorThrown.message);
           }
         });
     }

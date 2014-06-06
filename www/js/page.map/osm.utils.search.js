@@ -30,7 +30,7 @@ search.processResults = function(results) {
   // try {
     $("#leftsearch .loader").removeClass('on');
     if (results.error) {
-      search.content.innerHTML='Произошла ошибка: ' + (results.error);
+      search.content.innerHTML='Произошла ошибка #1: ' + (results.error);
     } else {
       var content = $('<ul id="ol-search_result">')
       var matches=results.matches;
@@ -122,7 +122,7 @@ search.reportError = function() {
 
 search.errorHandler = function(jqXHR, textStatus, errorThrown) {
   $("#leftsearch .loader").removeClass('on');
-  search.content.innerHTML = 'Ошибка: ' + textStatus + '<br />' + errorThrown.message;
+  search.content.innerHTML = 'Ошибка #2: ' + textStatus + '<br />' + errorThrown.message;
 };
 
 search.search = function(inQuery) {
