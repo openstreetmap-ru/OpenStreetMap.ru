@@ -446,7 +446,7 @@ osm.poi = {
     // class / name
     var className = $('<div>').text(getdata.class_ru);
     if (getdata.name_ru==null) {
-      className.addClass('name');
+      className.addClass('name classAsName');
     }
     else {
       className.addClass('class')
