@@ -27,7 +27,7 @@ search.disable = function(){
 
 
 search.processResults = function(results) {
-  try {
+  // try {
     $("#leftsearch .loader").removeClass('on');
     if (results.error) {
       search.content.innerHTML='Произошла ошибка: ' + (results.error);
@@ -73,14 +73,14 @@ search.processResults = function(results) {
       $(search.content).empty().append(content);
       $('#ol-search_result a', search.content).eq(0).click();
     }
-  } catch(e) {
-    search.content.innerHTML = 'Ошибка: ' + e.description + '<br /> Ответ поиск.серв.: '+results.error;
-  }
+  // } catch(e) {
+    // search.content.innerHTML = 'Ошибка: ' + e.description + '<br /> Ответ поиск.серв.: '+results.error;
+  // }
 };
 
 
 search.processNominatimResults = function(results) {
-  try {
+  // try {
     $("#leftsearch .loader").removeClass('on');
     var from = $('<div style="font-size: 0.8em">Результаты от <a href="http://nominatim.openstreetmap.org/">Nominatim</a></div>');
     var content = $('<ul id="ol-search_result">')
@@ -108,9 +108,9 @@ search.processNominatimResults = function(results) {
     }
     $(search.nominatimContent).empty().append(from).append(content);
     // $('#ol-search_result a', search.nominatimContent).eq(0).click();
-  } catch(e) {
-    search.nominatimContent.innerHTML = 'Ошибка: ' + e.description + '<br /> Ответ поиск.серв.: '+results.error;
-  }
+  // } catch(e) {
+    // search.nominatimContent.innerHTML = 'Ошибка: ' + e.description + '<br /> Ответ поиск.серв.: '+results.error;
+  // }
 };
 
 search.reportError = function() {
