@@ -181,13 +181,13 @@ osm.initLayers = function(){
     false
   );
 
-  osm.registerLayer(
-    'layerWeatherCities',
-     new OsmJs.Weather.LeafletLayer({type: 'city', lang: 'ru', temperatureDigits: 0}),
-    'Погода (OpenWeatherMap) - города',
-    'w',
-    false
-  );
+  // osm.registerLayer(
+    // 'layerWeatherCities',
+     // new OsmJs.Weather.LeafletLayer({type: 'city', lang: 'ru', temperatureDigits: 0}),
+    // 'Погода (OpenWeatherMap) - города',
+    // 'w',
+    // false
+  // );
 
   osm.registerLayer(
     'layerWeatherStations',
