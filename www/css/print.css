@@ -1,6 +1,9 @@
 html,
 body,
-#mappan {
+#content,
+#mappan,
+#map {
+  min-height: 100%;
   height: 100%;
   width: 100%;
   padding: 0px;
@@ -15,18 +18,30 @@ body>nav,
 #ltoggle,
 #ttoggle,
 #search_container,
-div.leaflet-control-container {
+.leaflet-control-container>div {
   display: none !important;
+}
+
+.leaflet-control-container>.leaflet-bottom.leaflet-right {
+  display: block !important;
+}
+
+body>header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  padding: 10px;
+}
+
+#logo {
+  display: block;
+  height: 49px;
 }
 
 #mappan {
   left: 0px;
   top: 0px;
-}
-
-#logo {
-  z-index: 1;
-  position: relative;
-  left: 10px;
-  top: 10px;
+  page-break-after: always;
 }
