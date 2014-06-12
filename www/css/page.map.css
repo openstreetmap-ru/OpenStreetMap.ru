@@ -242,6 +242,24 @@ a.leaflet-control-distance-active:hover { background-color: #ffa; }
 /*reSection*/
 .leaflet-container {font-size: inherit;}
 
+/* L.Control.Locate */
+.leaflet-control-locate a {
+  background-image: url('/img/location_icon.png');
+  background-position: 0 50%;
+}
+.leaflet-control-locate.active a {
+  background-position: -26px 50%;
+}
+.leaflet-control-locate.active.following a {
+  background-position: -52px 50%;
+}
+.leaflet-control-locate.requesting a {
+    background-image: url("/img/loader.gif");
+    background-position: 50% 50%;
+    background-size: 24px auto;
+}
+
+
 .osb .osb-popup h1 {
   color: #fff;
   padding: 1em;

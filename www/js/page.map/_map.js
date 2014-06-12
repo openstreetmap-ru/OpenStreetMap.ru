@@ -52,9 +52,10 @@ $(function() {
       osm.leftpan.toggle(false);
 
     osm.map.addControl(new L.Control.Scale({width: 100, position: 'bottomleft'}));
-
+    osm.map.addControl(new L.Control.Locate({follow: true, stopFollowingOnDrag: true, locateOptions: {maxZoom: 16}}));
     osm.map.addControl(new L.Control.Distance());
     osm.map.addControl(new L.Control.permMarker());
+
     osm.validators.initialize();
     osm.poi.initialize();
 
