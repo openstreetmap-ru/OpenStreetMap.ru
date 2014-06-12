@@ -23,3 +23,10 @@ div.leaflet-control-container {
   left: 0px;
   top: 0px;
 }
+
+#logo {
+  z-index: 1;
+  position: relative;
+  left: 10px;
+  top: 10px;
+}
