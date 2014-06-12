@@ -1,19 +1,25 @@
-@media print {
-    html,
-    body,
-    #mappan {
-        height:100%;
-        width:100%;
-        padding:0px;
-        margin:0px;
-        } 
-    
-  	#menupan,
-  	#toppan,
-  	#leftpan,
-  	#htpbutton,
-  	#ttoggle_label,
-  	div.leaflet-control-container { display: none !important;}
+html,
+body,
+#mappan {
+  height: 100%;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+}
 
-	#mappan { left: 0px; top: 0px;}
+body>nav,
+#menupan,
+#toppan,
+#leftpan,
+#htpbutton,
+#ltoggle,
+#ttoggle,
+#search_container,
+div.leaflet-control-container {
+  display: none !important;
+}
+
+#mappan {
+  left: 0px;
+  top: 0px;
 }
