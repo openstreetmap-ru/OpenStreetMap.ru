@@ -135,8 +135,8 @@ $page_content = <<<PHP_CONTENT
     <article id="pers_maps">
       <div id="pm_edit_popup" style="display: none;">
         <table id="marker_popup_###">
-          <tr><td><input id="marker_name_###" type="text" value="Имя..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()"/></td></tr>
-          <tr><td><textarea id="marker_description_###" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()">Описание...</textarea></td></tr>
+          <tr><td><input id="marker_name_###" type="text" value="Имя..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onchange="$$$.saveData()"/></td></tr>
+          <tr><td><textarea id="marker_description_###" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onchange="$$$.saveData()">Описание...</textarea></td></tr>
           <tr><td class='colour-picker'>
             <!-- <div class='colour-picker-button' style='background:{{bg}};color:{{text}}' onClick='$$$.toggleCheck({{i}});'>&#x2713;</div> - see markers.js for replacement -->
           </td></tr>
@@ -159,8 +159,8 @@ $page_content = <<<PHP_CONTENT
       </div>
       <div id="pl_edit_popup" style="display:none;">
         <table id="line_popup_###">
-          <tr><td><input id="line_name_###" type="text" value="Имя..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()"/></td></tr>
-          <tr><td><textarea id="line_description_###" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onkeyup="$$$.saveData()">Описание...</textarea></td></tr>
+          <tr><td><input id="line_name_###" type="text" value="Имя..." class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onchange="$$$.saveData()"/></td></tr>
+          <tr><td><textarea id="line_description_###" class="default-input" onFocus="osm.markers.focusDefaultInput(this)" onBlur="osm.markers.blurDefaultInput(this)" onchange="$$$.saveData()">Описание...</textarea></td></tr>
           <tr><td><div class="marker-moreinfo">#moreinfo</div></td></tr>
           <tr><td class='colour-picker'>
           </td></tr>
