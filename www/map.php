@@ -34,7 +34,6 @@ $page_topbar = <<<PHP_TOPBAR
     -->
 
       <div id="search_container">
-        <a id="findme" href="#" onClick="osm.ui.whereima(); return false;" class="button wheremi" title="Где я?"></a>
         <form role="search" id="search" method="get" action="/" onsubmit="return osm.ui.searchsubmit();">
           <div id="fucking_ff">
             <input type="search" id="qsearch" class="field" name="q" autocomplete="off" autofocus="" placeholder="Искать">
