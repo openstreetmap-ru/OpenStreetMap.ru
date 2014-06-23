@@ -391,14 +391,14 @@ osm.permalink.updLayerP = function () {
 }
 
 osm.permalink.addMarker = function () {
-  osm.map.on('click', osm.permalink.createMarker);
+  osm.map.on('click', osm.permalink.createMarker, osm.permalink);
   $('#map').css('cursor','crosshair');
 }
 
 osm.permalink.createMarker = function(e) {
-  osm.map.off('click', osm.permalink.createMarker);
+  osm.map.off('click', osm.permalink.createMarker, osm.permalink);
   $('#map').css('cursor','');
-  osm.permalink.setPopupMarker(e.latlng);
+  this.setPopupMarker(e.latlng);
 }
 
 osm.permalink.setPopupMarker = function (pos, center) {
@@ -408,32 +408,48 @@ osm.permalink.setPopupMarker = function (pos, center) {
   
   if (this.LMarker)
     osm.map.removeLayer(this.LMarker);
-  this.LMarker = new L.Marker(pos);
+  this.LMarker = new L.Marker(pos,{draggable: true});
   osm.map.addLayer(this.LMarker);
   
+  this.LMarker.on('dragend', this.dragendMarker, this);
+
+  var popup = this.LMarker.bindPopup(this.getTextMarker(pos));
+
+  if (!center)
+    popup.openPopup();
+},
+
+osm.permalink.getTextMarker = function (pos) {
+  var zoom = osm.map.getZoom();
+  pos = pos || this.rounding(zoom, this.LMarker.getLatLng());
+
   var url = '/#' + 'mmap=' + [zoom, pos.lat, pos.lng].join("/");
   var textPopup = $('<div>')
     .append($('<a>')
       .attr('href', url)
       .text('Ссылка на маркер')
       .after($('<br><br>'))
-      .after($('<a>')
-        .attr('href', '#')
-        .attr('onclick', 'osm.permalink.deleteMarker(); return false;')
+      .after($('<a href="#">')
         .text('Удалить маркер')
+        .click($.proxy(osm.permalink.deleteMarker, osm.permalink))
       )
     )
   
-  var popup = this.LMarker.bindPopup(textPopup[0]);
-  if (!center)
-    popup.openPopup();
-}
+  return textPopup[0];
+},
+
+osm.permalink.dragendMarker = function () {
+  var popup = this.LMarker.bindPopup(this.getTextMarker());
+  popup.openPopup();
+},
 
 osm.permalink.deleteMarker = function () {
   if (this.LMarker)
     osm.map.removeLayer(this.LMarker);
   if (osm.p.anchor.mmap)
     osm.sManager.setP([{type:'anchor', k:'mmap', del:1}]);
+
+  return false;
 }
 
 osm.permalink.include = function(obj){
@@ -488,6 +504,6 @@ L.Control.permMarker = L.Control.extend({
   },
 
   onRemove: function(map) {
-    // this._map.off('moveend', this._update_link, this);
+
   }
 });
