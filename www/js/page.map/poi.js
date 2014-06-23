@@ -624,8 +624,7 @@ osm.poi = {
   
   createPopup: function(id, marker) {
     var textPopup = $('<img src="/img/loader.gif">')
-    textPopup = $('<div>').append(textPopup.clone()).remove().html();
-    marker.bindPopup(textPopup);
+    marker.bindPopup(textPopup[0]);
     $.getJSON("/api/poi", {action: 'getpoiinfo', id: id}, function(json){
       if (!(json.data == null)) {
 

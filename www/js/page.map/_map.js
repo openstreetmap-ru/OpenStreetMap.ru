@@ -412,17 +412,19 @@ osm.permalink.setPopupMarker = function (pos, center) {
   osm.map.addLayer(this.LMarker);
   
   var url = '/#' + 'mmap=' + [zoom, pos.lat, pos.lng].join("/");
-  var textPopup = $('<a>')
-    .attr('href', url)
-    .text('Ссылка на маркер')
-    .after($('<br><br>'))
-    .after($('<a>')
-      .attr('href', '#')
-      .attr('onclick', 'osm.permalink.deleteMarker(); return false;')
-      .text('Удалить маркер')
+  var textPopup = $('<div>')
+    .append($('<a>')
+      .attr('href', url)
+      .text('Ссылка на маркер')
+      .after($('<br><br>'))
+      .after($('<a>')
+        .attr('href', '#')
+        .attr('onclick', 'osm.permalink.deleteMarker(); return false;')
+        .text('Удалить маркер')
+      )
     )
   
-  var popup = this.LMarker.bindPopup($('<div>').append(textPopup.clone()).remove().html());
+  var popup = this.LMarker.bindPopup(textPopup[0]);
   if (!center)
     popup.openPopup();
 }
