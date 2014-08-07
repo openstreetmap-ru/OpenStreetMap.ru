@@ -84,7 +84,7 @@ L.Flickr = L.FeatureGroup.extend({
 				_this._licenses[l.id].url = l.url;
 			}
 		};
-		var url = 'http://api.flickr.com/services/rest/?method=flickr.photos.licenses.getInfo&api_key='+this._api_key+'&format=json&jsoncallback='+cbid;
+		var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.licenses.getInfo&api_key='+this._api_key+'&format=json&jsoncallback='+cbid;
 		var script = document.createElement("script");
 		script.type = "text/javascript";
 		script.src = url;
@@ -119,7 +119,7 @@ L.Flickr = L.FeatureGroup.extend({
 			else
 				alert('Flick API error:\n'+json.message);
 		};
-		var url = 'http://api.flickr.com/services/rest/?method=flickr.photos.search&bbox='+
+		var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&bbox='+
 			minll.lng+','+minll.lat+','+maxll.lng+','+maxll.lat+'&has_geo=1&format=json&extras=geo,url_t,owner_name,date_upload,license'+
 			'&per_page='+this.options.maxLoad+'&callback='+cbid+'&api_key='+this._api_key+'&jsoncallback='+cbid;
 		var script = document.createElement("script");
