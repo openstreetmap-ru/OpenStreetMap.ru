@@ -9,7 +9,7 @@ class dbFacile_postgresql extends dbFacile {
 	public function close() {
 		pg_close($this->connection);
 	}
-	
+
 	public function error() {
 		return mysql_error($this->connection);
 	}
@@ -25,7 +25,7 @@ class dbFacile_postgresql extends dbFacile {
 		$sequence = $this->fetchCell("SELECT relname FROM pg_class WHERE relkind = 'S' AND relname LIKE '" . $table . "_%'");
 		if(strlen($sequence))
 			return $this->fetchCell('select last_value from ' . $sequence);
-		return 0;
+		return false;
 	}
 
 	public function numberRows($result) {

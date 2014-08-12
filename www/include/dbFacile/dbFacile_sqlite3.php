@@ -27,7 +27,10 @@ class dbFacile_sqlite3 extends dbFacile {
 	}
 
 	public function lastID($table = null) {
-		return $this->connection->lastInsertRowID();
+		$id = $this->connection->lastInsertRowID();
+		// SQLite returns true if last statement didn't generate an id
+		if ($id === true) return false;
+		return $id;
 	}
 
 	public function numberRows($result) {
