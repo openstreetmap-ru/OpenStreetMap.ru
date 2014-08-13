@@ -174,5 +174,3 @@
     print ("var clientLon = 0;\n");
   }
   print ("var clientIp = '".$geo->get_ip()."';\n");
-  
-?>

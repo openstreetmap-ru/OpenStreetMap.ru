@@ -27,5 +27,3 @@ while ($row = pg_fetch_assoc($res)) {
 }
 
 print "</table>";
-
-?>

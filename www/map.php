@@ -1,4 +1,4 @@
-<?
+<?php
 $page_logo = "/img/logo.png";
 
 $page_head_css = <<<PHP_HEAD_CSS
@@ -178,4 +178,3 @@ $page_content = <<<PHP_CONTENT
     osm.markers._max_line_points=$PERSMAP_MAX_LINE_POINTS;
   </script>
 PHP_CONTENT;
-?>

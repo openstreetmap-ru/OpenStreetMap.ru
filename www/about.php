@@ -1,4 +1,4 @@
-<?
+<?php
 $page_logo = "/img/logo-about.png";
 
 $page_head_css = <<<PHP_HEAD_CSS
@@ -151,5 +151,3 @@ if (function_exists("pg_connect")) {
     $page_content = str_replace('<i id="datepoi">неизвестно</i>', '<samp>'.$row['value'].'</samp>', $page_content);
   }
 }
-
-?>

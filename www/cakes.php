@@ -1,4 +1,4 @@
-<?
+<?php
 $page_logo = "/img/logo-cakes.png";
 
 $page_head_css = <<<PHP_HEAD_CSS
@@ -66,4 +66,3 @@ $page_content = <<<PHP_CONTENT
 	</ul>
 </div>
 PHP_CONTENT;
-?>

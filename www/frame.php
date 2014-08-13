@@ -23,13 +23,13 @@
   </style>
 </head>
 <body>
-<? if (isset($_GET['noscreenshot'])) { ?>
+<?php if (isset($_GET['noscreenshot'])) { ?>
   <div>
     <a href="/">
       <img alt="OpenStreetMap.ru" src="/img/logo.png" style="background-color: rgb(239, 239, 239); border: medium none; height: 49px; left: 0px; opacity: 0.8; position: absolute; top: 0px; width: 288px; z-index: 1;">
     </a>  
   </div>
-<? } ?>
+<?php } ?>
 
   <div id="content" style="top:0">
    <div id="downpan">
@@ -50,11 +50,11 @@
     </table>
   </div>
 
-<? if (!isset($_GET['noscreenshot'])) { ?> <!-- add &noscreenshot to the URL to hide this overlay -->
-  <a href="/?<?=$_SERVER['QUERY_STRING']?>" target="_blank">
+<?php if (!isset($_GET['noscreenshot'])) { ?> <!-- add &noscreenshot to the URL to hide this overlay -->
+  <a href="/?<?php echo $_SERVER['QUERY_STRING']?>" target="_blank">
   <div style="position:absolute;top:0;left:0;width:100%;height:100%;"></div>
   </a>
-<? } ?>
+<?php } ?>
   <div id="loader-overlay" style="z-index:1000;display:none;position:absolute;top:0;left:0;width:100%;height:100%;background-color:white;background-position: center center;background-image:url(img/loader.gif);background-repeat:no-repeat;"></div>
   </body>
 </html>

@@ -1,4 +1,4 @@
-<?
+<?php
 include_once("include/passwd.php");
 include_once("include/functions.php");
 // declare $pgconnstr in include/passwd.php
@@ -120,4 +120,3 @@ while ($row = pg_fetch_assoc($res)) {
 }
 
 print $doc->asXML();
-?>

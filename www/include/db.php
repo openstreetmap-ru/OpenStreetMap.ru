@@ -1,4 +1,4 @@
-<?
+<?php
 function db_open($type, $db_name, $db_user, $db_password, $db_host) {
 	$class_name = "dbFacile_" . $type;
 	include_once("dbFacile/$class_name.php");
@@ -11,4 +11,3 @@ function db_open($type, $db_name, $db_user, $db_password, $db_host) {
 		include_once '../500.php';
 	return $db;
 };
- ?>
