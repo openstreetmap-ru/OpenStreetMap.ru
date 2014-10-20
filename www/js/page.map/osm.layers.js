@@ -91,6 +91,14 @@ osm.initLayers = function(){
   );
 
   osm.registerLayer(
+    'layerSputnik',
+    new L.TileLayer('http://{s}.tiles.maps.sputnik.ru/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, tiles &copy; <a href='http://corp.sputnik.ru/maps' target='_blank'>Спутник</a>", subdomains: 'abcd'}),
+    "Спутник",
+    'p',
+    true
+  );
+
+  osm.registerLayer(
     'layerBing',
     new L.BingLayer('ApaoUzCK5_6HzEgOsPL_HFxYj-RVA2FAvcvQHX4XKeR6tjzl9lquWXiZSwBFe8h-', {maxZoom: 18}),
     'Снимки Bing',
