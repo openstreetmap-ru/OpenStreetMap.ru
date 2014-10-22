@@ -112,7 +112,7 @@ osm.keypress = function(e) {
 osm.permalink = {
   p:{},
   defaults:{
-    baseLayer:'layerMS',
+    baseLayer:'layerMapnik',
     center: new L.LatLng(62.0, 88.0),
     zoom: ($(window).width() > 1200 ? 3 : 2)
   }
