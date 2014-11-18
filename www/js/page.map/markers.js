@@ -323,6 +323,7 @@ osm.markers.readMap = function() {
       if (latlngs.length>1)
         osm.map.fitBounds(new L.LatLngBounds(latlngs));
       else if (latlngs.length==1) {
+        osm.map.setZoom(14); // magic number for one point - not too close, but still quite detailed
         osm.map.panTo(latlngs[0]);
         p.openPopup();
         if (p instanceof PersonalMarkerEditable)
