@@ -70,10 +70,6 @@ $(function()
 			osm.leftpan.toggleItem('leftsearch', true); // открываем левую панельку поиска
 			search.processResults({find: true, matches: [ui.item]}); // имитируем результат поиска с сервера
 			search.enable(); // показываем результаты поиска
-		},
-		//Увеличиваем z-index, что бы элементы панели не перекрывали
-		_renderMenu: function(ul, items){
-			$(ul).css({zIndex:2000})
 		}
 	}).keyup(function(e){
 		// закрываем подсказку по Enter
@@ -81,12 +77,15 @@ $(function()
 			$('#qsearch').autocomplete('close')
 	})
 	// рендерим строки подсказки с учетом тегов
-	$('#qsearch').data("autocomplete")._renderItem = function(ul, item)
-	{
+	$('#qsearch').data("autocomplete")._renderItem = function(ul, item){
 		return $("<li>")
 			.data("item.autocomplete", item)
 			.append("<a>" + item.label + "</a>")
 			.appendTo(ul);
+	}
+	//Увеличиваем z-index, что бы элементы панели не перекрывали
+	$('#qsearch').data("autocomplete")._renderMenu = function(ul, items){
+		$(ul).css({zIndex:2000})
 	}
 	// ставим шрифт в поисковой строке, такой же как у подсказок
 	$('#qsearch').addClass('ui-widget');
