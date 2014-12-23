@@ -64,8 +64,8 @@ osm.poi = {
     //Search term is not applied instantly but after 350ms timeout.
     var timerId = null;
     var appliedSearchTerm = "";
-    osm.poi.searchinput = $("#poisearch").off("keyup").on("keyup", function(event) {
-      var searchTerm = event.target.value;
+    
+    function updateSearch(searchTerm) {
       if(searchTerm != appliedSearchTerm) {
         appliedSearchTerm = searchTerm;
         clearTimeout(timerId);
@@ -74,7 +74,19 @@ osm.poi = {
           osm.poi.tree.jstree("search", appliedSearchTerm);
         }, 350);
       }
-    });
+    }
+    
+    osm.poi.searchinput = $("#poisearch")
+      .off("keyup").on("keyup", function (event) {
+        updateSearch(event.target.value);
+      })
+      .off("paste").on("paste", function () {
+        var element = this;
+        setTimeout(function () {
+          var text = $(element).val();
+          updateSearch(text);
+        }, 100);
+      });
 
     osm.sManager.on(['poi'], function(){poi.decodePerm();});
   },
