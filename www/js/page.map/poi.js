@@ -19,7 +19,7 @@ osm.poi = {
     //osm.map.addLayer(osm.poi.layer);
     osm.poi.tree=$('#leftpoi #leftpoiTree')
       .jstree({
-        "plugins" : ["json_data", "checkbox","ui"],
+        "plugins" : ["json_data", "checkbox","ui", "search"],
         "json_data" : {
           "ajax" : {
             "type": 'GET',
@@ -28,6 +28,9 @@ osm.poi = {
         },
         "checkbox": {
           "override_ui": true
+        },
+        "search": {
+          "show_only_matches": true
         }
       })
       .bind("change_state.check_box.jstree", function (event, data) {
@@ -56,6 +59,35 @@ osm.poi = {
         poi.opt.listPerm = results;
       }
     );
+    
+    //Add event listeners for POI search input.
+    //Search term is not applied instantly but after 350ms timeout.
+    var timerId = null;
+    var appliedSearchTerm = "";
+    
+    function updateSearch(searchTerm) {
+      if(searchTerm != appliedSearchTerm) {
+        appliedSearchTerm = searchTerm;
+        clearTimeout(timerId);
+        //schedule actual search function to be called in 350ms
+        timerId = setTimeout(function() {
+          osm.poi.tree.jstree("search", appliedSearchTerm);
+        }, 350);
+      }
+    }
+    
+    osm.poi.searchinput = $("#poisearch")
+      .off("keyup").on("keyup", function (event) {
+        updateSearch(event.target.value);
+      })
+      .off("paste").on("paste", function () {
+        var element = this;
+        setTimeout(function () {
+          var text = $(element).val();
+          updateSearch(text);
+        }, 100);
+      });
+
     osm.sManager.on(['poi'], function(){poi.decodePerm();});
   },
 
