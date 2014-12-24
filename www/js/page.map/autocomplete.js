@@ -86,6 +86,10 @@ $(function()
 			.append("<a>" + item.label + "</a>")
 			.appendTo(ul);
 	}
+	//Увеличиваем z-index, что бы элементы панели не перекрывали
+	$('#qsearch').data("autocomplete")._renderMenu = function(ul, items){
+		$(ul).css({zIndex:2000})
+	}
 	// ставим шрифт в поисковой строке, такой же как у подсказок
 	$('#qsearch').addClass('ui-widget');
 });
