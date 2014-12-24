@@ -41,7 +41,8 @@ $(function()
 
 	// подключаемся к поисковой строке
 	$('#qsearch').autocomplete({
-		source: function(request, response){
+		source: function(request, response)
+		{
 			// запрос на сервер
 			jQuery.ajax({
 				url: '/api/autocomplete',
@@ -65,7 +66,8 @@ $(function()
 			});
 		},
 		// при выборе варианта показываем метку на карте
-		select: function(event, ui){
+		select: function(event, ui)
+		{
 			if (!ui.item) return;
 			osm.leftpan.toggleItem('leftsearch', true); // открываем левую панельку поиска
 			search.processResults({find: true, matches: [ui.item]}); // имитируем результат поиска с сервера
@@ -77,7 +79,8 @@ $(function()
 			$('#qsearch').autocomplete('close')
 	})
 	// рендерим строки подсказки с учетом тегов
-	$('#qsearch').data("autocomplete")._renderItem = function(ul, item){
+	$('#qsearch').data("autocomplete")._renderItem = function(ul, item)
+	{
 		return $("<li>")
 			.data("item.autocomplete", item)
 			.append("<a>" + item.label + "</a>")
