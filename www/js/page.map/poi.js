@@ -580,6 +580,7 @@ osm.poi = {
   },
   
   technicalForPopup: function(osm_id) {
+    osm_id = osm_id.toString();
     var technical = $('');
     if (osm_id.charAt(0) == "{" && osm_id.charAt(osm_id.length-1) == "}")
       var id = osm_id.substr(1, osm_id.length - 2).split(',');
