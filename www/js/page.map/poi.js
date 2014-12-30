@@ -314,7 +314,7 @@ osm.poi = {
 
   createPopupText: function(getdata) {
     function createListValue(p, isDivMain, divClass, phone){
-      var out;
+      var out, list = [], maxLengthPArr = 0;
       var mainTag = (isDivMain ? '<div>' : '<td>');
       p = p.trim();
       divClass = divClass || '';
@@ -323,15 +323,18 @@ osm.poi = {
         pArr = pArr[0].split(',');
       
       if (pArr.length > 1) {
-        out = $('<ul>');
         for (var i in pArr) {
           var item = pArr[i].trim();
-          if (phone)
-            out = out.append($('<li>').append($('<a>').attr('href', 'tel:' + item)
-              .text(item.replace(/^(\+\d) (\d{3}) (\d{3})(\d{2})(\d{2})/, '$1 ($2) $3-$4-$5'))));
-          else
-            out = out.append($('<li>').text(item));
+          if (maxLengthPArr < item.length)
+            maxLengthPArr = item.length;
+          list.push(!phone ? item : $('<a>').attr('href', 'tel:' + item).text(item.replace(/^(\+\d) (\d{3}) (\d{3})(\d{2})(\d{2})/, '$1 ($2) $3-$4-$5')).html());
         }
+        
+        if (maxLengthPArr > 5)
+            out = $('<ul><li>' + list.join('</li><li>') + '</li></ul>');
+        else
+            out = list.join(', ');
+            
         out = $(mainTag).addClass(divClass).append(out);
       }
       else {

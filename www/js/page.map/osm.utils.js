@@ -211,4 +211,3 @@ osm.mapperMode.changeMode = function() {
     osm.map.removeControl(osm.inJOSM);
   }
 }
-
