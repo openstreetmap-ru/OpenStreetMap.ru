@@ -40,6 +40,8 @@ osm.leftpan.refsizetab = function() {
   if (height < 100)
     height = 100;
   $('#leftpan .leftgroup .leftcontent').css('height', height-12+'px');
+  if (miHeight >= 30)
+    osm.leftpan.toggle(false);
 }
 
 osm.leftpan.item = function(item, on) {
