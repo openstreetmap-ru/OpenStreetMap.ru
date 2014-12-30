@@ -50,7 +50,7 @@ search.processResults = function(results) {
                 street: matches[i].street,
                 house: matches[i].house
               }))
-              .append(osm.poi.technicalForPopup(matches[i].osm_id))
+              .append(osm.poi.technicalForPopup(matches[i].id))
           )[0]);
         }
         var a = $('<a href="">');
