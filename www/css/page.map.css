@@ -305,10 +305,11 @@ a.leaflet-control-distance-active:hover { background-color: #ffa; }
   text-decoration: none;
   border-bottom: 1px solid #999;
 }
-.info_popup .moretags td {
+.info_popup .moretags td,
+.info_popup .moretags th {
   padding: 4px 2px;
   line-height: 1.25em;
-  /*width: 50%;*/
+  vertical-align:top;
 }
 .info_popup > .name {
   color: #000;
@@ -357,7 +358,7 @@ a.leaflet-control-distance-active:hover { background-color: #ffa; }
   color: #666;
   text-decoration: none;
 }
-.info_popup .frame.off {
+.info_popup .moretags .frame.off .poi_moretags:nth-child(n+5) {
   display: none;
 }
 .info_popup .moretags,
