@@ -92,7 +92,7 @@ osm.initLayers = function(){
 
   osm.registerLayer(
     'layerSputnik',
-    new L.TileLayer('http://{s}.tiles.maps.sputnik.ru/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, tiles &copy; <a href='http://corp.sputnik.ru/maps' target='_blank'>Спутник</a>", subdomains: 'abcd'}),
+    new L.TileLayer('http://{s}.tiles.maps.sputnik.ru/{z}/{x}/{y}.png', {maxZoom: 19, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, tiles &copy; <a href='http://corp.sputnik.ru/maps' target='_blank'>Спутник</a>", subdomains: 'abcd'}),
     "Спутник",
     'p',
     true
