@@ -2,7 +2,7 @@
 
 Обсуждение:
  * http://forum.openstreetmap.org/viewtopic.php?id=2689
- * http://forum.openstreetmap.org/viewtopic.php?id=14295
+ * http://forum.openstreetmap.org/viewtopic.php?id=14295 - про поиск, включая описание JSON-API
  * http://forum.openstreetmap.org/viewtopic.php?id=18358
 
 Обратная связь без регистрации http://osmru.reformal.ru/
