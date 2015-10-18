@@ -174,6 +174,14 @@ osm.initLayers = function(){
   );
 
   osm.registerLayer(
+    'layerWikivoyagePOI',
+    new L.Wikivoyage(),
+    'Достопримечательности (Wikivoyage)',
+    'X',
+    false
+  );
+
+  osm.registerLayer(
     'layerPanoramio',
     new L.Panoramio(),
     'Фото (Panoramio)',
