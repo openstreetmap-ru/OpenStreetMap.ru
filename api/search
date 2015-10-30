@@ -76,12 +76,12 @@ def editGet(get, output):
   
   # for house
   # get['q'] = re.sub(u'((?:д|дом)[. ]*)(\d+)', ur'\2', get['q'])
-  get['q'] = re.sub(u'(кор(?:п|пус)[. ]*)(\d+)', ur'корпус_\2', get['q'])
+  get['q'] = re.sub(u'(ко(?:р|рп|рпус)[. ]*)(\d+)', ur'корпус_\2', get['q'])
   get['q'] = re.sub(u'(ст(?:р|роение)[. ]*)(\d+)', ur'строение_\2', get['q'])
   get['q'] = re.sub(u'(литер[а]?[. ]+)([а-яА-ЯёЁ]+)', ur'литер_\2', get['q'])
   # short house
-  get['q'] = re.sub(u'(к)(\d+)', ur' корпус_\2 ', get['q'])
-  get['q'] = re.sub(u'(с)(\d+)', ur' строение_\2 ', get['q'])
+  get['q'] = re.sub(u'(к[ ]?)(\d+)', ur' корпус_\2 ', get['q'])
+  get['q'] = re.sub(u'(с[ ]?)(\d+)', ur' строение_\2 ', get['q'])
   get['q'] = re.sub(u'(\d)(л)([а-яА-ЯёЁ]+)', ur'\1 литер_\3 ', get['q'])
   
   
