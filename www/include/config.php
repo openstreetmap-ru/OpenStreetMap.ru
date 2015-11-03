@@ -1,4 +1,4 @@
-<?
+<?php
 Header('Content-Type: text/html; charset=UTF-8');
 setlocale(LC_ALL, 'ru_RU.UTF-8');
 
@@ -28,4 +28,3 @@ if (function_exists("pg_connect")) { // чтобы можно было тест�
 
 session_start();
 ob_start();
-?>

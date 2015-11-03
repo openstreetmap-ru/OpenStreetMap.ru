@@ -1,4 +1,4 @@
-<?
+<?php
 include_once("include/passwd.php");
 pg_connect($pgconnstr);
 
@@ -24,4 +24,3 @@ $query = "INSERT INTO wpc_req (page, added) VALUES ('".pg_escape_string($title).
 $res = pg_query($query);
 
 print "Страница <b>$title</b> добавлена в <a href=\"wpc-queue.php\">очередь</a> на обновление";
-?>

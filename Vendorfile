@@ -5,9 +5,8 @@ file 'www/js/osmjs-validators-layer.js', 'https://raw.github.com/alno/osm-js-lib
 file 'www/js/osmjs-validators-errors.js', 'https://raw.github.com/alno/osm-js-libs/master/dist/validators/jstree-errors-control.js'
 file 'www/js/osmjs-validators-sources.js', 'https://raw.github.com/alno/osm-js-libs/master/dist/validators/jquery-sources-control.js'
 file 'www/js/osmjs-weather-layer.js', 'https://raw.github.com/alno/osm-js-libs/master/dist/weather/leaflet-layer.js'
-file 'www/js/suncalc.js', 'https://raw.github.com/mourner/suncalc/master/suncalc-min.js'
+file 'www/js/suncalc.js', 'https://raw.github.com/mourner/suncalc/master/suncalc.js'
 
-file 'www/js/Control.Scale.js', 'https://raw.github.com/shramov/leaflet-plugins/master/control/Scale.js'
 file 'www/js/Control.Distance.js', 'https://raw.github.com/shramov/leaflet-plugins/master/control/Distance.js'
 file 'www/js/KML.js', 'https://raw.github.com/shramov/leaflet-plugins/master/layer/vector/KML.js'
 
@@ -20,4 +19,4 @@ file 'www/include/dbFacile/dbFacile_sqlite2.php', 'https://raw.github.com/alansz
 file 'www/include/dbFacile/dbFacile_sqlite3.php', 'https://raw.github.com/alanszlosek/dbFacile/master/src/dbFacile_sqlite3.php'
 file 'www/include/dbFacile/CONTRIBUTORS.txt', 'https://raw.github.com/alanszlosek/dbFacile/master/CONTRIBUTORS.txt'
 file 'www/include/dbFacile/LICENSE.txt', 'https://raw.github.com/alanszlosek/dbFacile/master/LICENSE.txt'
-file 'www/include/dbFacile/README.txt', 'https://raw.github.com/alanszlosek/dbFacile/master/README.txt'
+file 'www/include/dbFacile/readme.markdown', 'https://raw.github.com/alanszlosek/dbFacile/master/readme.markdown'

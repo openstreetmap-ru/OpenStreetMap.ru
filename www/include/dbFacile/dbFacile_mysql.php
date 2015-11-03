@@ -19,14 +19,17 @@ class dbFacile_mysql extends dbFacile {
 	}
 
 	public function lastID($table = null) {
-		return mysql_insert_id($this->connection);
+		$id = mysql_insert_id($this->connection);
+		// $id will be 0 if insert succeeded, but statement didn't generate a new id (no auto-increment)
+		if ($id == 0) return false;
+		return $id;
 	}
 
 	public function numberRows($result) {
 		return mysql_num_rows($result);
 	}
 
-	public function open($database, $user, $password, $host = 'localhost', $charset = 'utf-8') {
+	public function open($database, $user, $password, $host = 'localhost', $charset = 'utf8') {
 		$this->database = $database;
 		// force opening a new link because we might be selecting a different database
 		$this->connection = mysql_connect($host, $user, $password, true);
@@ -65,9 +68,9 @@ class dbFacile_mysql extends dbFacile {
 	// user, password, database, host
 
 	protected function _query($sql, $buffered = true) {
-		if ($buffered)
+		if ($buffered) {
 			return mysql_query($sql, $this->connection);
-		else {
+		}else {
 			return mysql_unbuffered_query($sql, $this->connection);
 		}
 	}

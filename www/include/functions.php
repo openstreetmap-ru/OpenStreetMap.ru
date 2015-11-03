@@ -1,4 +1,4 @@
-<?
+<?php
 
 function show_menu($pages, $current = '') {
   echo '<ul>';
@@ -39,5 +39,3 @@ function pg_array_parse( $text, &$output, $limit = false, $offset = 1 )
     while( $limit > $offset );
   return $output;
 }
-
-?>

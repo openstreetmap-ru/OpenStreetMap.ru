@@ -1,4 +1,4 @@
-<?
+<?php
 $page_logo = "/img/logo-navigator.png";
 
 $page_head_css = <<<PHP_HEAD_CSS
@@ -32,4 +32,3 @@ $page_content = <<<PHP_CONTENT
 </div>
 
 PHP_CONTENT;
-?>
