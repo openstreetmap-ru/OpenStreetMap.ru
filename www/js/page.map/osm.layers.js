@@ -108,7 +108,7 @@ osm.initLayers = function(){
   
   osm.registerLayer(
     'layerMapBox',
-    new L.TileLayer('https://api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoicm9tYW5zaHV2YWxvdiIsImEiOiJjaWpsMDhmODkwMDAydmhtMzBmNGk4aDBxIn0.zpQhbwZ9YRsOmNGSNAz-lw', {maxZoom: 17, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, tiles &copy; <a href='http://www.mapbox.com/' target='_blank'>MapBox</a>"}),
+    new L.TileLayer('https://api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoicm9tYW5zaHV2YWxvdiIsImEiOiJjaWpsMDhmODkwMDAydmhtMzBmNGk4aDBxIn0.zpQhbwZ9YRsOmNGSNAz-lw', {maxZoom: 17, attribution: "&copy; <a href='https://www.mapbox.com/about/maps/' target='_blank'>MapBox</a>"}),
     "Снимки MapBox",
     'X',
     true
