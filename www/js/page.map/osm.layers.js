@@ -65,7 +65,7 @@ osm.initLayers = function(){
     'C',
     true
   );
-
+  
   osm.registerLayer(
     'layerHOT',
     new L.TileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {maxZoom: 20, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, tiles &copy; <a href='http://hot.openstreetmap.org/' target='_blank'>Humanitarian OpenStreetMap Team</a>", subdomains: 'abc'}),
@@ -103,6 +103,14 @@ osm.initLayers = function(){
     new L.BingLayer('ApaoUzCK5_6HzEgOsPL_HFxYj-RVA2FAvcvQHX4XKeR6tjzl9lquWXiZSwBFe8h-', {maxZoom: 18}),
     'Снимки Bing',
     'B',
+    true
+  );
+  
+  osm.registerLayer(
+    'layerMapBox',
+    new L.TileLayer('https://api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoicm9tYW5zaHV2YWxvdiIsImEiOiJjaWpsMDhmODkwMDAydmhtMzBmNGk4aDBxIn0.zpQhbwZ9YRsOmNGSNAz-lw', {maxZoom: 17, attribution: "&copy; <a href='https://www.mapbox.com/about/maps/' target='_blank'>MapBox</a>"}),
+    "Снимки MapBox",
+    'X',
     true
   );
 
