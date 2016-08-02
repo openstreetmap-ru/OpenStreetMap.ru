@@ -326,52 +326,14 @@ def main():
 
   lat=0
   lon=0
-  # Проверяем на соответствие координатам:
-  if re.search('[0-9]{2}\.[0-9]{3}[0-9]*,[0-9]{3}\.[0-9]{3}[0-9]*', search_text) is not None:
-  	lat=float(search_text.split(',')[0])
-  	lon=float(search_text.split(',')[1])
-  elif re.search('[0-9]{3}\.[0-9]{3}[0-9]*,[0-9]{2}\.[0-9]{3}[0-9]*', search_text) is not None:
-  	lat=float(search_text.split(',')[1])
-  	lon=float(search_text.split(',')[0])
+  delimiters=";, :"
 
-  elif re.search('[0-9]{2}\.[0-9]{3}[0-9]* [0-9]{3}\.[0-9]{3}[0-9]*', search_text) is not None:
-  	lat=float(search_text.split(' ')[0])
-  	lon=float(search_text.split(' ')[1])
-  elif re.search('[0-9]{3}\.[0-9]{3}[0-9]* [0-9]{2}\.[0-9]{3}[0-9]*', search_text) is not None:
-  	lat=float(search_text.split(' ')[1])
-  	lon=float(search_text.split(' ')[0])
-  elif re.search('[0-9]{2},[0-9]{3}[0-9]* [0-9]{3},[0-9]{3}[0-9]*', search_text) is not None:
-  	lat=float(search_text.split(' ')[0].replace(",","."))
-  	lon=float(search_text.split(' ')[1].replace(",","."))
-  elif re.search('[0-9]{3},[0-9]{3}[0-9]* [0-9]{2},[0-9]{3}[0-9]*', search_text) is not None:
-  	lat=float(search_text.split(' ')[1].replace(",","."))
-  	lon=float(search_text.split(' ')[0].replace(",","."))
-
-  elif re.search('[0-9]{2}\.[0-9]{3}[0-9]*:[0-9]{3}\.[0-9]{3}[0-9]*', search_text) is not None:
-  	lat=float(search_text.split(':')[0])
-  	lon=float(search_text.split(':')[1])
-  elif re.search('[0-9]{3}\.[0-9]{3}[0-9]*:[0-9]{2}\.[0-9]{3}[0-9]*', search_text) is not None:
-  	lat=float(search_text.split(':')[1])
-  	lon=float(search_text.split(':')[0])
-  elif re.search('[0-9]{2},[0-9]{3}[0-9]*:[0-9]{3},[0-9]{3}[0-9]*', search_text) is not None:
-  	lat=float(search_text.split(':')[0].replace(",","."))
-  	lon=float(search_text.split(':')[1].replace(",","."))
-  elif re.search('[0-9]{3},[0-9]{3}[0-9]*:[0-9]{2},[0-9]{3}[0-9]*', search_text) is not None:
-  	lat=float(search_text.split(':')[1].replace(",","."))
-  	lon=float(search_text.split(':')[0].replace(",","."))
-
-  elif re.search('[0-9]{2}\.[0-9]{3}[0-9]*;[0-9]{3}\.[0-9]{3}[0-9]*', search_text) is not None:
-  	lat=float(search_text.split(';')[0])
-  	lon=float(search_text.split(';')[1])
-  elif re.search('[0-9]{3}\.[0-9]{3}[0-9]*;[0-9]{2}\.[0-9]{3}[0-9]*', search_text) is not None:
-  	lat=float(search_text.split(';')[1])
-  	lon=float(search_text.split(';')[0])
-  elif re.search('[0-9]{2},[0-9]{3}[0-9]*;[0-9]{3},[0-9]{3}[0-9]*', search_text) is not None:
-  	lat=float(search_text.split(';')[0].replace(",","."))
-  	lon=float(search_text.split(';')[1].replace(",","."))
-  elif re.search('[0-9]{3},[0-9]{3}[0-9]*;[0-9]{2},[0-9]{3}[0-9]*', search_text) is not None:
-  	lat=float(search_text.split(';')[1].replace(",","."))
-  	lon=float(search_text.split(';')[0].replace(",","."))
+  for delimiter in delimiters:
+    # Проверяем на соответствие координатам:
+    if re.search("-*[0-9]+\.[0-9]{1}[0-9]* *"+delimiter+" *-*[0-9]+\.[0-9]{1}[0-9]*", search_text) is not None:
+      lat=float(search_text.split(delimiter)[0])
+      lon=float(search_text.split(delimiter)[1])
+      break
 
   if lat==0 and lon==0:
 	  output['find']=False
