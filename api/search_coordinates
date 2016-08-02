@@ -18,7 +18,6 @@ def grad2dec(grad_min_sec,delim1,delim2,delim3):
   if len(grad_min_sec.split(delim1)) == 0:
     return 0
   grad=int(grad_min_sec.split(delim1)[0])
-  #print("grad=",grad)
 
   if len(grad_min_sec.split(delim1)) > 1:
     min_sec=""
@@ -161,9 +160,6 @@ def main():
 	  item["region_id"]=68688198
 	  output["matches"].append(item)
 
-  #if u"°" in search_text:
-  #   output['find']=True
-  #   print("equal!")
   print json.dumps(output)
 
 
