@@ -225,6 +225,14 @@ search.startSearch = function() {
       lon: center.lng
     }, search.processResults).error(search.errorHandler);
 
+  $.getJSON('api/search_coordinates', {
+      q: q,
+      stype: st,
+      accuracy: 1,
+	  cnt: 20,
+      lat: center.lat,
+      lon: center.lng
+    }, search.processCoordResults).error(search.errorHandler);
   $.getJSON('http://open.mapquestapi.com/nominatim/v1/search.php', {
       q: q,
       format: 'json',
