@@ -106,7 +106,7 @@ def main():
       lon_grad_min_sec=search_text.split(delimiter)[1]
       lat=grad2dec(lat_grad_min_sec,delim1,delim2,delim3)
       lon=grad2dec(lon_grad_min_sec,delim1,delim2,delim3)
-	  break
+      break
     # Проверяем на соответствие координат в формате градусы°минуты′секунды″:
     delim1=u"°"
     delim2=u"′"
@@ -116,7 +116,7 @@ def main():
       lon_grad_min_sec=search_text.split(delimiter)[1]
       lat=grad2dec(lat_grad_min_sec,delim1,delim2,delim3)
       lon=grad2dec(lon_grad_min_sec,delim1,delim2,delim3)
-	  break
+      break
 
 	# простая запись - взамен разделителей °'" используется один разделитель: ' (т.к. набивать с клавиатуры символ градуса неудобно):
     delim1=u"'"
@@ -127,7 +127,7 @@ def main():
       lon_grad_min_sec=search_text.split(delimiter)[1]
       lat=grad2dec(lat_grad_min_sec,delim1,delim2,delim3)
       lon=grad2dec(lon_grad_min_sec,delim1,delim2,delim3)
-	  break
+      break
 
   if lat==0 and lon==0:
 	  output['find']=False
