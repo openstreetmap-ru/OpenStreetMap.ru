@@ -12,6 +12,37 @@ import re
 if conf.isdebug:
   import datetime
 
+def grad2dec(grad_min_sec,delim1,delim2,delim3):
+  minutes=0
+  sec=0
+  if len(grad_min_sec.split(delim1)) == 0:
+    return 0
+  grad=int(grad_min_sec.split(delim1)[0])
+  #print("grad=",grad)
+
+  if len(grad_min_sec.split(delim1)) > 1:
+    min_sec=""
+    # склеиваем оставшиеся значения массива (актуально, если delim1==delim2==delim3 или как-то ещё)
+    min_sec_list=grad_min_sec.split(delim1)[1:]
+    for item in min_sec_list:
+      min_sec+=item+delim1
+
+    if len(min_sec.split(delim2)) > 0:
+      minutes=float(min_sec.split(delim2)[0])
+
+      if len(min_sec.split(delim2)) > 1:
+        seconds=""
+        seconds_list=min_sec.split(delim2)[1:]
+        # склеиваем оставшиеся значения массива (актуально, если delim1==delim2==delim3 или как-то ещё)
+        for item in seconds_list:
+          seconds+=item+delim2
+        if delim3 in seconds:
+          sec = float(seconds.split(delim3)[0])
+        else:
+          sec = float(seconds)
+
+  dec=grad+minutes/60+sec/3600
+  return dec
 
 def main():
   output={}
@@ -59,13 +90,44 @@ def main():
 
   lat=0
   lon=0
-  delimiters=";, :"
+  delimiters=u";, :"
 
   for delimiter in delimiters:
-    # Проверяем на соответствие координатам:
+    # Проверяем на соответствие десяичных координат:
     if re.search("-*[0-9]+\.[0-9]{1}[0-9]* *"+delimiter+" *-*[0-9]+\.[0-9]{1}[0-9]*", search_text) is not None:
   	  lat=float(search_text.split(delimiter)[0])
   	  lon=float(search_text.split(delimiter)[1])
+	  break
+    # Проверяем на соответствие координат в формате градусы°минуты'секунды":
+    delim1=u"°"
+    delim2=u"'"
+    delim3=u"\""
+    if re.search(u"-*[0-9]+"+delim1+"[0-9]+"+delim2+"[0-9]*\.*[0-9]*"+delim3+"* *"+delimiter+u"-*[0-9]+"+delim1+"[0-9]+"+delim2+"[0-9]*\.*[0-9]*"+delim3+"* *", search_text) is not None:
+      lat_grad_min_sec=search_text.split(delimiter)[0]
+      lon_grad_min_sec=search_text.split(delimiter)[1]
+      lat=grad2dec(lat_grad_min_sec,delim1,delim2,delim3)
+      lon=grad2dec(lon_grad_min_sec,delim1,delim2,delim3)
+	  break
+    # Проверяем на соответствие координат в формате градусы°минуты′секунды″:
+    delim1=u"°"
+    delim2=u"′"
+    delim3=u"″"
+    if re.search(u"-*[0-9]+"+delim1+"[0-9]+"+delim2+"[0-9]*\.*[0-9]*"+delim3+"* *"+delimiter+u"-*[0-9]+"+delim1+"[0-9]+"+delim2+"[0-9]*\.*[0-9]*"+delim3+"* *", search_text) is not None:
+      lat_grad_min_sec=search_text.split(delimiter)[0]
+      lon_grad_min_sec=search_text.split(delimiter)[1]
+      lat=grad2dec(lat_grad_min_sec,delim1,delim2,delim3)
+      lon=grad2dec(lon_grad_min_sec,delim1,delim2,delim3)
+	  break
+
+	# простая запись - взамен разделителей °'" используется один разделитель: ' (т.к. набивать с клавиатуры символ градуса неудобно):
+    delim1=u"'"
+    delim2=u"'"
+    delim3=u"'"
+    if re.search(u"-*[0-9]+"+delim1+"[0-9]+"+delim2+"[0-9]*\.*[0-9]*"+delim3+"* *"+delimiter+u"-*[0-9]+"+delim1+"[0-9]+"+delim2+"[0-9]*\.*[0-9]*"+delim3+"* *", search_text) is not None:
+      lat_grad_min_sec=search_text.split(delimiter)[0]
+      lon_grad_min_sec=search_text.split(delimiter)[1]
+      lat=grad2dec(lat_grad_min_sec,delim1,delim2,delim3)
+      lon=grad2dec(lon_grad_min_sec,delim1,delim2,delim3)
 	  break
 
   if lat==0 and lon==0:
@@ -99,6 +161,9 @@ def main():
 	  item["region_id"]=68688198
 	  output["matches"].append(item)
 
+  #if u"°" in search_text:
+  #   output['find']=True
+  #   print("equal!")
   print json.dumps(output)
 
 
