@@ -2,6 +2,7 @@ search = {last:{}};
 
 $(function() {
   search.content=$('#leftpantab #leftsearch .mainsearch')[0];
+  search.CoordContent=$('#leftpantab #leftsearch .coordsearch')[0];
   search.nominatimContent=$('#leftpantab #leftsearch .othersearch')[0];
   osm.sManager.on(['q','qmap'], search.startSearch);
 });
@@ -78,6 +79,48 @@ search.processResults = function(results) {
   // }
 };
 
+
+search.processCoordResults = function(results) {
+   try {
+    $("#leftsearch .loader").removeClass('on');
+    if (results.error) {
+      search.content.innerHTML='Произошла ошибка #1: ' + (results.error);
+    } else {
+      var content = $('<ul id="ol-search_result">')
+      var matches=results.matches;
+      for (var i in matches) {
+        var zoom = (matches[i].this_poi?16:matches[i].addr_type_id/5*2+4).toFixed(0);
+        var marker = new L.Marker(new L.LatLng(matches[i].lat, matches[i].lon), {icon: new search.Icon()});
+          marker.bindPopup((
+            $('<div>').addClass('addr_popup info_popup')
+              .append(osm.poi.addrForPopup({
+                full: "Координты: " + matches[i].display_name
+              }))
+          )[0]);
+        var a = $('<a href="">');
+        a.attr('search_id',matches[i].id);
+        a.text(matches[i].display_name);
+        a.bind("click", {
+            center: new L.LatLng(matches[i].lat, matches[i].lon),
+            zoom: zoom,
+            marker: marker
+            }, function (e){
+          osm.map.setView(e.data.center, e.data.zoom);
+          e.data.marker.openPopup();
+          return false;
+        });
+        content.append(
+          $('<li>').append(a)
+        );
+        osm.layers.search_marker.addLayer(marker);
+      }
+      $(search.CoordContent).empty().append(content);
+      $('#ol-search_result a', search.CoordContent).eq(0).click();
+    }
+   } catch(e) {
+     search.CoordContent.innerHTML = 'Ошибка: ' + e.description + '<br /> Ответ поиск.серв.: '+results.error;
+   }
+};
 
 search.processNominatimResults = function(results) {
   // try {
