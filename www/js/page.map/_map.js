@@ -51,6 +51,7 @@ $(function() {
     if (osm.p.cookie.leftpan == "false")
       osm.leftpan.toggle(false);
 
+	osm.map.addControl(new L.Control.MousePosition({lngFirst: true, prefix: 'Координаты указателя: ', separator: ' , ', position:'bottomleft', emptyString: 'Координаты недоступны'}));
     osm.map.addControl(new L.Control.Scale({width: 100, position: 'bottomleft'}));
     osm.map.addControl(new L.Control.Locate({follow: true, stopFollowingOnDrag: true, locateOptions: {maxZoom: 16}}));
     osm.map.addControl(new L.Control.Distance());
