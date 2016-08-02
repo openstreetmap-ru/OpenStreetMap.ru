@@ -4,7 +4,6 @@
 # search osm
 # ErshKUS
 
-from sphinxapi import *
 import cgi, json, re, psycopg2, psycopg2.extras
 import db_config
 import api_config as conf
@@ -12,261 +11,6 @@ import re
 
 if conf.isdebug:
   import datetime
-
-def find_in_csv(search_text,result,filename,class_name):
-	for line in open(filename):
-		item={}
-		data=line.split("|")
-		item["lon"]=data[0]
-		item["lat"]=data[1]
-		item["class"]=class_name
-		item["name"]=unicode(data[2],'utf8')
-		if search_text.lower() in item["name"].lower():
-			result.append(item)	
-	return result
-
-
-def find_in_pg_by_name_ru(search_text,result):
-	conn = psycopg2.connect(host=db_config.addr_host, database=db_config.addr_database, user=db_config.addr_user, password=db_config.addr_password)
-	cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-	sql="""
-	SELECT id,class,name_ru,class_ru,osm_id,ST_X(st_centroid(c_geom)),ST_Y(st_centroid(c_geom))
-	FROM ershkus_poi
-	WHERE 
-	LOWER(name_ru) like LOWER('%%%(search)s%%')
-	""" % {"search":search_text}
-	cur.execute(sql)
-	data = cur.fetchall()
-	for line in data:
-		item={}
-		item["id"]=line["id"]
-		item["class"]=line["class"]
-		item["name"]=unicode(str(line["name_ru"]),'utf8')
-		item["class_ru"]=unicode(str(line["class_ru"]),'utf8')
-		item["osm_id"]=line["osm_id"]
-		item["lon"]=line["st_x"]
-		item["lat"]=line["st_y"]
-		result.append(item)	
-	return result
-
-def find_in_pg_by_ref(search_text,result):
-	conn = psycopg2.connect(host=db_config.addr_host, database=db_config.addr_database, user=db_config.addr_user, password=db_config.addr_password)
-	cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-	sql="""
-	SELECT id,class,ref,class_ru,osm_id,ST_X(st_centroid(c_geom)),ST_Y(st_centroid(c_geom))
-	FROM ershkus_poi
-	WHERE 
-	LOWER(ref) like LOWER('%%%(search)s%%') 
-	""" % {"search":search_text}
-	cur.execute(sql)
-	data = cur.fetchall()
-	for line in data:
-		item={}
-		item["id"]=line["id"]
-		item["class"]=line["class"]
-		item["name"]=unicode(str(line["ref"]),'utf8')
-		item["class_ru"]=unicode(str(line["class_ru"]),'utf8')
-		item["osm_id"]=line["osm_id"]
-		item["lon"]=line["st_x"]
-		item["lat"]=line["st_y"]
-		result.append(item)	
-	return result
-
-# обратный геокодинг
-def regeo(get):
-  conn = psycopg2.connect(host=db_config.addr_host, database=db_config.addr_database, user=db_config.addr_user, password=db_config.addr_password)
-  cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-  cur.execute("""
-    SELECT id, addr_type, full_name, name
-    FROM ershkus_search_addr_p
-    WHERE
-      (geom && (ST_GeomFromText('POINT(%(lon)s %(lat)s)',4326)))
-        AND ST_Covers(geom, (ST_GeomFromText('POINT(%(lon)s %(lat)s)',4326)))
-      AND (full_name is not null AND full_name <> '')
-    ORDER BY
-      addr_type_id DESC
-  """, get)
-  userPos = cur.fetchall()
-  return userPos
-
-# проверка результата поиска
-def ifresult(res, output, sphinx):
-  if not res:
-    output['error']='query failed: %s' % sphinx.GetLastError()
-    return 11
-  if sphinx.GetLastWarning():
-    output['error']='WARNING: %s\n' % sphinx.GetLastWarning()
-    return 12
-  if not res['total_found']:
-    return 1
-    
-  if checkRes(res, output):
-    return 5
-  else:
-    return 2
-  
-def checkRes(res, output):
-  pref = {'street':[u'улица',u'проспект',u'переулок',u'шоссе',u'площадь',u'бульвар',u'набережная',u'проезд']}
-  
-  if 'street' in res['matches'][0]['attrs']:
-    resW = res['matches'][0]['attrs']['street'].decode('utf-8').lower().split(' ')
-    for strResW in resW:
-      isPref = False
-      for strPref in pref['street']:
-        if strPref == strResW:
-          isPref = True
-          break
-      if isPref: continue
-      if not (output['q_check'].find(strResW)+1): return False
-  
-  return True
-
-def editGet(get, output):
-  get['q'] = ' ' + get['q'] + ' '
-  get['q'] = get['q'].lower()
-  
-  output['q_check'] = get['q'].replace(',',' ').replace('.',' ')
-
-  # дома 4-8 +-> 4/8
-  get['q'] = re.sub(u'([\s,.])(\d+)-(\d+)([\s,.])', r'\1\2-\3|\2/\3\4', get['q'])
-
-  # for street numb  '4-ая улица'
-  get['q'] = re.sub(u'( [^4-9]?\d)([-]|й|ой|ый|я|а|ая)+( )(?!корпус|строение|литер)(?=[а-яА-ЯёЁ])', ur'\1-', get['q'])
-  
-  # for house
-  # get['q'] = re.sub(u'((?:д|дом)[. ]*)(\d+)', ur'\2', get['q'])
-  get['q'] = re.sub(u'(кор(?:п|пус)[. ]*)(\d+)', ur'корпус_\2', get['q'])
-  get['q'] = re.sub(u'(ст(?:р|роение)[. ]*)(\d+)', ur'строение_\2', get['q'])
-  get['q'] = re.sub(u'(литер[а]?[. ]+)([а-яА-ЯёЁ]+)', ur'литер_\2', get['q'])
-  # short house
-  get['q'] = re.sub(u'(к)(\d+)', ur' корпус_\2 ', get['q'])
-  get['q'] = re.sub(u'(с)(\d+)', ur' строение_\2 ', get['q'])
-  get['q'] = re.sub(u'(\d)(л)([а-яА-ЯёЁ]+)', ur'\1 литер_\3 ', get['q'])
-  
-  
-  get['q'] = get['q'].replace("-",u"ъ")
-  get['q'] = get['q'].replace("/","\/")
-  get['q'] = get['q'].replace('"',r'\"')
-
-
-# поиск
-def search(get, output, sphinx):
-  output['find'] = False
-
-  # по результатом обратного геокодинга
-  if (get['lat'] or get['lon']):
-    userPos = regeo(get)
-    output['userPos'] = userPos
-    if userPos != []:
-      for row in userPos:
-        if conf.isdebug: output['debug']['test-timer'].append(str(datetime.datetime.now())+' - firstSearch, '+row['addr_type'])
-        sphinx.ResetOnlyFilter()
-        sphinx.SetFilter(row['addr_type']+'_id', [row['id']])
-        for n in range(1,4,1):
-          if conf.isdebug: output['debug']['test-timer'].append(str(datetime.datetime.now())+' - firstSearch, '+row['addr_type']+'-'+str(n))
-          q = '"' + get['q'] + '"~' + str(n)
-          res = sphinx.Query(q, get['sphinxindex'])
-          if ifresult(res, output, sphinx) >= 5:
-            return res
-
-        res = sphinx.Query(get['q'], get['sphinxindex'])
-        if ifresult(res, output, sphinx) >= 5:
-          return res
-
-  if conf.isdebug: output['debug']['test-timer'].append(str(datetime.datetime.now())+' - everywhere')
-  # везде
-  sphinx.ResetOnlyFilter()
-  res = sphinx.Query(get['q'], get['sphinxindex'])
-  if ifresult(res, output, sphinx) >= 5:
-    return res
-
-  # изменение запроса, в попытке найти что нужно
-   # 10 А => 10А, 10-А => 10А
-  if conf.isdebug: output['debug']['test-timer'].append(str(datetime.datetime.now())+' - 10 А=>10А')
-  q = ' ' + get['q'] + ' '
-  q=re.sub(u'(\d+)[ -]+([А-Яа-я][\s,.])', r'\1\2', q) # 10 А => 10А, 10-А => 10А
-  res1 = sphinx.Query(q, get['sphinxindex'])
-  if ifresult(res1, output, sphinx) >= 5:
-    return res1
-
-  # уменьшения количества значущих слов
-  if conf.isdebug:
-    output['debug']['test_big_len'] = {}
-    output['debug']['test-timer'].append(str(datetime.datetime.now())+' - significant words, words:'+str(len(res['words'])))
-  for n in range(len(res['words'])-1, max(len(res['words'])-8,0), -1):
-    q = '"' + get['q'] + '"/' + str(n)
-    if conf.isdebug:
-      output['debug']['test_big_len'][n] = {}
-      output['debug']['test_big_len'][n]['q'] = q
-    res1 = sphinx.Query(q, get['sphinxindex'])
-    if conf.isdebug:
-      output['debug']['test_big_len'][n]['ifresult'] = ifresult(res1, output, sphinx)
-    if ifresult(res1, output, sphinx) >= 5:
-      if ifresult(res1, output, sphinx) == 5 and res1['matches'][0]['attrs']['addr_type_id'] >= 35:
-        return ifReturnHouse(res1, get, output, sphinx, n, len(res['words']))
-      return res1
-
-  if conf.isdebug: output['debug']['test-timer'].append(str(datetime.datetime.now())+' - end search')
-  return res
-
-# обработка если нет дома
-def ifReturnHouse(res1, get, output, sphinx, pos, words):
-  if conf.isdebug:
-    output['debug']['test-ifRH']={}
-  for n in range(pos-1, 0, -1):
-    q = '"' + get['q'] + '"/' + str(n)
-    if conf.isdebug:
-      output['debug']['test-ifRH'][n]={}
-      output['debug']['test-ifRH'][n]['q']=q
-    res2 = sphinx.Query(q, get['sphinxindex'])
-    if ifresult(res2, output, sphinx) == 2 and res2['matches'][0]['attrs']['addr_type_id'] < 35:
-      if conf.isdebug:
-        output['debug']['test-ifRH'][n]['res2']=res2
-      sphinx.ResetOnlyFilter()
-      for addr_type in ['country', 'region', 'district', 'city', 'village', 'street']:
-        if addr_type == res2['matches'][0]['attrs']['addr_type']:
-          sphinx.SetFilter(addr_type+'_id', [res2['matches'][0]['id']])
-        else:
-          sphinx.SetFilter(addr_type+'_id', [res2['matches'][0]['attrs'][addr_type+'_id']])
-      
-      if conf.isdebug:
-        output['debug']['test-ifRH'][n]['filters'] = sphinx._filters
-      
-      for n2 in range(words-1, 0, -1):
-        q2 = '"' + get['q'] + '"/' + str(n2)
-        if conf.isdebug:
-          output['debug']['test-ifRH'][n][n2]={}
-          output['debug']['test-ifRH'][n][n2]['q2']=q2
-        res3 = sphinx.Query(q2, get['sphinxindex'])
-        if conf.isdebug:
-          output['debug']['test-ifRH'][n][n2]['res3']=res3
-        if ifresult(res3, output, sphinx) >= 2:
-          if conf.isdebug:
-            output['debug']['test-ifRH'][n][n2]['res3_']=1
-          return res3
-  return res1
-
-# вывод результатов
-def report(res, output, get, sphinx):
-  if conf.isdebug: output['debug']['test-timer'].append(str(datetime.datetime.now())+' - def report')
-  if conf.isdebug: output['debug']['res-report'] = res
-  if ifresult(res, output, sphinx) == 5:
-    output['find']=True
-    outputdata=[]
-    for match in res['matches']:
-      if match['attrs']['addr_type_id']<=res['matches'][0]['attrs']['addr_type_id']:
-        outputlen=match['attrs']
-        outputlen['id']=match['id']
-        outputlen['weight']=match['weight']
-        if not get['asis']: # экранирование html спецсимволов
-          outputlen['display_name'] = outputlen['display_name'].replace('&','&amp;')
-          outputlen['display_name'] = outputlen['display_name'].replace('\"',"&quot;")
-          outputlen['display_name'] = outputlen['display_name'].replace('\'','&#039;')
-          outputlen['display_name'] = outputlen['display_name'].replace('<','&lt;')
-          outputlen['display_name'] = outputlen['display_name'].replace('>','&gt;')
-        outputdata.append(outputlen)
-
-    output['matches']=outputdata
 
 
 def main():
@@ -308,17 +52,6 @@ def main():
     output['search'] = output['search'].replace('<','&lt;')
     output['search'] = output['search'].replace('>','&gt;')
 
-  if get['st'] == 'all':
-    get['sphinxindex'] = conf.sphinx_index_addr + ' , ' + conf.sphinx_index_poi
-  elif get['st'] == 'addr':
-    get['sphinxindex'] = conf.sphinx_index_addr
-  elif get['st'] == 'poi':
-    get['sphinxindex'] = conf.sphinx_index_poi
-  else:
-    output['error']="no query words, 'st' is 'all' or 'addr' or 'poi'"
-    return
-
-  # Ищем в текстовых файлах:
   output['find']=False
   output["matches"]=[]
 
@@ -331,9 +64,9 @@ def main():
   for delimiter in delimiters:
     # Проверяем на соответствие координатам:
     if re.search("-*[0-9]+\.[0-9]{1}[0-9]* *"+delimiter+" *-*[0-9]+\.[0-9]{1}[0-9]*", search_text) is not None:
-      lat=float(search_text.split(delimiter)[0])
-      lon=float(search_text.split(delimiter)[1])
-      break
+  	  lat=float(search_text.split(delimiter)[0])
+  	  lon=float(search_text.split(delimiter)[1])
+	  break
 
   if lat==0 and lon==0:
 	  output['find']=False
