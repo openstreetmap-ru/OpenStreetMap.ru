@@ -17,7 +17,8 @@ def grad2dec(grad_min_sec,delim1,delim2,delim3):
   sec=0
   if len(grad_min_sec.split(delim1)) == 0:
     return 0
-  grad=int(grad_min_sec.split(delim1)[0])
+  grad_str=grad_min_sec.split(delim1)[0].replace(' ','')
+  grad=int(grad_str)
 
   if len(grad_min_sec.split(delim1)) > 1:
     min_sec=""
@@ -102,28 +103,46 @@ def main():
     delim2=u"'"
     delim3=u"\""
     if re.search(u"-*[0-9]+"+delim1+"[0-9]+"+delim2+"[0-9]*\.*[0-9]*"+delim3+"* *"+delimiter+u"-*[0-9]+"+delim1+"[0-9]+"+delim2+"[0-9]*\.*[0-9]*"+delim3+"* *", search_text) is not None:
-      lat_grad_min_sec=search_text.split(delimiter)[0]
 	  # т.к. между координатами может быть несколько пробелов (разделителей lat-lon), то нужно их пропустить, найдя непустое значение после split()
-      for index in range(1,len(search_text.split(delimiter))):
+      next_index=0
+      lat_grad_min_sec=""
+      lon_grad_min_sec=""
+      for index in range(0,len(search_text.split(delimiter))):
+        lat_grad_min_sec=search_text.split(delimiter)[index].replace(" ","")
+        if len(lat_grad_min_sec)>0:
+          next_index=index+1
+          break
+	  # т.к. между координатами может быть несколько пробелов (разделителей lat-lon), то нужно их пропустить, найдя непустое значение после split()
+      for index in range(next_index,len(search_text.split(delimiter))):
         lon_grad_min_sec=search_text.split(delimiter)[index].replace(" ","")
         if len(lon_grad_min_sec)>0:
           break
-      lat=grad2dec(lat_grad_min_sec,delim1,delim2,delim3)
-      lon=grad2dec(lon_grad_min_sec,delim1,delim2,delim3)
+      if len(lat_grad_min_sec)>0 and len(lon_grad_min_sec)>0:
+        lat=grad2dec(lat_grad_min_sec,delim1,delim2,delim3)
+        lon=grad2dec(lon_grad_min_sec,delim1,delim2,delim3)
       break
     # Проверяем на соответствие координат в формате градусы°минуты′секунды″:
     delim1=u"°"
     delim2=u"′"
     delim3=u"″"
     if re.search(u"-*[0-9]+"+delim1+"[0-9]+"+delim2+"[0-9]*\.*[0-9]*"+delim3+"* *"+delimiter+u"-*[0-9]+"+delim1+"[0-9]+"+delim2+"[0-9]*\.*[0-9]*"+delim3+"* *", search_text) is not None:
-      lat_grad_min_sec=search_text.split(delimiter)[0]
 	  # т.к. между координатами может быть несколько пробелов (разделителей lat-lon), то нужно их пропустить, найдя непустое значение после split()
-      for index in range(1,len(search_text.split(delimiter))):
+      next_index=0
+      lat_grad_min_sec=""
+      lon_grad_min_sec=""
+      for index in range(0,len(search_text.split(delimiter))):
+        lat_grad_min_sec=search_text.split(delimiter)[index].replace(" ","")
+        if len(lat_grad_min_sec)>0:
+          next_index=index+1
+          break
+	  # т.к. между координатами может быть несколько пробелов (разделителей lat-lon), то нужно их пропустить, найдя непустое значение после split()
+      for index in range(next_index,len(search_text.split(delimiter))):
         lon_grad_min_sec=search_text.split(delimiter)[index].replace(" ","")
         if len(lon_grad_min_sec)>0:
           break
-      lat=grad2dec(lat_grad_min_sec,delim1,delim2,delim3)
-      lon=grad2dec(lon_grad_min_sec,delim1,delim2,delim3)
+      if len(lat_grad_min_sec)>0 and len(lon_grad_min_sec)>0:
+        lat=grad2dec(lat_grad_min_sec,delim1,delim2,delim3)
+        lon=grad2dec(lon_grad_min_sec,delim1,delim2,delim3)
       break
 
 	# простая запись - взамен разделителей °'" используется один разделитель: ' (т.к. набивать с клавиатуры символ градуса неудобно):
@@ -131,14 +150,23 @@ def main():
     delim2=u"'"
     delim3=u"'"
     if re.search(u"-*[0-9]+"+delim1+"[0-9]+"+delim2+"[0-9]*\.*[0-9]*"+delim3+"* *"+delimiter+u"-*[0-9]+"+delim1+"[0-9]+"+delim2+"[0-9]*\.*[0-9]*"+delim3+"* *", search_text) is not None:
-      lat_grad_min_sec=search_text.split(delimiter)[0]
 	  # т.к. между координатами может быть несколько пробелов (разделителей lat-lon), то нужно их пропустить, найдя непустое значение после split()
-      for index in range(1,len(search_text.split(delimiter))):
+      next_index=0
+      lat_grad_min_sec=""
+      lon_grad_min_sec=""
+      for index in range(0,len(search_text.split(delimiter))):
+        lat_grad_min_sec=search_text.split(delimiter)[index].replace(" ","")
+        if len(lat_grad_min_sec)>0:
+          next_index=index+1
+          break
+	  # т.к. между координатами может быть несколько пробелов (разделителей lat-lon), то нужно их пропустить, найдя непустое значение после split()
+      for index in range(next_index,len(search_text.split(delimiter))):
         lon_grad_min_sec=search_text.split(delimiter)[index].replace(" ","")
         if len(lon_grad_min_sec)>0:
           break
-      lat=grad2dec(lat_grad_min_sec,delim1,delim2,delim3)
-      lon=grad2dec(lon_grad_min_sec,delim1,delim2,delim3)
+      if len(lat_grad_min_sec)>0 and len(lon_grad_min_sec)>0:
+        lat=grad2dec(lat_grad_min_sec,delim1,delim2,delim3)
+        lon=grad2dec(lon_grad_min_sec,delim1,delim2,delim3)
       break
 
   if lat==0 and lon==0:
