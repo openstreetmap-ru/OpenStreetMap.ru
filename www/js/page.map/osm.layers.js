@@ -23,7 +23,7 @@ osm.initLayers = function(){
     'M',
     true
   );
-
+/* 
   osm.registerLayer(
     'layerChepetsk',
     new L.TileLayer('http://ingreelab.net/C04AF0B62BEC112E8D7242FB848631D12D252728/{z}/{x}/{y}.png', {
@@ -34,7 +34,7 @@ osm.initLayers = function(){
     'K',
     true
   );
-
+*/
   osm.registerLayer(
     'layerVeloroad',
     new L.TileLayer('http://tile.osmz.ru/veloroad/{z}/{x}/{y}.png', {
@@ -43,18 +43,6 @@ osm.initLayers = function(){
          "<a href=\"http://www.openstreetmap.org/user/Zverik\" target=\"_blank\">Ilya Zverev</a>"}),
     'Veloroad',
     'V',
-    true
-  );
-
-  osm.registerLayer(
-    'layerMQ',
-    new L.TileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, tiles &copy; " +
-         "<a href=\"http://www.mapquest.com/\" target=\"_blank\">MapQuest</a> <img src=\"http://developer.mapquest.com/content/osm/mq_logo.png\">",
-      subdomains: '1234'}),
-    'MapQuest',
-    'Q',
     true
   );
 
