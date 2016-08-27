@@ -109,7 +109,7 @@ osm.initLayers = function(){
     'E',
     true
   );
-
+/*
   if (!frame_map)
   osm.registerLayer(
     'osb',
@@ -118,7 +118,7 @@ osm.initLayers = function(){
     'U',
     false
   );
-
+*/
   osm.registerLayer(
     'layerPt',
     new L.TileLayer('http://pt.openmap.lt/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Маршруты &copy; <a href='http://openmap.lt'>openmap.lt</a>"}),
@@ -138,6 +138,8 @@ osm.initLayers = function(){
     false
   );
 
+	// START Layer only for openstreetmap.ru, not for embeded map
+	
   if (!frame_map) {
   osm.registerLayer(
     'search_marker',
@@ -193,6 +195,7 @@ osm.initLayers = function(){
     // false
   // );
 
+/*
   osm.registerLayer(
     'layerWeatherStations',
      new OsmJs.Weather.LeafletLayer({type: 'station', lang: 'ru'}),
@@ -200,8 +203,12 @@ osm.initLayers = function(){
     's',
     false
   );
+*/
   }
+	
+	// END Layer only for openstreetmap.ru, not for embeded map
 
+/*
   osm.registerLayer(
     'layerHillshading',
     new L.TileLayer('http://toolserver.org/~cmarqu/hill/{z}/{x}/{y}.png', {
@@ -211,7 +218,7 @@ osm.initLayers = function(){
     'h',
     false
   );
-
+*/
   osm.registerLayer(
     'layerGPSPoint',
     new L.TileLayer('http://zverik.osm.rambler.ru/gps/tiles/{z}/{x}/{y}.png', {
