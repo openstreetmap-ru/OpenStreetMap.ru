@@ -23,7 +23,7 @@ osm.initLayers = function(){
     'M',
     true
   );
-
+/* 
   osm.registerLayer(
     'layerChepetsk',
     new L.TileLayer('http://ingreelab.net/C04AF0B62BEC112E8D7242FB848631D12D252728/{z}/{x}/{y}.png', {
@@ -34,7 +34,7 @@ osm.initLayers = function(){
     'K',
     true
   );
-
+*/
   osm.registerLayer(
     'layerVeloroad',
     new L.TileLayer('http://tile.osmz.ru/veloroad/{z}/{x}/{y}.png', {
@@ -43,18 +43,6 @@ osm.initLayers = function(){
          "<a href=\"http://www.openstreetmap.org/user/Zverik\" target=\"_blank\">Ilya Zverev</a>"}),
     'Veloroad',
     'V',
-    true
-  );
-
-  osm.registerLayer(
-    'layerMQ',
-    new L.TileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, tiles &copy; " +
-         "<a href=\"http://www.mapquest.com/\" target=\"_blank\">MapQuest</a> <img src=\"http://developer.mapquest.com/content/osm/mq_logo.png\">",
-      subdomains: '1234'}),
-    'MapQuest',
-    'Q',
     true
   );
 
@@ -121,7 +109,7 @@ osm.initLayers = function(){
     'E',
     true
   );
-
+/*
   if (!frame_map)
   osm.registerLayer(
     'osb',
@@ -130,7 +118,7 @@ osm.initLayers = function(){
     'U',
     false
   );
-
+*/
   osm.registerLayer(
     'layerPt',
     new L.TileLayer('http://pt.openmap.lt/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Маршруты &copy; <a href='http://openmap.lt'>openmap.lt</a>"}),
@@ -150,6 +138,8 @@ osm.initLayers = function(){
     false
   );
 
+	// START Layer only for openstreetmap.ru, not for embeded map
+	
   if (!frame_map) {
   osm.registerLayer(
     'search_marker',
@@ -205,6 +195,7 @@ osm.initLayers = function(){
     // false
   // );
 
+/*
   osm.registerLayer(
     'layerWeatherStations',
      new OsmJs.Weather.LeafletLayer({type: 'station', lang: 'ru'}),
@@ -212,8 +203,12 @@ osm.initLayers = function(){
     's',
     false
   );
+*/
   }
+	
+	// END Layer only for openstreetmap.ru, not for embeded map
 
+/*
   osm.registerLayer(
     'layerHillshading',
     new L.TileLayer('http://toolserver.org/~cmarqu/hill/{z}/{x}/{y}.png', {
@@ -223,7 +218,7 @@ osm.initLayers = function(){
     'h',
     false
   );
-
+*/
   osm.registerLayer(
     'layerGPSPoint',
     new L.TileLayer('http://zverik.osm.rambler.ru/gps/tiles/{z}/{x}/{y}.png', {

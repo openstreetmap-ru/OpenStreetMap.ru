@@ -84,13 +84,13 @@ $page_content = <<<PHP_CONTENT
          </div>
          <div id="pm-legend"></div>
         </div>
-      </div>
+      </div><!--
       <div id="leftvalidator" class="leftgroup">
         <h1>Данные валидаторов</h1>
         <div class="leftcontent" style="display: none;">
           <ul id="validationerrors"></ul>
         </div>
-      </div>
+      </div>-->
       <div id="leftothersmaps" class="leftgroup leftlink">
         <h1>Это место на другой карте</h1>
         <div class="leftcontent" style="display: none;">
@@ -113,13 +113,13 @@ $page_content = <<<PHP_CONTENT
             <li><a id="mapperMode" onclick="return osm.mapperMode.toggleChecked();" href='#'><ins class="checkbox"> </ins>Режим Маппера</a></li>
           </ul>
         </div>
-      </div>
+      </div><!--
       <div id="leftosb" class="leftgroup leftlink">
         <h1>Просмотреть неточности на карте</h1>
         <div class="leftcontent" style="display: none;">
           Внимание! Сейчас недоступено создание новых заметок, но вы можете помочь с закрытием уже существующих заметок. В дальнейшем будет переход на другую систему (Notes). Спасибо за участие.
         </div>
-      </div>
+      </div>-->
       <div id="DidYouKnow" style="display: none;">
         <div class="head">Полезно знать</div>
         <div class="close"></div>
