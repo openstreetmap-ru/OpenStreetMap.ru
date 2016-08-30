@@ -1,0 +1,207 @@
+#!/usr/bin/env python
+# -*- coding: utf8 -*-
+
+# search osm
+# ErshKUS
+
+import cgi, json, re, psycopg2, psycopg2.extras
+import db_config
+import api_config as conf
+import re
+
+if conf.isdebug:
+  import datetime
+
+def grad2dec(grad_min_sec,delim1,delim2,delim3):
+  minutes=0
+  sec=0
+  if len(grad_min_sec.split(delim1)) == 0:
+    return 0
+  grad_str=grad_min_sec.split(delim1)[0].replace(' ','')
+  grad=int(grad_str)
+
+  if len(grad_min_sec.split(delim1)) > 1:
+    min_sec=""
+    # склеиваем оставшиеся значения массива (актуально, если delim1==delim2==delim3 или как-то ещё)
+    min_sec_list=grad_min_sec.split(delim1)[1:]
+    for item in min_sec_list:
+      min_sec+=item+delim1
+
+    if len(min_sec.split(delim2)) > 0:
+      minutes=float(min_sec.split(delim2)[0])
+
+      if len(min_sec.split(delim2)) > 1:
+        seconds=""
+        seconds_list=min_sec.split(delim2)[1:]
+        # склеиваем оставшиеся значения массива (актуально, если delim1==delim2==delim3 или как-то ещё)
+        for item in seconds_list:
+          seconds+=item+delim2
+        if delim3 in seconds:
+          sec = float(seconds.split(delim3)[0].replace(' ',''))
+        else:
+          sec = float(seconds.replace(' ',''))
+
+  dec=grad+minutes/60+sec/3600
+  return dec
+
+def main():
+  output={}
+  output['ver']='0.7'
+  if conf.isdebug:
+    output['debug']={}
+    output['debug']['test-timer']=[]
+    output['debug']['test-timer'].append(str(datetime.datetime.now())+' - 1')
+
+
+  getvalues=cgi.FieldStorage()
+  get={}
+  get['outCallback'] = getvalues.getfirst('callback','')
+
+  print "Content-type: text/javascript; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # debug
+  #print "Content-type: application/json; Charset=Utf-8\nAccess-Control-Allow-Origin: *\n" # production
+
+  get['q'] = unicode(getvalues.getfirst("q",""),'utf8') # строка поиска
+  get['lat'] = float(getvalues.getfirst("lat","0")) # координаты куда смотрит пользователь
+  get['lon'] = float(getvalues.getfirst("lon","0")) # координаты куда смотрит пользователь
+  get['asis'] = bool(getvalues.getfirst("asis","1")) # не экранировать спецсимволы html при выводе результатов
+  get['nolimit'] = bool(getvalues.getfirst("nolimit","")) # не ограничивать количество выводимых результатов поиска
+  get['cnt'] = int(getvalues.getfirst("cnt","12")) # число выводимых результатов поиска
+  get['st'] = unicode(getvalues.getfirst("st","")) # [all / addr / poi]  где ищем
+  if get['st'] == "":
+    get['st'] = unicode(getvalues.getfirst("stype","all")) # all / addr / poi (поддержка старого названия)
+  output['in'] = get.copy()
+
+  if not get['q']:
+    output['error']="no query words, 'q' is empty"
+    return
+
+  output['search'] = get['q']
+  if not get['asis']: # экранирование html спецсимволов
+    output['search'] = output['search'].replace('&','&amp;')
+    output['search'] = output['search'].replace('\"',"&quot;")
+    output['search'] = output['search'].replace('\'','&#039;')
+    output['search'] = output['search'].replace('<','&lt;')
+    output['search'] = output['search'].replace('>','&gt;')
+
+  output['find']=False
+  output["matches"]=[]
+
+  search_text=get['q']
+
+  lat=0
+  lon=0
+  delimiters=u";, :"
+
+  for delimiter in delimiters:
+    # Проверяем на соответствие десяичных координат:
+    if re.search("-*[0-9]+\.[0-9]{1}[0-9]* *"+delimiter+" *-*[0-9]+\.[0-9]{1}[0-9]*", search_text) is not None:
+  	  lat=float(search_text.split(delimiter)[0])
+  	  lon=float(search_text.split(delimiter)[1])
+	  break
+    # Проверяем на соответствие координат в формате градусы°минуты'секунды":
+    delim1=u"°"
+    delim2=u"'"
+    delim3=u"\""
+    if re.search(u"-*[0-9]+"+delim1+"[0-9]+"+delim2+"[0-9]*\.*[0-9]*"+delim3+"* *"+delimiter+u"-*[0-9]+"+delim1+"[0-9]+"+delim2+"[0-9]*\.*[0-9]*"+delim3+"* *", search_text) is not None:
+	  # т.к. между координатами может быть несколько пробелов (разделителей lat-lon), то нужно их пропустить, найдя непустое значение после split()
+      next_index=0
+      lat_grad_min_sec=""
+      lon_grad_min_sec=""
+      for index in range(0,len(search_text.split(delimiter))):
+        lat_grad_min_sec=search_text.split(delimiter)[index].replace(" ","")
+        if len(lat_grad_min_sec)>0:
+          next_index=index+1
+          break
+	  # т.к. между координатами может быть несколько пробелов (разделителей lat-lon), то нужно их пропустить, найдя непустое значение после split()
+      for index in range(next_index,len(search_text.split(delimiter))):
+        lon_grad_min_sec=search_text.split(delimiter)[index].replace(" ","")
+        if len(lon_grad_min_sec)>0:
+          break
+      if len(lat_grad_min_sec)>0 and len(lon_grad_min_sec)>0:
+        lat=grad2dec(lat_grad_min_sec,delim1,delim2,delim3)
+        lon=grad2dec(lon_grad_min_sec,delim1,delim2,delim3)
+      break
+    # Проверяем на соответствие координат в формате градусы°минуты′секунды″:
+    delim1=u"°"
+    delim2=u"′"
+    delim3=u"″"
+    if re.search(u"-*[0-9]+"+delim1+"[0-9]+"+delim2+"[0-9]*\.*[0-9]*"+delim3+"* *"+delimiter+u"-*[0-9]+"+delim1+"[0-9]+"+delim2+"[0-9]*\.*[0-9]*"+delim3+"* *", search_text) is not None:
+	  # т.к. между координатами может быть несколько пробелов (разделителей lat-lon), то нужно их пропустить, найдя непустое значение после split()
+      next_index=0
+      lat_grad_min_sec=""
+      lon_grad_min_sec=""
+      for index in range(0,len(search_text.split(delimiter))):
+        lat_grad_min_sec=search_text.split(delimiter)[index].replace(" ","")
+        if len(lat_grad_min_sec)>0:
+          next_index=index+1
+          break
+	  # т.к. между координатами может быть несколько пробелов (разделителей lat-lon), то нужно их пропустить, найдя непустое значение после split()
+      for index in range(next_index,len(search_text.split(delimiter))):
+        lon_grad_min_sec=search_text.split(delimiter)[index].replace(" ","")
+        if len(lon_grad_min_sec)>0:
+          break
+      if len(lat_grad_min_sec)>0 and len(lon_grad_min_sec)>0:
+        lat=grad2dec(lat_grad_min_sec,delim1,delim2,delim3)
+        lon=grad2dec(lon_grad_min_sec,delim1,delim2,delim3)
+      break
+
+	# простая запись - взамен разделителей °'" используется один разделитель: ' (т.к. набивать с клавиатуры символ градуса неудобно):
+    delim1=u"'"
+    delim2=u"'"
+    delim3=u"'"
+    if re.search(u"-*[0-9]+"+delim1+"[0-9]+"+delim2+"[0-9]*\.*[0-9]*"+delim3+"* *"+delimiter+u"-*[0-9]+"+delim1+"[0-9]+"+delim2+"[0-9]*\.*[0-9]*"+delim3+"* *", search_text) is not None:
+	  # т.к. между координатами может быть несколько пробелов (разделителей lat-lon), то нужно их пропустить, найдя непустое значение после split()
+      next_index=0
+      lat_grad_min_sec=""
+      lon_grad_min_sec=""
+      for index in range(0,len(search_text.split(delimiter))):
+        lat_grad_min_sec=search_text.split(delimiter)[index].replace(" ","")
+        if len(lat_grad_min_sec)>0:
+          next_index=index+1
+          break
+	  # т.к. между координатами может быть несколько пробелов (разделителей lat-lon), то нужно их пропустить, найдя непустое значение после split()
+      for index in range(next_index,len(search_text.split(delimiter))):
+        lon_grad_min_sec=search_text.split(delimiter)[index].replace(" ","")
+        if len(lon_grad_min_sec)>0:
+          break
+      if len(lat_grad_min_sec)>0 and len(lon_grad_min_sec)>0:
+        lat=grad2dec(lat_grad_min_sec,delim1,delim2,delim3)
+        lon=grad2dec(lon_grad_min_sec,delim1,delim2,delim3)
+      break
+
+  if lat==0 and lon==0:
+	  output['find']=False
+  else:
+	  output['find']=True
+      # userPos:
+	  count=1
+	  # matches:
+	  item={}
+	  item["lon"]=lon
+	  item["lat"]=lat
+	  item["name"]=search_text
+	  item["display_name"]="%f, %f" % (lat, lon)
+	  item["full_name"]=""
+	  item["id"]=1
+	  item["osm_id"]=1
+	  item["class"]="class"
+	  
+	  item["street_id"]=0
+	  item["village_id"]=0
+	  item["city_id"]=0
+	  item["weight"]=2000
+	  item["addr_type_id"]=70
+	  item["country_id"]=0
+	  item["district_id"]=0
+	  item["this_poi"]=1
+	  item["addr_type"]="poi"
+	  item["operator"]=""
+	  item["@geodist"]=7986888.5
+	  item["region_id"]=68688198
+	  output["matches"].append(item)
+
+  print json.dumps(output)
+
+
+if __name__ == '__main__':
+  main()
