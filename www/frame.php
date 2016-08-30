@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen, projection" />
   <link rel="stylesheet" href="/css/page.map.css" type="text/css" />
   <link rel="icon" type="image/png" href="/favicon.png" />
-  <script src="http://yandex.st/jquery/1.8.2/jquery.min.js"></script>
+  <script src="/js/jquery.min.js"></script>
   <link rel="stylesheet" href="/css/leaflet.css" />
   <script src="/js/leaflet.js"></script>
   <!--[if lte IE 8]><link rel="stylesheet" href="/css/leaflet.ie.css" /><![endif]-->

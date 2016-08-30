@@ -33,11 +33,11 @@ include_once ($_URL[0].'.php');
   <link media="screen and (max-width: 480px)" rel="stylesheet" href="/css/mobile.css" />
   <link rel="search" href="/search.xml" type="application/opensearchdescription+xml" title="OpenStreetMap.Ru" />
   <link rel="icon" type="image/png" href="/favicon.png" />
-  <link rel="stylesheet" href="http://yandex.st/jquery-ui/1.9.0/themes/base/jquery-ui.min.css" />
+  <link rel="stylesheet" href="/css/jquery-ui.min.css" />
   <? print($page_head_css); ?>
   <link media="print" rel="stylesheet" href="/css/print.css" />
-  <script src="http://yandex.st/jquery/1.8.2/jquery.min.js"></script>
-  <script src="http://yandex.st/jquery-ui/1.9.0/jquery-ui.min.js"></script>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery-ui.min.js"></script>
   <script src="/js/page.main.js"></script>
   <? print($page_head_js); ?>
   <? print($external_head); ?>
