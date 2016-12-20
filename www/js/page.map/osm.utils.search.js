@@ -182,13 +182,15 @@ search.startSearch = function() {
       lon: center.lng
     }, search.processResults).error(search.errorHandler);
 
-  $.getJSON('http://open.mapquestapi.com/nominatim/v1/search.php', {
+  /*
+	$.getJSON('http://open.mapquestapi.com/nominatim/v1/search.php', {
       q: q,
       format: 'json',
       limit: 5,
       'accept-language': 'ru'
       }, search.processNominatimResults).error(search.errorHandler);
-
+	*/
+			
   return false;
 };
 
