@@ -314,7 +314,7 @@ osm.poi = {
 
   createPopupText: function(getdata) {
     function createListValue(p, isDivMain, divClass, phone){
-      var out;
+      var out, list = [], maxLengthPArr = 0;
       var mainTag = (isDivMain ? '<div>' : '<td>');
       p = p.trim();
       divClass = divClass || '';
@@ -323,15 +323,18 @@ osm.poi = {
         pArr = pArr[0].split(',');
       
       if (pArr.length > 1) {
-        out = $('<ul>');
         for (var i in pArr) {
           var item = pArr[i].trim();
-          if (phone)
-            out = out.append($('<li>').append($('<a>').attr('href', 'tel:' + item)
-              .text(item.replace(/^(\+\d) (\d{3}) (\d{3})(\d{2})(\d{2})/, '$1 ($2) $3-$4-$5'))));
-          else
-            out = out.append($('<li>').text(item));
+          if (maxLengthPArr < item.length)
+            maxLengthPArr = item.length;
+          list.push(!phone ? item : $('<a>').attr('href', 'tel:' + item).text(item.replace(/^(\+\d) (\d{3}) (\d{3})(\d{2})(\d{2})/, '$1 ($2) $3-$4-$5')).html());
         }
+        
+        if (maxLengthPArr > 5)
+            out = $('<ul><li>' + list.join('</li><li>') + '</li></ul>');
+        else
+            out = list.join(', ');
+            
         out = $(mainTag).addClass(divClass).append(out);
       }
       else {
@@ -419,7 +422,7 @@ osm.poi = {
     for (xName in getdata.tags_ru) {
       if (getdata.tags_ru[xName]!="неизвестно" && getdata.tags_ru[xName]!='' && getdata.tags_ru[xName]!==null) {
         moretags.after($('<tr>').addClass('poi_moretags')
-          .append($('<td>').text(xName+': '))
+          .append($('<th>').text(xName+': '))
           .append(createListValue(getdata.tags_ru[xName])))
       }
     }
@@ -506,22 +509,23 @@ osm.poi = {
     if (moretags.length || brand) {
       ret = ret
       .append($('<div>').addClass('moretags')
-        .append($('<a>')
-          .addClass('on_button')
-          .attr('href', '#')
-          .text('Подробнее…')
-          .click(function(){
-            $(this).hide();
-            $(this.nextSibling).removeClass('off');
-            return false;
-          })
-        )
         .append($('<div>').addClass('frame off')
           .append($('<table>')
             .append(moretags)
           )
         )
-      )
+      );
+      
+      if (ret.find('tr.poi_moretags').size() > 4)
+        ret.append($('<a>')
+          .addClass('on_button')
+          .attr('href', '#')
+          .text('Подробнее…')
+          .click(function(){
+            $(this).hide().parent().find('div.frame.off').removeClass('off');
+            return false;
+          })
+        );
     }
     
     // technical info
