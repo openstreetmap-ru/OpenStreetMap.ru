@@ -34,7 +34,7 @@ osm.initLayers = function(){
     'K',
     true
   );
-*/
+
   osm.registerLayer(
     'layerVeloroad',
     new L.TileLayer('http://tile.osmz.ru/veloroad/{z}/{x}/{y}.png', {
@@ -45,7 +45,7 @@ osm.initLayers = function(){
     'V',
     true
   );
-
+*/
   osm.registerLayer(
     'layerCycle',
     new L.TileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors (Cycle)"}),
@@ -101,7 +101,23 @@ osm.initLayers = function(){
     'X',
     true
   );
-
+  
+  osm.registerLayer(
+    'layerDigitalGlobeStandard',
+    new L.TileLayer('http://{s}.tiles.mapbox.com/v4/digitalglobe.0a8e44ba/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZGlnaXRhbGdsb2JlIiwiYSI6ImNqMmFxcGJ2MjAwOHEzMm9nZmF2c3luZWkifQ.HsF19zOlj8PeOxo5BhNqyQ', {maxZoom: 19, attribution: "&copy; <a href='https://www.digitalglobe.com/' target='_blank'>DigitalGlobe</a>"}),
+    'Снимки DigitalGlobe Standard',
+    'D',
+    true
+  );
+  
+  osm.registerLayer(
+    'layerDigitalGlobePremium',
+    new L.TileLayer('http://{s}.tiles.mapbox.com/v4/digitalglobe.316c9a2e/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZGlnaXRhbGdsb2JlIiwiYSI6ImNqMmFxcGJ2MjAwOHEzMm9nZmF2c3luZWkifQ.HsF19zOlj8PeOxo5BhNqyQ', {maxZoom: 19, attribution: "&copy; <a href='https://www.digitalglobe.com/' target='_blank'>DigitalGlobe</a>"}),
+    'Снимки DigitalGlobe Premium',
+    'I',
+    true
+  );
+  
   osm.registerLayer(
     'layerEmpty',
     new L.TileLayer('img/blank.png', {maxZoom: 18}),
