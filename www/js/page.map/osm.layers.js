@@ -219,6 +219,9 @@ osm.initLayers = function(){
     false
   );
 */
+  
+/*
+  // zverik.openstreetmap.ru/gps/tiles тоже не работает
   osm.registerLayer(
     'layerGPSPoint',
     new L.TileLayer('http://zverik.osm.rambler.ru/gps/tiles/{z}/{x}/{y}.png', {
@@ -227,7 +230,7 @@ osm.initLayers = function(){
     'g',
     false
   );
-
+*/
   osm.registerLayer(
     'layerGPSTracks',
     new L.TileLayer('http://{s}.gps-tile.openstreetmap.org/lines/{z}/{x}/{y}.png', {
