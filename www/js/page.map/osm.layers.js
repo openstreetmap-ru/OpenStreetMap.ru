@@ -6,15 +6,15 @@ osm.initLayers = function(){
   osm.baseLayers = {};
   osm.overlays = {};
 
-  osm.registerLayer(
-    'layerMS',
-    new L.TileLayer('http://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}', {
-      maxZoom: 19,
-      attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, rendering <a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ Heidelberg University</a>"}),
-    'MapSurfer.net',
-    'S',
-    true
-  );
+  // osm.registerLayer(
+    // 'layerMS',
+    // new L.TileLayer('http://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}', {
+      // maxZoom: 19,
+      // attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, rendering <a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ Heidelberg University</a>"}),
+    // 'MapSurfer.net',
+    // 'S',
+    // true
+  // );
 
   osm.registerLayer(
     'layerMapnik',
@@ -35,16 +35,16 @@ osm.initLayers = function(){
     true
   );
 */
-  osm.registerLayer(
-    'layerVeloroad',
-    new L.TileLayer('http://tile.osmz.ru/veloroad/{z}/{x}/{y}.png', {
-      maxZoom: 15,
-      attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, tiles &copy; " +
-         "<a href=\"http://www.openstreetmap.org/user/Zverik\" target=\"_blank\">Ilya Zverev</a>"}),
-    'Veloroad',
-    'V',
-    true
-  );
+  // osm.registerLayer(
+    // 'layerVeloroad',
+    // new L.TileLayer('http://tile.osmz.ru/veloroad/{z}/{x}/{y}.png', {
+      // maxZoom: 15,
+      // attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, tiles &copy; " +
+         // "<a href=\"http://www.openstreetmap.org/user/Zverik\" target=\"_blank\">Ilya Zverev</a>"}),
+    // 'Veloroad',
+    // 'V',
+    // true
+  // );
 
   osm.registerLayer(
     'layerCycle',
@@ -119,24 +119,24 @@ osm.initLayers = function(){
     false
   );
 */
-  osm.registerLayer(
-    'layerPt',
-    new L.TileLayer('http://pt.openmap.lt/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Маршруты &copy; <a href='http://openmap.lt'>openmap.lt</a>"}),
-    'Общественный транспорт',
-    'T',
-    false
-  );
+  // osm.registerLayer(
+    // 'layerPt',
+    // new L.TileLayer('http://pt.openmap.lt/{z}/{x}/{y}.png', {maxZoom: 18, attribution: "Маршруты &copy; <a href='http://openmap.lt'>openmap.lt</a>"}),
+    // 'Общественный транспорт',
+    // 'T',
+    // false
+  // );
 
-  osm.registerLayer(
-    'layerMSHyb',
-    new L.TileLayer('http://korona.geog.uni-heidelberg.de/tiles/hybrid/x={x}&y={y}&z={z}', {
-      maxZoom: 18,
-      attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, rendering " +
-                   "<a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ Heidelberg University</a>"}),
-    'MapSurfer.net (гибрид)',
-    'Y',
-    false
-  );
+  // osm.registerLayer(
+    // 'layerMSHyb',
+    // new L.TileLayer('http://korona.geog.uni-heidelberg.de/tiles/hybrid/x={x}&y={y}&z={z}', {
+      // maxZoom: 18,
+      // attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, rendering " +
+                   // "<a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ Heidelberg University</a>"}),
+    // 'MapSurfer.net (гибрид)',
+    // 'Y',
+    // false
+  // );
 
 	// START Layer only for openstreetmap.ru, not for embeded map
 	
@@ -171,13 +171,13 @@ osm.initLayers = function(){
     false
   );
 
-  osm.registerLayer(
-    'layerPanoramio',
-    new L.Panoramio(),
-    'Фото (Panoramio)',
-    'P',
-    false
-  );
+  // osm.registerLayer(
+    // 'layerPanoramio',
+    // new L.Panoramio(),
+    // 'Фото (Panoramio)',
+    // 'P',
+    // false
+  // );
 
   osm.registerLayer(
     'layerFlickr',
