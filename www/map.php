@@ -100,7 +100,6 @@ $page_content = <<<PHP_CONTENT
             <li><a id="opento-yandex" href='#' target="_blank">Яндекс карты</a></li>
             <li><a id="opento-wikimapia" href='#' target="_blank">Wikimapia</a></li>
             <li><a id="opento-bing" href='#' target="_blank">Карты Bing</a></li>
-            <li><a id="opento-panoramio" href='#' target="_blank">Panoramio</a></li>
           </ul>
         </div>
       </div>
