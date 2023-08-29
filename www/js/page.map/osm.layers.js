@@ -18,7 +18,7 @@ osm.initLayers = function(){
 
   osm.registerLayer(
     'layerMapnik',
-    new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors"}),
+    new L.TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: "Map data &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors"}),
     'Mapnik',
     'M',
     true
@@ -233,7 +233,7 @@ osm.initLayers = function(){
 */
   osm.registerLayer(
     'layerGPSTracks',
-    new L.TileLayer('http://{s}.gps-tile.openstreetmap.org/lines/{z}/{x}/{y}.png', {
+    new L.TileLayer('https://gps-tile.openstreetmap.org/lines/{z}/{x}/{y}.png', {
       maxZoom: 20,
       subdomains: 'abc',
       attribution: "Tracks &copy; <a href='http://osm.org'>OpenStreetMap</a> contributors"
