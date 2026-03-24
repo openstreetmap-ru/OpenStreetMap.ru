@@ -1,33 +1,18 @@
-﻿DELETE FROM search_osm
-WHERE
-  id IN
-	(SELECT
-	--  search3.id_link,
-	--  search3.type_link,
-	--  search3.district,
-	  search3.id
-	FROM
-		(SELECT
-		  search2.id,
-		  search2.id_link,
-		  search2.type_link,
-		  search2.district,
-		--  search1.region,
-		  bool_and(ST_Disjoint(search1.geom, search2.geom)) as ifdelete
-		FROM
-		  search_osm as search1,
-		  search_osm AS search2
-		WHERE
-		  search1.addr_type='region'
-	--	  AND search2.addr_type='district'
-		GROUP BY
-		  search2.id,
-		  search2.id_link,
-		  search2.type_link,
-		  search2.district) as search3
-	WHERE
-	  search3.ifdelete)
-
---RETURNING *
-
-;
+-- Recommended: Delete and see exactly what was removed
+DELETE FROM search_osm s
+WHERE id IN (
+    SELECT s2.id
+    FROM search_osm s2
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM search_osm r
+        WHERE r.addr_type = 'region'
+          AND ST_Intersects(r.geom, s2.geom)
+    )
+)
+RETURNING 
+    id,
+    addr_type,
+    district,
+    name,
+    ST_AsText(geom) AS geom_text;   -- remove this line if you don't need geometry as text
